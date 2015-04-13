@@ -1,0 +1,31 @@
+{
+  "name": "ci_bootstrap_3",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/waifung0207/ci_bootstrap_3"
+  },
+  "author": [
+    "Michael Chan <waifung.hk>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "*",
+    "del": "*",
+    "gulp": "*",
+    "gulp-changed": "*",
+    "gulp-concat": "*",
+    "gulp-connect-php": "*",
+    "gulp-imagemin": "*",
+    "gulp-minify-css": "*",
+    "gulp-sequence": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-uglifyjs": "*",
+    "gulp-watch": "*",
+    "require-dir": "*"
+  }
+}

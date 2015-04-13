@@ -10,5 +10,7 @@
 		Memory Usage: <strong>{memory_usage}</strong><br/>
 	<?php endif; ?>
 
+	<script src="<?php echo dist_url('app.min.js'); ?>"></script>
+
 </body>
 </html>
