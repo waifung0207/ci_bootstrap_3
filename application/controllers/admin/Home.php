@@ -5,6 +5,6 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
-		$this->_render('admin/home');
+		$this->_render_admin('home');
 	}
 }

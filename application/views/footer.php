@@ -9,8 +9,10 @@
 		Elapsed Time: <strong>{elapsed_time}</strong> seconds<br/>
 		Memory Usage: <strong>{memory_usage}</strong><br/>
 	<?php endif; ?>
-
-	<script src="<?php echo dist_url('app.min.js'); ?>"></script>
+	
+	<?php foreach ($scripts as $file): ?>
+		<script src="<?php echo dist_url($file); ?>"></script>
+	<?php endforeach; ?>
 
 </body>
 </html>

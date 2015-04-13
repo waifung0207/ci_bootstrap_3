@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends MY_Controller {
+class Login extends MY_Admin_Controller {
 
 	public function index()
 	{
-		$this->_render('admin/login');
+		$this->_render_admin('login');
 	}
 }
