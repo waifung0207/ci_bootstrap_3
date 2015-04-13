@@ -1,0 +1,22 @@
+.DS_Store
+
+### Bower ###
+bower_components/
+.bower-cache
+.bower-registry
+.bower-tmp
+
+### Node ###
+node_modules/
+npm-debug.log
+
+### Composer ###
+application/vendor/
+
+### https://github.com/github/gitignore/blob/master/CodeIgniter.gitignore ###
+*/config/development
+*/logs/log-*.php
+*/logs/!index.html
+*/cache/*
+*/cache/!index.html
+*/cache/!.htaccess
