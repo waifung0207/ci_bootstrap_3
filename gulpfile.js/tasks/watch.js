@@ -13,7 +13,7 @@ gulp.task('watch:images', ['images'], browserSync.reload);
 gulp.task('watch', function(callback) {
 
 	// watch PHP files
-	gulp.watch('./**/*.php', browserSync.reload);
+	gulp.watch(config.php.src, browserSync.reload);
 
 	// watch JS files
 	gulp.watch(config.js.src.frontend, ['watch:js-frontend']);

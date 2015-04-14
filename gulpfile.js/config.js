@@ -13,6 +13,7 @@ module.exports = {
 
 	// php server (php 5.4+)
 	php: {
+		src: "application/**/*.php",
 		settings: {
 			base: dir_public,
 			port: 8010,
