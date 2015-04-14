@@ -72,6 +72,7 @@ module.exports = {
 				dir_bower + '/font-awesome/css/font-awesome.min.css',
 				dir_bower + '/ionicons/css/ionicons.min.css',
 				dir_bower + '/admin-lte/dist/css/AdminLTE.min.css',
+				dir_bower + '/admin-lte/dist/css/skins/_all-skins.css',
 				// custom files
 				dir_asset + '/css/admin.css'
 			]
@@ -98,9 +99,12 @@ module.exports = {
 			],
 			admin: [
 				// bower files
+				//dir_bower + '/jquery-legacy/dist/jquery.js',
+				//dir_bower + '/jquery-migrate/jquery-migrate.js',
 				dir_bower + '/jquery/dist/jquery.min.js',
 				dir_bower + '/bootstrap/dist/js/bootstrap.min.js',
 				dir_bower + '/admin-lte/dist/js/app.min.js',
+				dir_bower + '/admin-lte/plugins/fastclick/fastclick.js',
 				// custom files
 				dir_asset + '/js/admin.js'
 			]

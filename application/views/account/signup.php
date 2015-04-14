@@ -1,0 +1,1 @@
+view: account/signup.php

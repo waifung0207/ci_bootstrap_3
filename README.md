@@ -14,14 +14,16 @@ This repository is developed upon the following tools:
 
 ### TODO
 
-* Better view / layout code
-* Add screenshots
-* Add changelog file
-* Add example of using Grocery CRUD
-* Add example of using Image CRUD
-* Add database backup function to Cli controller
+* Attach screenshots
+* Changelog file
+* Example of using Grocery CRUD and Image CRUD
+* Database migration setup
+* Database backup function (via CLI controller)
 * Custom 404 error page
-* Complete Auth library
+* Dynamic mnu setup (with active status based on current page)
+* Dynamic breadcrumb setup
+* Multilingual support
+* Frontend user authentication (Auth library)
 * Email sending setup
 * Add Form Builder library for quick form construction (e.g. in Bootstrap theme)
 * API structure (e.g. authentication, response shortcut functions)

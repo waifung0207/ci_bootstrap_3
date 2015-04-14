@@ -7,6 +7,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	
+	<base href="<?php echo $base_url; ?>" />
 	<title><?php echo $title;?></title>
 
 	<?php foreach ($stylesheets as $file): ?>
@@ -20,5 +21,5 @@
 	<![endif]-->
 
 </head>
-<body>
-	<h3>Header</h3>
+
+<body <?php if ( !empty($body_class) ) echo "class='$body_class'"; ?>>

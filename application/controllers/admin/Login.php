@@ -1,10 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends MY_Admin_Controller {
+class Login extends MY_Controller {
 
+	/**
+	 * Login page and submission
+	 */
 	public function index()
 	{
-		$this->_render_admin('login');
+		if ( !empty($this->input->post()) )
+		{
+			// TODO: implement authentication logic
+			redirect('admin');
+		}
+		
+		$this->_render_admin('login', 'empty', 'login-page');
 	}
 }

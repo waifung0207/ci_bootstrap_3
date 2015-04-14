@@ -1,0 +1,1 @@
+view: admin/crud.php

@@ -1,2 +1,1 @@
-
-<h3>Body: Admin Home</h3>
+view: admin/home.php
