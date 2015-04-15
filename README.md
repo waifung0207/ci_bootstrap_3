@@ -16,7 +16,7 @@ This repository is developed upon the following tools:
 
 * Screenshots for preview
 * Changelog file
-* Example of using Grocery CRUD and Image CRUD
+* Example of using Image CRUD
 * Database migration setup
 * Database backup function (via CLI controller)
 * Custom 404 error page

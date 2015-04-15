@@ -10,6 +10,22 @@
 	<base href="<?php echo $base_url; ?>" />
 	<title><?php echo $title;?></title>
 
+	<?php foreach ($scripts['head'] as $file): ?>
+		<script src="<?php echo dist_url($file); ?>"></script>
+	<?php endforeach; ?>
+
+	<?php
+		// Grocery CRUD scripts
+		if ( !empty($crud_data) )
+		{
+			foreach ($crud_data->css_files as $file)
+				echo "<link href='$file' rel='stylesheet'>".PHP_EOL;
+
+			foreach ($crud_data->js_files as $file)
+				echo "<script src='$file'></script>".PHP_EOL;
+		}
+	?>
+	
 	<?php foreach ($stylesheets as $file): ?>
 		<link href="<?php echo dist_url($file); ?>" rel="stylesheet">
 	<?php endforeach; ?>

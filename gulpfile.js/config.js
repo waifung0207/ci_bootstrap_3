@@ -98,10 +98,9 @@ module.exports = {
 				dir_asset + '/js/frontend.js'
 			],
 			admin: [
-				// bower files
-				//dir_bower + '/jquery-legacy/dist/jquery.js',
-				//dir_bower + '/jquery-migrate/jquery-migrate.js',
-				dir_bower + '/jquery/dist/jquery.min.js',
+				// bower files (use jQuery 1.x for compatibility with Grocery CRUD)
+				dir_bower + '/jquery-legacy/dist/jquery.js',
+				dir_bower + '/jquery-migrate/jquery-migrate.js',
 				dir_bower + '/bootstrap/dist/js/bootstrap.min.js',
 				dir_bower + '/admin-lte/dist/js/app.min.js',
 				dir_bower + '/admin-lte/plugins/fastclick/fastclick.js',
