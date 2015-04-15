@@ -17,14 +17,6 @@ class Cli extends CI_Controller {
 			exit('Permission denied');
 		}
 	}
-
-	// Run backup operation of database
-	// Example: php index.php cli backup_db
-	public function backup_db()
-	{
-		echo 'Task: Backup database'.PHP_EOL;
-		echo 'To be implemented'.PHP_EOL;
-	}
 	
 	// Run daily cron job
 	// Example: php index.php cli daily
@@ -33,5 +25,20 @@ class Cli extends CI_Controller {
 		echo 'Execute daily cron job...'.PHP_EOL;
 		$this->backup_db();
 		echo 'Completed'.PHP_EOL;
+	}
+
+	// Run backup operation of database
+	// Example: php index.php cli backup_db
+	public function backup_db()
+	{
+		echo 'Task: Backup database'.PHP_EOL;
+		echo 'To be implemented'.PHP_EOL;
+	}
+
+	// Migrate database
+	// Example: php index.php cli migrate
+	public function migrate()
+	{
+		echo 'To be implemented'.PHP_EOL;
 	}
 }

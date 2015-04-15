@@ -17,7 +17,7 @@ This repository is developed upon the following tools:
 * Screenshots for preview
 * Changelog file
 * Example of using Image CRUD
-* Database migration setup
+* Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
 * Database backup function (via CLI controller)
 * Custom 404 error page
 * Menu item active status handling
