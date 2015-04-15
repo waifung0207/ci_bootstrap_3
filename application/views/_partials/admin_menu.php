@@ -1,35 +1,26 @@
 <ul class="sidebar-menu">
 
 	<li class="header">MAIN NAVIGATION</li>
-	<li>
-		<a href=''><i class='fa fa-home'></i> Home</a>
-	</li>
-	<li>
-		<a href='user'><i class='fa fa-users'></i> Users</a>
-	</li>
-	<li class='treeview'>
-		<a href='#'>
-			<i class='fa fa-cog'></i> Examples <i class='fa fa-angle-left pull-right'></i>
-		</a>
-		<ul class='treeview-menu'>
-			<li><a href='example/demo/1'><i class='fa fa-circle-o'></i> Example 1</a></li>
-			<li><a href='example/demo/2'><i class='fa fa-circle-o'></i> Example 2</a></li>
-			<li><a href='example/demo/3'><i class='fa fa-circle-o'></i> Example 3</a></li>
-		</ul>
-	</li>
-	<!--
-	<li class='treeview'>
-		<a href='#'>
-			<i class='fa fa-cog'></i> Administration <i class='fa fa-angle-left pull-right'></i>
-		</a>
-		<ul class='treeview-menu'>
-			<li><a href='backend_user'><i class='fa fa-circle-o'></i> Backend Users</a></li>
-		</ul>
-	</li>
-	-->
-	<li>
-		<a href='account/logout'><i class='fa fa-sign-out'></i> Sign out</a>
-	</li>
+	<?php foreach ($menu as $parent): ?>
+		<?php if (empty($parent['children'])): ?>
+		<li>
+			<a href='<?php echo $parent['url']; ?>'>
+				<i class='<?php echo $parent['icon']; ?>'></i> <?php echo $parent['name']; ?>
+			</a>
+		</li>
+		<?php else: ?>
+		<li class='treeview'>
+			<a href='#'>
+				<i class='<?php echo $parent['icon']; ?>'></i> <?php echo $parent['name']; ?> <i class='fa fa-angle-left pull-right'></i>
+			</a>
+			<ul class='treeview-menu'>
+				<?php foreach ($parent['children'] as $name => $url): ?>
+					<li><a href='<?php echo $url; ?>'><i class='fa fa-circle-o'></i> <?php echo $name; ?></a></li>
+				<?php endforeach; ?>
+			</ul>
+		</li>
+		<?php endif; ?>
+	<?php endforeach; ?>
 
 	<li class="header">USEFUL LINKS</li>
 	<li>

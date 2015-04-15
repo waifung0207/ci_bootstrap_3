@@ -11,6 +11,7 @@ class MY_Controller extends CI_Controller {
 	protected $mMetaData = array();
 
 	// Data to pass into views
+	protected $mMenu = array();
 	protected $mViewData = array();
 
 	// Constructor
@@ -38,6 +39,11 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['scripts'] = $this->mScripts;
 		$this->mViewData['inner_view'] = $view;
 
+		// menu items
+		$this->config->load('menu');
+		$menu = $this->config->item('menu');
+		$this->mViewData['menu'] = $menu;
+
 		$this->load->view('_common/head', $this->mViewData);
 		$this->load->view('_layouts/'.$layout, $this->mViewData);
 		$this->load->view('_common/foot', $this->mViewData);
@@ -56,6 +62,11 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['scripts'] = $this->mScripts;
 		$this->mViewData['inner_view'] = 'admin/'.$view;
 		$this->mViewData['body_class'] = $body_class;
+
+		// menu items
+		$this->config->load('menu');
+		$menu = $this->config->item('menu_admin');
+		$this->mViewData['menu'] = $menu;
 
 		$this->load->view('_common/head', $this->mViewData);
 		$this->load->view('_layouts/'.$layout, $this->mViewData);

@@ -20,7 +20,7 @@ This repository is developed upon the following tools:
 * Database migration setup
 * Database backup function (via CLI controller)
 * Custom 404 error page
-* Dynamic menu setup (with active status based on current page)
+* Menu item active status handling
 * Dynamic breadcrumb setup
 * Multilingual support
 * Frontend user authentication (Auth library)

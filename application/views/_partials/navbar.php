@@ -12,32 +12,30 @@
 	</div>
 
 	<div class="navbar-collapse collapse">
+
 		<ul class="nav navbar-nav">
-			<li>
-				<a href=''>
-					<i class='fa fa-home'></i> <span>Home</span>
-				</a>
-			</li>
-			<li class='dropdown'>
-				<a data-toggle='dropdown' class='dropdown-toggle' href='#'>
-					<i class='fa fa-cog'></i> Example <span class='caret'></span>
-				</a>
-				<ul role='menu' class='dropdown-menu'>
-					<li><a href='example/demo/1'>Example1</a></li>
-					<li><a href='example/demo/2'>Example2</a></li>
-					<li><a href='example/demo/3'>Example3</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href='account/signup'>
-					<i class='fa fa-plus-square'></i> <span>Sign Up</span></a>
-			</li>
-			<li>
-				<a href='account/login'>
-					<i class='fa fa-sign-in'></i> <span>Login</span>
-				</a>
-			</li>
+			<?php foreach ($menu as $parent): ?>
+				<?php if (empty($parent['children'])): ?>
+				<li>
+					<a href='<?php echo $parent['url']; ?>'>
+						<?php echo $parent['name']; ?>
+					</a>
+				</li>
+				<?php else: ?>
+				<li class='dropdown'>
+					<a data-toggle='dropdown' class='dropdown-toggle' href='#'>
+						<?php echo $parent['name']; ?> <span class='caret'></span>
+					</a>
+					<ul role='menu' class='dropdown-menu'>
+						<?php foreach ($parent['children'] as $name => $url): ?>
+							<li><a href='<?php echo $url; ?>'><?php echo $name; ?></a></li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</ul>
+
 		<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 				<a data-toggle='dropdown' class='dropdown-toggle' href='#'>
@@ -51,6 +49,7 @@
 				</ul>
 			</li>
 		</ul>
+		
 	</div>
 
 </div>
