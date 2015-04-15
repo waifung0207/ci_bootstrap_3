@@ -20,7 +20,7 @@
 
 		<section class="content-header">
 			<h1><?php echo $title; ?></h1>
-			<?php //$this->load->view('_partials/breadcrumb'); ?>
+			<?php $this->load->view('_partials/breadcrumb'); ?>
 		</section>
 
 		<section class="content">

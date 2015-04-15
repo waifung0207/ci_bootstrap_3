@@ -13,6 +13,8 @@ class User extends MY_Controller {
 		$crud->columns('role', 'email', 'first_name', 'last_name', 'active', 'created_at');
 		
 		$this->mViewData['crud_data'] = $crud->render();
+		
+		$this->_push_breadcrumb('User');
 		$this->_render_admin('crud');
 	}
 }

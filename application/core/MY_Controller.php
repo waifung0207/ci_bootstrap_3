@@ -12,6 +12,7 @@ class MY_Controller extends CI_Controller {
 
 	// Data to pass into views
 	protected $mMenu = array();
+	protected $mBreadcrumb = array();
 	protected $mViewData = array();
 
 	// Constructor
@@ -21,6 +22,8 @@ class MY_Controller extends CI_Controller {
 
 		$this->mScripts['head'] = array();		// for scripts that need to be loaded from the start
 		$this->mScripts['foot'] = array();		// for scripts that can be loaded after page render
+
+		$this->_push_breadcrumb('Home', '');
 
 		// (optional) enable profiler
 		if (ENVIRONMENT=='development')
@@ -37,9 +40,10 @@ class MY_Controller extends CI_Controller {
 		array_unshift($this->mScripts['foot'], 'app.min.js');
 
 		$this->mViewData['base_url'] = site_url();
-		$this->mViewData['title'] = empty($this->mTitle) ? 'My Website' : $this->mTitle;
+		$this->mViewData['title'] = empty($this->mTitle) ? 'Frontend Website' : $this->mTitle;
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['scripts'] = $this->mScripts;
+		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
 		$this->mViewData['inner_view'] = $view;
 
 		// menu items
@@ -63,6 +67,7 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['title'] = empty($this->mTitle) ? 'Admin Panel' : $this->mTitle;
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['scripts'] = $this->mScripts;
+		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
 		$this->mViewData['inner_view'] = 'admin/'.$view;
 		$this->mViewData['body_class'] = $body_class;
 
@@ -82,6 +87,16 @@ class MY_Controller extends CI_Controller {
 		$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($data));
+	}
+
+	// Add breadcrumb entry
+	// (Link will be disabled when it is the last entry, or URL set as '#')
+	protected function _push_breadcrumb($name, $url = '#')
+	{
+		$this->mBreadcrumb[] = array(
+			'name'	=> $name,
+			'url'	=> $url,
+		);
 	}
 
 	// Initialize CRUD table via Grocery CRUD library

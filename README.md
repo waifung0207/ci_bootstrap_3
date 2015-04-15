@@ -21,7 +21,6 @@ This repository is developed upon the following tools:
 * Database backup function (via CLI controller)
 * Custom 404 error page
 * Menu item active status handling
-* Dynamic breadcrumb setup
 * Multilingual support
 * Frontend user authentication (Auth library)
 * Email config setup
