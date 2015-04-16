@@ -26,7 +26,7 @@ class MY_Controller extends CI_Controller {
 	{
 		parent::__construct();
 
-		$this->mSite = str_replace('/', '', $this->router->directory);
+		$this->mSite = str_replace('/', '', $this->router->fetch_directory());
 		$this->mCtrler = $this->router->fetch_class();
 		$this->mAction = $this->router->fetch_method();
 		$this->mMethod = $this->input->server('REQUEST_METHOD');
