@@ -36,11 +36,12 @@ class MY_Controller extends CI_Controller {
 
 		// For pages which require authentication
 		$this->_verify_auth();
-		
+
 		// Other setup functions
 		$this->_setup_autoload();
 		$this->_setup_locale();
 		$this->_setup_scripts();
+		$this->_setup_meta();
 		$this->_push_breadcrumb('Home', '', FALSE);
 
 		// (optional) enable profiler
@@ -53,9 +54,6 @@ class MY_Controller extends CI_Controller {
 	// Output template for Frontend Website
 	protected function _render($view, $layout = '', $body_class = '')
 	{
-		$this->_setup_meta();
-		$this->_setup_menu();
-
 		$this->mViewData['base_url'] = empty($this->mSite) ? site_url() : site_url($this->mSite).'/';
 		$this->mViewData['inner_view'] = empty($this->mSite) ? $view : $this->mSite.'/'.$view;
 		$this->mViewData['body_class'] = ($this->mSite=='admin' && empty($body_class)) ? 'skin-purple' : $body_class;
@@ -65,6 +63,7 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['scripts'] = $this->mScripts;
 		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
+		$this->_setup_menu();
 
 		if ( empty($layout) )
 		{
@@ -215,18 +214,23 @@ class MY_Controller extends CI_Controller {
 	// TODO: obtain default values from config file
 	private function _setup_meta()
 	{
+		$this->mMetaData['author'] = '';
+
 		if ($this->mSite==='admin')
 		{
 			// Admin Panel
 			$title = empty($this->mTitle) ? 'Admin Panel' : 'Admin Panel - '.$this->mTitle;
+			$this->mMetaData['description'] = 'Admin Panel description';
 		}
 		else
 		{
 			// Frontend Website
 			$title = empty($this->mTitle) ? 'Frontend Website' : 'Frontend Website - '.$this->mTitle;
+			$this->mMetaData['description'] = 'Frontend Website description';
 		}
 
 		$this->mViewData['title'] = $title;
+		$this->mViewData['meta'] = $this->mMetaData;
 	}
 
 	// Setup menu items (navbar)

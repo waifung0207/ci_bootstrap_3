@@ -4,8 +4,10 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
+
+	<?php foreach ($meta as $key => $value): ?>
+		<meta name="<?php echo $key; ?>" content="<?php echo $value; ?>">
+	<?php endforeach; ?>
 	
 	<base href="<?php echo $base_url; ?>" />
 	<title><?php echo $title;?></title>
@@ -13,7 +15,7 @@
 	<?php foreach ($scripts['head'] as $file): ?>
 		<script src="<?php echo dist_url($file); ?>"></script>
 	<?php endforeach; ?>
-	
+
 	<?php
 		// Grocery CRUD scripts
 		if ( !empty($crud_data) )
