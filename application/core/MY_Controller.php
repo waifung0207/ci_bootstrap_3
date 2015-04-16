@@ -58,8 +58,10 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['inner_view'] = empty($this->mSite) ? $view : $this->mSite.'/'.$view;
 		$this->mViewData['body_class'] = ($this->mSite=='admin' && empty($body_class)) ? 'skin-purple' : $body_class;
 
+		$this->mViewData['site'] = $this->mSite;
 		$this->mViewData['ctrler'] = $this->mCtrler;
 		$this->mViewData['action'] = $this->mAction;
+		$this->mViewData['current_uri'] = empty($this->mSite) ? uri_string(): str_replace($this->mSite.'/', '', uri_string());
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['scripts'] = $this->mScripts;
 		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;

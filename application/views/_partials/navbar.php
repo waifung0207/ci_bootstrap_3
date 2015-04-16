@@ -8,31 +8,39 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="">My Website</a>
+		<a class="navbar-brand" href="">Frontend Website</a>
 	</div>
 
 	<div class="navbar-collapse collapse">
 
 		<ul class="nav navbar-nav">
-			<?php foreach ($menu as $parent): ?>
-				<?php if (empty($parent['children'])): ?>
-				<li>
-					<a href='<?php echo $parent['url']; ?>'>
-						<?php echo $parent['name']; ?>
-					</a>
-				</li>
+			<?php foreach ($menu as $parent => $parent_params): ?>
+
+				<?php if (empty($parent_params['children'])): ?>
+
+					<?php $active = ($current_uri==$parent_params['url'] || $ctrler==$parent); ?>
+					<li <?php if ($active) echo 'class="active"'; ?>>
+						<a href='<?php echo $parent_params['url']; ?>'>
+							<?php echo $parent_params['name']; ?>
+						</a>
+					</li>
+
 				<?php else: ?>
-				<li class='dropdown'>
-					<a data-toggle='dropdown' class='dropdown-toggle' href='#'>
-						<?php echo $parent['name']; ?> <span class='caret'></span>
-					</a>
-					<ul role='menu' class='dropdown-menu'>
-						<?php foreach ($parent['children'] as $name => $url): ?>
-							<li><a href='<?php echo $url; ?>'><?php echo $name; ?></a></li>
-						<?php endforeach; ?>
-					</ul>
-				</li>
+
+					<?php $parent_active = ($ctrler==$parent); ?>
+					<li class='dropdown <?php if ($parent_active) echo 'active'; ?>'>
+						<a data-toggle='dropdown' class='dropdown-toggle' href='#'>
+							<?php echo $parent_params['name']; ?> <span class='caret'></span>
+						</a>
+						<ul role='menu' class='dropdown-menu'>
+							<?php foreach ($parent_params['children'] as $name => $url): ?>
+								<li><a href='<?php echo $url; ?>'><?php echo $name; ?></a></li>
+							<?php endforeach; ?>
+						</ul>
+					</li>
+
 				<?php endif; ?>
+
 			<?php endforeach; ?>
 		</ul>
 

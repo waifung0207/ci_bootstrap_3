@@ -20,7 +20,6 @@ This repository is developed upon the following tools:
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
 * Database backup function (via CLI controller)
 * Custom 404 error page
-* Menu item active status handling
 * Multilingual support
 * Frontend user authentication (Auth library)
 * Email config setup
