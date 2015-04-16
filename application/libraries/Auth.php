@@ -20,23 +20,25 @@ class Auth {
 	 * Reference: http://www.codeigniter.com/user_guide/general/compatibility_functions.html
 	 */
 
-	// created hashed password
+	// Created hashed password
 	public function hash_pw($plain_pw)
 	{
 		return password_hash($plain_pw, PASSWORD_DEFAULT);
 	}
 
-	// verify password
+	// Verify password
 	function verify_pw($plain_pw, $hashed_pw)
 	{
 		return password_verify($plain_pw, $hashed_pw);
 	}
 
-	public function login()
+	// Login user
+	public function login($username, $password)
 	{
 		echo 'login';
 	}
 
+	// Sign out
 	public function logout()
 	{
 

@@ -13,7 +13,7 @@
 	<?php foreach ($scripts['head'] as $file): ?>
 		<script src="<?php echo dist_url($file); ?>"></script>
 	<?php endforeach; ?>
-
+	
 	<?php
 		// Grocery CRUD scripts
 		if ( !empty($crud_data) )

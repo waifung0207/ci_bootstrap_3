@@ -7,7 +7,7 @@ class Example extends MY_Controller {
 	{
 		$this->mTitle = 'Example';
 		$this->_push_breadcrumb('Example');
-		$this->_render_admin('demo');
+		$this->_render('demo');
 	}
 
 	public function demo($demo_id)
@@ -17,6 +17,6 @@ class Example extends MY_Controller {
 		$this->mTitle = 'Example '.$demo_id;
 		$this->_push_breadcrumb('Example', 'example');
 		$this->_push_breadcrumb('Example '.$demo_id);
-		$this->_render_admin('demo');
+		$this->_render('demo');
 	}
 }

@@ -14,6 +14,6 @@ class Login extends MY_Controller {
 			redirect('admin');
 		}
 		
-		$this->_render_admin('login', 'empty', 'login-page');
+		$this->_render('login', 'empty', 'login-page');
 	}
 }

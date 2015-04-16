@@ -15,6 +15,6 @@ class User extends MY_Controller {
 		$this->mViewData['crud_data'] = $crud->render();
 		
 		$this->_push_breadcrumb('User');
-		$this->_render_admin('crud');
+		$this->_render('crud');
 	}
 }

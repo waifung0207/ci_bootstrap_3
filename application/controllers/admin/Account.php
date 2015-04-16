@@ -10,7 +10,7 @@ class Account extends MY_Controller {
 	{
 		$this->mTitle = "Account Settings";
 		$this->_push_breadcrumb('Account');
-		$this->_render_admin('account');
+		$this->_render('account');
 	}
 	
 	/**
