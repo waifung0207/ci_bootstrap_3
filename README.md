@@ -12,9 +12,21 @@ This repository is developed upon the following tools:
 * [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.0.5) - bootstrap theme for backend system
 
 
+### Screenshots
+
+Frontend - Home: 
+
+![](screenshots/frontend_home.png "Frontend Home")
+
+Backend - Home: 
+
+![](screenshots/admin_home.png "Backend Home")
+
+More screenshots can be viewed from the [screenshots folder](https://github.com/waifung0207/ci_bootstrap_3/blob/master/screenshots/) under this repository.
+
+
 ### TODO
 
-* Screenshots for preview
 * Changelog file
 * Example of using Image CRUD
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
