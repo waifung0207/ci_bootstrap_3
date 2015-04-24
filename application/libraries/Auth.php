@@ -32,6 +32,10 @@ class Auth {
 		return password_verify($plain_pw, $hashed_pw);
 	}
 
+	/**
+	 * Authentication for Frontend Website
+	 */
+
 	// Login user
 	public function login($username, $password)
 	{
@@ -52,6 +56,23 @@ class Auth {
 
 	// Forgot Password operation
 	public function forgot_password()
+	{
+
+	}
+
+
+	/**
+	 * Authentication for Admin Panel
+	 */
+	
+	// Login admin
+	public function login_admin($username, $password)
+	{
+		return ($username=='admin' && $password=='admin');
+	}
+	
+	// Sign out
+	public function logout_admin()
 	{
 
 	}
