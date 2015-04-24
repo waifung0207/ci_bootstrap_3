@@ -20,6 +20,7 @@ This repository contains setup for rapid development:
 * Admin Panel with Grocery CRUD integration
 * Preset layouts and templates
 * Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp
+* Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
 * Menu config from single file
 * Breadcrumb handling
 * ... more coming!
@@ -41,7 +42,7 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 ### TODO
 
 * Changelog file
-* Enhance Form Builder library to support more features
+* Enhance Form Builder library to support more field types
 * Example of using Image CRUD
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
 * Database backup function (via CLI controller)
