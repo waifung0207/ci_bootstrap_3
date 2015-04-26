@@ -201,14 +201,14 @@ class MY_Controller extends CI_Controller {
 		if ($this->mSite==='admin')
 		{
 			// Admin Panel
-			$this->mStylesheets[] = 'admin.min.css';
-			$this->mScripts['head'][] = 'admin.min.js';
+			$this->mStylesheets[] = dist_url('admin.min.css');
+			$this->mScripts['head'][] = dist_url('admin.min.js');
 		}
 		else
 		{
 			// Frontend Website
-			$this->mStylesheets[] = 'app.min.css';
-			$this->mScripts['foot'][] = 'app.min.js';
+			$this->mStylesheets[] = dist_url('app.min.css');
+			$this->mScripts['foot'][] = dist_url('app.min.js');
 		}
 	}
 

@@ -13,7 +13,7 @@
 	<title><?php echo $title;?></title>
 
 	<?php foreach ($scripts['head'] as $file): ?>
-		<script src="<?php echo dist_url($file); ?>"></script>
+		<script src="<?php echo $file; ?>"></script>
 	<?php endforeach; ?>
 
 	<?php
@@ -29,7 +29,7 @@
 	?>
 	
 	<?php foreach ($stylesheets as $file): ?>
-		<link href="<?php echo dist_url($file); ?>" rel="stylesheet">
+		<link href="<?php echo $file; ?>" rel="stylesheet">
 	<?php endforeach; ?>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
