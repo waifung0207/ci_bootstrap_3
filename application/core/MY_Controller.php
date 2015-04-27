@@ -3,7 +3,7 @@
 class MY_Controller extends CI_Controller {
 
 	// Values to be obtained automatically from router
-	protected $mSite = '';				// empty for Frontend, "admin" for Admin Panel, etc.
+	protected $mSite = 'frontend';		// empty for Frontend, "admin" for Admin Panel, etc.
 	protected $mCtrler = 'home';		// current controller
 	protected $mAction = 'index';		// controller function being called
 	protected $mMethod = 'GET';			// HTTP request method
@@ -14,9 +14,15 @@ class MY_Controller extends CI_Controller {
 
 	// Values and objects to be accessible from child controllers
 	protected $mLocale = '';
+	protected $mAvailableLocales = '';
+	protected $mTitlePrefix = '';
 	protected $mTitle = '';
 	protected $mMetaData = array();
+	protected $mMenu = array();
 	protected $mBreadcrumb = array();
+
+	// Other default values from config file
+	protected $mDefaults = array();
 
 	// Data to pass into views
 	protected $mViewData = array();
@@ -26,7 +32,11 @@ class MY_Controller extends CI_Controller {
 	{
 		parent::__construct();
 
-		$this->mSite = str_replace('/', '', $this->router->fetch_directory());
+		if ( !empty($this->router->directory) )
+		{
+			$this->mSite = str_replace('/', '', $this->router->directory);
+		}
+
 		$this->mCtrler = $this->router->fetch_class();
 		$this->mAction = $this->router->fetch_method();
 		$this->mMethod = $this->input->server('REQUEST_METHOD');
@@ -37,12 +47,8 @@ class MY_Controller extends CI_Controller {
 		// For pages which require authentication
 		$this->_verify_auth();
 
-		// Other setup functions
-		$this->_setup_autoload();
-		$this->_setup_locale();
-		$this->_setup_scripts();
-		$this->_setup_meta();
-		$this->_push_breadcrumb('Home', '', FALSE);
+		// Initial setup
+		$this->_setup();
 
 		// (optional) enable profiler
 		if (ENVIRONMENT=='development')
@@ -52,30 +58,30 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	// Output template for Frontend Website
-	protected function _render($view, $layout = '', $body_class = '')
+	protected function _render($view, $layout = '', $body_class = NULL)
 	{
-		$this->mViewData['base_url'] = empty($this->mSite) ? site_url() : site_url($this->mSite).'/';
-		$this->mViewData['inner_view'] = empty($this->mSite) ? $view : $this->mSite.'/'.$view;
-		$this->mViewData['body_class'] = ($this->mSite=='admin' && empty($body_class)) ? 'skin-purple' : $body_class;
+		$this->mViewData['base_url'] = ($this->mSite==='frontend') ? site_url() : site_url($this->mSite).'/';
+		$this->mViewData['inner_view'] = $this->mSite.'/'.$view;
 
 		$this->mViewData['site'] = $this->mSite;
 		$this->mViewData['ctrler'] = $this->mCtrler;
 		$this->mViewData['action'] = $this->mAction;
-		$this->mViewData['current_uri'] = empty($this->mSite) ? uri_string(): str_replace($this->mSite.'/', '', uri_string());
+
+		$this->mViewData['body_class'] = ($body_class===NULL) ? $this->mDefaults['body_class'] : $body_class;
+
+		$this->mViewData['current_uri'] = ($this->mSite==='frontend') ? uri_string(): str_replace($this->mSite.'/', '', uri_string());
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['scripts'] = $this->mScripts;
 		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
-		$this->_setup_menu();
+		$this->mViewData['menu'] = $this->mMenu;
+		$this->mViewData['meta'] = $this->mMetaData;
+		$this->mViewData['title'] = $this->mTitlePrefix.$this->mTitle;
 
-		if ( empty($layout) )
-		{
-			// default layout (vary from different sites)
-			$layout = ($this->mSite=='admin') ? 'admin' : 'default';
-		}
-
-		$this->load->view('_common/head', $this->mViewData);
-		$this->load->view('_layouts/'.$layout, $this->mViewData);
-		$this->load->view('_common/foot', $this->mViewData);
+		// load view files
+		$layout = empty($layout) ? $this->mDefaults['layout'] : $layout;
+		$this->load->view('common/head', $this->mViewData);
+		$this->load->view('layouts/'.$layout, $this->mViewData);
+		$this->load->view('common/foot', $this->mViewData);
 	}
 	
 	// Output JSON string
@@ -84,6 +90,121 @@ class MY_Controller extends CI_Controller {
 		$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($data));
+	}
+
+	// Verify authentication for Admin Panel (or API site, etc.)
+	private function _verify_auth()
+	{
+		// verify login data from session
+		if ($this->mSite=='admin' && $this->mCtrler!='login')
+		{
+			// to be completed
+		}
+		else if ($this->mSite=='api')
+		{
+			// to be completed
+		}
+	}
+
+	// Setup for different sites
+	private function _setup()
+	{
+		// called at first so config/sites.php can contains lang() function
+		$this->_setup_locale();
+
+		// get site-specific configuration from file "application/config/sites.php"
+		$this->config->load('sites');
+		$config = $this->config->item('sites')[$this->mSite];
+
+		// setup autoloading (libraries, helpers, models, language files, etc.)
+		if ( !empty($config['autoload']) )
+			$this->_setup_autoload($config['autoload']);
+
+		// setup metadata
+		if ( !empty($config['meta']) )
+			$this->_setup_meta($config['meta']);
+
+		// setup assets (stylesheets, scripts)
+		if ( !empty($config['assets']) )
+		{
+			$this->mStylesheets = $config['assets']['stylesheets'];
+			$this->mScripts['head'] = $config['assets']['scripts_head'];
+			$this->mScripts['foot'] = $config['assets']['scripts_foot'];	
+		}
+
+		// setup menu
+		if ( !empty($config['menu']) )
+			$this->mMenu = $config['menu'];
+
+		// setup default values
+		if ( !empty($config['defaults']) )
+			$this->mDefaults = $config['defaults'];
+
+		// other custom logic outside of config file
+		switch ($this->mSite)
+		{
+			case 'frontend':
+				$this->_push_breadcrumb('Home', '', FALSE);
+				break;
+			case 'admin':
+				$this->_push_breadcrumb('Admin Panel', '', FALSE);
+				break;
+			case 'api':
+				break;
+		}
+	}
+
+	// Setup localization
+	// TODO: get saved language from session
+	private function _setup_locale()
+	{
+		// default language from CodeIgniter: application/config/config.php
+		$default_locale = $this->config->item('language');
+		$this->mLocale = $default_locale;
+
+		// localization settings from: application/config/locale.php
+		$this->config->load('locale');
+		$config = $this->config->item('locale')[$this->mSite];		
+		$this->mAvailableLocales = array();
+		
+		if ( !empty($config['enabled']) )
+		{
+			$this->load->helper('language');
+			$this->mAvailableLocales = $config['available'];
+
+			foreach ($config['autoload'] as $file)
+				$this->lang->load($file, 'en');
+		}
+		
+		$this->mViewData['locale'] = $this->mLocale;
+		$this->mViewData['available_locales'] = $this->mAvailableLocales;
+	}
+
+	// Setup autoloading
+	private function _setup_autoload($config)
+	{
+		foreach ($config['libraries'] as $file)
+		{
+			if ($file==='database')
+				$this->load->database();
+			else
+				$this->load->library($file);
+		}
+		
+		foreach ($config['helpers'] as $file)
+			$this->load->helper($file);
+
+		foreach ($config['models'] as $file => $alias)
+			$this->load->model($file, $alias);
+	}
+
+	// Setup metadata
+	private function _setup_meta($config)
+	{
+		$this->mTitlePrefix = empty($config['title_prefix']) ? '' : $config['title_prefix'];
+		
+		foreach ($config['custom'] as $key => $value)
+			$this->mMetaData[$key] = $value;
 	}
 
 	// Add breadcrumb entry
@@ -161,86 +282,5 @@ class MY_Controller extends CI_Controller {
 
 		// other custom logic to be done outside
 		return $crud;
-	}
-
-	/**
-	 * Private setup functions
-	 */
-	
-	// Verify authentication for Admin Panel (or API site, etc.)
-	private function _verify_auth()
-	{
-		// verify login data from session
-		if ($this->mSite=='admin' && $this->mCtrler!='login')
-		{
-			// to be completed
-		}
-		else if ($this->mSite=='api')
-		{
-			// to be completed
-		}
-	}
-
-	// Setup autoloading for different sites
-	private function _setup_autoload()
-	{
-		// to be completed
-	}
-
-	// Setup localization
-	// TODO: multilingual support (read current language from session, autoload files)
-	private function _setup_locale()
-	{
-		// to be completed
-		$this->mLocale = 'en';
-	}
-
-	// Setup script and stylesheet assets
-	private function _setup_scripts()
-	{
-		if ($this->mSite==='admin')
-		{
-			// Admin Panel
-			$this->mStylesheets[] = dist_url('admin.min.css');
-			$this->mScripts['head'][] = dist_url('admin.min.js');
-		}
-		else
-		{
-			// Frontend Website
-			$this->mStylesheets[] = dist_url('app.min.css');
-			$this->mScripts['foot'][] = dist_url('app.min.js');
-		}
-	}
-
-	// Setup title and meta data
-	// TODO: obtain default values from config file
-	private function _setup_meta()
-	{
-		$this->mMetaData['author'] = '';
-
-		if ($this->mSite==='admin')
-		{
-			// Admin Panel
-			$title = empty($this->mTitle) ? 'Admin Panel' : 'Admin Panel - '.$this->mTitle;
-			$this->mMetaData['description'] = 'Admin Panel description';
-		}
-		else
-		{
-			// Frontend Website
-			$title = empty($this->mTitle) ? 'Frontend Website' : 'Frontend Website - '.$this->mTitle;
-			$this->mMetaData['description'] = 'Frontend Website description';
-		}
-
-		$this->mViewData['title'] = $title;
-		$this->mViewData['meta'] = $this->mMetaData;
-	}
-
-	// Setup menu items (navbar)
-	private function _setup_menu()
-	{
-		// menu items
-		$this->config->load('menu');
-		$menu_name = empty($this->mSite) ? 'menu' : 'menu_'.$this->mSite;
-		$this->mViewData['menu'] = $this->config->item($menu_name);
 	}
 }

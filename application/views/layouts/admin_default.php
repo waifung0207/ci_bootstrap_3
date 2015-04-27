@@ -1,6 +1,6 @@
 <div class="wrapper">
 
-	<?php $this->load->view('_partials/admin_navbar'); ?>
+	<?php $this->load->view('admin/partials/navbar'); ?>
 
 	<?php // Left side column. contains the logo and sidebar ?>
 	<aside class="main-sidebar">
@@ -11,7 +11,7 @@
 					<a href="account"><i class="fa fa-circle text-success"></i> Online</a>
 				</div>
 			</div>
-			<?php $this->load->view('_partials/admin_menu'); ?>
+			<?php $this->load->view('admin/partials/menu'); ?>
 		</section>
 	</aside>
 
@@ -20,7 +20,7 @@
 
 		<section class="content-header">
 			<h1><?php echo $title; ?></h1>
-			<?php $this->load->view('_partials/breadcrumb'); ?>
+			<?php $this->load->view('common/breadcrumb'); ?>
 		</section>
 
 		<section class="content">
@@ -30,6 +30,6 @@
 
 	</div>
 
-	<?php $this->load->view('_partials/admin_footer'); ?>
+	<?php $this->load->view('admin/partials/footer'); ?>
 
 </div>

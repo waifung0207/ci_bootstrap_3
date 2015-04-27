@@ -1,10 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * For demo only
+ */
 class Example extends MY_Controller {
 
 	public function index()
 	{
+		$this->mTitle = 'Example';
 		$this->_push_breadcrumb('Examples');
 		$this->_render('demo');
 	}
@@ -13,7 +17,8 @@ class Example extends MY_Controller {
 	{
 		$this->mViewData['demo_id'] = $demo_id;
 		
-		$this->_push_breadcrumb('Examples', 'example');
+		$this->mTitle = 'Example '.$demo_id;
+		$this->_push_breadcrumb('Example', 'example');
 		$this->_push_breadcrumb('Example '.$demo_id);
 		$this->_render('demo');
 	}

@@ -51,9 +51,9 @@
 					<span class='caret'></span>
 				</a>
 				<ul role='menu' class='dropdown-menu'>
-					<li><a href="locale/set/en">English</a></li>
-					<li><a href="locale/set/zh">繁體中文</a></li>
-					<li><a href="locale/set/cn">简体中文</a></li>
+					<?php foreach ($available_locales as $key => $value): ?>
+					<li><a href="locale/set/<?php echo $key; ?>"><?php echo $value; ?></a></li>
+					<?php endforeach; ?>
 				</ul>
 			</li>
 		</ul>

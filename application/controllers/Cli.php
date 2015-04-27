@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Controller to be called from CLI
+ * Controller to be called from CLI only
  * Reference: http://www.codeigniter.com/user_guide/general/cli.html
  */
 class Cli extends CI_Controller {
@@ -14,7 +14,7 @@ class Cli extends CI_Controller {
 		// allow execution from CLI only
 		if (!is_cli())
 		{
-			exit('Permission denied');
+			show_404();
 		}
 	}
 	

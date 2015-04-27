@@ -1,19 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Controller to switch among languages
+ */
 class Locale extends MY_Controller {
 
-	public function set()
+	public function set($locale)
 	{
-		// to be completed
-		/*
-		if ( in_array($locale, array('en', 'zh', 'cn')) )
+		// check with available options inside: application/config/locale.php
+		if ( array_key_exists($locale, $this->mAvailableLocales) )
 		{
-			$this->session->set_userdata('locale', $locale);
-			
-			$this->load->library('user_agent');
-			redirect($this->agent->referrer());
-		}*/
+			// TODO: save selected language to session
+			//$this->session->set_userdata('locale', $locale);
+		}
 
 		$this->load->library('user_agent');
 		redirect($this->agent->referrer());

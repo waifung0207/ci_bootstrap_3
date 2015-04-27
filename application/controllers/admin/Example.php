@@ -1,12 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * For demo only
+ */
 class Example extends MY_Controller {
 
 	public function index()
 	{
 		$this->mTitle = 'Example';
-		$this->_push_breadcrumb('Example');
+		$this->_push_breadcrumb('Examples');
 		$this->_render('demo');
 	}
 

@@ -29,6 +29,24 @@ class Account extends MY_Controller {
 	}
 	
 	/**
+	 * Submission of Update Info form
+	 */
+	public function update_info()
+	{
+		// TODO: update database
+		redirect('admin/account');
+	}
+
+	/**
+	 * Submission of Change Password form
+	 */
+	public function change_password()
+	{
+		// TODO: update database
+		redirect('admin/account');
+	}
+	
+	/**
 	 * Logout user
 	 */
 	public function logout()
