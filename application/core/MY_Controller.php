@@ -123,12 +123,11 @@ class MY_Controller extends CI_Controller {
 	}
 
 	// Setup localization
-	// TODO: get saved language from session
 	private function _setup_locale()
 	{
 		// default language from CodeIgniter: application/config/config.php
 		$default_locale = $this->config->item('language');
-		$this->mLocale = $default_locale;
+		$this->mLocale = $this->session->has_userdata('locale') ? $this->session->userdata('locale') : $default_locale;
 
 		// localization settings from: application/config/locale.php
 		$this->config->load('locale');

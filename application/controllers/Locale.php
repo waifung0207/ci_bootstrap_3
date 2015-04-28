@@ -11,10 +11,10 @@ class Locale extends Frontend_Controller {
 		// check with available options inside: application/config/locale.php
 		if ( array_key_exists($locale, $this->mAvailableLocales) )
 		{
-			// TODO: save selected language to session
-			//$this->session->set_userdata('locale', $locale);
+			// save selected language to session
+			$this->session->set_userdata('locale', $locale);
 		}
-
+		
 		$this->load->library('user_agent');
 		redirect($this->agent->referrer());
 	}
