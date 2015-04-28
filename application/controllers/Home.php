@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Home page
  */
-class Home extends MY_Controller {
+class Home extends Frontend_Controller {
 
 	public function index()
 	{

@@ -68,11 +68,6 @@ $config['sites'] = array(
 				'url'		=> 'account/login',
 			),
 		),
-
-		'defaults' => array(
-			'body_class'	=> '',
-			'layout'		=> 'frontend_default',
-		),
 	),
 
 	/**
@@ -138,11 +133,6 @@ $config['sites'] = array(
 				'url'		=> 'account/logout',
 				'icon'		=> 'fa fa-sign-out',
 			),
-		),
-
-		'defaults' => array(
-			'body_class'	=> 'skin-purple',
-			'layout'		=> 'admin_default',
 		),
 	),
 

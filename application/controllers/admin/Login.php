@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login extends MY_Controller {
+class Login extends Admin_Controller {
 
 	/**
 	 * Login page and submission
@@ -41,6 +41,6 @@ class Login extends MY_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->_render('login', 'empty', 'login-page');
+		$this->_render('login', 'empty');
 	}
 }

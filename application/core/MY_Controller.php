@@ -2,17 +2,12 @@
 
 class MY_Controller extends CI_Controller {
 
-	// Values to be obtained automatically from router
-	protected $mSite = 'frontend';		// empty for Frontend, "admin" for Admin Panel, etc.
-	protected $mCtrler = 'home';		// current controller
-	protected $mAction = 'index';		// controller function being called
-	protected $mMethod = 'GET';			// HTTP request method
-
-	// Scripts and stylesheets to be embedded on each page
-	protected $mStylesheets = array();
-	protected $mScripts = array();
-
-	// Values and objects to be accessible from child controllers
+	// Values and objects to be overrided or accessible from child controllers
+	protected $mSite = '';
+	protected $mSiteConfig = array();
+	protected $mBaseUrl = '';
+	protected $mBodyClass = '';
+	protected $mDefaultLayout = 'empty';
 	protected $mLocale = '';
 	protected $mAvailableLocales = '';
 	protected $mTitlePrefix = '';
@@ -21,8 +16,14 @@ class MY_Controller extends CI_Controller {
 	protected $mMenu = array();
 	protected $mBreadcrumb = array();
 
-	// Other default values from config file
-	protected $mDefaults = array();
+	// Values to be obtained automatically from router
+	protected $mCtrler = 'home';		// current controller
+	protected $mAction = 'index';		// controller function being called
+	protected $mMethod = 'GET';			// HTTP request method
+
+	// Scripts and stylesheets to be embedded on each page
+	protected $mStylesheets = array();
+	protected $mScripts = array();
 
 	// Data to pass into views
 	protected $mViewData = array();
@@ -32,20 +33,12 @@ class MY_Controller extends CI_Controller {
 	{
 		parent::__construct();
 
-		if ( !empty($this->router->directory) )
-		{
-			$this->mSite = str_replace('/', '', $this->router->directory);
-		}
-
 		$this->mCtrler = $this->router->fetch_class();
 		$this->mAction = $this->router->fetch_method();
 		$this->mMethod = $this->input->server('REQUEST_METHOD');
 		
 		$this->mScripts['head'] = array();		// for scripts that need to be loaded from the start
 		$this->mScripts['foot'] = array();		// for scripts that can be loaded after page render
-
-		// For pages which require authentication
-		$this->_verify_auth();
 
 		// Initial setup
 		$this->_setup();
@@ -58,16 +51,16 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	// Output template for Frontend Website
-	protected function _render($view, $layout = '', $body_class = NULL)
+	protected function _render($view, $layout = '', $body_class = '')
 	{
-		$this->mViewData['base_url'] = ($this->mSite==='frontend') ? site_url() : site_url($this->mSite).'/';
+		$this->mViewData['base_url'] = $this->mBaseUrl;
 		$this->mViewData['inner_view'] = $this->mSite.'/'.$view;
 
 		$this->mViewData['site'] = $this->mSite;
 		$this->mViewData['ctrler'] = $this->mCtrler;
 		$this->mViewData['action'] = $this->mAction;
 
-		$this->mViewData['body_class'] = ($body_class===NULL) ? $this->mDefaults['body_class'] : $body_class;
+		$this->mViewData['body_class'] = empty($body_class===NULL) ? $this->mBodyClass : $body_class;
 
 		$this->mViewData['current_uri'] = ($this->mSite==='frontend') ? uri_string(): str_replace($this->mSite.'/', '', uri_string());
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
@@ -78,7 +71,7 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['title'] = $this->mTitlePrefix.$this->mTitle;
 
 		// load view files
-		$layout = empty($layout) ? $this->mDefaults['layout'] : $layout;
+		$layout = empty($layout) ? $this->mDefaultLayout : $layout;
 		$this->load->view('common/head', $this->mViewData);
 		$this->load->view('layouts/'.$layout, $this->mViewData);
 		$this->load->view('common/foot', $this->mViewData);
@@ -90,20 +83,6 @@ class MY_Controller extends CI_Controller {
 		$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($data));
-	}
-
-	// Verify authentication for Admin Panel (or API site, etc.)
-	private function _verify_auth()
-	{
-		// verify login data from session
-		if ($this->mSite=='admin' && $this->mCtrler!='login')
-		{
-			// to be completed
-		}
-		else if ($this->mSite=='api')
-		{
-			// to be completed
-		}
 	}
 
 	// Setup for different sites
@@ -140,18 +119,7 @@ class MY_Controller extends CI_Controller {
 		if ( !empty($config['defaults']) )
 			$this->mDefaults = $config['defaults'];
 
-		// other custom logic outside of config file
-		switch ($this->mSite)
-		{
-			case 'frontend':
-				$this->_push_breadcrumb('Home', '', FALSE);
-				break;
-			case 'admin':
-				$this->_push_breadcrumb('Admin Panel', '', FALSE);
-				break;
-			case 'api':
-				break;
-		}
+		$this->mSiteConfig = $config;
 	}
 
 	// Setup localization
@@ -218,6 +186,58 @@ class MY_Controller extends CI_Controller {
 		else
 			array_unshift($this->mBreadcrumb, $entry);
 	}
+}
+
+
+/**
+ * Base controller for Frontend Website
+ */
+class Frontend_Controller extends MY_Controller {
+
+	protected $mSite = 'frontend';
+	protected $mDefaultLayout = 'frontend_default';
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->mBaseUrl = site_url();
+		$this->_push_breadcrumb('Home', '', FALSE);
+	}
+}
+
+
+/**
+ * Base controller for Admin Panel
+ */
+class Admin_Controller extends MY_Controller {
+
+	protected $mSite = 'admin';
+	protected $mDefaultLayout = 'admin_default';
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->mBaseUrl = site_url($this->mSite).'/';
+		$this->_push_breadcrumb('Admin Panel', '', FALSE);
+
+		if ($this->mCtrler=='login')
+		{
+			// Login page
+			$this->mBodyClass = 'login-page';
+		}
+		else
+		{
+			// Other pages required login
+			$this->_verify_auth();
+			$this->mBodyClass = 'skin-purple';
+		}
+	}
+
+	// Verify authentication
+	private function _verify_auth()
+	{
+		// to be completed
+	}
 
 	// Initialize CRUD table via Grocery CRUD library
 	// Reference: http://www.grocerycrud.com/
@@ -282,5 +302,27 @@ class MY_Controller extends CI_Controller {
 
 		// other custom logic to be done outside
 		return $crud;
+	}
+}
+
+
+/**
+ * Base controller for API Site
+ */
+class Api_Controller extends MY_Controller {
+
+	protected $mSite = 'api';
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->mBaseUrl = site_url($this->mSite).'/';
+		$this->_verify_auth();
+	}
+
+	// Verify authentication
+	private function _verify_auth()
+	{
+		// to be completed
 	}
 }

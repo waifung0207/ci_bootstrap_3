@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Controller to switch among languages
  */
-class Locale extends MY_Controller {
+class Locale extends Frontend_Controller {
 
 	public function set($locale)
 	{
