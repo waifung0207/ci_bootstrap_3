@@ -26,17 +26,18 @@ class Login extends Admin_Controller {
 			{
 				// passed validation
 				$this->load->library('auth');
-				if ( $this->auth->login_admin($username, $password) )
-				{
-					// success
-					$user = array('name' => 'Administrator');
-					$this->session->set_userdata('user', $user);
-					redirect('admin');
-				}
-				else
+				$user = $this->auth->login_admin($username, $password);
+
+				if ( empty($user) )
 				{
 					// failed
 					$form->add_custom_error('Invalid Login');
+				}
+				else
+				{
+					// success
+					$this->session->set_userdata('admin_user', $user);
+					redirect('admin');
 				}
 			}
 		}

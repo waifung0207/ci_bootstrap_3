@@ -18,6 +18,7 @@ This repository contains setup for rapid development:
 * Multi-tenant (e.g. Frontend Website, Admin Panel, API) website in single application
 * Custom config files (sites.php, locale.php) for easy configuration of website behavior
 * Admin Panel with AdminLTE v2 theme, and Grocery CRUD integration
+* User authentication (Admin Panel)
 * Preset layouts and templates
 * Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-start 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.

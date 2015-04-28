@@ -52,7 +52,7 @@ class Account extends Admin_Controller {
 	public function logout()
 	{
 		// clear session data then logout
-		$this->session->unset_userdata('user');
+		$this->session->unset_userdata('admin_user');
 		redirect('admin/login');
 	}
 }

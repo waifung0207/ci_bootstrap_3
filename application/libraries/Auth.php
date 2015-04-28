@@ -12,7 +12,6 @@ class Auth {
 	public function __construct()
 	{
 		$this->CI =& get_instance();
-		$this->mConfig = $this->CI->config->item('auth');
 	}
 	
 	/**
@@ -68,7 +67,22 @@ class Auth {
 	// Login admin
 	public function login_admin($username, $password)
 	{
-		return ($username=='admin' && $password=='admin');
+		$CI =& get_instance();
+		$CI->db->from('admin_users');
+		$CI->db->where('username', $username);
+		$CI->db->where('active', 1);
+		$query = $CI->db->get();
+		$user = $query->first_row();
+
+		if ( !empty($user) && $this->verify_pw($password, $user->password) )
+		{
+			// success
+			unset($user->password);
+			return $user;
+		}
+
+		// failed
+		return NULL;
 	}
 	
 	// Sign out

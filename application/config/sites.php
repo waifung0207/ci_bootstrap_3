@@ -76,7 +76,7 @@ $config['sites'] = array(
 	'admin' => array(
 
 		'autoload' => array(
-			'libraries'	=> array(),
+			'libraries'	=> array('database'),
 			'helpers'	=> array(),
 			'models'	=> array(),
 		),
@@ -123,9 +123,9 @@ $config['sites'] = array(
 			),
 			// end of example
 			/*
-			'backend_user' => array(
-				'name'		=> 'Backend Users',
-				'url'		=> 'backend_user',
+			'admin_user' => array(
+				'name'		=> 'Admin Users',
+				'url'		=> 'admin_user',
 				'icon'		=> 'fa fa-cogs'
 			),*/
 			'logout' => array(

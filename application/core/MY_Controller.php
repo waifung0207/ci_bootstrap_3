@@ -239,16 +239,24 @@ class Admin_Controller extends MY_Controller {
 	// Verify authentication
 	private function _verify_auth()
 	{
-		if ($this->session->has_userdata('user'))
-		{
-			// obtain user data from session
-			$this->mUser = $this->session->userdata('user');
-		}
+		// obtain user data from session; redirect to Login page if not found
+		if ($this->session->has_userdata('admin_user'))
+			$this->mUser = $this->session->userdata('admin_user');
 		else
-		{
-			// redirect Login page
 			redirect('admin/login');
-		}
+	}
+
+	// Verify if the login user belongs to target role
+	// $role can be string or string array
+	protected function _verify_role($role)
+	{
+		if ( empty($this->mUser) )
+			redirect('admin/login');
+
+		$pass = is_array($role) ? in_array($this->mUser->role, $role) : ($this->mUser->role==$role);
+		
+		if (!$pass)
+			redirect('admin');
 	}
 
 	// Initialize CRUD table via Grocery CRUD library

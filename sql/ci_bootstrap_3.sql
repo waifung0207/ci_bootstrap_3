@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 15, 2015 at 06:08 PM
--- Server version: 5.5.41-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.7
+-- Generation Time: Apr 28, 2015 at 02:38 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,17 +17,17 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `ci_bootstrap`
+-- Database: `ci_bootstrap_3`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `backend_users`
+-- Table structure for table `admin_users`
 --
 
-DROP TABLE IF EXISTS `backend_users`;
-CREATE TABLE IF NOT EXISTS `backend_users` (
+DROP TABLE IF EXISTS `admin_users`;
+CREATE TABLE IF NOT EXISTS `admin_users` (
   `id` int(11) unsigned NOT NULL,
   `role` enum('admin','staff') NOT NULL DEFAULT 'staff',
   `username` varchar(100) NOT NULL,
@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS `backend_users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `backend_users`
+-- Dumping data for table `admin_users`
 --
 
-INSERT INTO `backend_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES
+INSERT INTO `admin_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES
 (1, 'admin', 'admin', '$2y$10$5Ckk.kPJyZeJ368XvIfLC.Sns4MqOueMOASIqk0oGZB9zlQgIi34S', 'Administrator', 1, '2014-07-31 04:56:41'),
 (2, 'staff', 'staff', '$2y$10$uvx0ySA7s2GZDsKcrlv40.Wev5q9xkjVg.pirwZOH9n2K4lPrIOvC', 'Staff', 1, '2014-08-11 10:10:37');
 
@@ -71,9 +71,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 --
--- Indexes for table `backend_users`
+-- Indexes for table `admin_users`
 --
-ALTER TABLE `backend_users`
+ALTER TABLE `admin_users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -87,9 +87,9 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `backend_users`
+-- AUTO_INCREMENT for table `admin_users`
 --
-ALTER TABLE `backend_users`
+ALTER TABLE `admin_users`
   MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users`
