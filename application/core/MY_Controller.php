@@ -142,7 +142,7 @@ class MY_Controller extends CI_Controller {
 			foreach ($config['autoload'] as $file)
 				$this->lang->load($file, 'en');
 		}
-		
+
 		$this->mViewData['locale'] = $this->mLocale;
 		$this->mViewData['available_locales'] = $this->mAvailableLocales;
 	}
@@ -210,8 +210,12 @@ class Frontend_Controller extends MY_Controller {
  */
 class Admin_Controller extends MY_Controller {
 
+	// override parent values
 	protected $mSite = 'admin';
 	protected $mDefaultLayout = 'admin_default';
+
+	// values for Admin Panel only
+	protected $mUser = array();
 
 	public function __construct()
 	{
@@ -235,7 +239,16 @@ class Admin_Controller extends MY_Controller {
 	// Verify authentication
 	private function _verify_auth()
 	{
-		// to be completed
+		if ($this->session->has_userdata('user'))
+		{
+			// obtain user data from session
+			$this->mUser = $this->session->userdata('user');
+		}
+		else
+		{
+			// redirect Login page
+			redirect('admin/login');
+		}
 	}
 
 	// Initialize CRUD table via Grocery CRUD library

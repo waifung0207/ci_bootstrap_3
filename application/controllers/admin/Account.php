@@ -51,7 +51,8 @@ class Account extends Admin_Controller {
 	 */
 	public function logout()
 	{
-		// TODO: clear session data then logout
+		// clear session data then logout
+		$this->session->unset_userdata('user');
 		redirect('admin/login');
 	}
 }

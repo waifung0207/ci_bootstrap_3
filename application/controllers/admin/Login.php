@@ -29,6 +29,8 @@ class Login extends Admin_Controller {
 				if ( $this->auth->login_admin($username, $password) )
 				{
 					// success
+					$user = array('name' => 'Administrator');
+					$this->session->set_userdata('user', $user);
 					redirect('admin');
 				}
 				else
