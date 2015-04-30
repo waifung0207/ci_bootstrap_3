@@ -43,28 +43,29 @@ $config['sites'] = array(
 			),
 		),
 		
+		// menu items, with demonstration of localization
 		'menu' => array(
 			'home' => array(
-				'name'		=> 'Home',
+				'name'		=> lang('home'),
 				'url'		=> '',
 			),
 			// Example to add sections with subpages
 			'example' => array(
-				'name'		=> 'Examples',
+				'name'		=> lang('example'),
 				'url'		=> 'example',
 				'children'  => array(
-					'Example 1'		=> 'example/demo/1',
-					'Example 2'		=> 'example/demo/2',
-					'Example 3'		=> 'example/demo/3',
+					lang('example').' 1'	=> 'example/demo/1',
+					lang('example').' 2'	=> 'example/demo/2',
+					lang('example').' 3'	=> 'example/demo/3',
 				)
 			),
 			// end of example
 			'signup' => array(
-				'name'		=> 'Sign Up',
+				'name'		=> lang('sign_up'),
 				'url'		=> 'account/signup',
 			),
 			'login' => array(
-				'name'		=> 'Login',
+				'name'		=> lang('login'),
 				'url'		=> 'account/login',
 			),
 		),

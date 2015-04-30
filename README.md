@@ -23,6 +23,7 @@ This repository contains setup for rapid development:
 * Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-start 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
 * Breadcrumb handling
+* Multilingual support
 * ... more coming!
 
 
@@ -47,7 +48,6 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
 * Database backup function (via CLI controller)
 * Custom 404 error page
-* Multilingual support
 * Frontend user authentication (Auth library)
 * Email config setup
 * API structure (e.g. authentication, response shortcut functions)

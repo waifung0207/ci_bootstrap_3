@@ -8,8 +8,8 @@ class MY_Controller extends CI_Controller {
 	protected $mBaseUrl = '';
 	protected $mBodyClass = '';
 	protected $mDefaultLayout = 'empty';
-	protected $mLocale = '';
-	protected $mAvailableLocales = '';
+	protected $mLanguage = '';
+	protected $mAvailableLanguages = '';
 	protected $mTitlePrefix = '';
 	protected $mTitle = '';
 	protected $mMetaData = array();
@@ -89,7 +89,7 @@ class MY_Controller extends CI_Controller {
 	private function _setup()
 	{
 		// called at first so config/sites.php can contains lang() function
-		$this->_setup_locale();
+		$this->_setup_language();
 
 		// get site-specific configuration from file "application/config/sites.php"
 		$this->config->load('sites');
@@ -119,28 +119,27 @@ class MY_Controller extends CI_Controller {
 	}
 
 	// Setup localization
-	private function _setup_locale()
+	private function _setup_language()
 	{
 		// default language from CodeIgniter: application/config/config.php
-		$default_locale = $this->config->item('language');
-		$this->mLocale = $this->session->has_userdata('locale') ? $this->session->userdata('locale') : $default_locale;
+		$default_language = $this->config->item('language');
+		$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : $default_language;
 
-		// localization settings from: application/config/locale.php
-		$this->config->load('locale');
-		$config = $this->config->item('locale')[$this->mSite];		
-		$this->mAvailableLocales = array();
+		// localization settings from: application/config/language.php
+		$this->config->load('language');
+		$config = $this->config->item('site_languages')[$this->mSite];		
+		$this->mAvailableLanguages = array();
 		
 		if ( !empty($config['enabled']) )
 		{
-			$this->load->helper('language');
-			$this->mAvailableLocales = $config['available'];
+			$this->mAvailableLanguages = $config['available'];
 
 			foreach ($config['autoload'] as $file)
-				$this->lang->load($file, 'en');
+				$this->lang->load($file, $this->mLanguage['value']);
 		}
 
-		$this->mViewData['locale'] = $this->mLocale;
-		$this->mViewData['available_locales'] = $this->mAvailableLocales;
+		$this->mViewData['language'] = $this->mLanguage;
+		$this->mViewData['available_languages'] = $this->mAvailableLanguages;
 	}
 
 	// Setup autoloading

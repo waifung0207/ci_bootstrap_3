@@ -47,12 +47,12 @@
 		<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 				<a data-toggle='dropdown' class='dropdown-toggle' href='#'>
-					<i class="fa fa-globe"></i> 
+					<i class="fa fa-globe"></i>
 					<span class='caret'></span>
 				</a>
 				<ul role='menu' class='dropdown-menu'>
-					<?php foreach ($available_locales as $key => $value): ?>
-					<li><a href="locale/set/<?php echo $key; ?>"><?php echo $value; ?></a></li>
+					<?php foreach ($available_languages as $abbr => $language): ?>
+					<li><a href="language/set/<?php echo $abbr; ?>"><?php echo $language['label']; ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</li>
