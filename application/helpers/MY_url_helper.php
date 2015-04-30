@@ -27,3 +27,9 @@ function image_url($path)
 {
 	return base_url('assets/dist/images/'.$path);	
 }
+
+// refresh current page (interrupt other actions)
+function refresh()
+{
+	redirect(current_url(), 'refresh');
+}

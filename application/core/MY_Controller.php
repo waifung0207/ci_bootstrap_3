@@ -115,10 +115,6 @@ class MY_Controller extends CI_Controller {
 		if ( !empty($config['menu']) )
 			$this->mMenu = $config['menu'];
 
-		// setup default values
-		if ( !empty($config['defaults']) )
-			$this->mDefaults = $config['defaults'];
-
 		$this->mSiteConfig = $config;
 	}
 
@@ -296,12 +292,8 @@ class Admin_Controller extends MY_Controller {
 	// Reference: http://www.grocerycrud.com/image-crud
 	protected function _init_image_crud($table, $url_field, $upload_path, $order_field = 'pos', $title_field = '')
 	{
-		// get config file
-		$CI =& get_instance();
-		$CI->config->load('crud');
-		$params = $CI->config->item('image_crud');
-
 		// create CRUD object
+		$CI =& get_instance();
 		$CI->load->library('image_CRUD');
 		$crud = new image_CRUD();
 		$crud->set_table($table);

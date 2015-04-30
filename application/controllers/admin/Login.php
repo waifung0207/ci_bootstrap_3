@@ -25,8 +25,8 @@ class Login extends Admin_Controller {
 			if ( $form->validate() )
 			{
 				// passed validation
-				$this->load->library('auth');
-				$user = $this->auth->login_admin($username, $password);
+				$this->load->library('auth_lib');
+				$user = $this->auth_lib->login($this->mSite, $username, $password);
 
 				if ( empty($user) )
 				{

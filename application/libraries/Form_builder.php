@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 	- automatically restore "value" to fields when validation failed
  * 	- support more field types (checkbox, dropdown, upload, etc.)
  */
-class Form_Builder {
+class Form_builder {
 
 	public function __construct()
 	{

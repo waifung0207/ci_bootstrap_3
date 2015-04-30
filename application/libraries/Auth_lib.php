@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Library to handle user authentication
  */
-class Auth {
+class Auth_lib {
 
 	protected $CI;
 	protected $mConfig;
@@ -32,17 +32,44 @@ class Auth {
 	}
 
 	/**
-	 * Authentication for Frontend Website
+	 * Authentication
 	 */
 
 	// Login user
-	public function login($username, $password)
+	public function login($site, $username, $password)
 	{
-		echo 'login';
+		$CI =& get_instance();
+		switch ($site)
+		{
+			case 'frontend':
+				$CI->load->model('user_model', 'users');
+				break;
+			case 'admin':
+				$CI->load->model('admin_user_model', 'users');
+				break;
+			default:
+				return FALSE;
+		}
+		
+		$where = array(
+			'username'	=> $username,
+			'active'	=> 1
+		);
+		$user = $CI->users->get_by($where);
+
+		if ( !empty($user) && $this->verify_pw($password, $user->password) )
+		{
+			// success - return user object without password field
+			unset($user->password);
+			return $user;
+		}
+
+		// failed
+		return FALSE;
 	}
 
 	// Sign out
-	public function logout()
+	public function logout($site)
 	{
 
 	}
@@ -55,38 +82,6 @@ class Auth {
 
 	// Forgot Password operation
 	public function forgot_password()
-	{
-
-	}
-
-
-	/**
-	 * Authentication for Admin Panel
-	 */
-	
-	// Login admin
-	public function login_admin($username, $password)
-	{
-		$CI =& get_instance();
-		$CI->db->from('admin_users');
-		$CI->db->where('username', $username);
-		$CI->db->where('active', 1);
-		$query = $CI->db->get();
-		$user = $query->first_row();
-
-		if ( !empty($user) && $this->verify_pw($password, $user->password) )
-		{
-			// success
-			unset($user->password);
-			return $user;
-		}
-
-		// failed
-		return NULL;
-	}
-	
-	// Sign out
-	public function logout_admin()
 	{
 
 	}
