@@ -123,7 +123,7 @@ class MY_Controller extends CI_Controller {
 	{
 		// default language from CodeIgniter: application/config/config.php
 		$default_language = $this->config->item('language');
-		$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : $default_language;
+		$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : array('value' => $default_language);
 
 		// localization settings from: application/config/language.php
 		$this->config->load('language');
