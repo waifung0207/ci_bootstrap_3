@@ -123,11 +123,11 @@ class MY_Controller extends CI_Controller {
 	{
 		// language settings from: application/config/language.php
 		$this->config->load('language');
+		$config = $this->config->item('site_languages')[$this->mSite];	
 
 		// default language from config (NOT the one from CodeIgniter: application/config/config.php)
-		$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : $this->config->item('site_languages')['default'];
+		$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : $config['default'];
 		
-		$config = $this->config->item('site_languages')[$this->mSite];		
 		if ( !empty($config['enabled']) )
 		{
 			$this->mAvailableLanguages = $config['available'];
