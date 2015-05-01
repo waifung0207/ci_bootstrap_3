@@ -121,25 +121,24 @@ class MY_Controller extends CI_Controller {
 	// Setup localization
 	private function _setup_language()
 	{
-		// default language from CodeIgniter: application/config/config.php
-		$default_language = $this->config->item('language');
-		$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : array('value' => $default_language);
-
-		// localization settings from: application/config/language.php
+		// language settings from: application/config/language.php
 		$this->config->load('language');
-		$config = $this->config->item('site_languages')[$this->mSite];		
-		$this->mAvailableLanguages = array();
+
+		// default language from config (NOT the one from CodeIgniter: application/config/config.php)
+		$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : $this->config->item('site_languages')['default'];
 		
+		$config = $this->config->item('site_languages')[$this->mSite];		
 		if ( !empty($config['enabled']) )
 		{
 			$this->mAvailableLanguages = $config['available'];
 
 			foreach ($config['autoload'] as $file)
-				$this->lang->load($file, $this->mLanguage['value']);
+				$this->lang->load($file, $this->mAvailableLanguages[$this->mLanguage]['value']);
+
+			$this->mViewData['available_languages'] = $this->mAvailableLanguages;
 		}
 
 		$this->mViewData['language'] = $this->mLanguage;
-		$this->mViewData['available_languages'] = $this->mAvailableLanguages;
 	}
 
 	// Setup autoloading

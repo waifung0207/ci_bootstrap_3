@@ -12,7 +12,7 @@ class Language extends Frontend_Controller {
 		if ( array_key_exists($abbr, $this->mAvailableLanguages) )
 		{
 			// save selected language to session
-			$this->session->set_userdata('language', $this->mAvailableLanguages[$abbr]);
+			$this->session->set_userdata('language', $abbr);
 		}
 		
 		$this->load->library('user_agent');

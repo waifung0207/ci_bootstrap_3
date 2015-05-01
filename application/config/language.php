@@ -13,18 +13,17 @@ $config['site_languages'] = array(
 
 	'frontend' => array(
 		'enabled'		=> TRUE,
+		'default'		=> 'en',			// to decide which of the "available" languages should be used
 		'available'		=> array(			// availabe languages with names to display on site (e.g. on menu)
-			array(
-				'abbr'	=> 'en',			// abbr. value to be used on URL, or linked with database fields
+			'en' => array(					// abbr. value to be used on URL, or linked with database fields
 				'label'	=> 'English',		// label to be displayed on language switcher
 				'value'	=> 'english',		// to match with CodeIgniter folders inside application/language/
 			),
-			array(
-				'abbr'	=> 'zh',
+			'zh' => array(
 				'label'	=> '繁體中文',
 				'value'	=> 'chinese_traditional',
-			),array(
-				'abbr'	=> 'cn',
+			),
+			'cn' => array(
 				'label'	=> '简体中文',
 				'value'	=> 'chinese_simplified',
 			),
