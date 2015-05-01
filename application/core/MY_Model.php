@@ -34,7 +34,7 @@ class MY_Model extends CI_Model {
 	// Get single record (by ID)
 	public function get_by_id($id, $joins = array())
 	{
-		$primary_key = empty($this->mTableAlias) ? $this->mTable.'.'.$this->mPrimaryKey : $this->mTableAlias.'.'.$this->mPrimaryKey;
+		$primary_key = empty($this->mTableAlias) ? $this->_get_table_name().'.'.$this->mPrimaryKey : $this->mTableAlias.'.'.$this->mPrimaryKey;
 		$this->_join_tables($joins);
 		$where = array($primary_key => $id);
 		return $this->get_by($where);

@@ -50,9 +50,13 @@ module.exports = {
 				dir_bower + '/font-awesome/fonts/**',
 				dir_bower + '/ionicons/fonts/**'
 			],
+			scripts: [
+				// js files
+			]
 		},
 		dest: {
-			fonts: dir_fonts
+			fonts: dir_fonts,
+			scripts: dir_dist
 		}
 	},
 
