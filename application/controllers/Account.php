@@ -10,10 +10,11 @@ class Account extends Frontend_Controller {
 
 		// Required for reCAPTCHA
 		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
-
+		
 		// Sign Up form
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/signup');
+		//$form->set_horizontal();
 		$form->add_text('first_name', 'First Name');
 		$form->add_text('last_name', 'Last Name');
 		$form->add_text('email', 'Email');

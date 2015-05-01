@@ -38,9 +38,11 @@ class Form {
 	protected $mInlineError;	// whether display inline error or not
 	protected $mMultipart;		// whether the form supports multipart
 
+	protected $mAttributes = array();		// attributes to pass into form tag
 	protected $mType = 'default';			// form type (option: default / horizontal)
 	protected $mColLeft = 'sm-2';			// left column width (for horizontal form only)
 	protected $mColRight = 'sm-10';			// right column width (for horizontal form only)
+
 	protected $mFields = array();			// elements stored in the Form object with ordering
 	protected $mFooterHtml = '';			// custom HTML to render after other fields
 
@@ -58,6 +60,15 @@ class Form {
 
 		$this->mErrorMsg['validation'] = array();
 		$this->mErrorMsg['custom'] = array();
+	}
+
+	// Change form type to 'horizontal'
+	public function set_horizontal($col_left = 'sm-2', $col_right = 'sm-10')
+	{
+		$this->mType = 'horizontal';
+		$this->mAttributes['class'] = 'form-horizontal';
+		$this->mColLeft = $col_left;
+		$this->mColRight = $col_right;
 	}
 
 	// Append an text field
@@ -132,7 +143,12 @@ class Form {
 			'site'		=> $site_key,
 			'secret'	=> $secret_key,
 		);
-		$this->add_custom_html('<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>');
+		$html = '<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>';
+
+		if ($this->mType=='horizontal')
+			$html = '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$html.'</div>';
+
+		$this->add_custom_html($html);
 	}
 
 	// Append HTML
@@ -151,19 +167,12 @@ class Form {
 	}
 
 	// Return HTML string contains the form
-	public function render($form_type = 'default', $col_left = 'sm-2', $col_right = 'sm-10')
+	public function render()
 	{
-		$this->mType = $form_type;
-		$this->mColLeft = $col_left;
-		$this->mColRight = $col_right;
-
-		$form_class = ($form_type=='default') ? '' : 'form-'.$form_type;
-		$form_attributes = array('class' => $form_class);
-
 		if ($this->mMultipart)
-			$str = form_open_multipart($this->mAction, $form_attributes);
+			$str = form_open_multipart($this->mAction, $this->mAttributes);
 		else
-			$str = form_open($this->mAction, $form_attributes);
+			$str = form_open($this->mAction, $this->mAttributes);
 
 		// print out all fields
 		foreach ($this->mFields as $field)
@@ -277,7 +286,7 @@ class Form {
 	{
 		$CI =& get_instance();
 
-		// check with reCAPTCHA
+		// reCAPTCHA verification
 		if ( !empty($this->mRecaptchaKeys) )
 		{
 			$recaptcha = new \ReCaptcha\ReCaptcha($this->mRecaptchaKeys['secret']);
