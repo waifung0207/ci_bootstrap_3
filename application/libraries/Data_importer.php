@@ -1,37 +1,28 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// Use PHP League Reader library from composer package
-// Reference: http://csv.thephpleague.com/
-use League\Csv\Reader;
-
 /**
  * Library to import data from .csv files
  */
 class Data_importer {
 
-	private $mDelimiter = ',';
-
-	public function __construct($params = NULL)
-	{
-		if ( !empty($params) && !empty($params['delimiter']) )
-			$this->mDelimiter = $params['delimiter'];
-	}
-
 	/**
+	 * Import data from .csv file to a single table.
+	 * Reference: http://csv.thephpleague.com/
+	 * 
 	 * Sample usage:
 	 * 	$fields = array('name', 'email', 'age', 'active');
 	 *  $this->load->library('data_importer');
-	 *  $this->data_importer->import_to_table('data.csv', 'users', $fields, TRUE);
+	 *  $this->data_importer->csv_import('data.csv', 'users', $fields, TRUE);
 	 */
-	public function import_to_table($file, $table, $fields, $clear_table = FALSE, $skip_header = TRUE)
+	public function csv_import($file, $table, $fields, $clear_table = FALSE, $delimiter = ',', $skip_header = TRUE)
 	{
 		$CI =& get_instance();
 		$CI->load->database();
 
 		// prepend file path with project directory
-		$reader = Reader::createFromPath(FCPATH.$file);
-		$reader->setDelimiter($this->mDelimiter);
+		$reader = League\Csv\Reader::createFromPath(FCPATH.$file);
+		$reader->setDelimiter($delimiter);
 
 		// (optional) skip header row
 		if ($skip_header)
@@ -63,5 +54,22 @@ class Data_importer {
 
 		// confirm import (return number of records inserted)
 		return $CI->db->insert_batch($table, $data);
+	}
+
+	/**
+	 * Import data from Excel file to a single table.
+	 * Reference: https://phpexcel.codeplex.com/
+	 *
+	 * TODO: complete feature
+	 */
+	public function excel_import($file, $table)
+	{
+		// prepend file path with project directory
+		$excel = PHPExcel_IOFactory::load(FCPATH.$file);
+
+		foreach ($excel->getWorksheetIterator() as $worksheet)
+		{
+			// to be completed
+		}
 	}
 }
