@@ -51,16 +51,15 @@ class MY_Controller extends CI_Controller {
 	}
 	
 	// Output template for Frontend Website
-	protected function _render($view, $layout = '', $body_class = '')
+	protected function _render($view, $layout = '')
 	{
 		$this->mViewData['base_url'] = $this->mBaseUrl;
 		$this->mViewData['inner_view'] = $this->mSite.'/'.$view;
+		$this->mViewData['body_class'] = $this->mBodyClass;
 
 		$this->mViewData['site'] = $this->mSite;
 		$this->mViewData['ctrler'] = $this->mCtrler;
 		$this->mViewData['action'] = $this->mAction;
-
-		$this->mViewData['body_class'] = empty($body_class===NULL) ? $this->mBodyClass : $body_class;
 
 		$this->mViewData['current_uri'] = ($this->mSite==='frontend') ? uri_string(): str_replace($this->mSite.'/', '', uri_string());
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
@@ -217,17 +216,18 @@ class Admin_Controller extends MY_Controller {
 		$this->mBaseUrl = site_url($this->mSite).'/';
 		$this->_push_breadcrumb('Admin Panel', '', FALSE);
 
-		if ($this->mCtrler=='login')
+		if ($this->mCtrler!='login')
 		{
-			// Login page
-			$this->mBodyClass = 'login-page';
-		}
-		else
-		{
-			// Other pages required login
+			// Check with user login
 			$this->_verify_auth();
-			$this->mBodyClass = 'skin-purple';
 		}
+	}
+
+	// Override parent
+	protected function _render($view, $layout = '')
+	{
+		$this->mBodyClass = ($this->mCtrler=='login') ? 'login-page' : 'skin-purple';
+		parent::_render($view, $layout);
 	}
 
 	// Verify authentication

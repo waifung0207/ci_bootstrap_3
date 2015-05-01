@@ -40,4 +40,4 @@
 	
 </head>
 
-<body <?php if ( !empty($body_class) ) echo "class='$body_class'"; ?>>
+<body class="<?php if ( !empty($body_class) ) echo $body_class; ?>">

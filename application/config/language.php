@@ -33,6 +33,7 @@ $config['site_languages'] = array(
 
 	'admin' => array(
 		'enabled'		=> FALSE,
+		'default'		=> 'en',
 	),
 
 );

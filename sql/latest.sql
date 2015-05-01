@@ -1,10 +1,10 @@
 #
-# TABLE STRUCTURE FOR: backend_users
+# TABLE STRUCTURE FOR: admin_users
 #
 
-DROP TABLE IF EXISTS `backend_users`;
+DROP TABLE IF EXISTS `admin_users`;
 
-CREATE TABLE `backend_users` (
+CREATE TABLE `admin_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `role` enum('admin','staff') NOT NULL DEFAULT 'staff',
   `username` varchar(100) NOT NULL,
@@ -15,8 +15,8 @@ CREATE TABLE `backend_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-INSERT INTO `backend_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES ('1', 'admin', 'admin', '$2y$10$5Ckk.kPJyZeJ368XvIfLC.Sns4MqOueMOASIqk0oGZB9zlQgIi34S', 'Administrator', '1', '2014-07-31 12:56:41');
-INSERT INTO `backend_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES ('2', 'staff', 'staff', '$2y$10$uvx0ySA7s2GZDsKcrlv40.Wev5q9xkjVg.pirwZOH9n2K4lPrIOvC', 'Staff', '1', '2014-08-11 18:10:37');
+INSERT INTO `admin_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES ('1', 'admin', 'admin', '$2y$10$5Ckk.kPJyZeJ368XvIfLC.Sns4MqOueMOASIqk0oGZB9zlQgIi34S', 'Administrator', '1', '2014-07-31 12:56:41');
+INSERT INTO `admin_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES ('2', 'staff', 'staff', '$2y$10$uvx0ySA7s2GZDsKcrlv40.Wev5q9xkjVg.pirwZOH9n2K4lPrIOvC', 'Staff', '1', '2014-08-11 18:10:37');
 
 
 #
