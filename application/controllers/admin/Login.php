@@ -8,8 +8,6 @@ class Login extends Admin_Controller {
 	 */
 	public function index()
 	{
-		$this->load->library('form_validation');
-
 		// Login form
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('admin/login');

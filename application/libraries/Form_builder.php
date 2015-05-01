@@ -7,9 +7,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 	- reduce effort to repeated create labels, setting placeholder, etc. with flexibility
  * 	- shortcut functions to append form elements (currently support: text, password, textarea, submit)
  * 	- help with form validation and provide inline error to each field
+ * 	- automatically restore "value" to fields when validation failed (using CodeIgniter set_value() function)
  *
  * TODO:
- * 	- automatically restore "value" to fields when validation failed
  * 	- support more field types (checkbox, dropdown, upload, etc.)
  */
 class Form_builder {
@@ -33,11 +33,14 @@ class Form_builder {
  */
 class Form {
 
-	protected $mAction = '';				// target POST url
-	protected $mRuleSet = '';				// name of validation rule set (match with keys inside application/config/form_validation.php)
-	protected $mInlineError = TRUE;			// whether display inline error or not
-	protected $mMultipart = FALSE;			// whether the form supports multipart
+	protected $mAction;			// target POST url
+	protected $mRuleSet;		// name of validation rule set (match with keys inside application/config/form_validation.php)
+	protected $mInlineError;	// whether display inline error or not
+	protected $mMultipart;		// whether the form supports multipart
 
+	protected $mType = 'default';			// form type (option: default / horizontal)
+	protected $mColLeft = 'sm-2';			// left column width (for horizontal form only)
+	protected $mColRight = 'sm-10';			// right column width (for horizontal form only)
 	protected $mFields = array();			// elements stored in the Form object with ordering
 	protected $mFooterHtml = '';			// custom HTML to render after other fields
 
@@ -91,7 +94,7 @@ class Form {
 	}
 
 	// Append a textarea field
-	public function add_textarea($name, $rows = 5, $label = '', $placeholder = '', $value = NULL)
+	public function add_textarea($name, $label = '', $placeholder = '', $value = NULL, $rows = 5)
 	{
 		// automatically set placeholder
 		if ( !empty($label) && empty($placeholder) )
@@ -126,12 +129,19 @@ class Form {
 	}
 
 	// Return HTML string contains the form
-	public function render()
+	public function render($form_type = 'default', $col_left = 'sm-2', $col_right = 'sm-10')
 	{
+		$this->mType = $form_type;
+		$this->mColLeft = $col_left;
+		$this->mColRight = $col_right;
+
+		$form_class = ($form_type=='default') ? '' : 'form-'.$form_type;
+		$form_attributes = array('class' => $form_class);
+
 		if ($this->mMultipart)
-			$str = form_open_multipart($this->mAction);
+			$str = form_open_multipart($this->mAction, $form_attributes);
 		else
-			$str = form_open($this->mAction);
+			$str = form_open($this->mAction, $form_attributes);
 
 		// print out all fields
 		foreach ($this->mFields as $field)
@@ -140,23 +150,16 @@ class Form {
 			{
 				// Text field
 				case 'text':
+					$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
 					$data = array(
 						'id'			=> $field['name'],
 						'name'			=> $field['name'],
-						'value'			=> $field['value'],
+						'value'			=> $value,
 						'placeholder'	=> $field['placeholder'],
 						'class'			=> 'form-control',
 					);
-
-					if ($this->mInlineError)
-						$str .= form_error($field['name'], '<p class="text-danger">', '</p>');
-
-					if ( !empty($field['label']) )
-						$str .= form_label($field['label'], $field['name']);
-
-					$str .= '<div class="form-group">';
-					$str .= form_input($data);
-					$str .= '</div>';
+					$control = form_input($data);
+					$str .= $this->form_group($field['name'], $control, $field['label']);
 					break;
 
 				// Password field
@@ -168,38 +171,23 @@ class Form {
 						'placeholder'	=> $field['placeholder'],
 						'class'			=> 'form-control',
 					);
-
-					if ($this->mInlineError)
-						$str .= form_error($field['name'], '<p class="text-danger">', '</p>');
-
-					if ( !empty($field['label']) )
-						$str .= form_label($field['label'], $field['name']);
-
-					$str .= '<div class="form-group">';
-					$str .= form_password($data);
-					$str .= '</div>';
+					$control = form_password($data);
+					$str .= $this->form_group($field['name'], $control, $field['label']);
 					break;
 
 				// Textarea field
 				case 'textarea':
+					$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
 					$data = array(
 						'id'			=> $field['name'],
 						'name'			=> $field['name'],
-						'value'			=> $field['value'],
+						'value'			=> $value,
 						'placeholder'	=> $field['placeholder'],
 						'rows'			=> $field['rows'],
 						'class'			=> 'form-control',
 					);
-
-					if ($this->mInlineError)
-						$str .= form_error($field['name'], '<p class="text-danger">', '</p>');
-
-					if ( !empty($field['label']) )
-						$str .= form_label($field['label'], $field['name']);
-
-					$str .= '<div class="form-group">';
-					$str .= form_textarea($data);
-					$str .= '</div>';
+					$control = form_textarea($data);
+					$str .= $this->form_group($field['name'], $control, $field['label']);
 					break;
 
 				// Upload field
@@ -209,7 +197,7 @@ class Form {
 
 				// Submit button
 				case 'submit':
-					$str .= '<button type="submit" class="'.$field['class'].'">'.$field['label'].'</button>';
+					$str.= $this->form_group_submit($field['class'], $field['label']);
 					break;
 			}
 		}
@@ -217,6 +205,44 @@ class Form {
 		$str .= $this->mFooterHtml;
 		$str .= form_close();
 		return $str;
+	}
+
+	// Form group with control, label and error field
+	public function form_group($name, $control, $label = '')
+	{
+		$error = form_error($name);
+		$group_class = ( !empty($error) && $this->mInlineError ) ? 'has-error' : '';
+		$group_open = '<div class="form-group '.$group_class.'">';
+		$group_close = '</div>';
+
+		// handle form type (default / horizontal)
+		switch ($this->mType)
+		{
+			case 'default':
+				$label = empty($label) ? '' : form_label($label, $name);
+				return $group_open.$label.$error.$control.$group_close;
+			case 'horizontal':
+				$label = empty($label) ? '' : form_label($label, $name, array('class' => 'control-label col-'.$this->mColLeft));
+				$control = '<div class="col-'.$this->mColRight.'">'.$control.'</div>';
+				$error = !empty($error) ? '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$error.'</div>' : '';
+				return $group_open.$error.$label.$control.$group_close;
+			default:
+				return '';
+		}
+	}
+
+	// Form group with Submit button
+	public function form_group_submit($class, $label)
+	{
+		$btn = '<button type="submit" class="'.$class.'">'.$label.'</button>';
+
+		if ($this->mType=='horizontal')
+		{
+			$col_left = str_replace('-', '-offset-', $this->mColLeft);
+			$btn = '<div class="col-'.$col_left.' col-'.$this->mColRight.'">'.$btn.'</div>';
+		}
+
+		return '<div class="form-group">'.$btn.'</div>';
 	}
 
 	// Run validation on the form and return result
@@ -262,8 +288,7 @@ class Form {
 	// Display alert box
 	private function _render_alert($msg)
 	{
-		return '<div class="alert alert-danger" role="alert">
-			<span class="sr-only">Error: </span>'.$msg.'</div>';
+		return '<div class="alert alert-danger" role="alert"><span class="sr-only">Error: </span>'.$msg.'</div>';
 	}
 
 }
