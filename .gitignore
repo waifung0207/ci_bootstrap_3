@@ -22,5 +22,6 @@ application/composer.lock
 */cache/!index.html
 */cache/!.htaccess
 
-### ###
+### SQL backup files ###
+sql/backup/*
 sql/backup/!index.html
