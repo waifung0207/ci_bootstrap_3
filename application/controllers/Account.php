@@ -7,7 +7,10 @@ class Account extends Frontend_Controller {
 	{
 		$this->_push_breadcrumb('Account');
 		$this->_push_breadcrumb('Sign Up');
-		
+
+		// Required for reCAPTCHA
+		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+
 		// Sign Up form
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/signup');
@@ -16,6 +19,7 @@ class Account extends Frontend_Controller {
 		$form->add_text('email', 'Email');
 		$form->add_password('password', 'Password');
 		$form->add_password('retype_password', 'Retype Password');
+		$form->add_recaptcha('6Lc1MAYTAAAAAOdhZ0qvGMUFuBD-J6fJIP3DvX-b', '6Lc1MAYTAAAAAEARt-nT1En9NBonssoo4vWI12Nl');
 		$form->add_submit();
 
 		if ( !empty($this->input->post()) )
@@ -36,7 +40,7 @@ class Account extends Frontend_Controller {
 		$this->_push_breadcrumb('Account');
 		$this->_push_breadcrumb('Login');
 
-		// Sign Up form
+		// Login form
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/login');
 		$form->add_text('email', 'Email');

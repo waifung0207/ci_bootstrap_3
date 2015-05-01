@@ -1,0 +1,6 @@
+{
+    "name": "ci_bootstrap_3",
+    "require": {
+        "google/recaptcha": "~1.1"
+    }
+}

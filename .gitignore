@@ -12,6 +12,7 @@ npm-debug.log
 
 ### Composer ###
 application/vendor/
+application/composer.lock
 
 ### https://github.com/github/gitignore/blob/master/CodeIgniter.gitignore ###
 */config/development

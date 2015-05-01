@@ -44,6 +44,9 @@ class Form {
 	protected $mFields = array();			// elements stored in the Form object with ordering
 	protected $mFooterHtml = '';			// custom HTML to render after other fields
 
+	// Integration with reCAPTCHA (https://www.google.com/recaptcha/)
+	protected $mRecaptchaKeys = array();
+
 	protected $mErrorMsg = array();			// store both validation and non-validation error messages
 
 	public function __construct($url, $rule_set, $inline_error, $multipart)
@@ -122,8 +125,27 @@ class Form {
 		);
 	}
 
-	// Append HTML before end of form
-	public function add_footer($html)
+	// Append reCAPTCHA (https://www.google.com/recaptcha/)
+	public function add_recaptcha($site_key, $secret_key)
+	{
+		$this->mRecaptchaKeys = array(
+			'site'		=> $site_key,
+			'secret'	=> $secret_key,
+		);
+		$this->add_custom_html('<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>');
+	}
+
+	// Append HTML
+	public function add_custom_html($html)
+	{
+		$this->mFields[] = array(
+			'type'			=> 'custom',
+			'content'		=> $html,
+		);
+	}
+
+	// Append HTML (display at the very end of form, e.g. can be after Submit button)
+	public function add_footer_html($html)
 	{
 		$this->mFooterHtml .= $html;
 	}
@@ -195,6 +217,11 @@ class Form {
 					// to be completed
 					break;
 
+				// Custom HTMl
+				case 'custom':
+					$str.= $field['content'];
+					break;
+
 				// Submit button
 				case 'submit':
 					$str.= $this->form_group_submit($field['class'], $field['label']);
@@ -249,8 +276,24 @@ class Form {
 	public function validate()
 	{
 		$CI =& get_instance();
-		$result = $CI->form_validation->run($this->mRuleSet);
 
+		// check with reCAPTCHA
+		if ( !empty($this->mRecaptchaKeys) )
+		{
+			$recaptcha = new \ReCaptcha\ReCaptcha($this->mRecaptchaKeys['secret']);
+			$resp = $recaptcha->verify($CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+
+			if (!$resp->isSuccess())
+			{
+				// failed
+				//$errors = $resp->getErrorCodes();
+				$this->mErrorMsg['custom'][] = 'ReCAPTCHA failed.';
+				return FALSE;
+			}
+		}
+
+		// check with CodeIgniter validation
+		$result = $CI->form_validation->run($this->mRuleSet);
 		if ($result===FALSE)
 		{
 			// store validation error message from CodeIgniter
