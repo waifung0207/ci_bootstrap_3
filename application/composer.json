@@ -1,6 +1,7 @@
 {
     "name": "ci_bootstrap_3",
     "require": {
-        "google/recaptcha": "~1.1"
+        "google/recaptcha": "~1.1",
+        "league/csv": "^7.0"
     }
 }
