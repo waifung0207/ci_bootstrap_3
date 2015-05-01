@@ -24,6 +24,7 @@ This repository contains setup for rapid development:
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
 * Breadcrumb handling
 * Multilingual support
+* Functions to be called from CLI (e.g. daily cron job, database backup)
 * ... more coming!
 
 
@@ -46,7 +47,6 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Enhance Form Builder library to support more field types
 * Example of using Image CRUD
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
-* Database backup function (via CLI controller)
 * Custom 404 error page
 * Frontend user authentication (Auth library)
 * Email config setup

@@ -19,24 +19,40 @@ class Cli extends CI_Controller {
 	}
 	
 	// Run daily cron job
-	// Example: php index.php cli daily
+	// Command: php index.php cli daily
 	public function daily()
 	{
-		echo 'Execute daily cron job...'.PHP_EOL;
+		echo 'Starting daily cron job'.PHP_EOL;
 		$this->backup_db();
-		echo 'Completed'.PHP_EOL;
+		echo 'End of daily cron job.'.PHP_EOL;
 	}
 
 	// Run backup operation of database
-	// Example: php index.php cli backup_db
+	// Command: php index.php cli backup_db
 	public function backup_db()
 	{
+		$this->load->dbutil();
+		$this->load->helper('file');
+
+		// Options: http://www.codeigniter.com/user_guide/database/utilities.html?highlight=csv#setting-backup-preferences
+		$prefs = array('format' => 'txt');
+
+		echo '=========================================================='.PHP_EOL;
 		echo 'Task: Backup database'.PHP_EOL;
-		echo 'To be implemented'.PHP_EOL;
+		$backup = $this->dbutil->backup($prefs);
+		$file_path_1 = FCPATH.'sql/backup/'.date('Y-m-d_H-i-s').'.sql';
+		$file_path_2 = FCPATH.'sql/latest.sql';
+		write_file($file_path_1, $backup);
+		write_file($file_path_2, $backup);
+
+		echo 'Database saved to these files: '.PHP_EOL;
+		echo ' - '.$file_path_1.PHP_EOL;
+		echo ' - '.$file_path_2.PHP_EOL;
+		echo '=========================================================='.PHP_EOL;
 	}
 
 	// Migrate database
-	// Example: php index.php cli migrate
+	// Command: php index.php cli migrate
 	public function migrate()
 	{
 		echo 'To be implemented'.PHP_EOL;
