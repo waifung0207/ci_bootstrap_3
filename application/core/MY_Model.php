@@ -48,6 +48,14 @@ class MY_Model extends CI_Model {
 		return (empty($record) || empty($record->$field)) ? NULL : $record->$field;
 	}
 
+	// Get a field value from single record (by params)
+	public function get_field_by($where, $field)
+	{
+		$this->db->select($field);
+		$record = $this->get_by($where);
+		return (empty($record) || empty($record->$field)) ? NULL : $record->$field;
+	}
+
 	// Get all records (no filtering)
 	public function get_all($page = 1)
 	{
