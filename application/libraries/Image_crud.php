@@ -393,9 +393,13 @@ class image_CRUD {
 
 	protected function _create_thumbnail($image_path, $thumbnail_path)
 	{
+		// hotfix to set thumbnail size (configure from applicaiton/config/image_crud.php)
+		$width = $this->ci->config->item('image_crud_thumbnail_width');
+		$height = $this->ci->config->item('image_crud_thumbnail_height');
+
 		$this->image_moo
 			->load($image_path)
-			->resize_crop(90,60)
+			->resize_crop($width,$height)
 			->save($thumbnail_path,true);
 	}
 
