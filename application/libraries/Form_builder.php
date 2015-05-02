@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 	- shortcut functions to append form elements (currently support: text, password, textarea, submit)
  * 	- help with form validation and provide inline error to each field
  * 	- automatically restore "value" to fields when validation failed (using CodeIgniter set_value() function)
+ * 	- Google reCAPTCHA integration
  *
  * TODO:
  * 	- support more field types (checkbox, dropdown, upload, etc.)
@@ -72,10 +73,10 @@ class Form {
 	}
 
 	// Append an text field
-	public function add_text($name, $label = '', $placeholder = '', $value = NULL)
+	public function add_text($name, $label = '', $placeholder = NULL, $value = NULL)
 	{
 		// automatically set placeholder
-		if ( !empty($label) && empty($placeholder) )
+		if ( !empty($label) && ($placeholder===NULL) )
 			$placeholder = $label;
 
 		$this->mFields[$name] = array(
@@ -88,10 +89,10 @@ class Form {
 	}
 
 	// Append a password field
-	public function add_password($name = 'password', $label = '', $placeholder = '', $value = NULL)
+	public function add_password($name = 'password', $label = '', $placeholder = NULL, $value = NULL)
 	{
 		// automatically set placeholder
-		if ( !empty($label) && empty($placeholder) )
+		if ( !empty($label) && ($placeholder===NULL) )
 			$placeholder = $label;
 
 		// value is set only during development mode for security reason
@@ -108,10 +109,10 @@ class Form {
 	}
 
 	// Append a textarea field
-	public function add_textarea($name, $label = '', $placeholder = '', $value = NULL, $rows = 5)
+	public function add_textarea($name, $label = '', $placeholder = NULL, $value = NULL, $rows = 5)
 	{
 		// automatically set placeholder
-		if ( !empty($label) && empty($placeholder) )
+		if ( !empty($label) && ($placeholder===NULL) )
 			$placeholder = $label;
 
 		$this->mFields[$name] = array(
@@ -149,6 +150,13 @@ class Form {
 			$html = '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$html.'</div>';
 
 		$this->add_custom_html($html);
+
+
+		$this->mFields['recaptcha'] = array(
+			'type'			=> 'recaptcha',
+			'site_key'		=> $site_key,
+			'secret_key'	=> $secret_key,
+		);
 	}
 
 	// Append HTML
@@ -221,6 +229,10 @@ class Form {
 				// to be completed
 				return '';
 
+			// reCAPTCHA field
+			case 'recaptcha':
+				return $this->form_group_recaptcha($field['site_key'], $field['secret_key']);
+
 			// Custom HTMl
 			case 'custom':
 				return $field['content'];
@@ -254,9 +266,13 @@ class Form {
 	public function form_group($name, $control, $label = '')
 	{
 		$error = form_error($name);
-		$group_class = ( !empty($error) && $this->mInlineError ) ? 'has-error' : '';
+		$group_class = empty($error) ? '' : 'has-error';
 		$group_open = '<div class="form-group '.$group_class.'">';
 		$group_close = '</div>';
+
+		// remove inline error message when necessary
+		if (!$this->mInlineError)
+			$error = '';
 
 		// handle form type (default / horizontal)
 		switch ($this->mType)
@@ -267,11 +283,26 @@ class Form {
 			case 'horizontal':
 				$label = empty($label) ? '' : form_label($label, $name, array('class' => 'control-label col-'.$this->mColLeft));
 				$control = '<div class="col-'.$this->mColRight.'">'.$control.'</div>';
-				$error = !empty($error) ? '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$error.'</div>' : '';
+				$error = empty($error) ? '' : '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$error.'</div>';
 				return $group_open.$error.$label.$control.$group_close;
 			default:
 				return '';
 		}
+	}
+
+	// Form group with reCAPTCHA
+	public function form_group_recaptcha($site_key, $secret_key)
+	{
+		$this->mRecaptchaKeys = array(
+			'site'		=> $site_key,
+			'secret'	=> $secret_key,
+		);
+		$html = '<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>';
+
+		if ($this->mType=='horizontal')
+			$html = '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$html.'</div>';
+
+		return $html;
 	}
 
 	// Form group with Submit button
@@ -293,8 +324,8 @@ class Form {
 	{
 		$CI =& get_instance();
 
-		// reCAPTCHA verification
-		if ( !empty($this->mRecaptchaKeys) )
+		// reCAPTCHA verification (skipped in development mode)
+		if ( !empty($this->mRecaptchaKeys) && ENVIRONMENT!='development' )
 		{
 			$recaptcha = new \ReCaptcha\ReCaptcha($this->mRecaptchaKeys['secret']);
 			$resp = $recaptcha->verify($CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
