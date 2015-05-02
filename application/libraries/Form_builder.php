@@ -8,7 +8,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 	- shortcut functions to append form elements (currently support: text, password, textarea, submit)
  * 	- help with form validation and provide inline error to each field
  * 	- automatically restore "value" to fields when validation failed (using CodeIgniter set_value() function)
- * 	- automatically add asterisk mark to label of required fields
  *
  * TODO:
  * 	- support more field types (checkbox, dropdown, upload, etc.)
@@ -48,7 +47,8 @@ class Form {
 	protected $mFooterHtml = '';			// custom HTML to render after other fields
 
 	// Integration with reCAPTCHA (https://www.google.com/recaptcha/)
-	protected $mRecaptchaKeys = array();
+	// Keys to be edited in config file: application/config/form_validation.php
+	protected $mRecaptchaAdded = FALSE;
 
 	protected $mErrorMsg = array();			// store both validation and non-validation error messages
 
@@ -141,25 +141,10 @@ class Form {
 	}
 
 	// Append reCAPTCHA (https://www.google.com/recaptcha/)
-	public function add_recaptcha($site_key, $secret_key)
+	public function add_recaptcha()
 	{
-		$this->mRecaptchaKeys = array(
-			'site'		=> $site_key,
-			'secret'	=> $secret_key,
-		);
-		$html = '<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>';
-
-		if ($this->mType=='horizontal')
-			$html = '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$html.'</div>';
-
-		$this->add_custom_html($html);
-
-
-		$this->mFields['recaptcha'] = array(
-			'type'			=> 'recaptcha',
-			'site_key'		=> $site_key,
-			'secret_key'	=> $secret_key,
-		);
+		$this->mRecaptchaAdded = TRUE;
+		$this->mFields['recaptcha'] = array('type' => 'recaptcha');
 	}
 
 	// Append HTML
@@ -244,7 +229,7 @@ class Form {
 
 			// reCAPTCHA field
 			case 'recaptcha':
-				return $this->form_group_recaptcha($field['site_key'], $field['secret_key']);
+				return $this->form_group_recaptcha();
 
 			// Custom HTMl
 			case 'custom':
@@ -308,12 +293,12 @@ class Form {
 	}
 
 	// Form group with reCAPTCHA
-	public function form_group_recaptcha($site_key, $secret_key)
+	public function form_group_recaptcha()
 	{
-		$this->mRecaptchaKeys = array(
-			'site'		=> $site_key,
-			'secret'	=> $secret_key,
-		);
+		$CI =& get_instance();
+		$CI->load->config('form_validation');
+		$site_key = $CI->config->item('recaptcha')['site_key'];
+
 		$html = '<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>';
 
 		if ($this->mType=='horizontal')
@@ -342,9 +327,11 @@ class Form {
 		$CI =& get_instance();
 
 		// reCAPTCHA verification (skipped in development mode)
-		if ( !empty($this->mRecaptchaKeys) && ENVIRONMENT!='development' )
+		if ( $this->mRecaptchaAdded && ENVIRONMENT!='development' )
 		{
-			$recaptcha = new \ReCaptcha\ReCaptcha($this->mRecaptchaKeys['secret']);
+			$CI->load->config('form_validation');
+			$secret_key = $CI->config->item('recaptcha')['secret_key'];
+			$recaptcha = new \ReCaptcha\ReCaptcha($secret_key);
 			$resp = $recaptcha->verify($CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
 
 			if (!$resp->isSuccess())

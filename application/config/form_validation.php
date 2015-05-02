@@ -97,6 +97,16 @@ $config = array(
 
 
 /**
+ * Google reCAPTCHA settings:
+ * https://www.google.com/recaptcha/
+ */
+$config['recaptcha'] = array(
+	'site_key'		=> '6Lc1MAYTAAAAAOdhZ0qvGMUFuBD-J6fJIP3DvX-b',
+	'secret_key'	=> '6Lc1MAYTAAAAAEARt-nT1En9NBonssoo4vWI12Nl',
+);
+
+
+/**
  * Change error text:
  * http://www.codeigniter.com/user_guide/libraries/form_validation.html#changing-the-error-delimiters
  */

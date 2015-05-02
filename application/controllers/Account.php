@@ -20,7 +20,7 @@ class Account extends Frontend_Controller {
 		$form->add_text('email', 'Email', TRUE);
 		$form->add_password('password', 'Password', TRUE);
 		$form->add_password('retype_password', 'Retype Password', TRUE);
-		$form->add_recaptcha('6Lc1MAYTAAAAAOdhZ0qvGMUFuBD-J6fJIP3DvX-b', '6Lc1MAYTAAAAAEARt-nT1En9NBonssoo4vWI12Nl');
+		$form->add_recaptcha();
 		$form->add_submit();
 
 		if ( !empty($this->input->post()) )
