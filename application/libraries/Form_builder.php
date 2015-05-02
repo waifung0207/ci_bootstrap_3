@@ -78,7 +78,7 @@ class Form {
 		if ( !empty($label) && empty($placeholder) )
 			$placeholder = $label;
 
-		$this->mFields[] = array(
+		$this->mFields[$name] = array(
 			'type'			=> 'text',
 			'name'			=> $name,
 			'label'			=> $label,
@@ -98,7 +98,7 @@ class Form {
 		if ( ENVIRONMENT!='development' )
 			$value = '';
 
-		$this->mFields[] = array(
+		$this->mFields[$name] = array(
 			'type'			=> 'password',
 			'name'			=> $name,
 			'label'			=> $label,
@@ -114,7 +114,7 @@ class Form {
 		if ( !empty($label) && empty($placeholder) )
 			$placeholder = $label;
 
-		$this->mFields[] = array(
+		$this->mFields[$name] = array(
 			'type'			=> 'textarea',
 			'name'			=> $name,
 			'label'			=> $label,
@@ -129,7 +129,7 @@ class Form {
 	{
 		$class = ($block) ? 'btn btn-block btn-'.$style : 'btn btn-'.$style;
 
-		$this->mFields[] = array(
+		$this->mFields['submit'] = array(
 			'type'			=> 'submit',
 			'class'			=> $class,
 			'label'			=> $label,
@@ -166,7 +166,72 @@ class Form {
 		$this->mFooterHtml .= $html;
 	}
 
-	// Return HTML string contains the form
+	// Render a form field by passing its name
+	public function render_field_by_name($name)
+	{
+		return empty($this->mFields[$name]) ? '' : $this->render_field($this->mFields[$name]);
+	}
+
+	// Render a form field by passing object
+	public function render_field($field)
+	{
+		switch ($field['type'])
+		{
+			// Text field
+			case 'text':
+				$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
+				$data = array(
+					'id'			=> $field['name'],
+					'name'			=> $field['name'],
+					'value'			=> $value,
+					'placeholder'	=> $field['placeholder'],
+					'class'			=> 'form-control',
+				);
+				$control = form_input($data);
+				return $this->form_group($field['name'], $control, $field['label']);
+
+			// Password field
+			case 'password':
+				$data = array(
+					'id'			=> $field['name'],
+					'name'			=> $field['name'],
+					'value'			=> $field['value'],
+					'placeholder'	=> $field['placeholder'],
+					'class'			=> 'form-control',
+				);
+				$control = form_password($data);
+				return $this->form_group($field['name'], $control, $field['label']);
+
+			// Textarea field
+			case 'textarea':
+				$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
+				$data = array(
+					'id'			=> $field['name'],
+					'name'			=> $field['name'],
+					'value'			=> $value,
+					'placeholder'	=> $field['placeholder'],
+					'rows'			=> $field['rows'],
+					'class'			=> 'form-control',
+				);
+				$control = form_textarea($data);
+				return $this->form_group($field['name'], $control, $field['label']);
+
+			// Upload field
+			case 'upload':
+				// to be completed
+				return '';
+
+			// Custom HTMl
+			case 'custom':
+				return $field['content'];
+
+			// Submit button
+			case 'submit':
+				return $this->form_group_submit($field['class'], $field['label']);
+		}
+	}
+
+	// Render a complete form
 	public function render()
 	{
 		if ($this->mMultipart)
@@ -177,65 +242,7 @@ class Form {
 		// print out all fields
 		foreach ($this->mFields as $field)
 		{
-			switch ($field['type'])
-			{
-				// Text field
-				case 'text':
-					$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
-					$data = array(
-						'id'			=> $field['name'],
-						'name'			=> $field['name'],
-						'value'			=> $value,
-						'placeholder'	=> $field['placeholder'],
-						'class'			=> 'form-control',
-					);
-					$control = form_input($data);
-					$str .= $this->form_group($field['name'], $control, $field['label']);
-					break;
-
-				// Password field
-				case 'password':
-					$data = array(
-						'id'			=> $field['name'],
-						'name'			=> $field['name'],
-						'value'			=> $field['value'],
-						'placeholder'	=> $field['placeholder'],
-						'class'			=> 'form-control',
-					);
-					$control = form_password($data);
-					$str .= $this->form_group($field['name'], $control, $field['label']);
-					break;
-
-				// Textarea field
-				case 'textarea':
-					$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
-					$data = array(
-						'id'			=> $field['name'],
-						'name'			=> $field['name'],
-						'value'			=> $value,
-						'placeholder'	=> $field['placeholder'],
-						'rows'			=> $field['rows'],
-						'class'			=> 'form-control',
-					);
-					$control = form_textarea($data);
-					$str .= $this->form_group($field['name'], $control, $field['label']);
-					break;
-
-				// Upload field
-				case 'upload':
-					// to be completed
-					break;
-
-				// Custom HTMl
-				case 'custom':
-					$str.= $field['content'];
-					break;
-
-				// Submit button
-				case 'submit':
-					$str.= $this->form_group_submit($field['class'], $field['label']);
-					break;
-			}
+			$str .= $this->render_field($field);
 		}
 
 		$str .= $this->mFooterHtml;
