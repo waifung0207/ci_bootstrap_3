@@ -161,6 +161,21 @@ class MY_Model extends CI_Model {
 	}
 
 	/**
+	 * Count functions
+	 */
+	public function count_all()
+	{
+		$table = $this->_get_table_name();
+		return $this->db->count_all($table);
+	}
+	public function count_by($where)
+	{
+		$table = $this->_get_table_name();
+		$this->db->where($where);
+		return $this->db->count_all($table);
+	}
+
+	/**
 	 * Setter functions
 	 */
 	public function set_table_alias($alias)
