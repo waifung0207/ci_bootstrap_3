@@ -264,7 +264,7 @@ class Admin_Controller extends MY_Controller {
 		}
 
 		// create CRUD object
-		$this->load->library('grocery_CRUD');
+		$this->load->library('Grocery_CRUD');
 		$crud = new grocery_CRUD();
 		$crud->set_table($table);
 
@@ -292,7 +292,7 @@ class Admin_Controller extends MY_Controller {
 	{
 		// create CRUD object
 		$CI =& get_instance();
-		$CI->load->library('image_CRUD');
+		$CI->load->library('Image_crud');
 		$crud = new image_CRUD();
 		$crud->set_table($table);
 		$crud->set_url_field($url_field);
