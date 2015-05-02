@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 	- shortcut functions to append form elements (currently support: text, password, textarea, submit)
  * 	- help with form validation and provide inline error to each field
  * 	- automatically restore "value" to fields when validation failed (using CodeIgniter set_value() function)
- * 	- Google reCAPTCHA integration
+ * 	- automatically add asterisk mark to label of required fields
  *
  * TODO:
  * 	- support more field types (checkbox, dropdown, upload, etc.)
@@ -73,23 +73,24 @@ class Form {
 	}
 
 	// Append an text field
-	public function add_text($name, $label = '', $placeholder = NULL, $value = NULL)
+	public function add_text($name, $label = '', $required = FALSE, $placeholder = NULL, $value = NULL)
 	{
 		// automatically set placeholder
 		if ( !empty($label) && ($placeholder===NULL) )
 			$placeholder = $label;
 
 		$this->mFields[$name] = array(
-			'type'			=> 'text',
+			'type'			=> ($name=='email') ? 'email' : 'text',
 			'name'			=> $name,
 			'label'			=> $label,
 			'value'			=> $value,
 			'placeholder'	=> $placeholder,
+			'required'		=> $required,
 		);
 	}
 
 	// Append a password field
-	public function add_password($name = 'password', $label = '', $placeholder = NULL, $value = NULL)
+	public function add_password($name = 'password', $label = '', $required = FALSE, $placeholder = NULL, $value = NULL)
 	{
 		// automatically set placeholder
 		if ( !empty($label) && ($placeholder===NULL) )
@@ -105,11 +106,12 @@ class Form {
 			'label'			=> $label,
 			'value'			=> $value,
 			'placeholder'	=> $placeholder,
+			'required'		=> $required,
 		);
 	}
 
 	// Append a textarea field
-	public function add_textarea($name, $label = '', $placeholder = NULL, $value = NULL, $rows = 5)
+	public function add_textarea($name, $label = '', $required = FALSE, $placeholder = NULL, $value = NULL, $rows = 5)
 	{
 		// automatically set placeholder
 		if ( !empty($label) && ($placeholder===NULL) )
@@ -122,6 +124,7 @@ class Form {
 			'value'			=> $value,
 			'placeholder'	=> $placeholder,
 			'rows'			=> $rows,
+			'required'		=> $required,
 		);
 	}
 
@@ -187,6 +190,7 @@ class Form {
 		{
 			// Text field
 			case 'text':
+			case 'email':
 				$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
 				$data = array(
 					'id'			=> $field['name'],
@@ -195,8 +199,11 @@ class Form {
 					'placeholder'	=> $field['placeholder'],
 					'class'			=> 'form-control',
 				);
+				if ($field['required'])
+					$data['required'] = NULL;
+
 				$control = form_input($data);
-				return $this->form_group($field['name'], $control, $field['label']);
+				return $this->form_group($field['name'], $control, $field['label'], $field['required']);
 
 			// Password field
 			case 'password':
@@ -207,8 +214,11 @@ class Form {
 					'placeholder'	=> $field['placeholder'],
 					'class'			=> 'form-control',
 				);
+				if ($field['required'])
+					$data['required'] = NULL;
+
 				$control = form_password($data);
-				return $this->form_group($field['name'], $control, $field['label']);
+				return $this->form_group($field['name'], $control, $field['label'], $field['required']);
 
 			// Textarea field
 			case 'textarea':
@@ -221,8 +231,11 @@ class Form {
 					'rows'			=> $field['rows'],
 					'class'			=> 'form-control',
 				);
+				if ($field['required'])
+					$data['required'] = NULL;
+
 				$control = form_textarea($data);
-				return $this->form_group($field['name'], $control, $field['label']);
+				return $this->form_group($field['name'], $control, $field['label'], $field['required']);
 
 			// Upload field
 			case 'upload':
@@ -263,16 +276,20 @@ class Form {
 	}
 
 	// Form group with control, label and error field
-	public function form_group($name, $control, $label = '')
+	public function form_group($name, $control, $label = '', $required = FALSE)
 	{
 		$error = form_error($name);
 		$group_class = empty($error) ? '' : 'has-error';
 		$group_open = '<div class="form-group '.$group_class.'">';
 		$group_close = '</div>';
-
+		
 		// remove inline error message when necessary
 		if (!$this->mInlineError)
 			$error = '';
+
+		// add asterisk after label for required field
+		if ( !empty($label) && $required)
+			$label.=' <span class="text-danger">*</span>';
 
 		// handle form type (default / horizontal)
 		switch ($this->mType)

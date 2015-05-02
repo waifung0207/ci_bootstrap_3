@@ -15,11 +15,11 @@ class Account extends Frontend_Controller {
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/signup');
 		//$form->set_horizontal();
-		$form->add_text('first_name', 'First Name');
+		$form->add_text('first_name', 'First Name', TRUE);
 		$form->add_text('last_name', 'Last Name');
-		$form->add_text('email', 'Email');
-		$form->add_password('password', 'Password');
-		$form->add_password('retype_password', 'Retype Password');
+		$form->add_text('email', 'Email', TRUE);
+		$form->add_password('password', 'Password', TRUE);
+		$form->add_password('retype_password', 'Retype Password', TRUE);
 		$form->add_recaptcha('6Lc1MAYTAAAAAOdhZ0qvGMUFuBD-J6fJIP3DvX-b', '6Lc1MAYTAAAAAEARt-nT1En9NBonssoo4vWI12Nl');
 		$form->add_submit();
 
