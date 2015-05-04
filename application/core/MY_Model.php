@@ -13,7 +13,9 @@ class MY_Model extends CI_Model {
 	protected $mTableAlias = '';
 	protected $mPrimaryKey = 'id';
 
-	protected $mRecordPerPage = 20;
+	// default values
+	protected $mLimit = 20;
+	protected $mOrderBy = array('id', 'ASC', NULL);
 
 	public function __construct()
 	{
@@ -28,6 +30,7 @@ class MY_Model extends CI_Model {
 	{
 		$table = $this->_get_table_name();
 		$this->_join_tables($joins);
+		$this->db->order_by($this->mOrderBy[0], $this->mOrderBy[1]);
 		return $this->db->get_where($table, $where, 1)->row();
 	}
 
@@ -40,7 +43,7 @@ class MY_Model extends CI_Model {
 		return $this->get_by($where);
 	}
 
-	// Get a field value from single record
+	// Get a field value from single record (by ID)
 	public function get_field($id, $field)
 	{
 		$this->db->select($field);
@@ -52,6 +55,7 @@ class MY_Model extends CI_Model {
 	public function get_field_by($where, $field)
 	{
 		$this->db->select($field);
+		$this->db->order_by($this->mOrderBy[0], $this->mOrderBy[1], $this->mOrderBy[2]);
 		$record = $this->get_by($where);
 		return (empty($record) || empty($record->$field)) ? NULL : $record->$field;
 	}
@@ -66,13 +70,14 @@ class MY_Model extends CI_Model {
 	public function get_many_by($where, $page = 1, $joins = array(), $with_count = FALSE)
 	{
 		$table = $this->_get_table_name();
-		$limit = $this->mRecordPerPage;
+		$limit = $this->mLimit;
 		$offset = ($page<=1) ? 0 : ($page-1)*$limit;
 
 		$this->db->from($table);
 		$this->_join_tables($joins);
 		$this->db->where($where);
 		$this->db->limit($limit, $offset);
+		$this->db->order_by($this->mOrderBy[0], $this->mOrderBy[1], $this->mOrderBy[2]);
 		$records = $this->db->get()->result();
 
 		if (!$with_count)
@@ -115,7 +120,7 @@ class MY_Model extends CI_Model {
 	public function create($data)
 	{
 		$table = $this->_get_table_name();
-		$this->db->insert($table, $data);
+		return $this->db->insert($table, $data);
 		return $this->db->insert_id();
 	}
 	public function create_many($data)
@@ -191,10 +196,20 @@ class MY_Model extends CI_Model {
 		// update table alias (e.g. "u") so the query will execute like "SELECT * FROM users AS u"
 		$this->mTableAlias = $alias;
 	}
-	public function set_per_page_limit($num)
+	public function set_limit($limit)
 	{
 		// affect maximum number of records for Read operations
-		$this->mRecordPerPage = $num;
+		$this->mLimit = $limit;
+	}
+	public function set_order_by($order_by, $direction = 'ASC', $escape = NULL)
+	{
+		if (strtoupper($order_by)==='RANDOM')
+		{
+			$order_by = 'id';
+			$direction = 'RANDOM';
+			$escape = NULL;
+		}
+		$this->mOrderBy = array($order_by, $direction, $escape);
 	}
 
 	/**
