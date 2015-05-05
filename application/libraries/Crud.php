@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Crud {
 
 	protected $CI;
-	protected $mCrud = array();
+	protected $mCrud;
 	protected $mUnsetFields = array();
 
 	public function __construct()
@@ -89,7 +89,7 @@ class Crud {
 		$this->mCrud = $crud;
 		return $crud;
 	}
-	
+
 	// Append fields to unset
 	public function unset_fields($fields)
 	{
