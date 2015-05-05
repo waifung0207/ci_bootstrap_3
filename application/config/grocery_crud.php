@@ -33,3 +33,22 @@
 
     //The environment is important so we can have specific configurations for specific environments
     $config['grocery_crud_environment'] = 'production';
+
+    /**
+     * Added by CI Bootstrap 3
+     */
+    $config['grocery_crud_unset_jquery'] = TRUE;
+    $config['grocery_crud_unset_jquery_ui'] = TRUE;
+    $config['grocery_crud_unset_print'] = TRUE;
+    $config['grocery_crud_unset_export'] = TRUE;
+    $config['grocery_crud_unset_read'] = FALSE;
+
+    // common fields to unset from CRUD
+    $config['grocery_crud_unset_fields'] = array('created_at', 'updated_at');
+    
+    // common fields to "display as"
+    $config['grocery_crud_display_as'] = array(
+    	'group_id'				=> 'Group',
+    	'image_url'				=> 'Image',
+    	'thumbnail_url'			=> 'Thumbnail'
+    );

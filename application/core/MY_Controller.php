@@ -252,67 +252,6 @@ class Admin_Controller extends MY_Controller {
 		if (!$pass)
 			redirect('admin');
 	}
-
-	// Initialize CRUD table via Grocery CRUD library
-	// Reference: http://www.grocerycrud.com/
-	protected function _init_crud($table, $subject = '')
-	{
-		// ensure database is loaded
-		if ( !$this->load->is_loaded('database') )
-		{
-			$this->load->database();
-		}
-
-		// create CRUD object
-		$this->load->library('Grocery_CRUD');
-		$crud = new grocery_CRUD();
-		$crud->set_table($table);
-
-		// auto-generate subject
-		if ( empty($subject) )
-		{
-			if ( !$this->load->is_loaded('inflector') )
-				$this->load->helper('inflector');
-
-			$crud->set_subject(humanize(singular($table)));
-		}
-
-		// general settings
-		$crud->unset_jquery();
-		$crud->unset_print();
-		$crud->unset_export();
-		
-		// other custom logic to be done outside
-		return $crud;
-	}
-
-	// Initialize CRUD album via Image CRUD library
-	// Reference: http://www.grocerycrud.com/image-crud
-	protected function _init_image_crud($table, $url_field, $upload_path, $order_field = 'pos', $title_field = '')
-	{
-		// create CRUD object
-		$CI =& get_instance();
-		$CI->load->library('Image_crud');
-		$crud = new image_CRUD();
-		$crud->set_table($table);
-		$crud->set_url_field($url_field);
-		$crud->set_image_path($upload_path);
-
-		// [Optional] field name of image order (e.g. "pos")
-		if ( !empty($order_field) )
-		{
-			$crud->set_ordering_field($order_field);
-		}
-
-		// [Optional] field name of image caption (e.g. "caption")
-		if ( !empty($title_field) )
-		{
-			$crud->set_title_field($title_field);
-		}
-
-		// other custom logic to be done outside
-		return $crud;
-	}
 }
 
 

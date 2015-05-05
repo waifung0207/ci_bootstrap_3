@@ -8,9 +8,11 @@ class User extends Admin_Controller {
 	 */
 	public function index()
 	{
-		$crud = $this->_init_crud('users');
+		$this->load->library('crud');
+		$crud = $this->crud->generate_crud('users');
 		$crud->unset_fields('password', 'activation_code', 'forgot_password_code', 'forgot_password_time', 'created_at');
-		$crud->columns('role', 'email', 'first_name', 'last_name', 'active', 'created_at');
+		$crud->columns('group_id', 'email', 'first_name', 'last_name', 'active', 'created_at');
+		$crud->set_relation('group_id', 'user_groups', 'name');
 		
 		$this->mViewData['crud_data'] = $crud->render();
 		
