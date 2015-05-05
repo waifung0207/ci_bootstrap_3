@@ -99,6 +99,13 @@ class Crud {
 			$this->mUnsetFields[] = $fields;
 	}
 
+	// Add Font Awesome icon with link action
+	public function add_action_icon($label, $url, $icon)
+	{
+		if ($this->mCrud!=NULL)
+			$this->mCrud->add_action($label, '', $url, 'fa fa-'.$icon);
+	}
+
 	// Confirm rendering the CRUD object
 	public function render()
 	{
