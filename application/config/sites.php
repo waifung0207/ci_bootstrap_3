@@ -17,8 +17,8 @@ $config['sites'] = array(
 	'frontend' => array(
 
 		'autoload' => array(
-			'libraries'	=> array(),
-			'helpers'	=> array(),
+			'libraries'	=> array('database'),
+			'helpers'	=> array('session'),
 			'models'	=> array(
 				//'User_model'	=> 'users',
 			),
@@ -60,9 +60,9 @@ $config['sites'] = array(
 				)
 			),
 			// end of example
-			'signup' => array(
+			'sign_up' => array(
 				'name'		=> lang('sign_up'),
-				'url'		=> 'account/signup',
+				'url'		=> 'account/sign_up',
 			),
 			'login' => array(
 				'name'		=> lang('login'),
@@ -78,7 +78,7 @@ $config['sites'] = array(
 
 		'autoload' => array(
 			'libraries'	=> array('database'),
-			'helpers'	=> array(),
+			'helpers'	=> array('session'),
 			'models'	=> array(),
 		),
 

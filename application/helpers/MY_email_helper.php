@@ -26,7 +26,14 @@ function send_email($to_email, $to_name, $subject, $view, $view_data = NULL)
 	// confirm to send
 	$msg = $CI->load->view('email/'.$view, $view_data, TRUE);
 	$CI->email->message($msg);
-	$CI->email->send();
 
-	//echo $CI->email->print_debugger();
+	if (ENVIRONMENT=='development')
+	{
+		$CI->email->send(FALSE);
+		echo $CI->email->print_debugger();
+	}
+	else
+	{
+		$CI->email->send();
+	}
 }

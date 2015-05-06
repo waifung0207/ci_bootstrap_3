@@ -14,29 +14,25 @@ class Login extends Admin_Controller {
 		$form->add_text('username', '', 'Username', 'admin');
 		$form->add_password('password', '', 'Password', 'admin');
 		$form->add_submit('Sign In', 'primary', TRUE);
-
-		if ( !empty($this->input->post()) )
+		
+		if ( !empty($this->input->post()) && $form->validate() )
 		{
+			// passed validation
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
+			$this->load->model('admin_user_model', 'users');
+			$user = $this->users->login($username, $password);
 
-			if ( $form->validate() )
+			if ( empty($user) )
 			{
-				// passed validation
-				$this->load->library('auth_lib');
-				$user = $this->auth_lib->login($this->mSite, $username, $password);
-
-				if ( empty($user) )
-				{
-					// failed
-					$form->add_custom_error('Invalid Login');
-				}
-				else
-				{
-					// success
-					$this->session->set_userdata('admin_user', $user);
-					redirect('admin');
-				}
+				// login failed
+				$form->add_custom_error('Invalid Login');
+			}
+			else
+			{
+				// login success
+				$this->session->set_userdata('admin_user', $user);
+				redirect('admin');
 			}
 		}
 

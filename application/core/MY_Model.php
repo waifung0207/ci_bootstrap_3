@@ -28,7 +28,7 @@ class MY_Model extends CI_Model {
 	// Get single record (by params)
 	public function get_by($where, $joins = array())
 	{
-		$table = $this->_get_table_name();
+		$table = $this->_get_table_name(TRUE);
 		$this->_join_tables($joins);
 		$this->db->order_by($this->mOrderBy[0], $this->mOrderBy[1]);
 		return $this->db->get_where($table, $where, 1)->row();
@@ -69,7 +69,7 @@ class MY_Model extends CI_Model {
 	// Get multiple records (filtered by params)
 	public function get_many_by($where, $page = 1, $joins = array(), $with_count = FALSE)
 	{
-		$table = $this->_get_table_name();
+		$table = $this->_get_table_name(TRUE);
 		$limit = $this->mLimit;
 		$offset = ($page<=1) ? 0 : ($page-1)*$limit;
 
@@ -120,7 +120,7 @@ class MY_Model extends CI_Model {
 	public function create($data)
 	{
 		$table = $this->_get_table_name();
-		return $this->db->insert($table, $data);
+		$this->db->insert($table, $data);
 		return $this->db->insert_id();
 	}
 	public function create_many($data)
@@ -185,7 +185,7 @@ class MY_Model extends CI_Model {
 	{
 		$table = $this->_get_table_name();
 		$this->db->where($where);
-		return $this->db->count_all($table);
+		return $this->db->count_all_results($table);
 	}
 
 	/**
@@ -218,10 +218,10 @@ class MY_Model extends CI_Model {
 	// Check record exists
 	public function exists($params)
 	{
-		if (count($params)==1)
-			$this->db->where($this->mPrimaryKey, $params);
-		else
+		if (is_array($params))
 			$this->db->where($params);
+		else
+			$this->db->where($this->mPrimaryKey, $params);
 
 		$table = $this->_get_table_name();
 		return $this->db->count_all_results($table)==1;
@@ -230,7 +230,7 @@ class MY_Model extends CI_Model {
 	/**
 	 * Private functions
 	 */
-	private function _get_table_name()
+	private function _get_table_name($with_alias = FALSE)
 	{
 		if ($this->mTable===NULL)
 		{
@@ -245,7 +245,7 @@ class MY_Model extends CI_Model {
 		}
 
 		// (optional) append table alias
-		return empty($this->mTableAlias) ? $name : $name.' AS '.$this->mTableAlias;
+		return (empty($this->mTableAlias) || !$with_alias) ? $name : $name.' AS '.$this->mTableAlias;
 	}
 
 	// work with multiple joins

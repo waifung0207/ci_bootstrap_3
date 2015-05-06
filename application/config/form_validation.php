@@ -9,7 +9,7 @@
 $config = array(
 
 	// Frontend Website - Sign Up
-	'account/signup' => array(
+	'account/sign_up' => array(
 		array(
 			'field'		=> 'first_name',
 			'label'		=> 'First Name',
@@ -23,7 +23,7 @@ $config = array(
 		array(
 			'field'		=> 'email',
 			'label'		=> 'Email',
-			'rules'		=> 'required|valid_email',
+			'rules'		=> 'required|valid_email|is_unique[users.email]',
 		),
 		array(
 			'field'		=> 'password',
@@ -48,6 +48,29 @@ $config = array(
 			'field'		=> 'password',
 			'label'		=> 'Password',
 			'rules'		=> 'required',
+		),
+	),
+
+	// Frontend Website - Forgot Password
+	'account/forgot_password' => array(
+		array(
+			'field'		=> 'email',
+			'label'		=> 'Email',
+			'rules'		=> 'required|valid_email',
+		),
+	),
+
+	// Frontend Website - Reset Password
+	'account/reset_password' => array(
+		array(
+			'field'		=> 'password',
+			'label'		=> 'Password',
+			'rules'		=> 'required|min_length[6]',
+		),
+		array(
+			'field'		=> 'retype_password',
+			'label'		=> 'Retype Password',
+			'rules'		=> 'required|matches[password]',
 		),
 	),
 

@@ -18,7 +18,8 @@ This repository contains setup for rapid development:
 * Multi-tenant (e.g. Frontend Website, Admin Panel, API) website in single application
 * Custom config files (sites.php, locale.php) for easy configuration of website behavior
 * Admin Panel with AdminLTE v2 theme, and Grocery CRUD integration
-* User authentication (Admin Panel)
+* User authentication for Frontend Website (Sign Up, Login, Forgot Password, etc.)
+* User authentication for Admin Panel (Login, Change Password, etc.)
 * Preset layouts and templates
 * Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-start 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
@@ -49,7 +50,6 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Example of using Image CRUD
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
 * Custom 404 error page
-* Frontend user authentication (Auth library)
 * API structure (e.g. authentication, response shortcut functions)
 * More helpers to enhance code reusability
 * Better documentation

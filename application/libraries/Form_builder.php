@@ -59,7 +59,7 @@ class Form {
 		$this->mInlineError = $inline_error;
 		$this->mMultipart = $multipart;
 
-		$this->mErrorMsg['validation'] = array();
+		$this->mErrorMsg['validation'] = '';
 		$this->mErrorMsg['custom'] = array();
 	}
 
@@ -137,6 +137,16 @@ class Form {
 			'type'			=> 'submit',
 			'class'			=> $class,
 			'label'			=> $label,
+		);
+	}
+
+	// Append a hidden field
+	public function add_hidden($name, $value)
+	{
+		$this->mFields[$name] = array(
+			'type'			=> 'hidden',
+			'name'			=> $name,
+			'value'			=> $value,
 		);
 	}
 
@@ -230,6 +240,10 @@ class Form {
 			// reCAPTCHA field
 			case 'recaptcha':
 				return $this->form_group_recaptcha();
+
+			// hidden field
+			case 'hidden':
+				return form_hidden($field['name'], $field['value']);
 
 			// Custom HTMl
 			case 'custom':
@@ -361,28 +375,17 @@ class Form {
 		$this->mErrorMsg['custom'][] = $msg;
 	}
 
-	// Display non-validation error messages
-	public function render_custom_error()
+	// Display error messages (validation & custom error)
+	public function render_error()
 	{
-		if ( sizeof($this->mErrorMsg['custom'])>0 )
-			return $this->_render_alert( implode('<br/>', $this->mErrorMsg['custom']) );
-		else
-			return '';
-	}
+		$msg = $this->mErrorMsg['validation'];
 
-	// Display validation error messages
-	public function render_validation_error()
-	{
-		if ( !empty($this->mErrorMsg['validation']) )
-			return $this->_render_alert($this->mErrorMsg['validation']);
-		else
-			return '';
-	}
+		if (sizeof($this->mErrorMsg['custom'])>0)
+		{
+			$msg.= empty($msg) ? '' : '<br/>';
+			$msg.= implode('<br/>', $this->mErrorMsg['custom']);
+		}
 
-	// Display alert box
-	private function _render_alert($msg)
-	{
-		return '<div class="alert alert-danger" role="alert"><span class="sr-only">Error: </span>'.$msg.'</div>';
+		return render_alert('danger', $msg);
 	}
-
 }
