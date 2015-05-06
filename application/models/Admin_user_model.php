@@ -21,4 +21,22 @@ class Admin_user_model extends MY_Model {
 		// failed
 		return NULL;
 	}
+
+	/**
+	 * Update account info
+	 */
+	public function update_info($user_id, $data)
+	{
+		$data = elements(array('full_name'), $data);
+		return $this->update($user_id, $data);
+	}
+	
+	/**
+	 * Change password
+	 */
+	public function change_password($user_id, $password)
+	{
+		$hashed = password_hash($password, PASSWORD_DEFAULT);
+		return $this->update_field($user_id, 'password', $hashed);
+	}
 }
