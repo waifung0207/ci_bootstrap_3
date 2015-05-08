@@ -6,21 +6,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Example extends Frontend_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->load->helper('inflector');
+		$this->load->library('form_builder');
+
+		$this->mTitle = humanize($this->mAction);
+		$this->_push_breadcrumb('Example');
+		$this->_push_breadcrumb($this->mTitle);
+	}
+
 	public function index()
 	{
-		$this->mTitle = 'Example';
-		$this->_push_breadcrumb('Examples');
-		$this->_render('demo');
+		redirect('example/demo/1');
 	}
 
 	public function demo($demo_id)
 	{
 		$this->mViewData['demo_id'] = $demo_id;
-		
-		$this->mTitle = 'Example '.$demo_id;
-		$this->_push_breadcrumb('Example', 'example');
-		$this->_push_breadcrumb('Example '.$demo_id);
 		$this->_render('demo');
+	}
+
+	public function form_basic()
+	{
+		$form = $this->form_builder->create_form('example/form_basic');
+		$form->add_text('name', 'Name', TRUE);
+		$form->add_text('email', 'Email', TRUE);
+		$form->add_text('subject', 'Subject');
+		$form->add_textarea('message', 'Message', TRUE);
+		$form->add_recaptcha();
+		$form->add_submit();
+		
+		if ( !empty($this->input->post()) &&  $form->validate() )
+		{
+			// passed validation
+			$email = $this->input->post('email');
+			$password = $this->input->post('password');
+
+			if ( empty($user_id) )
+			{
+				// failed
+				$form->add_custom_error('Failed to create user');
+			}
+			else
+			{
+				// success
+				set_alert('success', 'Thanks for registration. We have sent you a email and please follow the instruction to activate your account.');
+				redirect('account/login');
+			}
+		}
+
+		// display form when no POST data, or validation failed
+		$this->mViewData['form'] = $form;
+		$this->_render('example/form_basic');
+	}
+	
+	public function form_advanced()
+	{
+		// Required for reCAPTCHA
+		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+
+		$form = $this->form_builder->create_form('example/form_advanced');
+		$form->add_text('name', 'Name', TRUE);
+		$form->add_text('email', 'Email', TRUE);
+		$form->add_text('subject', 'Subject');
+		$form->add_textarea('message', 'Message', TRUE);
+		$form->set_horizontal();
+		$form->add_submit();
+
+		$this->mViewData['form'] = $form;
+		$this->_render('example/form_advanced');
 	}
 
 	// Example to work with database and models inherit from MY_Model

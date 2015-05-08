@@ -21,10 +21,9 @@ class Form_builder {
 	}
 
 	// Initialize a form and return the object
-	public function create_form($url, $rule_set = '', $inline_error = TRUE, $multipart = FALSE)
+	public function create_form($url, $inline_error = TRUE, $multipart = FALSE)
 	{
-		$rule_set = empty($rule_set) ? $url : $rule_set;
-		return new Form($url, $rule_set, $inline_error, $multipart);
+		return new Form($url, $inline_error, $multipart);
 	}
 }
 
@@ -50,17 +49,30 @@ class Form {
 	// Keys to be edited in config file: application/config/form_validation.php
 	protected $mRecaptchaAdded = FALSE;
 
-	protected $mErrorMsg = array();			// store both validation and non-validation error messages
+	// store both validation and non-validation error messages
+	protected $mErrorMsg = array();
 
-	public function __construct($url, $rule_set, $inline_error, $multipart)
+	// store form result (either success or failed)
+	protected $mFlashData = array();
+
+	public function __construct($url, $inline_error, $multipart)
 	{
 		$this->mAction = $url;
-		$this->mRuleSet = $rule_set;
 		$this->mInlineError = $inline_error;
 		$this->mMultipart = $multipart;
 
 		$this->mErrorMsg['validation'] = '';
 		$this->mErrorMsg['custom'] = array();
+
+		$this->mFlashData['fields'] = array();
+		$this->mFlashData['success'] = array();
+		$this->mFlashData['danger'] = array();
+	}
+
+	// Update rule set (default is the same as $this->mAction)
+	public function set_rule_set($rule_set)
+	{
+		$this->mRuleSet = $rule_set;
 	}
 
 	// Change form type to 'horizontal'
@@ -73,24 +85,36 @@ class Form {
 	}
 
 	// Append an text field
-	public function add_text($name, $label = '', $required = FALSE, $placeholder = NULL, $value = NULL)
+	public function add_text($name, $label = '', $placeholder = NULL, $value = NULL)
 	{
 		// automatically set placeholder
 		if ( !empty($label) && ($placeholder===NULL) )
 			$placeholder = $label;
 
-		$this->mFields[$name] = array(
+		// set field values
+		if ( !empty($this->mFlashData['fields'][$name]) )
+			$value = $this->mFlashData['fields'][$name];
+		else if ( empty($value) )
+			$value = set_value($name);
+
+		$field = array(
 			'type'			=> ($name=='email') ? 'email' : 'text',
 			'name'			=> $name,
 			'label'			=> $label,
 			'value'			=> $value,
 			'placeholder'	=> $placeholder,
-			'required'		=> $required,
 		);
+
+		$required = TRUE;
+		if ($required)
+			$field['required'] = TRUE;
+
+		$this->mFields[$name] = $field;
+		return $field;
 	}
 
 	// Append a password field
-	public function add_password($name = 'password', $label = '', $required = FALSE, $placeholder = NULL, $value = NULL)
+	public function add_password($name = 'password', $label = '', $placeholder = NULL, $value = NULL)
 	{
 		// automatically set placeholder
 		if ( !empty($label) && ($placeholder===NULL) )
@@ -100,32 +124,50 @@ class Form {
 		if ( ENVIRONMENT!='development' )
 			$value = '';
 
-		$this->mFields[$name] = array(
+		$field = array(
 			'type'			=> 'password',
 			'name'			=> $name,
 			'label'			=> $label,
 			'value'			=> $value,
 			'placeholder'	=> $placeholder,
-			'required'		=> $required,
 		);
+
+		$required = TRUE;
+		if ($required)
+			$field['required'] = TRUE;
+
+		$this->mFields[$name] = $field;
+		return $field;
 	}
 
 	// Append a textarea field
-	public function add_textarea($name, $label = '', $required = FALSE, $placeholder = NULL, $value = NULL, $rows = 5)
+	public function add_textarea($name, $label = '', $placeholder = NULL, $value = NULL, $rows = 5)
 	{
 		// automatically set placeholder
 		if ( !empty($label) && ($placeholder===NULL) )
 			$placeholder = $label;
 
-		$this->mFields[$name] = array(
+		// set field values
+		if ( !empty($this->mFlashData['fields'][$name]) )
+			$value = $this->mFlashData['fields'][$name];
+		else if ( empty($value) )
+			$value = set_value($name);
+
+		$field = array(
 			'type'			=> 'textarea',
 			'name'			=> $name,
 			'label'			=> $label,
 			'value'			=> $value,
 			'placeholder'	=> $placeholder,
 			'rows'			=> $rows,
-			'required'		=> $required,
 		);
+
+		$required = TRUE;
+		if ($required)
+			$field['required'] = TRUE;
+
+		$this->mFields[$name] = $field;
+		return $field;
 	}
 
 	// Append a submit button
@@ -186,19 +228,15 @@ class Form {
 			// Text field
 			case 'text':
 			case 'email':
-				$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
 				$data = array(
 					'id'			=> $field['name'],
 					'name'			=> $field['name'],
-					'value'			=> $value,
+					'value'			=> $field['value'],
 					'placeholder'	=> $field['placeholder'],
 					'class'			=> 'form-control',
 				);
-				if ($field['required'])
-					$data['required'] = NULL;
-
 				$control = form_input($data);
-				return $this->form_group($field['name'], $control, $field['label'], $field['required']);
+				return $this->form_group($field['name'], $control, $field['label']);
 
 			// Password field
 			case 'password':
@@ -209,28 +247,33 @@ class Form {
 					'placeholder'	=> $field['placeholder'],
 					'class'			=> 'form-control',
 				);
-				if ($field['required'])
-					$data['required'] = NULL;
-
 				$control = form_password($data);
-				return $this->form_group($field['name'], $control, $field['label'], $field['required']);
+				return $this->form_group($field['name'], $control, $field['label']);
 
 			// Textarea field
 			case 'textarea':
-				$value = empty($field['value']) ? set_value($field['name']) : $field['value'];
 				$data = array(
 					'id'			=> $field['name'],
 					'name'			=> $field['name'],
-					'value'			=> $value,
+					'value'			=> $field['value'],
 					'placeholder'	=> $field['placeholder'],
 					'rows'			=> $field['rows'],
 					'class'			=> 'form-control',
 				);
-				if ($field['required'])
-					$data['required'] = NULL;
-
 				$control = form_textarea($data);
-				return $this->form_group($field['name'], $control, $field['label'], $field['required']);
+				return $this->form_group($field['name'], $control, $field['label']);
+
+			// Select field
+			case 'select':
+				return '';
+
+			// Checkbox field
+			case 'checkbox':
+				return '';
+
+			// Radio field
+			case 'radio':
+				return '';
 
 			// Upload field
 			case 'upload':
@@ -275,7 +318,7 @@ class Form {
 	}
 
 	// Form group with control, label and error field
-	public function form_group($name, $control, $label = '', $required = FALSE)
+	public function form_group($name, $control, $label = '')
 	{
 		$error = form_error($name);
 		$group_class = empty($error) ? '' : 'has-error';
@@ -287,7 +330,8 @@ class Form {
 			$error = '';
 
 		// add asterisk after label for required field
-		if ( !empty($label) && $required)
+		$required = !empty($this->mFields[$name]['required']);
+		if ( !empty($label) && $required )
 			$label.=' <span class="text-danger">*</span>';
 
 		// handle form type (default / horizontal)
