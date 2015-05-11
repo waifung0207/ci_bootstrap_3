@@ -18,7 +18,7 @@
     "bootstrap": "~3.*",
     "font-awesome": "~4.*",
     "ionicons": "~2.*",
-    "jquery-legacy": "jquery#1.11.2",
+    "jquery-legacy": "jquery#1.11.3",
     "jquery-migrate": "1.2.*"
   }
 }
