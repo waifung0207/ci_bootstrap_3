@@ -75,7 +75,7 @@ $config = array(
 	),
 
 	// Admin Panel - Login
-	'admin/login' => array(
+	'admin/login/index' => array(
 		array(
 			'field'		=> 'username',
 			'label'		=> 'Username',
@@ -127,11 +127,3 @@ $config['recaptcha'] = array(
 	'site_key'		=> '6Lc1MAYTAAAAAOdhZ0qvGMUFuBD-J6fJIP3DvX-b',
 	'secret_key'	=> '6Lc1MAYTAAAAAEARt-nT1En9NBonssoo4vWI12Nl',
 );
-
-
-/**
- * Change error text:
- * http://www.codeigniter.com/user_guide/libraries/form_validation.html#changing-the-error-delimiters
- */
-$config['error_prefix'] = '<p class="text-danger">';
-$config['error_suffix'] = '</p>';

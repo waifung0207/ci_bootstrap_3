@@ -25,16 +25,16 @@ class Account extends Frontend_Controller {
 		
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/sign_up');
-		$form->add_text('first_name', 'First Name', TRUE);
-		$form->add_text('last_name', 'Last Name', TRUE);
-		$form->add_text('email', 'Email', TRUE);
-		$form->add_password('password', 'Password', TRUE);
-		$form->add_password('retype_password', 'Retype Password', TRUE);
+		$form->add_text('first_name', 'First Name');
+		$form->add_text('last_name', 'Last Name');
+		$form->add_text('email', 'Email');
+		$form->add_password('password', 'Password');
+		$form->add_password('retype_password', 'Retype Password');
 		$form->add_custom_html('<div class="form-group">Have an Account? <a href="account/login">Log In</a></div>');
 		$form->add_recaptcha();
 		$form->add_submit();
 
-		if ( !empty($this->input->post()) &&  $form->validate() )
+		if ( !empty($this->input->post()) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');
@@ -48,7 +48,8 @@ class Account extends Frontend_Controller {
 			if ( empty($user_id) )
 			{
 				// failed
-				$form->add_custom_error('Failed to create user');
+				set_alert('danger', 'Failed to create user');
+				refresh();
 			}
 			else
 			{
@@ -58,7 +59,7 @@ class Account extends Frontend_Controller {
 			}
 		}
 
-		// display form when no POST data, or validation failed
+		// display form
 		$this->mViewData['form'] = $form;
 		$this->_render('account/form');
 	}
@@ -92,7 +93,7 @@ class Account extends Frontend_Controller {
 		$form->add_custom_html('<div class="form-group"><a href="account/forgot_password">Forgot password?</a></div>');
 		$form->add_submit('Login');
 
-		if ( !empty($this->input->post()) &&  $form->validate() )
+		if ( !empty($this->input->post()) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');
@@ -102,20 +103,21 @@ class Account extends Frontend_Controller {
 			if (empty($user))
 			{
 				// failed
-				$form->add_custom_error('Invalid login');
+				set_alert('danger', 'Invalid login');
+				refresh();
 			}
 			else
 			{
 				// success - save user to session
 				$this->session->set_userdata('user', $user);
-				set_alert('success', 'Login success.');
+				set_alert('success', 'Login success');
 
 				// TODO: redirect to user dashboard
 				redirect('account/login');
 			}
 		}
 
-		// display form when no POST data, or validation failed
+		// display form
 		$this->mViewData['form'] = $form;
 		$this->_render('account/form');
 	}
@@ -127,10 +129,10 @@ class Account extends Frontend_Controller {
 	{
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/forgot_password');
-		$form->add_text('email', 'Email', TRUE);
+		$form->add_text('email', 'Email');
 		$form->add_submit();
 		
-		if ( !empty($this->input->post()) &&  $form->validate() )
+		if ( !empty($this->input->post()) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');
@@ -143,7 +145,8 @@ class Account extends Frontend_Controller {
 			}
 			else
 			{
-				$form->add_custom_error('Forgot password failed');
+				set_alert('danger', 'Forgot password failed');
+				refresh();
 			}
 		}
 
@@ -167,12 +170,12 @@ class Account extends Frontend_Controller {
 
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/reset_password');
-		$form->add_password('password', 'Password', TRUE);
-		$form->add_password('retype_password', 'Retype Password', TRUE);
+		$form->add_password('password', 'Password');
+		$form->add_password('retype_password', 'Retype Password');
 		$form->add_hidden('code', $code);
 		$form->add_submit();
 
-		if ( !empty($this->input->post()) &&  $form->validate() )
+		if ( !empty($this->input->post()) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');
@@ -186,7 +189,8 @@ class Account extends Frontend_Controller {
 			}
 			else
 			{
-				$form->add_custom_error('Reset password failed');
+				set_alert('danger', 'Reset password failed');
+				refresh();
 			}
 		}
 

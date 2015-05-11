@@ -26,7 +26,8 @@ class Login extends Admin_Controller {
 			if ( empty($user) )
 			{
 				// login failed
-				$form->add_custom_error('Invalid Login');
+				set_alert('danger', 'Invalid Login');
+				refresh();
 			}
 			else
 			{

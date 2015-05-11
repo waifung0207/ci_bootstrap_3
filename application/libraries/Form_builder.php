@@ -11,6 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * TODO:
  * 	- support more field types (checkbox, dropdown, upload, etc.)
+ * 	- automatically set "required" fields (matching with rule set)
+ * 	- fix inline error handling (after refactoring to use flashdata error)
  */
 class Form_builder {
 
@@ -32,7 +34,10 @@ class Form_builder {
  */
 class Form {
 
-	protected $mAction;			// target POST url
+	protected $CI;
+
+	protected $mPostUrl;		// target POST URL
+	protected $mFormUrl;		// URL to display form (default: same as $mPostUrl)
 	protected $mRuleSet;		// name of validation rule set (match with keys inside application/config/form_validation.php)
 	protected $mInlineError;	// whether display inline error or not
 	protected $mMultipart;		// whether the form supports multipart
@@ -49,27 +54,47 @@ class Form {
 	// Keys to be edited in config file: application/config/form_validation.php
 	protected $mRecaptchaAdded = FALSE;
 
-	// store both validation and non-validation error messages
+	// content from flashdata (e.g. error message, success message, form fields)
+	protected $mFlashDataName;
+	protected $mFlashMsg = array();
+	protected $mFlashFields = array();
+
+	// temporary store messages
+	protected $mSuccessMsg = '';
 	protected $mErrorMsg = array();
 
-	// store form result (either success or failed)
-	protected $mFlashData = array();
-
+	// Constructor
 	public function __construct($url, $inline_error, $multipart)
 	{
-		$this->mAction = $url;
+		$this->CI =& get_instance();
+		$this->mPostUrl = $url;
+		$this->mFormUrl = $url;
 		$this->mInlineError = $inline_error;
 		$this->mMultipart = $multipart;
 
-		$this->mErrorMsg['validation'] = '';
-		$this->mErrorMsg['custom'] = array();
+		// compose a name to avoid naming conflict from flashdata
+		$this->mFlashDataName = 'form_'.$url;
 
-		$this->mFlashData['fields'] = array();
-		$this->mFlashData['success'] = array();
-		$this->mFlashData['danger'] = array();
+		// retrieve from flashdata (if exists)
+		$flash = ( $this->CI->session->has_userdata($this->mFlashDataName) ) ? $this->CI->session->flashdata($this->mFlashDataName) : array();
+
+		// store messages from flashdata
+		$this->mFlashMsg = array(
+			'error'		=> empty($flash['error']) ? '' : $flash['error'],
+			'success'	=> empty($flash['success']) ? '' : $flash['success'],
+		);
+
+		// store field values from flashdata
+		$this->mFlashFields = empty($flash['fields']) ? '' : $flash['fields'];
 	}
 
-	// Update rule set (default is the same as $this->mAction)
+	// Change URL where the form is displayed
+	public function set_form_url($url)
+	{
+		$this->mFormUrl = $url;
+	}
+
+	// Update rule set (default: same as $mPostUrl)
 	public function set_rule_set($rule_set)
 	{
 		$this->mRuleSet = $rule_set;
@@ -83,6 +108,18 @@ class Form {
 		$this->mColLeft = $col_left;
 		$this->mColRight = $col_right;
 	}
+	
+	// Store success message
+	public function set_success_msg($msg)
+	{
+		$this->mSuccessMsg = $msg;
+	}
+
+	// Append error message
+	public function add_error_msg($msg)
+	{
+		$this->mErrorMsg[] = $msg;
+	}
 
 	// Append an text field
 	public function add_text($name, $label = '', $placeholder = NULL, $value = NULL)
@@ -92,8 +129,8 @@ class Form {
 			$placeholder = $label;
 
 		// set field values
-		if ( !empty($this->mFlashData['fields'][$name]) )
-			$value = $this->mFlashData['fields'][$name];
+		if ( !empty($this->mFlashFields[$name]) )
+			$value = $this->mFlashFields[$name];
 		else if ( empty($value) )
 			$value = set_value($name);
 
@@ -298,29 +335,10 @@ class Form {
 		}
 	}
 
-	// Render a complete form
-	public function render()
-	{
-		if ($this->mMultipart)
-			$str = form_open_multipart($this->mAction, $this->mAttributes);
-		else
-			$str = form_open($this->mAction, $this->mAttributes);
-
-		// print out all fields
-		foreach ($this->mFields as $field)
-		{
-			$str .= $this->render_field($field);
-		}
-
-		$str .= $this->mFooterHtml;
-		$str .= form_close();
-		return $str;
-	}
-
 	// Form group with control, label and error field
 	public function form_group($name, $control, $label = '')
 	{
-		$error = form_error($name);
+		$error = form_error($name, '<p class="text-danger">', '</p>');
 		$group_class = empty($error) ? '' : 'has-error';
 		$group_open = '<div class="form-group '.$group_class.'">';
 		$group_close = '</div>';
@@ -353,9 +371,8 @@ class Form {
 	// Form group with reCAPTCHA
 	public function form_group_recaptcha()
 	{
-		$CI =& get_instance();
-		$CI->load->config('form_validation');
-		$site_key = $CI->config->item('recaptcha')['site_key'];
+		$this->CI->load->config('form_validation');
+		$site_key = $this->CI->config->item('recaptcha')['site_key'];
 
 		$html = '<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>';
 
@@ -382,54 +399,131 @@ class Form {
 	// Run validation on the form and return result
 	public function validate()
 	{
-		$CI =& get_instance();
+		$flash = array();
 
 		// reCAPTCHA verification (skipped in development mode)
 		if ( $this->mRecaptchaAdded && ENVIRONMENT!='development' )
 		{
-			$CI->load->config('form_validation');
-			$secret_key = $CI->config->item('recaptcha')['secret_key'];
+			$this->CI->load->config('form_validation');
+			$secret_key = $this->CI->config->item('recaptcha')['secret_key'];
 			$recaptcha = new \ReCaptcha\ReCaptcha($secret_key);
-			$resp = $recaptcha->verify($CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+			$resp = $recaptcha->verify($this->CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
 
 			if (!$resp->isSuccess())
 			{
 				// failed
 				//$errors = $resp->getErrorCodes();
-				$this->mErrorMsg['custom'][] = 'ReCAPTCHA failed.';
-				return FALSE;
+				$this->add_error_msg('ReCAPTCHA failed.');
+				$flash['error'] = $this->mErrorMsg;
+				$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
+
+				// directly display form again (interrupt other operations)
+				redirect($this->mFormUrl);
 			}
 		}
 
 		// check with CodeIgniter validation
-		$result = $CI->form_validation->run($this->mRuleSet);
+		$result = $this->CI->form_validation->run($this->mRuleSet);
 		if ($result===FALSE)
 		{
+			// save field values to flashdata
+			foreach ($this->mFields as $field)
+			{
+				// filter specific field types
+				switch ($field['type'])
+				{
+					case 'text':
+					case 'email':
+					case 'textarea':
+						$name = $field['name'];
+						$flash['fields'][$name] = $this->CI->input->post($name);
+						break;
+				}
+			}
+
 			// store validation error message from CodeIgniter
-			$this->mErrorMsg['validation'] = validation_errors();
+			$this->add_error_msg(validation_errors());
+			$flash['error'] = $this->mErrorMsg;
+			$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
+
+			// directly display form again (interrupt other operations)
+			redirect($this->mFormUrl);
+		}
+		else
+		{
+			// save success message to flashdata
+			$flash['success'] = $this->mSuccessMsg;
+			$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
+
+			// other logic to be done outside (e.g. update database > then redirect page)
 		}
 
 		return $result;
 	}
 
-	// Append non-validation error message
-	// TODO: option to save error message to flash data (e.g. when need to redirect page on failure)
-	public function add_custom_error($msg, $flash = FALSE)
+	// Save selected fields to flashdata
+	public function save_field_to_flash($name)
 	{
-		$this->mErrorMsg['custom'][] = $msg;
-	}
-
-	// Display error messages (validation & custom error)
-	public function render_error()
-	{
-		$msg = $this->mErrorMsg['validation'];
-
-		if (sizeof($this->mErrorMsg['custom'])>0)
+		$flash = array();
+		
+		if ( $this->CI->session->has_userdata($this->mFlashDataName) )
 		{
-			$msg.= empty($msg) ? '' : '<br/>';
-			$msg.= implode('<br/>', $this->mErrorMsg['custom']);
+			$flash = $this->CI->session->flashdata($this->mFlashDataName);
+			$this->CI->session->keep_flashdata($this->mFlashDataName);
 		}
 
-		return render_alert('danger', $msg);
+		$flash['fields'][$name] = $this->CI->input->post($name);
+		$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
+	}
+
+	// Render a complete form
+	public function render()
+	{
+		if ($this->mMultipart)
+			$str = form_open_multipart($this->mPostUrl, $this->mAttributes);
+		else
+			$str = form_open($this->mPostUrl, $this->mAttributes);
+
+		// print out all fields
+		foreach ($this->mFields as $field)
+		{
+			$str .= $this->render_field($field);
+		}
+
+		$str .= $this->mFooterHtml;
+		$str .= form_close();
+		return $str;
+	}
+
+	// Display messages (success / validation error / other error) in following priority:
+	// 	1. Message from get_alert() - see application/helpers/session_helper.php
+	// 	2. Error message from flashdata
+	// 	3. Success message from flashdata
+	// 	Render empty string when none of above exists
+	public function render_msg()
+	{
+		$alert = get_alert();
+
+		if ( !empty($alert) )
+		{
+			$type = $alert['type'];
+			$msg = $alert['msg'];
+		}
+		else if ( !empty($this->mFlashMsg['error']) )
+		{
+			$type = 'danger';
+			$msg = implode('<br/>', $this->mFlashMsg['error']);
+		}
+		else if ( !empty($this->mFlashMsg['success']) )
+		{
+			$type = 'success';
+			$msg = $this->mFlashMsg['success'];
+		}
+		else
+		{
+			return '';
+		}
+
+		return render_alert($type, $msg);
 	}
 }
