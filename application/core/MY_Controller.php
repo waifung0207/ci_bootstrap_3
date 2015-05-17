@@ -53,6 +53,19 @@ class MY_Controller extends CI_Controller {
 	// Output template for Frontend Website
 	protected function _render($view, $layout = '')
 	{
+		// automatically generate page title
+		if ( empty($this->mTitle) )
+		{
+			if ( $this->mAction=='index' )
+				$this->mTitle = humanize($this->mCtrler);
+			else
+				$this->mTitle = humanize($this->mAction);
+		}
+
+		// automatically push current page to last record of breadcrumb
+		$this->_push_breadcrumb($this->mTitle);
+		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
+		
 		$this->mViewData['base_url'] = $this->mBaseUrl;
 		$this->mViewData['inner_view'] = $this->mSite.'/'.$view;
 		$this->mViewData['body_class'] = $this->mBodyClass;
@@ -64,7 +77,6 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['current_uri'] = ($this->mSite==='frontend') ? uri_string(): str_replace($this->mSite.'/', '', uri_string());
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['scripts'] = $this->mScripts;
-		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
 		$this->mViewData['menu'] = $this->mMenu;
 		$this->mViewData['meta'] = $this->mMetaData;
 		$this->mViewData['title'] = $this->mTitlePrefix.$this->mTitle;
