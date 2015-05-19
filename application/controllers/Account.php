@@ -6,10 +6,8 @@ class Account extends Frontend_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->helper('inflector');
+		
 		$this->load->model('user_model', 'users');
-
 		$this->mTitle = humanize($this->mAction);
 		$this->_push_breadcrumb('Account');
 		$this->_push_breadcrumb($this->mTitle);

@@ -10,9 +10,7 @@ class Example extends Frontend_Controller {
 	{
 		parent::__construct();
 
-		$this->load->helper('inflector');
 		$this->load->library('form_builder');
-
 		$this->mTitle = humanize($this->mAction);
 		$this->_push_breadcrumb('Example');
 		$this->_push_breadcrumb($this->mTitle);
@@ -32,10 +30,10 @@ class Example extends Frontend_Controller {
 	public function form_basic()
 	{
 		$form = $this->form_builder->create_form('example/form_basic');
-		$form->add_text('name', 'Name', TRUE);
-		$form->add_text('email', 'Email', TRUE);
+		$form->add_text('name', 'Name');
+		$form->add_text('email', 'Email');
 		$form->add_text('subject', 'Subject');
-		$form->add_textarea('message', 'Message', TRUE);
+		$form->add_textarea('message', 'Message');
 		$form->add_recaptcha();
 		$form->add_submit();
 		
@@ -69,10 +67,10 @@ class Example extends Frontend_Controller {
 		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
 
 		$form = $this->form_builder->create_form('example/form_advanced');
-		$form->add_text('name', 'Name', TRUE);
-		$form->add_text('email', 'Email', TRUE);
+		$form->add_text('name', 'Name');
+		$form->add_text('email', 'Email');
 		$form->add_text('subject', 'Subject');
-		$form->add_textarea('message', 'Message', TRUE);
+		$form->add_textarea('message', 'Message');
 		$form->set_horizontal();
 		$form->add_submit();
 
