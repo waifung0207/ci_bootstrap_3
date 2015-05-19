@@ -205,7 +205,11 @@ class Frontend_Controller extends MY_Controller {
 	{
 		parent::__construct();
 		$this->mBaseUrl = site_url();
-		$this->_push_breadcrumb('Home', '', FALSE);
+
+		if ($this->mCtrler!='home')
+		{
+			$this->_push_breadcrumb('Home', '', FALSE);	
+		}
 	}
 }
 
