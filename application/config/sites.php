@@ -18,7 +18,7 @@ $config['sites'] = array(
 
 		'autoload' => array(
 			'libraries'	=> array('database'),
-			'helpers'	=> array('session'),
+			'helpers'	=> array('session', 'inflector'),
 			'models'	=> array(
 				//'User_model'	=> 'users',
 			),
@@ -80,7 +80,7 @@ $config['sites'] = array(
 
 		'autoload' => array(
 			'libraries'	=> array('database'),
-			'helpers'	=> array('session'),
+			'helpers'	=> array('session', 'inflector'),
 			'models'	=> array(),
 		),
 
