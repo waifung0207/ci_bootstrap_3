@@ -251,9 +251,14 @@ class Admin_Controller extends MY_Controller {
 	{
 		// obtain user data from session; redirect to Login page if not found
 		if ($this->session->has_userdata('admin_user'))
+		{
 			$this->mUser = $this->session->userdata('admin_user');
+			$this->mViewData['user'] = $this->mUser;
+		}
 		else
+		{
 			redirect('admin/login');
+		}
 	}
 
 	// Verify if the login user belongs to target role

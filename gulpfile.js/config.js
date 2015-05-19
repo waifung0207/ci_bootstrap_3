@@ -106,8 +106,9 @@ module.exports = {
 				dir_bower + '/jquery-legacy/dist/jquery.js',
 				dir_bower + '/jquery-migrate/jquery-migrate.js',
 				dir_bower + '/bootstrap/dist/js/bootstrap.min.js',
-				dir_bower + '/admin-lte/dist/js/app.min.js',
 				dir_bower + '/admin-lte/plugins/fastclick/fastclick.js',
+				dir_bower + '/admin-lte/dist/js/app.min.js',
+				dir_bower + '/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js',
 				// custom files
 				dir_asset + '/js/admin.js'
 			]
