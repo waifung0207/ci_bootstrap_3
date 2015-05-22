@@ -14,12 +14,14 @@ class Account extends Admin_Controller {
 		// Update Info form
 		$this->load->library('form_builder');
 		$form1 = $this->form_builder->create_form('admin/account/update_info');
+		$form1->set_form_url('admin/account');
 		$form1->add_text('fullname', 'Full Name', 'Username', 'Administrator');
 		$form1->add_submit('Update');
 		$this->mViewData['form1'] = $form1;
 
 		// Change Password form
 		$form2 = $this->form_builder->create_form('admin/account/change_password');
+		$form2->set_form_url('admin/account');
 		$form2->add_password('new_password', 'New Password');
 		$form2->add_password('retype_password', 'Retype Password');
 		$form2->add_submit();

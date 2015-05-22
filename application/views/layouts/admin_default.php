@@ -5,11 +5,8 @@
 	<?php // Left side column. contains the logo and sidebar ?>
 	<aside class="main-sidebar">
 		<section class="sidebar">
-			<div class="user-panel">
-				<div class="pull-left image">
-					<img src="http://placehold.it/160&text=<?php echo humanize($user->role); ?>" class="img-circle" alt="User Image" />
-				</div>
-				<div class="pull-left info">
+			<div class="user-panel" style="height:65px">
+				<div class="pull-left info" style="left:5px">
 					<p><?php echo $user->full_name; ?></p>
 					<a href="account"><i class="fa fa-circle text-success"></i> Online</a>
 				</div>
