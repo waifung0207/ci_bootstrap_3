@@ -4,10 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Home page
  */
-class Home extends Frontend_Controller {
+class Home extends MY_Controller {
 
 	public function index()
 	{
-		$this->_render('home');
+		$this->render('home');
 	}
 }
