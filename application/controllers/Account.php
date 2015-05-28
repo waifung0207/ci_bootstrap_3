@@ -57,7 +57,7 @@ class Account extends MY_Controller {
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->render('account/form');
+		$this->render('_partials/form');
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Account extends MY_Controller {
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->render('account/form');
+		$this->render('_partials/form');
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Account extends MY_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->render('account/form');
+		$this->render('_partials/form');
 	}
 
 	/**
@@ -192,6 +192,6 @@ class Account extends MY_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->render('account/form');
+		$this->render('_partials/form');
 	}
 }

@@ -9,16 +9,18 @@ class Account extends MY_Controller {
 	public function index()
 	{
 		$this->mTitle = "Account Settings";
-		
+
 		// Update Info form
 		$this->load->library('form_builder');
 		$form1 = $this->form_builder->create_form('admin/account/update_info');
-		$form1->add_text('fullname', 'Full Name', 'Username', 'Administrator');
+		$form1->set_form_url('admin/account');
+		$form1->add_text('full_name', 'Full Name', 'Username', $this->mUser->full_name);
 		$form1->add_submit('Update');
 		$this->mViewData['form1'] = $form1;
 
 		// Change Password form
 		$form2 = $this->form_builder->create_form('admin/account/change_password');
+		$form1->set_form_url('admin/account');
 		$form2->add_password('new_password', 'New Password');
 		$form2->add_password('retype_password', 'Retype Password');
 		$form2->add_submit();
@@ -32,7 +34,20 @@ class Account extends MY_Controller {
 	 */
 	public function update_info()
 	{
-		// TODO: update database
+		$this->load->model('admin_user_model', 'admin_users');
+		$updated = $this->admin_users->update_info($this->mUser->id, $this->input->post());
+
+		if ($updated)
+		{
+			set_alert('success', 'Successfully updated account info.');
+			$this->mUser->full_name = $this->input->post('full_name');
+			$this->session->set_userdata('admin_user', $this->mUser);
+		}
+		else
+		{
+			set_alert('danger', 'Failed to update info.');
+		}
+
 		redirect('admin/account');
 	}
 
@@ -41,7 +56,18 @@ class Account extends MY_Controller {
 	 */
 	public function change_password()
 	{
-		// TODO: update database
+		$this->load->model('admin_user_model', 'admin_users');
+		$updated = $this->admin_users->change_password($this->mUser->id, $this->input->post('new_password'));
+
+		if ($updated)
+		{
+			set_alert('success', 'Successfully changed password.');
+		}
+		else
+		{
+			set_alert('danger', 'Failed to changed password.');
+		}
+
 		redirect('admin/account');
 	}
 	

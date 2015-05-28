@@ -8,7 +8,7 @@
 
 $config = array(
 
-	// Frontend Website - Sign Up
+	// Sign Up
 	'account/sign_up' => array(
 		array(
 			'field'		=> 'first_name',
@@ -37,7 +37,7 @@ $config = array(
 		),
 	),
 
-	// Frontend Website - Login
+	// Login
 	'account/login' => array(
 		array(
 			'field'		=> 'email',
@@ -51,7 +51,7 @@ $config = array(
 		),
 	),
 
-	// Frontend Website - Forgot Password
+	// Forgot Password
 	'account/forgot_password' => array(
 		array(
 			'field'		=> 'email',
@@ -60,7 +60,7 @@ $config = array(
 		),
 	),
 
-	// Frontend Website - Reset Password
+	// Reset Password
 	'account/reset_password' => array(
 		array(
 			'field'		=> 'password',
@@ -71,48 +71,6 @@ $config = array(
 			'field'		=> 'retype_password',
 			'label'		=> 'Retype Password',
 			'rules'		=> 'required|matches[password]',
-		),
-	),
-
-	// Admin Panel - Login
-	'admin/login/index' => array(
-		array(
-			'field'		=> 'username',
-			'label'		=> 'Username',
-			'rules'		=> 'required',
-		),
-		array(
-			'field'		=> 'password',
-			'label'		=> 'Password',
-			'rules'		=> 'required',
-		),
-	),
-
-	// Admin Panel - Update Info
-	'admin/account/update_info' => array(
-		array(
-			'field'		=> 'username',
-			'label'		=> 'Username',
-			'rules'		=> 'required',
-		),
-		array(
-			'field'		=> 'password',
-			'label'		=> 'Password',
-			'rules'		=> 'required',
-		),
-	),
-
-	// Admin Panel - Change Password
-	'admin/account/change_password' => array(
-		array(
-			'field'		=> 'new_password',
-			'label'		=> 'New Password',
-			'rules'		=> 'required',
-		),
-		array(
-			'field'		=> 'retype_password',
-			'label'		=> 'Retype Password',
-			'rules'		=> 'required',
 		),
 	),
 

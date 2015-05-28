@@ -1,4 +1,6 @@
 
+<?php echo render_alert(); ?>
+
 <div class="row">
 
 	<div class="col-md-6">
@@ -6,7 +8,7 @@
 			<div class="box-header">
 				<h3 class="box-title">Account Info</h3>
 			</div>
-			<div class="box-body">
+			<div class="box-body">				
 				<?php echo $form1->render(); ?>
 			</div>
 		</div>

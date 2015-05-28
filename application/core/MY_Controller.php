@@ -94,7 +94,7 @@ class MY_Controller extends CI_Controller {
 	// Verify authentication
 	private function _verify_auth()
 	{
-		if ($this->mModule=='admin')
+		if ($this->mModule=='admin' && $this->mCtrler!='login')
 		{
 			// obtain user data from session; redirect to Login page if not found
 			if ($this->session->has_userdata('admin_user'))

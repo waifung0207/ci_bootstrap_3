@@ -16,14 +16,14 @@
 		// Embed CSS files
 		foreach ($stylesheets as $file)
 		{
-			$file = (starts_with($file, 'http://') || starts_with($file, '//')) ? $file : base_url($file);
+			$file = (starts_with($file, 'http') || starts_with($file, '//')) ? $file : base_url($file);
 			echo "<link href='$file' rel='stylesheet'>".PHP_EOL;
 		}
 
 		// Embed JS files
 		foreach ($scripts['head'] as $file)
 		{
-			$file = (starts_with($file, 'http://') || starts_with($file, '//')) ? $file : base_url($file);
+			$file = (starts_with($file, 'http') || starts_with($file, '//')) ? $file : base_url($file);
 			echo "<script src='$file'></script>".PHP_EOL;
 		}
 	?>
