@@ -22,13 +22,64 @@ This repository contains setup for rapid development:
 * User authentication for Frontend Website (Sign Up, Login, Forgot Password, etc.)
 * User authentication for Admin Panel (Login, Change Password, etc.)
 * Preset layouts and templates
-* Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-start 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
+* Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-starter 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
 * Breadcrumb handling
 * Multilingual support
 * Email config setup
 * Functions to be called from CLI (e.g. daily cron job, database backup)
 * ... more coming!
+
+
+### Folder Structure
+
+Explanation on the folder structure which supports HMVC (only showing the highlighted folders and files).
+
+```
+application/                    --- Main CodeIgniter source files
+    config/
+        production/             --- Configuration when ENVIRONMENT is set as "production"
+        auth.php
+    controllers/                --- Controllers for Frontend Website; extends from MY_Controller (except Cli)
+        Cli.php                 --- Utility function that can only be called from command line
+        Home.php                --- Default controller for Frontend Website        
+        Language.php            --- Controller to handle language switching
+    core/                       --- Extending CodeIgniter core classes; can also be used within modules
+        MY_Controller.php       --- Important class which contains shared logic of all controllers
+        MY_Form_validation.php  --- Contains additional rule for validation
+        MY_Loader.php           --- Required for HMVC extension
+        MY_Model.php            --- Contains shared function for model classes (can consider to replace by https://github.com/jamierumbelow/codeigniter-base-model)
+        MY_Router.php           --- Required for HMVC extension
+    helpers/                    --- Contains custom helper functions being used throughout this repo
+    language/                   --- Preset language files
+    libraries/                  --- Custom libraries (e.g. Data Importer, Form Builder)
+    models/                     --- Sample model extending from MY_Model
+    modules/                    --- Each module can be accessed by http://{base_url}/{module_name}/{module_controller}/, etc.
+        admin/                  --- Module for Admin Panel
+            config/             --- Configuration for Admin Panel (overriding application/config/)
+            controllers/        --- Controllers for Admin Panel; also extends from MY_Controller
+            libraries/          --- Libraries from Grocery CRUD and Image CRUB
+            models/             --- Models only being used in Admin panel
+            views/              --- Views for Admin Panel; can reuse Frontend views, or override by using same path/filename
+        api/                    --- Another module specific for API endpoints (to be completed)
+    third_party/
+        MX/                     --- Required for HMVC extension
+    views/                      --- Views for Frontend Website, can also be used by modules unless overrided
+assets/
+    css/                        --- Custom CSS files append to each site
+    dist/                       --- Minified scripts, stylesheets and optimized images via Gulp tasks
+    fonts/                      --- Font files copied via Gulp tasks
+    grocery_crud/               --- Asset files from Grocery CRUD library
+    image_crud/                 --- Asset files from Image CRUD library
+    images/                     --- Source image files before optimization
+    js/                         --- Custom CSS files append to each site
+    uploads/                    --- Default directory of upload files, where permission should set as writable
+gulpfile.js/                    --- Task runner following gulp-starter 2.0 practice
+screenshots/                    --- Screenshot images for preview
+sql/                            --- MySQL data which contains preset user data
+system/                         --- CodeIgniter core files (unchanged as clean CI3 installation)
+.htaccess                       --- URL rewrite for Apache web server (require mod enabled)
+```
 
 
 ### Screenshots

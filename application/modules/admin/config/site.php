@@ -90,6 +90,20 @@ $config['site'] = array(
 		),
 	),
 
+	// User authenication (to be completed)
+	'auth' => array(
+		
+		// Field name for logging in (e.g. email, username)
+		'login_field'		=> 'username',
+
+		// Reset Password settings
+		/*
+		'reset_password'	=> array(
+			'enabled'		=> TRUE,
+			'email'			=> 'reset_password',
+		),*/
+	),
+
 	// For debug purpose (available only when ENVIRONMENT = 'development')
 	'debug' => array(
 		'view_data'		=> FALSE,	// whether to display MY_Controller's mViewData at page end
