@@ -40,7 +40,12 @@ Explanation on the folder structure which supports HMVC (only showing the highli
 application/                    --- Main CodeIgniter source files
     config/
         production/             --- Configuration when ENVIRONMENT is set as "production"
-        auth.php
+        autoload.php            --- By default, some files are loaded for this repo
+        database.php            --- Need to verify to ensure connection with MySQL database
+        email.php               --- Created to centralize email configuration (preset: using Mandrill service)
+        form_validation.php     --- Created to centralize validation forms for all forms, include ReCAPTCHA settings
+        routes.php              --- Changed default controller from Welcome to Home
+        site.php                --- Core configuration file for Frontend Website; same format also applied to Admin module
     controllers/                --- Controllers for Frontend Website; extends from MY_Controller (except Cli)
         Cli.php                 --- Utility function that can only be called from command line
         Home.php                --- Default controller for Frontend Website        
