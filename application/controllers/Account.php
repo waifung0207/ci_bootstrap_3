@@ -1,18 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Account extends Frontend_Controller {
+class Account extends MY_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->load->helper('inflector');
 		$this->load->model('user_model', 'users');
-
-		$this->mTitle = humanize($this->mAction);
-		$this->_push_breadcrumb('Account');
-		$this->_push_breadcrumb($this->mTitle);
+		$this->push_breadcrumb('Account');
 	}
 
 	/**
@@ -61,7 +57,7 @@ class Account extends Frontend_Controller {
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->_render('account/form');
+		$this->render('account/form');
 	}
 
 	/**
@@ -119,7 +115,7 @@ class Account extends Frontend_Controller {
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->_render('account/form');
+		$this->render('account/form');
 	}
 
 	/**
@@ -152,7 +148,7 @@ class Account extends Frontend_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->_render('account/form');
+		$this->render('account/form');
 	}
 
 	/**
@@ -196,6 +192,6 @@ class Account extends Frontend_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->_render('account/form');
+		$this->render('account/form');
 	}
 }
