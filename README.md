@@ -7,10 +7,10 @@ A starter template that supports multi-tenant (Frontend / Admin Panel / API) web
 This repository is developed upon the following tools: 
 * [CodeIgniter](http://www.codeigniter.com/) (v3.0.0) - PHP framework
 * [CodeIgniter HMVC Extensions](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - modular structure by [wiredesignz](http://wiredesignz.co.nz/)
-* [Bootstrap](http://getbootstrap.com/) (v3.3.4) - popular frontend framework
+* [Bootstrap](http://getbootstrap.com/) (v3.3.5) - popular frontend framework
 * [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.1) - feature-rich library to build CRUD tables
 * [Image CRUD](http://www.grocerycrud.com/image-crud) (v0.6) - CRUD library for image management
-* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.1.1) - bootstrap theme for backend system
+* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.1.2) - bootstrap theme for Admin Panel
 
 
 ### Features
@@ -94,9 +94,9 @@ Frontend - Home:
 
 ![](screenshots/frontend_home.png "Frontend Home")
 
-Backend - Home: 
+Admin Panel - Home: 
 
-![](screenshots/admin_home.png "Backend Home")
+![](screenshots/admin_home.png "Admin Panel Home")
 
 More screenshots can be viewed from the [screenshots folder](https://github.com/waifung0207/ci_bootstrap_3/blob/master/screenshots/) under this repository.
 
@@ -104,6 +104,7 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 ### TODO
 
 * Changelog file
+* Better documentation (e.g. on [Gitbook](http://gitbook.com/))
 * Enhance Form Builder library to support more field types
 * Widget helper to include reusable views (e.g. for Admin Panel components)
 * Example of using Image CRUD
@@ -111,4 +112,3 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Custom 404 error page
 * API module (e.g. authentication, JSON response, error handling)
 * More helpers to enhance code reusability
-* Better documentation
