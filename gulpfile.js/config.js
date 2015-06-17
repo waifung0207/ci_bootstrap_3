@@ -109,6 +109,7 @@ module.exports = {
 				dir_bower + '/admin-lte/plugins/fastclick/fastclick.js',
 				dir_bower + '/admin-lte/dist/js/app.min.js',
 				dir_bower + '/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js',
+				dir_bower + '/Sortable/Sortable.min.js',
 				// custom files
 				dir_asset + '/js/admin.js'
 			]

@@ -20,6 +20,7 @@ This repository contains setup for rapid development:
 * Modular design by CodeIgniter HMVC extension
 * Custom config files (sites.php, locale.php) for easy configuration of website behavior
 * Admin Panel with AdminLTE v2 theme, and Grocery CRUD integration
+* Admin Panel includes usage of [Sortable](http://rubaxa.github.io/Sortable/) library
 * User authentication for Frontend Website (Sign Up, Login, Forgot Password, etc.)
 * User authentication for Admin Panel (Login, Change Password, etc.)
 * Preset layouts and templates

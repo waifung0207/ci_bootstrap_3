@@ -71,9 +71,10 @@ $config['site'] = array(
 			'url'		=> 'example',
 			'icon'		=> 'fa fa-cog',
 			'children'  => array(
-				'Example 1'		=> 'example/demo/1',
-				'Example 2'		=> 'example/demo/2',
-				'Example 3'		=> 'example/demo/3',
+				'Sortable Demo'		=> 'example/sortable',
+				'Example 1'			=> 'example/demo/1',
+				'Example 2'			=> 'example/demo/2',
+				'Example 3'			=> 'example/demo/3',
 			)
 		),
 		// end of example
