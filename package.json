@@ -22,6 +22,7 @@
     "gulp-connect-php": "*",
     "gulp-imagemin": "*",
     "gulp-minify-css": "*",
+    "gulp-notify": "*",
     "gulp-sequence": "*",
     "gulp-sourcemaps": "*",
     "gulp-uglifyjs": "*",
