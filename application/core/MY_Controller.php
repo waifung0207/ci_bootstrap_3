@@ -251,7 +251,7 @@ class API_Controller extends MY_Controller {
 	{
 		// GET parameters
 		$params = $this->input->get();
-		
+
 		// request body
 		if ( in_array($this->mMethod, array('POST', 'PUT')) )
 		{

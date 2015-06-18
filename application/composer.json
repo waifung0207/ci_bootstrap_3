@@ -3,6 +3,7 @@
     "require": {
         "google/recaptcha": "~1.1",
         "league/csv": "^7.0",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "firebase/php-jwt": "^2.1"
     }
 }
