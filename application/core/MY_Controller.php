@@ -225,11 +225,18 @@ class Admin_Controller extends MY_Controller {
  */
 class API_Controller extends MY_Controller {
 
+	// Combined paramters from:
+	// 1. GET parameter (query string from URL)
+	// 2. POST body (from form data)
+	// 3. POST body (from JSON body)
+	protected $mParams;
+
 	// Constructor
 	public function __construct()
 	{
 		parent::__construct();
 		$this->verify_token();
+		$this->parse_request();
 	}
 	
 	// Verify access token (e.g. API Key, JSON Web Token)
@@ -237,6 +244,155 @@ class API_Controller extends MY_Controller {
 	{
 		// TODO: implement API Key or JWT handling
 		$this->mUser = NULL;
+	}
+
+	// Parse request to obtain request info (method, body)
+	protected function parse_request()
+	{
+		// GET parameters
+		$params = $this->input->get();
+		
+		// request body
+		if ( in_array($this->mMethod, array('POST', 'PUT')) )
+		{
+			$content_type = $this->input->server('CONTENT_TYPE');
+			$is_form_request = ($content_type=='application/x-www-form-urlencoded');
+			$is_json_request = ($content_type=='application/json' || $content_type=='application/json; charset=UTF-8');
+
+			if ($is_form_request)
+			{
+				// check CodeIgniter input
+				$form_data = $this->input->post();
+
+				if ( !empty($form_data) )
+				{
+					// save parameters from form body
+					$params = array_merge($params, $form_data);
+				}
+				else
+				{
+					// query string from text body
+					$data = file_get_contents("php://input");
+					parse_str($data, $temp);
+					$params = array_merge($params, $temp);
+				}
+			}
+			else if ($is_json_request)
+			{
+				// JSON from text body
+				$data = file_get_contents("php://input");
+				$params = array_merge($params, json_decode(trim($data), TRUE));
+			}
+		}
+
+		// TODO: sanitize $mParams
+		$this->mParams = $params;
+	}
+
+	// shortcut method to get single value from parameters
+	protected function param($key, $default_val = NULL)
+	{
+		if ( empty($this->mParams[$key]) )
+			return $default_val;
+		else
+			return $this->mParams[$key];
+	}
+
+	/**
+	 * Basic RESTful endpoints
+	 * 
+	 * For instance, the following URL patterns will be consumed by Items controller
+	 * 	[GET] /items					=> get_items()
+	 * 	[GET] /items/{id}				=> get_item(id)
+	 * 	[GET] /items/{id}/{subitem}		=> get_subitems(id, subitem)
+	 * 	[POST] /items 					=> create_item()
+	 * 	[PUT] /items/{id}				=> update_item(id)
+	 * 	[DELETE] /items/{id}			=> remove_item(id)
+	 *
+	 * Other custom endpoints can be added into the child controller instead, e.g.:
+	 * 	[GET] /items/hello 				=> should call hello() function inside Items controller
+	 */
+	public function index()
+	{
+		$item_id = $this->uri->rsegment(3);
+		$subitem = strtolower($this->uri->rsegment(4));
+
+		switch($this->mMethod)
+		{
+			case 'GET':
+				if ( !empty($subitem) )
+					$this->get_subitems($item_id, $subitem);
+				else if ( !empty($item_id) )
+					$this->get_item($item_id);
+				else
+					$this->get_items();
+				break;
+			case 'POST':
+				if ( empty($item_id) )
+					$this->create_item();
+				else
+					$this->to_error_not_found();
+				break;
+			case 'PUT':
+				if ( !empty($item_id) )
+					$this->update_item($item_id);
+				else
+					$this->to_error_not_found();
+				break;
+			case 'DELETE':
+				if ( !empty($item_id) )
+					$this->remove_item($item_id);
+				else
+					$this->to_error_not_found();
+				break;
+			default:
+				$this->to_error_not_found();
+				break;
+		}
+	}
+
+	/**
+	 * Functions to be override by child controllers
+	 */
+	protected function get_items()
+	{
+		$this->to_not_implemented();
+	}
+
+	protected function get_item($id)
+	{
+		$data = array('item_id' => (int)$id);
+		$this->to_not_implemented($data);
+	}
+
+	protected function get_subitems($parent_id, $subitem)
+	{
+		$data = array(
+			'parent_id' => (int)$parent_id,
+			'subitem' => $subitem
+		);
+		$this->to_not_implemented($data);
+	}
+	
+	protected function create_item()
+	{
+		$data = array('params' => $this->mParams);
+		$this->to_not_implemented($data);
+	}
+
+	protected function update_item($id)
+	{
+		$data = array(
+			'item_id' => (int)$id,
+			'params' => $this->mParams
+		);
+		$this->to_not_implemented($data);
+	}
+
+	protected function remove_item($id)
+	{
+		$data = array('item_id' => (int)$id);
+		$this->to_not_implemented($data);
 	}
 
 	/**
@@ -271,8 +427,7 @@ class API_Controller extends MY_Controller {
 		if (!empty($additional_data))
 			$data['data'] = $additional_data;
 
-		$this->output->set_status_header($code);
-		$this->render_json($data);
+		$this->render_json($data, $code);
 	}
 
 	protected function to_error_bad_request()
@@ -298,5 +453,26 @@ class API_Controller extends MY_Controller {
 	protected function to_error_method_not_allowed()
 	{
 		$this->to_error('Method Not Allowed', 405);
+	}
+
+	protected function to_not_implemented($additional_data = array())
+	{
+		// show "not implemented" info only during development mode
+		if (ENVIRONMENT=='development')
+		{
+			$trace = debug_backtrace();
+			$caller = $trace[1];
+
+			$data['url'] = current_url();
+			$data['controller']	= $this->mCtrler;
+			$data['function'] = $caller['function'];
+			$data = array_merge($data, $additional_data);
+
+			$this->to_error('Not Implemented', 501, $data);
+		}
+		else
+		{
+			$this->to_error_not_found();
+		}
 	}
 }

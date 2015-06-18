@@ -21,6 +21,7 @@ This repository contains setup for rapid development:
 * Custom config files (sites.php, locale.php) for easy configuration of website behavior
 * Admin Panel with AdminLTE v2 theme, and Grocery CRUD integration
 * Admin Panel includes usage of [Sortable](http://rubaxa.github.io/Sortable/) library
+* API Site to handle RESTful endpoints, with shortcut functions to grab parameters and display results
 * User authentication for Frontend Website (Sign Up, Login, Forgot Password, etc.)
 * User authentication for Admin Panel (Login, Change Password, etc.)
 * Preset layouts and templates
@@ -68,7 +69,7 @@ application/                    --- Main CodeIgniter source files
             libraries/          --- Libraries from Grocery CRUD and Image CRUB
             models/             --- Models only being used in Admin panel
             views/              --- Views for Admin Panel; can reuse Frontend views, or override by using same path/filename
-        api/                    --- Another module specific for API endpoints (to be completed)
+        api/                    --- Another module specific for API endpoints
     third_party/
         MX/                     --- Required for HMVC extension
     views/                      --- Views for Frontend Website, can also be used by modules unless overrided
@@ -111,5 +112,5 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Example of using Image CRUD
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
 * Custom 404 error page
-* API module (e.g. authentication, JSON response, error handling)
+* API authentication (by API key or JSON Web Token, i.e. JWT)
 * More helpers to enhance code reusability
