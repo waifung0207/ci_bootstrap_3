@@ -52,3 +52,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+/**
+ * Custom routes by CI Bootstrap 3
+ */
+
+// API endpoints to specific version
+$route['api/v1'] = "api_v1";
+$route['api/v1/(:any)'] = "api_v1/$1";
+
+// API endpoints to latest version
+$route['api'] = "api_v1";
+$route['api/(:any)'] = "api_v1/$1";
