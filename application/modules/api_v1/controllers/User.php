@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends MY_Controller {
+class User extends API_Controller {
 
 	public function index()
 	{
-		$data = array('msg' => 'To be completed');
-		$this->render_json($data);
+		$data = array('id' => 1, 'name' => 'Dummy user');
+		$this->to_response($data);
 	}
 }

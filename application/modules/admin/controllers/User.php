@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends MY_Controller {
+class User extends Admin_Controller {
 
 	/**
 	 * User Management page (e.g. CRUD operations)

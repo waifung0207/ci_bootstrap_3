@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Base controllers for different purposes
+ * 	- MY_Controller: 
+ * 	- Admin_Controller: 
+ * 	- API_Controller: 
+ */
 class MY_Controller extends CI_Controller {
 
 	// Values to be obtained automatically from router
@@ -46,10 +52,6 @@ class MY_Controller extends CI_Controller {
 
 		// initial setup
 		$this->_setup();
-
-		// user authenication
-		if ( in_array($this->mModule, array('admin', 'api')) )
-			$this->_verify_auth();
 	}
 
 	// Setup values from file: config/site.php
@@ -91,35 +93,14 @@ class MY_Controller extends CI_Controller {
 		$this->mSiteConfig = $site_config;
 	}
 
-	// Verify authentication
-	private function _verify_auth()
+	// Verify user authentication
+	protected function verify_auth($redirect_url = 'account/login')
 	{
-		if ($this->mModule=='admin' && $this->mCtrler!='login')
-		{
-			// obtain user data from session; redirect to Login page if not found
-			if ($this->session->has_userdata('admin_user'))
-				$this->mUser = $this->session->userdata('admin_user');
-			else
-				redirect('admin/login');	
-		}
-		elseif ($this->mModule=='api')
-		{
-			// TODO: complete API authentication
-			$this->mUser = NULL;
-		}
-	}
-
-	// Verify if the login user belongs to target role
-	// ($role can be string or string array)
-	protected function _verify_role($role)
-	{
-		if ( empty($this->mUser) )
-			redirect('admin/login');
-
-		$pass = is_array($role) ? in_array($this->mUser->role, $role) : ($this->mUser->role==$role);
-		
-		if (!$pass)
-			redirect('admin');
+		// obtain user data from session; redirect to Login page if not found
+		if ($this->session->has_userdata('user'))
+			$this->mUser = $this->session->userdata('user');
+		else
+			redirect($redirect_url);
 	}
 	
 	// Output template (layout + view)
@@ -151,7 +132,7 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['ga_id'] = $this->mGaID;
 		$this->mViewData['inner_view'] = $inner_view;
 		$this->mViewData['user'] = $this->mUser;
-		
+
 		// automatically push current page to last record of breadcrumb
 		$this->push_breadcrumb($this->mTitle);
 		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
@@ -182,9 +163,10 @@ class MY_Controller extends CI_Controller {
 	}
 
 	// Output JSON string
-	protected function render_json($data)
+	protected function render_json($data, $code = 200)
 	{
 		$this->output
+			->set_status_header($code)
 			->set_content_type('application/json')
 			->set_output(json_encode($data));
 	}
@@ -199,5 +181,122 @@ class MY_Controller extends CI_Controller {
 			$this->mBreadcrumb[] = $entry;
 		else
 			array_unshift($this->mBreadcrumb, $entry);
+	}
+}
+
+/**
+ * For Admin module
+ */
+class Admin_Controller extends MY_Controller {
+
+	// Constructor
+	public function __construct()
+	{
+		parent::__construct();
+		$this->verify_auth();
+	}
+
+	// Verify user authentication
+	protected function verify_auth($redirect_url = 'admin/login')
+	{
+		// obtain user data from session; redirect to Login page if not found
+		if ($this->session->has_userdata('admin_user'))
+			$this->mUser = $this->session->userdata('admin_user');
+		else
+			redirect($redirect_url);
+	}
+
+	// Verify if the login user belongs to target role
+	// ($role can be string or string array)
+	protected function verify_role($role)
+	{
+		if ( empty($this->mUser) )
+			redirect('admin/login');
+
+		$pass = is_array($role) ? in_array($this->mUser->role, $role) : ($this->mUser->role==$role);
+		
+		if (!$pass)
+			redirect('admin');
+	}
+}
+
+/**
+ * For API module
+ */
+class API_Controller extends MY_Controller {
+
+	// Constructor
+	public function __construct()
+	{
+		parent::__construct();
+		$this->verify_token();
+	}
+	
+	// Verify access token (e.g. API Key, JSON Web Token)
+	protected function verify_token()
+	{
+		// TODO: implement API Key or JWT handling
+		$this->mUser = NULL;
+	}
+
+	/**
+	 * Wrapper functions to return responses
+	 * Reference: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+	 */
+	protected function to_response($data)
+	{
+		$this->render_json($data);
+	}
+
+	protected function to_created()
+	{
+		$data = array('message' => 'Created');
+		$this->render_json($data, 201);
+	}
+	
+	protected function to_accepted()
+	{
+		$data = array('message' => 'Accepted');
+		$this->render_json($data, 201);
+	}
+
+	/**
+	 * Wrapper function to return error
+	 */
+	protected function to_error($msg = 'An error occurs', $code = 200, $additional_data = array())
+	{
+		$data = array('error' => $msg);
+
+		// (optional) append additional data
+		if (!empty($additional_data))
+			$data['data'] = $additional_data;
+
+		$this->output->set_status_header($code);
+		$this->render_json($data);
+	}
+
+	protected function to_error_bad_request()
+	{
+		$this->to_error('Bad Request', 400);
+	}
+
+	protected function to_error_unauthorized()
+	{
+		$this->to_error('Unauthorized', 401);
+	}
+
+	protected function to_error_forbidden()
+	{
+		$this->to_error('Forbidden', 403);
+	}
+
+	protected function to_error_not_found()
+	{
+		$this->to_error('Not Found', 404);
+	}
+
+	protected function to_error_method_not_allowed()
+	{
+		$this->to_error('Method Not Allowed', 405);
 	}
 }

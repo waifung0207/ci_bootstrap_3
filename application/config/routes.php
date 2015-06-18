@@ -61,6 +61,6 @@ $route['translate_uri_dashes'] = FALSE;
 $route['api/v1'] = "api_v1";
 $route['api/v1/(:any)'] = "api_v1/$1";
 
-// API endpoints to latest version
+// API endpoints to latest version (need to change "api_v1" when there is a later version)
 $route['api'] = "api_v1";
 $route['api/(:any)'] = "api_v1/$1";
