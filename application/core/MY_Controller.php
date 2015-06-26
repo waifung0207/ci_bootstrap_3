@@ -122,7 +122,7 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['site_name'] = $this->mSiteName;
 		$this->mViewData['title'] = $this->mTitle;
 		$this->mViewData['meta'] = $this->mMetaData;
-		//$this->mViewData['current_uri'] = ($this->mSite==='frontend') ? uri_string(): str_replace($this->mSite.'/', '', uri_string());
+		$this->mViewData['current_uri'] = empty($this->mModule) ? uri_string(): str_replace($this->mModule.'/', '', uri_string());
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['scripts'] = $this->mScripts;
 

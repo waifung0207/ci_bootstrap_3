@@ -18,7 +18,7 @@
 
 				<?php if (empty($parent_params['children'])): ?>
 
-					<?php $active = FALSE; //$active = ($current_uri==$parent_params['url'] || $ctrler==$parent); ?>
+					<?php $active = ($current_uri==$parent_params['url'] || $ctrler==$parent); ?>
 					<li <?php if ($active) echo 'class="active"'; ?>>
 						<a href='<?php echo $parent_params['url']; ?>'>
 							<?php echo $parent_params['name']; ?>
