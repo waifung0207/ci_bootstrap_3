@@ -17,6 +17,14 @@
 }
 
 /**
+ * Align custom icon fonts with FontAwesome
+ */
+.icon {
+	display: inline-block;
+	width: 20px;
+}
+
+/**
  * Font icons inside GroceryCRUD
  */
 .ajax_list .fa {
