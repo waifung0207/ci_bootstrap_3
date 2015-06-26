@@ -88,7 +88,7 @@
 <body class="swagger-section">
 <div id='header'>
 	<div class="swagger-ui-wrap">
-		<a id="logo" href="<?php echo site_url('api/v1'); ?>">API Doc</a>
+		<a id="logo" href="">API Doc</a>
 		<form id='api_selector'>
 			<div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
 			<div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
