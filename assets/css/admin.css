@@ -7,7 +7,7 @@
  */
 
 .flexigrid div.form-div input[type="text"], .flexigrid div.form-div input[type="password"] {
-	height: auto;
+	height: auto !important;
 }
 
 .checkbox, .radio {
