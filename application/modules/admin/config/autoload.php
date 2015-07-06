@@ -16,7 +16,7 @@ $autoload['libraries'] = array('database', 'session');
 
 $autoload['drivers'] = array();
 
-$autoload['helper'] = array('url');
+$autoload['helper'] = array('url', 'adminlte');
 
 $autoload['config'] = array('site');
 

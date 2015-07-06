@@ -66,6 +66,7 @@ application/                    --- Main CodeIgniter source files
         admin/                  --- Module for Admin Panel
             config/             --- Configuration for Admin Panel (overriding application/config/)
             controllers/        --- Controllers for Admin Panel; also extends from MY_Controller
+            helpers/            --- Helper classes, e.g. to generate AdminLTE widgets
             libraries/          --- Libraries from Grocery CRUD and Image CRUB
             models/             --- Models only being used in Admin panel
             views/              --- Views for Admin Panel; can reuse Frontend views, or override by using same path/filename
