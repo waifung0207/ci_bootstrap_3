@@ -7,8 +7,11 @@ class User_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		
+		// load config file
 		$this->load->config('site');
-		$this->mConfig = $this->config->item('site')['auth'];
+		$site_config = $this->config->item('site');
+		$this->mConfig = $site_config['auth'];
 	}
 
 	/**

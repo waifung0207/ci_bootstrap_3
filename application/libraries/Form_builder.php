@@ -372,7 +372,8 @@ class Form {
 	public function form_group_recaptcha()
 	{
 		$this->CI->load->config('form_validation');
-		$site_key = $this->CI->config->item('recaptcha')['site_key'];
+		$config = $this->CI->config->item('recaptcha');
+		$site_key = $config['site_key'];
 
 		$html = '<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>';
 
@@ -405,7 +406,8 @@ class Form {
 		if ( $this->mRecaptchaAdded && ENVIRONMENT!='development' )
 		{
 			$this->CI->load->config('form_validation');
-			$secret_key = $this->CI->config->item('recaptcha')['secret_key'];
+			$config = $this->CI->config->item('recaptcha');
+			$secret_key = $config['secret_key'];
 			$recaptcha = new \ReCaptcha\ReCaptcha($secret_key);
 			$resp = $recaptcha->verify($this->CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
 
