@@ -31,9 +31,10 @@ class MY_Model extends CI_Model {
 		$table = $this->_get_table_name(TRUE);
 		$this->_join_tables($joins);
 		$this->db->order_by($this->mOrderBy[0], $this->mOrderBy[1]);
-		return $this->db->get_where($table, $where, 1)->row();
+		$query = $this->db->get_where($table, $where, 1);
+		return ($query->num_rows()>0) ? $query->row() : NULL;
 	}
-
+	
 	// Get single record (by ID)
 	public function get_by_id($id, $joins = array())
 	{
