@@ -34,6 +34,15 @@ This repository contains setup for rapid development:
 * ... more coming!
 
 
+### Server Environment
+
+Below configuration are preferred; other environments are not well-tested, but still feel free to report and issues. 
+
+* **PHP 5.5+**
+* **Apache 2.2+** with rewrite mod enabled
+* **MySQL 5.5+**
+
+
 ### Folder Structure
 
 Explanation on the folder structure which supports HMVC (only showing the highlighted folders and files).

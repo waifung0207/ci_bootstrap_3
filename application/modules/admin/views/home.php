@@ -24,7 +24,7 @@
 	<?php } ?>
 
 	<div class="col-md-4">
-		<?php echo info_box('yellow', $count['users'], 'Frontend Users', 'users', 'admin/user'); ?>
+		<?php echo info_box('yellow', $count['users'], 'Users', 'users', 'admin/user'); ?>
 	</div>
 
 </div>
