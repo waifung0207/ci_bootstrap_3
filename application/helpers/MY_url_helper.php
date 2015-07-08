@@ -28,8 +28,25 @@ function image_url($path)
 	return base_url('assets/dist/images/'.$path);	
 }
 
+// current URL includes query string
+// Reference: http://stackoverflow.com/questions/4160377/codeigniter-current-url-doesnt-show-query-strings
+function current_full_url()
+{
+	$CI =& get_instance();
+	$url = $CI->config->site_url($CI->uri->uri_string());
+	return $_SERVER['QUERY_STRING'] ? $url.'?'.$_SERVER['QUERY_STRING'] : $url;
+}
+
 // refresh current page (interrupt other actions)
 function refresh()
 {
-	redirect(current_url(), 'refresh');
+	redirect(current_full_url(), 'refresh');
+}
+
+// redirect back to referrer page
+function redirect_referrer()
+{
+	$CI =& get_instance();
+	$CI->load->library('user_agent');
+	redirect($CI->agent->referrer());
 }
