@@ -9,13 +9,12 @@
 /**----------------------------------
  * Buttons
  **----------------------------------*/
-function btn($label, $url = '', $icon = '', $style = 'primary', $size = '')
+function btn($label, $url = '#', $icon = '', $style = 'primary', $size = '')
 {
 	$size = empty($size) ? '' : 'btn-'.$size;
-	$url = empty($url) ? '' : site_url($url);
 	$icon = empty($icon) ? '' : "<i class='fa fa-$icon'></i>";
 
-	if ( empty($url) )
+	if ( $url==='#' )
 		return "<button class='btn btn-$style $size'>$icon $label</button>";
 	else
 		return "<a class='btn btn-$style $size' href='$url'>$icon $label</a>";
@@ -48,7 +47,6 @@ function box_close($footer = '')
 
 function small_box($color, $number, $label, $icon, $url = '#')
 {
-	$href = ($url==='#') ? '#' : site_url($url);
 	$more_info = empty($url) ? '&nbsp;' : "More info <i class='fa fa-arrow-circle-right'></i>";
 	
 	return "<div class='small-box bg-$color'>
@@ -59,16 +57,14 @@ function small_box($color, $number, $label, $icon, $url = '#')
 		<div class='icon'>
 			<i class='fa fa-$icon'></i>
 		</div>
-		<a href='$href' class='small-box-footer'>$more_info</a>
+		<a href='$url' class='small-box-footer'>$more_info</a>
 	</div>";
 }
 
 function info_box($color, $number, $label, $icon, $url = '#')
 {
-	$href = ($url==='#') ? '#' : site_url($url);
-
 	return "<div class='info-box'>
-		<a href='$href'>
+		<a href='$url'>
 			<span class='info-box-icon bg-$color'><i class='fa fa-$icon'></i></span>
 		</a>
 		<div class='info-box-content'>
@@ -80,9 +76,8 @@ function info_box($color, $number, $label, $icon, $url = '#')
 
 function app_btn($icon, $label, $url = '#', $badge = '', $badge_color = 'purple')
 {
-	$href = ($url==='#') ? '#' : site_url($url);
 	$badge = isset($badge) ? "<span class='badge bg-$badge_color'>$badge</span>": '';
-	return "<a class='btn btn-app' href='$href'>$badge<i class='fa fa-$icon'></i> $label</a>";
+	return "<a class='btn btn-app' href='$url'>$badge<i class='fa fa-$icon'></i> $label</a>";
 }
 
 
