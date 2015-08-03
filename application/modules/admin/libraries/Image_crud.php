@@ -291,16 +291,17 @@ class image_CRUD {
 			$ci->load->library('image_moo');
 			
 			$filename = $upload_response->name;
-			
+
 			$path = $upload_dir.'/'.$filename;
-			
-			/* Resizing to 1024 x 768 if its required */
+
+			// hotfix to set max image size (configure from applicaiton/config/image_crud.php)
+			$max_width = $ci->config->item('image_crud_max_width');
+			$max_height = $ci->config->item('image_crud_max_height');
 			list($width, $height) = getimagesize($path);
-			if($width > 1024 || $height > 768)
+			if($width > $max_width || $height > $max_height)
 			{
-				$ci->image_moo->load($path)->resize(1024,768)->save($path,true);
+				$ci->image_moo->load($path)->resize($max_width,$max_height)->save($path,true);
 			}
-			/* ------------------------------------- */		
 
 			return $filename;
 		} else {
