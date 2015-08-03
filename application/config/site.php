@@ -87,6 +87,7 @@ $config['site'] = array(
 				'Item 1'				=> 'demo/item/1',
 				'Item 2'				=> 'demo/item/2',
 				'Item 3'				=> 'demo/item/3',
+				'Custom 404'			=> 'demo/non_existed',
 			)
 		),
 		// end of demo

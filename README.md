@@ -27,7 +27,8 @@ This repository contains setup for rapid development:
 * Preset layouts and templates
 * Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-starter 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
-* Breadcrumb handling
+* Breadcrumb and Pagination handling fit with Bootstrap theme
+* Custom 404 pages for Frontend Website and Admin Panel
 * Multilingual support
 * Email config setup
 * Functions to be called from CLI (e.g. daily cron job, database backup)
@@ -121,6 +122,5 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Widget helper to include reusable views (e.g. for Admin Panel components)
 * Example of using Image CRUD
 * Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
-* Custom 404 error page
 * API authentication (by API key or JSON Web Token, i.e. JWT)
 * More helpers to enhance code reusability

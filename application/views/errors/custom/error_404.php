@@ -1,0 +1,1 @@
+view: errors/custom/error_404.php
