@@ -30,7 +30,8 @@ class Account extends MY_Controller {
 		$form->add_recaptcha();
 		$form->add_submit();
 
-		if ( !empty($this->input->post()) && $form->validate() )
+		$post_data = $this->input->post();
+		if ( !empty($post_data) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');
@@ -89,7 +90,8 @@ class Account extends MY_Controller {
 		$form->add_custom_html('<div class="form-group"><a href="account/forgot_password">Forgot password?</a></div>');
 		$form->add_submit('Login');
 
-		if ( !empty($this->input->post()) && $form->validate() )
+		$post_data = $this->input->post();
+		if ( !empty($post_data) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');
@@ -128,7 +130,8 @@ class Account extends MY_Controller {
 		$form->add_text('email', 'Email');
 		$form->add_submit();
 		
-		if ( !empty($this->input->post()) && $form->validate() )
+		$post_data = $this->input->post();
+		if ( !empty($post_data) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');
@@ -171,7 +174,8 @@ class Account extends MY_Controller {
 		$form->add_hidden('code', $code);
 		$form->add_submit();
 
-		if ( !empty($this->input->post()) && $form->validate() )
+		$post_data = $this->input->post();
+		if ( !empty($post_data) && $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');

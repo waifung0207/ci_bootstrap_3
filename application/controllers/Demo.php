@@ -45,7 +45,8 @@ class Demo extends MY_Controller {
 		$form->add_recaptcha();
 		$form->add_submit();
 		
-		if ( !empty($this->input->post()) &&  $form->validate() )
+		$post_data = $this->input->post();
+		if ( !empty($post_data) &&  $form->validate() )
 		{
 			// passed validation
 			$email = $this->input->post('email');

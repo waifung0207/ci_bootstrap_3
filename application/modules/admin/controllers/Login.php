@@ -15,7 +15,8 @@ class Login extends MY_Controller {
 		$form->add_password('password', '', 'Password', 'admin');
 		$form->add_submit('Sign In', 'primary', TRUE);
 		
-		if ( !empty($this->input->post()) && $form->validate() )
+		$post_data = $this->input->post();
+		if ( !empty($post_data) && $form->validate() )
 		{
 			// passed validation
 			$username = $this->input->post('username');
