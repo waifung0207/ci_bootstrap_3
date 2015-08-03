@@ -8,6 +8,7 @@ class Error extends MY_Controller {
 
 	public function index()
 	{
+		$this->output->set_status_header('404');
 		$this->mTitle = '404 Error Page';
 		$this->render('errors/custom/error_404');
 	}
