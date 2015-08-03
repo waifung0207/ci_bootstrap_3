@@ -27,13 +27,16 @@ class Demo extends MY_Controller {
 
 	public function pagination()
 	{
+		// library from: application/libraries/MY_Pagination.php
+		// config from: application/config/pagination.php
 		$this->load->library('pagination');
 		$this->mViewData['pagination'] = $this->pagination->render(200, 20);
 		$this->render('demo/pagination');
 	}
-
+	
 	public function form_basic()
 	{
+		// library from: application/libraries/Form_builder.php
 		$form = $this->form_builder->create_form('demo/form_basic');
 		$form->add_text('name', 'Name');
 		$form->add_text('email', 'Email');

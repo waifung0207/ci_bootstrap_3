@@ -71,6 +71,7 @@ $config['site'] = array(
 			'url'		=> 'demo',
 			'icon'		=> 'icon ion-gear-b',	// use non-FontAwesome icon (with "icon" class to align styling)
 			'children'  => array(
+				'Pagination'	=> 'demo/pagination',
 				'Sortable'		=> 'demo/sortable',
 				'Item 1'		=> 'demo/item/1',
 				'Item 2'		=> 'demo/item/2',

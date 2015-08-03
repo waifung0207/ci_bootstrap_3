@@ -17,6 +17,13 @@ class Demo extends Admin_Controller {
 		$this->render('demo/item');
 	}
 	
+	public function pagination()
+	{
+		$this->load->library('pagination');
+		$this->mViewData['pagination'] = $this->pagination->render(200, 20);
+		$this->render('demo/pagination');
+	}
+	
 	public function sortable()
 	{
 		$this->mTitle = 'Sortable';
