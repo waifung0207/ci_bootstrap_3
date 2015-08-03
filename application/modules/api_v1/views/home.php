@@ -27,8 +27,8 @@
 			if (url && url.length > 1) {
 				url = decodeURIComponent(url[1]);
 			} else {
-				// TODO: change to site_url()
-				url = "http://petstore.swagger.io/v2/swagger.json";
+				// Reference: http://petstore.swagger.io/v2/swagger.json
+				url = "<?php echo site_url('api/swagger'); ?>";
 			}
 			window.swaggerUi = new SwaggerUi({
 				url: url,
@@ -60,19 +60,26 @@
 			function addApiKeyAuthorization(){
 				var key = encodeURIComponent($('#input_apiKey')[0].value);
 				if(key && key.trim() != "") {
-						var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-						window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-						log("added key " + key);
+					var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("token", key, "query");
+					//var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", key, "header");
+					window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
+					log("added key " + key);
 				}
 			}
-
+			
 			$('#input_apiKey').change(addApiKeyAuthorization);
 
-			// if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-			/*
-				var apiKey = "myApiKeyXXXX123456789";
-				$('#input_apiKey').val(apiKey);
-			*/
+			<?php
+				// if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
+				/*
+					var apiKey = "myApiKeyXXXX123456789";
+					$('#input_apiKey').val(apiKey);
+				*/
+				if ( !empty($token) )
+				{
+					echo 'var apiKey = "'.$token.'"; $("#input_apiKey").val(apiKey);';
+				}
+			?>
 
 			window.swaggerUi.load();
 
