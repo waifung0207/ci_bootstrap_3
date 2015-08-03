@@ -76,19 +76,20 @@ $config['site'] = array(
 			'name'		=> 'Home',
 			'url'		=> '',
 		),
-		// Example to add sections with subpages
-		'example' => array(
-			'name'		=> 'Example',
-			'url'		=> 'example',
+		// Demo to add sections with subpages
+		'demo' => array(
+			'name'		=> 'Demo',
+			'url'		=> 'demo',
 			'children'  => array(
-				'Form Basic'			=> 'example/form_basic',
-				'Form Advanced'			=> 'example/form_advanced',
-				'Example 1'				=> 'example/demo/1',
-				'Example 2'				=> 'example/demo/2',
-				'Example 3'				=> 'example/demo/3',
+				'Form Basic'			=> 'demo/form_basic',
+				'Form Advanced'			=> 'demo/form_advanced',
+				'Pagination'			=> 'demo/pagination',
+				'Item 1'				=> 'demo/item/1',
+				'Item 2'				=> 'demo/item/2',
+				'Item 3'				=> 'demo/item/3',
 			)
 		),
-		// end of example
+		// end of demo
 		'sign_up' => array(
 			'name'		=> 'Sign Up',
 			'url'		=> 'account/sign_up',

@@ -65,19 +65,19 @@ $config['site'] = array(
 			'url'		=> 'user',
 			'icon'		=> 'fa fa-users',
 		),
-		// Example to add sections with subpages
-		'example' => array(
-			'name'		=> 'Examples',
-			'url'		=> 'example',
+		// Demo to add sections with subpages
+		'demo' => array(
+			'name'		=> 'Demo',
+			'url'		=> 'demo',
 			'icon'		=> 'icon ion-gear-b',	// use non-FontAwesome icon (with "icon" class to align styling)
 			'children'  => array(
-				'Sortable Demo'		=> 'example/sortable',
-				'Example 1'			=> 'example/demo/1',
-				'Example 2'			=> 'example/demo/2',
-				'Example 3'			=> 'example/demo/3',
+				'Sortable'		=> 'demo/sortable',
+				'Item 1'		=> 'demo/item/1',
+				'Item 2'		=> 'demo/item/2',
+				'Item 3'		=> 'demo/item/3',
 			)
 		),
-		// end of example
+		// end of demo
 		/*
 		'admin_user' => array(
 			'name'		=> 'Admin Users',

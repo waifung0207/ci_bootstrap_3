@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Overriding CodeIgniter email library
+ * Overriding CodeIgniter library
  */
 class MY_Email extends CI_Email {
 

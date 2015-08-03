@@ -4,30 +4,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * For demo only
  */
-class Example extends MY_Controller {
+class Demo extends MY_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 
 		$this->load->library('form_builder');
-		$this->push_breadcrumb('Example');
+		$this->push_breadcrumb('Demo');
 	}
 
 	public function index()
 	{
-		redirect('example/demo/1');
+		redirect('demo/item/1');
 	}
 
-	public function demo($demo_id)
+	public function item($demo_id)
 	{
 		$this->mViewData['demo_id'] = $demo_id;
-		$this->render('demo');
+		$this->render('demo/item');
+	}
+
+	public function pagination()
+	{
+		$this->load->library('pagination');
+		$this->mViewData['pagination'] = $this->pagination->render(200, 20);
+		$this->render('demo/pagination');
 	}
 
 	public function form_basic()
 	{
-		$form = $this->form_builder->create_form('example/form_basic');
+		$form = $this->form_builder->create_form('demo/form_basic');
 		$form->add_text('name', 'Name');
 		$form->add_text('email', 'Email');
 		$form->add_text('subject', 'Subject');
@@ -64,7 +71,7 @@ class Example extends MY_Controller {
 		// Required for reCAPTCHA
 		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
 
-		$form = $this->form_builder->create_form('example/form_advanced');
+		$form = $this->form_builder->create_form('demo/form_advanced');
 		$form->set_horizontal();
 		$form->add_text('name', 'Name');
 		$form->add_text('email', 'Email');
