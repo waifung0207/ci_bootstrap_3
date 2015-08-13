@@ -53,11 +53,11 @@ $config['site'] = array(
 			),
 			'zh' => array(
 				'label'	=> '繁體中文',
-				'value'	=> 'chinese_traditional',
+				'value'	=> 'traditional-chinese',
 			),
 			'cn' => array(
 				'label'	=> '简体中文',
-				'value'	=> 'chinese_simplified',
+				'value'	=> 'simplified-chinese',
 			),
 		),
 		'autoload'		=> array('general'),	// language files to autoload
