@@ -10,7 +10,7 @@ This repository is developed upon the following tools:
 * [Bootstrap](http://getbootstrap.com/) (v3.3.5) - popular frontend framework
 * [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.1) - feature-rich library to build CRUD tables
 * [Image CRUD](http://www.grocerycrud.com/image-crud) (v0.6) - CRUD library for image management
-* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.2.0) - bootstrap theme for Admin Panel
+* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.2.1) - bootstrap theme for Admin Panel
 
 
 ### Features
