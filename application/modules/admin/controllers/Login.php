@@ -39,6 +39,7 @@ class Login extends MY_Controller {
 		}
 
 		// display form when no POST data, or validation failed
+		$this->mViewData['body_class'] = 'login-page';
 		$this->mViewData['form'] = $form;
 		$this->mBodyClass = 'login-page';
 		$this->render('login', 'empty');

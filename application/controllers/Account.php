@@ -9,6 +9,7 @@ class Account extends MY_Controller {
 
 		$this->load->model('user_model', 'users');
 		$this->push_breadcrumb('Account');
+		$this->mViewData['enable_breadcrumb'] = TRUE;
 	}
 
 	/**
@@ -58,7 +59,7 @@ class Account extends MY_Controller {
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->render('_partials/form');
+		$this->render('demo/form');
 	}
 
 	/**
@@ -117,7 +118,7 @@ class Account extends MY_Controller {
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->render('_partials/form');
+		$this->render('demo/form');
 	}
 
 	/**
@@ -151,7 +152,7 @@ class Account extends MY_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->render('_partials/form');
+		$this->render('demo/form');
 	}
 
 	/**
@@ -196,6 +197,6 @@ class Account extends MY_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->render('_partials/form');
+		$this->render('demo/form');
 	}
 }

@@ -20,37 +20,9 @@ $config['site'] = array(
 	// Default page title
 	// (set empty then MY_Controller will automatically generate one according to controller / action)
 	'title' => '',
-	
-	// Meta data (key-value pairs)
-	'meta' => array(
-		'author'		=> 'Michael Chan (waifung.hk)',
-		'description'	=> 'Site description',
-	),
-
-	// Stylesheets files to be included
-	'stylesheets' => array(
-		'assets/dist/admin.min.css',
-	),
-
-	// Scripts files to be included:
-	// 1. before end of </head>
-	// 2. before end of </body>
-	'scripts' => array(
-		'head' => array(
-			'assets/dist/admin.min.js'
-		),
-		'foot' => array(
-		),
-	),
 
 	// Multilingual settings (set empty array to disable this)
 	'multilingual' => array(),
-
-	// Google Analytics User ID (UA-XXXXXXXX-X)
-	'ga_id' => '',
-
-	// Class name assigned to <body>
-	'body_class' => 'skin-blue',
 
 	// Menu items which support icon fonts, e.g. Font Awesome
 	// (or directly update view file: applications/modules/admin/views/_partials/sidemenu.php)
@@ -97,7 +69,7 @@ $config['site'] = array(
 		
 		// Field name for logging in (e.g. email, username)
 		'login_field'		=> 'username',
-
+		
 		// Reset Password settings
 		/*
 		'reset_password'	=> array(

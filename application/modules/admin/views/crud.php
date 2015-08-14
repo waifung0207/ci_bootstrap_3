@@ -1,3 +1,4 @@
+<?php $this->layout('layouts::default') ?>
 
 <?php if ( !empty($crud_note) ) echo $crud_note; ?>
 

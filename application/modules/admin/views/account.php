@@ -1,3 +1,4 @@
+<?php $this->layout('layouts::default') ?>
 
 <?php echo render_alert(); ?>
 

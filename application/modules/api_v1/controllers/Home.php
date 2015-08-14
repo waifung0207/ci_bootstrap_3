@@ -7,7 +7,7 @@ class Home extends API_Controller {
 	{
 		// API Doc page only accessible during development env
 		if (ENVIRONMENT=='development')
-			$this->load->view('home');
+			$this->render('home');
 		else
 			redirect();
 	}

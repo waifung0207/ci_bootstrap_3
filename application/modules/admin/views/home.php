@@ -1,3 +1,4 @@
+<?php $this->layout('layouts::default') ?>
 
 <div class="row">
 

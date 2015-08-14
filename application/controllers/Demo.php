@@ -12,6 +12,7 @@ class Demo extends MY_Controller {
 
 		$this->load->library('form_builder');
 		$this->push_breadcrumb('Demo');
+		$this->mViewData['enable_breadcrumb'] = TRUE;
 	}
 
 	public function index()
@@ -67,7 +68,7 @@ class Demo extends MY_Controller {
 
 		// display form when no POST data, or validation failed
 		$this->mViewData['form'] = $form;
-		$this->render('_partials/form');
+		$this->render('demo/form');
 	}
 	
 	public function form_advanced()
@@ -85,7 +86,7 @@ class Demo extends MY_Controller {
 		$form->add_submit();
 
 		$this->mViewData['form'] = $form;
-		$this->render('_partials/form');
+		$this->render('demo/form');
 	}
 
 	// Example to work with database and models inherit from MY_Model

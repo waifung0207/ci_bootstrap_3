@@ -18,13 +18,11 @@ class MY_Controller extends CI_Controller {
 	protected $mSiteConfig = array();
 	protected $mSiteName = '';
 
+	// Plates instance (reference: http://platesphp.com/)
+	protected $mTemplates;
+
 	// Values and objects to be overrided or accessible from child controllers
 	protected $mTitle = '';
-	protected $mMetaData = array();
-	protected $mStylesheets = array();	// CSS files to be embedded on each page
-	protected $mScripts = array();		// JS files to be embedded on each page
-	protected $mGaID = '';				// Google Analytics User ID
-	protected $mBodyClass = '';
 	protected $mMenu = array();
 	protected $mBreadcrumb = array();
 
@@ -62,18 +60,20 @@ class MY_Controller extends CI_Controller {
 		// load default values
 		$this->mSiteName = $site_config['name'];
 		$this->mTitle = $site_config['title'];
-		$this->mMetaData = $site_config['meta'];
-		$this->mStylesheets = $site_config['stylesheets'];
-		$this->mScripts = $site_config['scripts'];
-		$this->mGaID = $site_config['ga_id'];
-		$this->mBodyClass = $site_config['body_class'];
 		$this->mMenu = $site_config['menu'];
+
+		// setup Plates template
+		$template_dir = empty($this->mModule) ? 'application/views' : 'application/modules/'.$this->mModule.'/views';
+		$this->mTemplates = new League\Plates\Engine($template_dir);
+		$this->mTemplates->addFolder('layouts', $template_dir.'/_layouts');
+		$this->mTemplates->addFolder('partials', $template_dir.'/_partials');
 
 		// multilingual setup
 		$lang_config = $site_config['multilingual'];
 		if ( !empty($lang_config) )
 		{
 			$this->mMultilingual = TRUE;
+			$this->load->helper('language');
 
 			// default language from config (NOT the one from CodeIgniter: application/config/config.php)
 			$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : $lang_config['default'];
@@ -87,7 +87,8 @@ class MY_Controller extends CI_Controller {
 		// push first entry to breadcrumb
 		if ($this->mCtrler!='home')
 		{
-			$this->push_breadcrumb('Home', '');	
+			$page = $this->mMultilingual ? lang('home') : 'Home';
+			$this->push_breadcrumb($page, '');	
 		}
 
 		$this->mSiteConfig = $site_config;
@@ -103,8 +104,8 @@ class MY_Controller extends CI_Controller {
 			redirect($redirect_url);
 	}
 	
-	// Output template (layout + view)
-	protected function render($inner_view, $layout = 'default')
+	// Render template (using Plates template)
+	protected function render($view_file)
 	{
 		// automatically generate page title
 		if ( empty($this->mTitle) )
@@ -121,16 +122,10 @@ class MY_Controller extends CI_Controller {
 
 		$this->mViewData['site_name'] = $this->mSiteName;
 		$this->mViewData['title'] = $this->mTitle;
-		$this->mViewData['meta'] = $this->mMetaData;
 		$this->mViewData['current_uri'] = empty($this->mModule) ? uri_string(): str_replace($this->mModule.'/', '', uri_string());
-		$this->mViewData['stylesheets'] = $this->mStylesheets;
-		$this->mViewData['scripts'] = $this->mScripts;
 
 		$this->mViewData['base_url'] = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
-		$this->mViewData['body_class'] = $this->mBodyClass;		
 		$this->mViewData['menu'] = $this->mMenu;
-		$this->mViewData['ga_id'] = $this->mGaID;
-		$this->mViewData['inner_view'] = $inner_view;
 		$this->mViewData['user'] = $this->mUser;
 
 		// automatically push current page to last record of breadcrumb
@@ -144,9 +139,12 @@ class MY_Controller extends CI_Controller {
 			$this->mViewData['language'] = $this->mLanguage;
 		}
 
-		// start loading view files
-		$this->load->view('_partials/head', $this->mViewData);
-		$this->load->view('_layouts/'.$layout, $this->mViewData);
+		// set global view data
+		//$this->mViewData['ci'] = $this;	// uncomment this line if need to use CI instance, e.g. $ci->benchmark->elapsed_time()
+		$this->mTemplates->addData($this->mViewData);
+
+		// note: need to use CodeIgniter Output class instead of echo() directly
+		$this->output->set_output($this->mTemplates->render($view_file));
 
 		// debug tools
 		$debug_config = $this->mSiteConfig['debug'];
@@ -157,9 +155,6 @@ class MY_Controller extends CI_Controller {
 			if ($debug_config['view_data'])
 				$this->output->append_output('<hr/>'.print_r($this->mViewData, TRUE));
 		}
-
-		// close HTML
-		$this->load->view('_partials/foot', $this->mViewData);		
 	}
 
 	// Output JSON string
@@ -217,6 +212,14 @@ class Admin_Controller extends MY_Controller {
 		
 		if (!$pass)
 			redirect('admin');
+	}
+
+	// Render template (override parent)
+	protected function render($view_file)
+	{
+		// (optional) change color scheme according to login user role
+		$this->mViewData['body_class'] = 'skin-blue';
+		parent::render($view_file);
 	}
 }
 

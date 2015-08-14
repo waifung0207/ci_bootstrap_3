@@ -21,28 +21,6 @@ $config['site'] = array(
 	// (set empty then MY_Controller will automatically generate one according to controller / action)
 	'title' => '',
 
-	// Meta data (key-value pairs)
-	'meta' => array(
-		'author'		=> 'Michael Chan (waifung.hk)',
-		'description'	=> 'Site description',
-	),
-
-	// Stylesheets files to be included
-	'stylesheets' => array(
-		'assets/dist/app.min.css',
-	),
-
-	// Scripts files to be included:
-	// 1. before end of </head>
-	// 2. before end of </body>
-	'scripts' => array(
-		'head' => array(
-		),
-		'foot' => array(
-			'assets/dist/app.min.js'
-		),
-	),
-	
 	// Multilingual settings (set empty array to disable this)
 	'multilingual' => array(
 		'default'		=> 'en',			// to decide which of the "available" languages should be used
@@ -65,9 +43,6 @@ $config['site'] = array(
 
 	// Google Analytics User ID (UA-XXXXXXXX-X)
 	'ga_id' => '',
-
-	// Class name assigned to <body>
-	'body_class' => '',
 	
 	// Menu items
 	// (or directly update view file: applications/views/_partials/navbar.php)
