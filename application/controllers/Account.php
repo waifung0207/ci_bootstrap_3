@@ -6,7 +6,8 @@ class Account extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
+		
+		$this->load->database();
 		$this->load->model('user_model', 'users');
 		$this->push_breadcrumb('Account');
 		$this->mViewData['enable_breadcrumb'] = TRUE;
@@ -19,7 +20,7 @@ class Account extends MY_Controller {
 	{
 		// Required for reCAPTCHA
 		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
-		
+
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/sign_up');
 		$form->add_text('first_name', 'First Name');

@@ -8,10 +8,8 @@ class User extends Admin_Controller {
 	 */
 	public function index()
 	{
-		$this->load->library('crud');
 		$crud = $this->crud->generate_crud('users');
-		$crud->columns('group_id', 'email', 'first_name', 'last_name', 'active', 'created_at');
-		$crud->set_relation('group_id', 'user_groups', 'name');
+		$crud->columns('role', 'email', 'first_name', 'last_name', 'active', 'created_at');
 		
 		$this->mViewData['crud_data'] = $this->crud->render();		
 		$this->render('crud');

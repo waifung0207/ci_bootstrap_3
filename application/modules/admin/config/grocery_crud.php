@@ -45,7 +45,7 @@
 
     // common fields to unset from CRUD
     $config['grocery_crud_unset_fields'] = array(
-    	'created_at', 'updated_at',
+    	'created_at', 'updated_at', 'activated_at', 
     	'password', 'activation_code', 'forgot_password_code', 'forgot_password_time',
     );
 

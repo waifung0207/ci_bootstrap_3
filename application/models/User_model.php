@@ -13,18 +13,7 @@ class User_model extends MY_Model {
 		$site_config = $this->config->item('site');
 		$this->mConfig = $site_config['auth'];
 	}
-
-	/**
-	 * Override parent
-	 */
-	public function get_by($where, $joins = array())
-	{
-		$this->set_table_alias('u');
-		$this->db->select('u.id, u.email, u.password, u.first_name, u.last_name, u.active, ug.name AS group');
-		$joins[] = array('user_groups AS ug', 'u.group_id = ug.id');
-		return parent::get_by($where, $joins);
-	}
-
+	
 	/**
 	 * Create user account
 	 */
@@ -34,7 +23,7 @@ class User_model extends MY_Model {
 		$require_activation = $this->mConfig['activation']['enabled'];
 
 		// check existing record to avoid duplicated user
-		$user = $this->get_by(array($login_field => $login));
+		$user = $this->get_by($login_field, $login);
 
 		if ( empty($user) )
 		{
@@ -45,7 +34,7 @@ class User_model extends MY_Model {
 				'active'		=> !$require_activation,
 			);
 			$user = array_merge($user, $additional_fields);
-			$user_id = $this->create($user);
+			$user_id = $this->insert($user);
 			$user = (object)$user;
 			$user->id = $user_id;
 		}
@@ -58,7 +47,7 @@ class User_model extends MY_Model {
 
 			// random unique code
 			$code = random_string('unique');
-			$this->update_field($user->id, 'activation_code', $code);
+			$this->update($user->id, array('activation_code' => $code));
 
 			// send activation email to user
 			$to_email = ($login_field=='email') ? $login : $additional_fields['email'];
@@ -144,7 +133,7 @@ class User_model extends MY_Model {
 
 			// random unique code
 			$code = random_string('unique');
-			$this->update_field($user->id, 'forgot_password_code', $code);
+			$this->update($user->id, array('forgot_password_code' => $code));
 
 			// send Forgot Password email to user
 			$view = $this->mConfig['forgot_password']['email'];
@@ -180,14 +169,14 @@ class User_model extends MY_Model {
 		if ( !empty($user) )
 		{
 			// proceed to change user password
-			$this->update_field($user->id, 'forgot_password_code', NULL);
+			$this->update($user->id, array('forgot_password_code' => NULL));
 			return $this->change_password($user->id, $password);
 		}
 
 		// invalid code
 		return NULL;
 	}
-
+	
 	/**
 	 * Update account info
 	 */
@@ -203,6 +192,6 @@ class User_model extends MY_Model {
 	public function change_password($user_id, $password)
 	{
 		$hashed = password_hash($password, PASSWORD_DEFAULT);
-		return $this->update_field($user_id, 'password', $hashed);
+		return $this->update($user_id, array('password' => $hashed));
 	}
 }

@@ -7,21 +7,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Users extends API_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('user_model', 'users');
+	}
+
 	// [GET] /users
 	protected function get_items()
 	{
-		$data = array(
-			array('id' => 1, 'name' => 'User 1'),
-			array('id' => 2, 'name' => 'User 2'),
-			array('id' => 3, 'name' => 'User 3'),
-		);
+		$params = $this->input->get();
+		$data = $this->users->get_many_by($params);
 		$this->to_response($data);
 	}
 
 	// [GET] /users/{id}
 	protected function get_item($id)
 	{
-		$data = array('id' => $id, 'name' => 'User '.$id);
+		$data = $this->users->get($id);
 		$this->to_response($data);
 	}
 }

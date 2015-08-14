@@ -9,7 +9,7 @@ class Account extends Admin_Controller {
 	public function index()
 	{
 		$this->mTitle = "Account Settings";
-
+		
 		// Update Info form
 		$this->load->library('form_builder');
 		$form1 = $this->form_builder->create_form('admin/account/update_info');
