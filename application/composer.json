@@ -4,7 +4,6 @@
         "google/recaptcha": "~1.1",
         "league/csv": "^7.0",
         "league/plates": "3.*",
-        "phpoffice/phpexcel": "^1.8",
         "firebase/php-jwt": "^2.1"
     }
 }
