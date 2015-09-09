@@ -3,7 +3,7 @@
 <div class="row">
 
 	<div class="col-md-4">
-
+	
 		<?php echo box_open('Welcome!'); ?>
 			<p>Demonstration of box_open() and box_close() helper functions.</p>
 		<?php echo box_close('Box footer here'); ?>
