@@ -18,9 +18,15 @@ class Account extends MY_Controller {
 	 */
 	public function sign_up()
 	{
-		// Required for reCAPTCHA
-		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+		$this->load->library('form_builder');
+		$form = $this->form_builder->create_form();
 
+		if ($form->validate())
+		{
+			// success
+		}
+		
+		/*
 		$this->load->library('form_builder');
 		$form = $this->form_builder->create_form('account/sign_up');
 		$form->add_text('first_name', 'First Name');
@@ -56,11 +62,11 @@ class Account extends MY_Controller {
 				set_alert('success', 'Thanks for registration. We have sent you a email and please follow the instruction to activate your account.');
 				redirect('account/login');
 			}
-		}
+		}*/
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->render('demo/form');
+		$this->render('account/sign_up');
 	}
 
 	/**
@@ -85,6 +91,14 @@ class Account extends MY_Controller {
 	public function login()
 	{
 		$this->load->library('form_builder');
+		$form = $this->form_builder->create_form();
+
+		if ($form->validate())
+		{
+
+		}
+
+		/*
 		$form = $this->form_builder->create_form('account/login');
 		$form->add_text('email', 'Email');
 		$form->add_password('password', 'Password');
@@ -115,11 +129,11 @@ class Account extends MY_Controller {
 				// TODO: redirect to user dashboard
 				redirect('account/login');
 			}
-		}
+		}*/
 
 		// display form
 		$this->mViewData['form'] = $form;
-		$this->render('demo/form');
+		$this->render('account/login');
 	}
 
 	/**

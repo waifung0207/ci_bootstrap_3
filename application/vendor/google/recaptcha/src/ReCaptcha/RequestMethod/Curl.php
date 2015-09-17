@@ -24,45 +24,51 @@
  * THE SOFTWARE.
  */
 
-namespace ReCaptcha;
+namespace ReCaptcha\RequestMethod;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+/**
+ * Convenience wrapper around the cURL functions to allow mocking.
+ */
+class Curl
 {
 
     /**
-     * @dataProvider provideJson
+     * @see http://php.net/curl_init
+     * @param string $url
+     * @return resource cURL handle
      */
-    public function testFromJson($json, $success, $errorCodes)
+    public function init($url = null)
     {
-        $response = Response::fromJson($json);
-        $this->assertEquals($success, $response->isSuccess());
-        $this->assertEquals($errorCodes, $response->getErrorCodes());
+        return curl_init($url);
     }
 
-    public function provideJson()
+    /**
+     * @see http://php.net/curl_setopt_array
+     * @param resource $ch
+     * @param array $options
+     * @return bool
+     */
+    public function setoptArray($ch, array $options)
     {
-        return array(
-            array('{"success": true}', true, array()),
-            array('{"success": false, "error-codes": ["test"]}', false, array('test')),
-            array('{"success": true, "error-codes": ["test"]}', true, array()),
-            array('{"success": false}', false, array()),
-            array('BAD JSON', false, array('invalid-json')),
-        );
+        return curl_setopt_array($ch, $options);
     }
 
-    public function testIsSuccess()
+    /**
+     * @see http://php.net/curl_exec
+     * @param resource $ch
+     * @return mixed
+     */
+    public function exec($ch)
     {
-        $response = new Response(true);
-        $this->assertTrue($response->isSuccess());
-
-        $response = new Response(false);
-        $this->assertFalse($response->isSuccess());
+        return curl_exec($ch);
     }
 
-    public function testGetErrorCodes()
+    /**
+     * @see http://php.net/curl_close
+     * @param resource $ch
+     */
+    public function close($ch)
     {
-        $errorCodes = array('test');
-        $response = new Response(true, $errorCodes);
-        $this->assertEquals($errorCodes, $response->getErrorCodes());
+        curl_close($ch);
     }
 }

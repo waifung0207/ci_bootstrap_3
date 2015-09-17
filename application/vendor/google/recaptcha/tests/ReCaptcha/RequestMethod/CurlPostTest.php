@@ -24,45 +24,40 @@
  * THE SOFTWARE.
  */
 
-namespace ReCaptcha;
+namespace ReCaptcha\RequestMethod;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+use \ReCaptcha\RequestParameters;
+
+class CurlPostTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     * @dataProvider provideJson
-     */
-    public function testFromJson($json, $success, $errorCodes)
+    protected function setUp()
     {
-        $response = Response::fromJson($json);
-        $this->assertEquals($success, $response->isSuccess());
-        $this->assertEquals($errorCodes, $response->getErrorCodes());
+        if (!extension_loaded('curl')) {
+            $this->markTestSkipped(
+                    'The cURL extension is not available.'
+            );
+        }
     }
 
-    public function provideJson()
+    public function testSubmit()
     {
-        return array(
-            array('{"success": true}', true, array()),
-            array('{"success": false, "error-codes": ["test"]}', false, array('test')),
-            array('{"success": true, "error-codes": ["test"]}', true, array()),
-            array('{"success": false}', false, array()),
-            array('BAD JSON', false, array('invalid-json')),
-        );
-    }
+        $curl = $this->getMock('\\ReCaptcha\\RequestMethod\\Curl',
+                array('init', 'setoptArray', 'exec', 'close'));
+        $curl->expects($this->once())
+                ->method('init')
+                ->willReturn(new \stdClass);
+        $curl->expects($this->once())
+                ->method('setoptArray')
+                ->willReturn(true);
+        $curl->expects($this->once())
+                ->method('exec')
+                ->willReturn('RESPONSEBODY');
+        $curl->expects($this->once())
+                ->method('close');
 
-    public function testIsSuccess()
-    {
-        $response = new Response(true);
-        $this->assertTrue($response->isSuccess());
-
-        $response = new Response(false);
-        $this->assertFalse($response->isSuccess());
-    }
-
-    public function testGetErrorCodes()
-    {
-        $errorCodes = array('test');
-        $response = new Response(true, $errorCodes);
-        $this->assertEquals($errorCodes, $response->getErrorCodes());
+        $pc = new CurlPost($curl);
+        $response = $pc->submit(new RequestParameters("secret", "response"));
+        $this->assertEquals('RESPONSEBODY', $response);
     }
 }

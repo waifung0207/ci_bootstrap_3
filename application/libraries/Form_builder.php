@@ -16,16 +16,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Form_builder {
 
+	protected $mFormCount = 0;
+
 	public function __construct()
 	{
 		$CI =& get_instance();
+		$CI->load->helper('form');
 		$CI->load->library('form_validation');
+		$CI->load->config('form_validation');
 	}
 
 	// Initialize a form and return the object
-	public function create_form($url, $inline_error = TRUE, $multipart = FALSE)
+	public function create_form($url = NULL, $multipart = FALSE, $attributes = array())
 	{
-		return new Form($url, $inline_error, $multipart);
+		$url = ($url===NULL) ? current_url() : $url;
+		$form = new Form($url, $multipart, $attributes);
+		$this->mFormCount++;
+		$form->set_id($this->mFormCount);
+		return $form;
 	}
 }
 
@@ -36,496 +44,260 @@ class Form {
 
 	protected $CI;
 
-	protected $mPostUrl;		// target POST URL
-	protected $mFormUrl;		// URL to display form (default: same as $mPostUrl)
-	protected $mRuleSet;		// name of validation rule set (match with keys inside application/config/form_validation.php)
-	protected $mInlineError;	// whether display inline error or not
-	protected $mMultipart;		// whether the form supports multipart
+	protected $mPostUrl;			// target POST URL
+	protected $mFormUrl;			// URL to display form (default: same as $mPostUrl)
+	protected $mRuleGroup;			// name of validation rule group (match with keys inside application/config/form_validation.php)
+	protected $mMultipart;			// whether the form supports multipart
+	protected $mAttributes;
 
-	protected $mAttributes = array();		// attributes to pass into form tag
-	protected $mType = 'default';			// form type (option: default / horizontal)
-	protected $mColLeft = 'sm-2';			// left column width (for horizontal form only)
-	protected $mColRight = 'sm-10';			// right column width (for horizontal form only)
+	// state whether the form contains reCAPTCHA
+	protected $mRecaptchaAdded;
 
-	protected $mFields = array();			// elements stored in the Form object with ordering
-	protected $mFooterHtml = '';			// custom HTML to render after other fields
-
-	// Integration with reCAPTCHA (https://www.google.com/recaptcha/)
-	// Keys to be edited in config file: application/config/form_validation.php
-	protected $mRecaptchaAdded = FALSE;
-
-	// content from flashdata (e.g. error message, success message, form fields)
-	protected $mFlashDataName;
-	protected $mFlashMsg = array();
-	protected $mFlashFields = array();
-
-	// temporary store messages
-	protected $mSuccessMsg = '';
-	protected $mErrorMsg = array();
+	// session key to store field data before redirection
+	protected $mFormData;
+	protected $mSessionKey;
 
 	// Constructor
-	public function __construct($url, $inline_error, $multipart)
+	public function __construct($url, $multipart, $attributes)
 	{
 		$this->CI =& get_instance();
+		$this->CI->load->library('system_message');
+
 		$this->mPostUrl = $url;
 		$this->mFormUrl = $url;
-		$this->mInlineError = $inline_error;
 		$this->mMultipart = $multipart;
-
-		// compose a name to avoid naming conflict from flashdata
-		$this->mFlashDataName = 'form_'.$url;
-
-		// retrieve from flashdata (if exists)
-		$flash = ( $this->CI->session->has_userdata($this->mFlashDataName) ) ? $this->CI->session->flashdata($this->mFlashDataName) : array();
-
-		// store messages from flashdata
-		$this->mFlashMsg = array(
-			'error'		=> empty($flash['error']) ? '' : $flash['error'],
-			'success'	=> empty($flash['success']) ? '' : $flash['success'],
-		);
-
-		// store field values from flashdata
-		$this->mFlashFields = empty($flash['fields']) ? '' : $flash['fields'];
+		$this->mAttributes = $attributes;
 	}
 
-	// Change URL where the form is displayed
+	// Update form ID and according data from session (to support multiple forms on one page)
+	public function set_id($id)
+	{
+		$this->mSessionKey = 'form-'.$id;
+		$this->mFormData = $this->CI->session->flashdata($this->mSessionKey);
+	}
+
+	// Update Rule Group for validation
+	// Reference: http://www.codeigniter.com/user_guide/libraries/form_validation.html#calling-a-specific-rule-group
+	public function set_rule_group($rule_group)
+	{
+		$this->mRuleGroup = $rule_group;
+	}
+
+	// Update target URL:
+	// 	- $this->mPostUrl = the page where the form is submitted to (i.e. "action" attribute of the form)
+	// 	- $this->mFormUrl = the page where the form is located at (for redirection when failed)
+	public function set_post_url($url)
+	{
+		$this->mPostUrl = $url;
+	}
 	public function set_form_url($url)
 	{
 		$this->mFormUrl = $url;
 	}
 
-	// Update rule set (default: same as $mPostUrl)
-	public function set_rule_set($rule_set)
+	// Render form open tag
+	public function open()
 	{
-		$this->mRuleSet = $rule_set;
+		if ($this->mMultipart)
+			return form_open_multipart($this->mPostUrl, $this->mAttributes);
+		else
+			return form_open($this->mPostUrl, $this->mAttributes);
 	}
 
-	// Change form type to 'horizontal'
-	public function set_horizontal($col_left = 'sm-2', $col_right = 'sm-10')
+	// Render form close tag
+	public function close()
 	{
-		$this->mType = 'horizontal';
-		$this->mAttributes['class'] = 'form-horizontal';
-		$this->mColLeft = $col_left;
-		$this->mColRight = $col_right;
+		return form_close();
+	}
+
+	// Get saved value for single field
+	public function get_field_value($name)
+	{
+		return isset($this->mFormData[$name]) ? $this->mFormData[$name] : set_value($name);
+	}
+
+	/**
+	 * Basic fields
+	 */
+	// Input field (type = text)
+	public function field_text($name, $value = NULL, $extra = array())
+	{
+		$data = array('type' => 'text', 'id' => $name, 'name' => $name);
+		$value = ($value===NULL) ? $this->get_field_value($name) : $value;
+		return form_input($data, $value, $extra);
+	}
+
+	// Input field (type = email)
+	public function field_email($name = 'email', $value = NULL, $extra = array())
+	{
+		$data = array('type' => 'email', 'id' => $name, 'name'	=> $name);
+		$value = ($value===NULL) ? $this->get_field_value($name) : $value;
+		return form_input($data, $value, $extra);
+	}
+
+	// Password field
+	public function field_password($name = 'password', $value = NULL, $extra = array())
+	{
+		$data = array('id' => $name, 'name' => $name);
+		$value = ($value===NULL) ? '' : $value;
+		return form_password($data, $value, $extra);
+	}
+
+	// Textarea field
+	public function field_textarea($name, $value = NULL, $extra = array())
+	{
+		$data = array('id' => $name, 'name' => $name);
+		$value = ($value===NULL) ? $this->get_field_value($name) : $value;
+		return form_textarea($data, $value, $extra);
 	}
 	
-	// Store success message
-	public function set_success_msg($msg)
+	// Upload field
+	public function field_upload($name, $value = NULL, $extra = array())
 	{
-		$this->mSuccessMsg = $msg;
+		$data = array('id' => $name, 'name' => $name);
+		$value = ($value===NULL) ? $this->get_field_value($name) : $value;
+		return form_upload($data, $value, $extra);
+	}
+	
+	// Hidden field
+	public function field_hidden($name, $value = NULL, $extra = array())
+	{
+		$data = array('id' => $name, 'name' => $name);
+		$value = ($value===NULL) ? '' : $value;
+		return form_hidden($data, $value, $extra);
 	}
 
-	// Append error message
-	public function add_error_msg($msg)
+	// Dropdown field
+	public function field_dropdown($name, $options = array(), $selected = array(), $extra = array())
 	{
-		$this->mErrorMsg[] = $msg;
+		return form_dropdown($name, $options, $selected, $extra);
 	}
 
-	// Append an text field
-	public function add_text($name, $label = '', $placeholder = NULL, $value = NULL)
+	/**
+	 * reCAPTCHA
+	 */
+	public function field_recaptcha()
 	{
-		// automatically set placeholder
-		if ( !empty($label) && ($placeholder===NULL) )
-			$placeholder = $label;
-
-		// set field values
-		if ( !empty($this->mFlashFields[$name]) )
-			$value = $this->mFlashFields[$name];
-		else if ( empty($value) )
-			$value = set_value($name);
-
-		$field = array(
-			'type'			=> ($name=='email') ? 'email' : 'text',
-			'name'			=> $name,
-			'label'			=> $label,
-			'value'			=> $value,
-			'placeholder'	=> $placeholder,
-		);
-
-		$required = TRUE;
-		if ($required)
-			$field['required'] = TRUE;
-
-		$this->mFields[$name] = $field;
-		return $field;
-	}
-
-	// Append a password field
-	public function add_password($name = 'password', $label = '', $placeholder = NULL, $value = NULL)
-	{
-		// automatically set placeholder
-		if ( !empty($label) && ($placeholder===NULL) )
-			$placeholder = $label;
-
-		// value is set only during development mode for security reason
-		if ( ENVIRONMENT!='development' )
-			$value = '';
-
-		$field = array(
-			'type'			=> 'password',
-			'name'			=> $name,
-			'label'			=> $label,
-			'value'			=> $value,
-			'placeholder'	=> $placeholder,
-		);
-
-		$required = TRUE;
-		if ($required)
-			$field['required'] = TRUE;
-
-		$this->mFields[$name] = $field;
-		return $field;
-	}
-
-	// Append a textarea field
-	public function add_textarea($name, $label = '', $placeholder = NULL, $value = NULL, $rows = 5)
-	{
-		// automatically set placeholder
-		if ( !empty($label) && ($placeholder===NULL) )
-			$placeholder = $label;
-
-		// set field values
-		if ( !empty($this->mFlashData['fields'][$name]) )
-			$value = $this->mFlashData['fields'][$name];
-		else if ( empty($value) )
-			$value = set_value($name);
-
-		$field = array(
-			'type'			=> 'textarea',
-			'name'			=> $name,
-			'label'			=> $label,
-			'value'			=> $value,
-			'placeholder'	=> $placeholder,
-			'rows'			=> $rows,
-		);
-
-		$required = TRUE;
-		if ($required)
-			$field['required'] = TRUE;
-
-		$this->mFields[$name] = $field;
-		return $field;
-	}
-
-	// Append a submit button
-	public function add_submit($label = 'Submit', $style = 'primary', $block = FALSE)
-	{
-		$class = ($block) ? 'btn btn-block btn-'.$style : 'btn btn-'.$style;
-
-		$this->mFields['submit'] = array(
-			'type'			=> 'submit',
-			'class'			=> $class,
-			'label'			=> $label,
-		);
-	}
-
-	// Append a hidden field
-	public function add_hidden($name, $value)
-	{
-		$this->mFields[$name] = array(
-			'type'			=> 'hidden',
-			'name'			=> $name,
-			'value'			=> $value,
-		);
-	}
-
-	// Append reCAPTCHA (https://www.google.com/recaptcha/)
-	public function add_recaptcha()
-	{
-		$this->mRecaptchaAdded = TRUE;
-		$this->mFields['recaptcha'] = array('type' => 'recaptcha');
-	}
-
-	// Append HTML
-	public function add_custom_html($html)
-	{
-		$this->mFields[] = array(
-			'type'			=> 'custom',
-			'content'		=> $html,
-		);
-	}
-
-	// Append HTML (display at the very end of form, e.g. can be after Submit button)
-	public function add_footer_html($html)
-	{
-		$this->mFooterHtml .= $html;
-	}
-
-	// Render a form field by passing its name
-	public function render_field_by_name($name)
-	{
-		return empty($this->mFields[$name]) ? '' : $this->render_field($this->mFields[$name]);
-	}
-
-	// Render a form field by passing object
-	public function render_field($field)
-	{
-		switch ($field['type'])
-		{
-			// Text field
-			case 'text':
-			case 'email':
-				$data = array(
-					'id'			=> $field['name'],
-					'name'			=> $field['name'],
-					'value'			=> $field['value'],
-					'placeholder'	=> $field['placeholder'],
-					'class'			=> 'form-control',
-				);
-				$control = form_input($data);
-				return $this->form_group($field['name'], $control, $field['label']);
-
-			// Password field
-			case 'password':
-				$data = array(
-					'id'			=> $field['name'],
-					'name'			=> $field['name'],
-					'value'			=> $field['value'],
-					'placeholder'	=> $field['placeholder'],
-					'class'			=> 'form-control',
-				);
-				$control = form_password($data);
-				return $this->form_group($field['name'], $control, $field['label']);
-
-			// Textarea field
-			case 'textarea':
-				$data = array(
-					'id'			=> $field['name'],
-					'name'			=> $field['name'],
-					'value'			=> $field['value'],
-					'placeholder'	=> $field['placeholder'],
-					'rows'			=> $field['rows'],
-					'class'			=> 'form-control',
-				);
-				$control = form_textarea($data);
-				return $this->form_group($field['name'], $control, $field['label']);
-
-			// Select field
-			case 'select':
-				return '';
-
-			// Checkbox field
-			case 'checkbox':
-				return '';
-
-			// Radio field
-			case 'radio':
-				return '';
-
-			// Upload field
-			case 'upload':
-				// to be completed
-				return '';
-
-			// reCAPTCHA field
-			case 'recaptcha':
-				return $this->form_group_recaptcha();
-
-			// hidden field
-			case 'hidden':
-				return form_hidden($field['name'], $field['value']);
-
-			// Custom HTMl
-			case 'custom':
-				return $field['content'];
-
-			// Submit button
-			case 'submit':
-				return $this->form_group_submit($field['class'], $field['label']);
-		}
-	}
-
-	// Form group with control, label and error field
-	public function form_group($name, $control, $label = '')
-	{
-		$error = form_error($name, '<p class="text-danger">', '</p>');
-		$group_class = empty($error) ? '' : 'has-error';
-		$group_open = '<div class="form-group '.$group_class.'">';
-		$group_close = '</div>';
-		
-		// remove inline error message when necessary
-		if (!$this->mInlineError)
-			$error = '';
-
-		// add asterisk after label for required field
-		$required = !empty($this->mFields[$name]['required']);
-		if ( !empty($label) && $required )
-			$label.=' <span class="text-danger">*</span>';
-
-		// handle form type (default / horizontal)
-		switch ($this->mType)
-		{
-			case 'default':
-				$label = empty($label) ? '' : form_label($label, $name);
-				return $group_open.$label.$error.$control.$group_close;
-			case 'horizontal':
-				$label = empty($label) ? '' : form_label($label, $name, array('class' => 'control-label col-'.$this->mColLeft));
-				$control = '<div class="col-'.$this->mColRight.'">'.$control.'</div>';
-				$error = empty($error) ? '' : '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$error.'</div>';
-				return $group_open.$error.$label.$control.$group_close;
-			default:
-				return '';
-		}
-	}
-
-	// Form group with reCAPTCHA
-	public function form_group_recaptcha()
-	{
-		$this->CI->load->config('form_validation');
 		$config = $this->CI->config->item('recaptcha');
 		$site_key = $config['site_key'];
-
-		$html = '<div class="form-group g-recaptcha" data-sitekey="'.$site_key.'"></div>';
-
-		if ($this->mType=='horizontal')
-			$html = '<div class="col-'.$this->mColLeft.'"></div><div class="col-'.$this->mColRight.'">'.$html.'</div>';
-
-		return $html;
+		$this->mRecaptchaAdded = TRUE;
+		return '<div class="g-recaptcha" data-sitekey="'.$site_key.'"></div>';
 	}
-
-	// Form group with Submit button
-	public function form_group_submit($class, $label)
+	
+	/**
+	 * Buttons
+	 */
+	// Submit button
+	public function btn_submit($label, $extra = array())
 	{
-		$btn = '<button type="submit" class="'.$class.'">'.$label.'</button>';
-
-		if ($this->mType=='horizontal')
-		{
-			$col_left = str_replace('-', '-offset-', $this->mColLeft);
-			$btn = '<div class="col-'.$col_left.' col-'.$this->mColRight.'">'.$btn.'</div>';
-		}
-
-		return '<div class="form-group">'.$btn.'</div>';
+		$data = array('type' => 'submit');
+		return form_button($data, $label, $extra);
 	}
 
-	// Run validation on the form and return result
+	// Reset button
+	public function btn_reset($label, $extra = array())
+	{
+		$data = array('type' => 'reset');
+		return form_button($data, $label, $extra);
+	}
+
+	/**
+	 * Bootstrap 3 functions
+	 */
+	public function bs3_text($label, $name, $value = NULL, $extra = array())
+	{
+		$extra['class'] = 'form-control';
+		return '<div class="form-group">'.form_label($label, $name).$this->field_text($name, $value, $extra).'</div>';
+	}
+
+	public function bs3_email($label, $name = 'email', $value = NULL, $extra = array())
+	{
+		$extra['class'] = 'form-control';
+		return '<div class="form-group">'.form_label($label, $name).$this->field_email($name, $value, $extra).'</div>';
+	}
+
+	public function bs3_password($label, $name = 'password', $value = NULL, $extra = array())
+	{
+		$extra['class'] = 'form-control';
+		return '<div class="form-group">'.form_label($label, $name).$this->field_password($name, $value, $extra).'</div>';
+	}
+
+	public function bs3_textarea($label, $name, $value = NULL, $extra = array())
+	{
+		$extra['class'] = 'form-control';
+		return '<div class="form-group">'.form_label($label, $name).$this->field_textarea($name, $value, $extra).'</div>';
+	}
+
+	public function bs3_submit($label, $style = 'primary', $extra = array())
+	{
+		$extra['class'] = 'btn btn-'.$style;
+		return $this->btn_submit($label, $extra);
+	}
+
+	/**
+	 * Success / Error messages
+	 */
+	public function messages()
+	{
+		return $this->CI->system_message->render();
+	}
+
+	/**
+	 * Form Validation
+	 */
 	public function validate()
 	{
-		$flash = array();
-
-		// reCAPTCHA verification (skipped in development mode)
-		if ( $this->mRecaptchaAdded && ENVIRONMENT!='development' )
+		// only run validation upon form submission
+		$post_data = $this->CI->input->post();
+		if ( !empty($post_data) )
 		{
-			$this->CI->load->config('form_validation');
-			$config = $this->CI->config->item('recaptcha');
-			$secret_key = $config['secret_key'];
-			$recaptcha = new \ReCaptcha\ReCaptcha($secret_key);
-			$resp = $recaptcha->verify($this->CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
-
-			if (!$resp->isSuccess())
+			// Step 1. reCAPTCHA verification (skipped in development mode)
+			if ( $this->mRecaptchaAdded && ENVIRONMENT!='development' )
 			{
-				// failed
-				//$errors = $resp->getErrorCodes();
-				$this->add_error_msg('ReCAPTCHA failed.');
-				$flash['error'] = $this->mErrorMsg;
-				$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
+				$config = $this->CI->config->item('recaptcha');
+				$secret_key = $config['secret_key'];
+				$recaptcha = new \ReCaptcha\ReCaptcha($secret_key);
+				$resp = $recaptcha->verify($this->CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
 
-				// directly display form again (interrupt other operations)
-				redirect($this->mFormUrl);
-			}
-		}
-
-		// check with CodeIgniter validation
-		$result = $this->CI->form_validation->run($this->mRuleSet);
-		if ($result===FALSE)
-		{
-			// save field values to flashdata
-			foreach ($this->mFields as $field)
-			{
-				// filter specific field types
-				switch ($field['type'])
+				if (!$resp->isSuccess())
 				{
-					case 'text':
-					case 'email':
-					case 'textarea':
-						$name = $field['name'];
-						$flash['fields'][$name] = $this->CI->input->post($name);
-						break;
+					// save POST data to flashdata
+					$this->CI->session->set_flashdata($this->mSessionKey, $post_data);
+
+					// failed
+					//$errors = $resp->getErrorCodes();
+					$this->CI->system_message->set_error('ReCAPTCHA failed.');
+
+					// redirect to form page (interrupt other operations)
+					$this->CI->system_message->save();
+					redirect($this->mFormUrl);
 				}
 			}
 
-			// store validation error message from CodeIgniter
-			$this->add_error_msg(validation_errors());
-			$flash['error'] = $this->mErrorMsg;
-			$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
+			// Step 2. CodeIgniter form validation
+			$result = $this->CI->form_validation->run($this->mRuleGroup);
+			if ($result===FALSE)
+			{
+				// save POST data to flashdata
+				$this->CI->session->set_flashdata($this->mSessionKey, $post_data);
 
-			// directly display form again (interrupt other operations)
-			redirect($this->mFormUrl);
+				// store validation error message from CodeIgniter
+				$this->CI->system_message->set_error(validation_errors());
+
+				// redirect to form page (interrupt other operations)
+				$this->CI->system_message->save();
+				redirect($this->mFormUrl);
+			}
+			else
+			{
+				// return TRUE to indicate the result is positive
+				$this->CI->system_message->set_success('Success');
+				$this->CI->system_message->save();
+
+				// TODO: handle case when there is no redirection upon success
+				
+				return TRUE;
+			}
 		}
-		else
-		{
-			// save success message to flashdata
-			$flash['success'] = $this->mSuccessMsg;
-			$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
-
-			// other logic to be done outside (e.g. update database > then redirect page)
-		}
-
-		return $result;
-	}
-
-	// Save selected fields to flashdata
-	public function save_field_to_flash($name)
-	{
-		$flash = array();
-		
-		if ( $this->CI->session->has_userdata($this->mFlashDataName) )
-		{
-			$flash = $this->CI->session->flashdata($this->mFlashDataName);
-			$this->CI->session->keep_flashdata($this->mFlashDataName);
-		}
-
-		$flash['fields'][$name] = $this->CI->input->post($name);
-		$this->CI->session->set_flashdata($this->mFlashDataName, $flash);
-	}
-
-	// Render a complete form
-	public function render()
-	{
-		if ($this->mMultipart)
-			$str = form_open_multipart($this->mPostUrl, $this->mAttributes);
-		else
-			$str = form_open($this->mPostUrl, $this->mAttributes);
-
-		// print out all fields
-		foreach ($this->mFields as $field)
-		{
-			$str .= $this->render_field($field);
-		}
-
-		$str .= $this->mFooterHtml;
-		$str .= form_close();
-		return $str;
-	}
-
-	// Display messages (success / validation error / other error) in following priority:
-	// 	1. Message from get_alert() - see application/helpers/session_helper.php
-	// 	2. Error message from flashdata
-	// 	3. Success message from flashdata
-	// 	Render empty string when none of above exists
-	public function render_msg()
-	{
-		$alert = get_alert();
-
-		if ( !empty($alert) )
-		{
-			$type = $alert['type'];
-			$msg = $alert['msg'];
-		}
-		else if ( !empty($this->mFlashMsg['error']) )
-		{
-			$type = 'danger';
-			$msg = implode('<br/>', $this->mFlashMsg['error']);
-		}
-		else if ( !empty($this->mFlashMsg['success']) )
-		{
-			$type = 'success';
-			$msg = $this->mFlashMsg['success'];
-		}
-		else
-		{
-			return '';
-		}
-
-		return render_alert($type, $msg);
 	}
 }

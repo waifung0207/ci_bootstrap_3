@@ -30,41 +30,59 @@ use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
 /**
- * Sends POST requests to the reCAPTCHA service.
+ * Sends cURL request to the reCAPTCHA service.
+ * Note: this requires the cURL extension to be enabled in PHP
+ * @see http://php.net/manual/en/book.curl.php
  */
-class Post implements RequestMethod
+class CurlPost implements RequestMethod
 {
     /**
-     * URL to which requests are POSTed.
+     * URL to which requests are sent via cURL.
      * @const string
      */
     const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
     /**
-     * Submit the POST request with the specified parameters.
+     * Curl connection to the reCAPTCHA service
+     * @var Curl
+     */
+    private $curl;
+
+    public function __construct(Curl $curl = null)
+    {
+        if (!is_null($curl)) {
+            $this->curl = $curl;
+        } else {
+            $this->curl = new Curl();
+        }
+    }
+
+    /**
+     * Submit the cURL request with the specified parameters.
      *
      * @param RequestParameters $params Request parameters
      * @return string Body of the reCAPTCHA response
      */
     public function submit(RequestParameters $params)
     {
-        /**
-         * PHP 5.6.0 changed the way you specify the peer name for SSL context options.
-         * Using "CN_name" will still work, but it will raise deprecated errors.
-         */
-        $peer_key = version_compare(PHP_VERSION, '5.6.0', '<') ? 'CN_name' : 'peer_name';
+        $handle = $this->curl->init(self::SITE_VERIFY_URL);
+
         $options = array(
-            'http' => array(
-                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method' => 'POST',
-                'content' => $params->toQueryString(),
-                // Force the peer to validate (not needed in 5.6.0+, but still works
-                'verify_peer' => true,
-                // Force the peer validation to use www.google.com
-                $peer_key => 'www.google.com',
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $params->toQueryString(),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded'
             ),
+            CURLINFO_HEADER_OUT => false,
+            CURLOPT_HEADER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => true
         );
-        $context = stream_context_create($options);
-        return file_get_contents(self::SITE_VERIFY_URL, false, $context);
+        $this->curl->setoptArray($handle, $options);
+
+        $response = $this->curl->exec($handle);
+        $this->curl->close($handle);
+
+        return $response;
     }
 }
