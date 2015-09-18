@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Library to set / get system message
+ * Library to set / get system messages
  */
 class System_message {
-
+	
 	protected $CI;
 
 	// key for storing into session / flashdata
@@ -13,7 +13,7 @@ class System_message {
 
 	// array to store success / error messages
 	protected $mMessages;
-
+	
 	public function __construct()
 	{
 		$this->CI =& get_instance();
@@ -26,70 +26,90 @@ class System_message {
 	}
 
 	// Set a message of specific type (clear other messages)
-	public function set($type, $msg)
+	public function set($type, $msg, $save_to = 'flash')
 	{
 		$this->mMessages[$type] = array($msg);
+		$this->save($save_to);
 	}
 
 	// Append message of specific type
-	public function add($type, $msg)
+	public function add($type, $msg, $save_to = 'flash')
 	{
 		$this->mMessages[$type][] = $msg;
+		$this->save($save_to);
 	}
-
+	
 	// Set a success message (clear other success messages)
-	public function set_success($msg)
+	public function set_success($msg, $save_to = 'flash')
 	{
 		$this->set('success', $msg);
 	}
 
 	// Append success message
-	public function add_success($msg)
+	public function add_success($msg, $save_to = 'flash')
 	{
 		$this->add('success', $msg);
 	}
 
 	// Set an error message (clear other error messages)
-	public function set_error($msg)
+	public function set_error($msg, $save_to = 'flash')
 	{
 		$this->set('error', $msg);
 	}
 
 	// Append error message
-	public function add_error($msg)
+	public function add_error($msg, $save_to = 'flash')
 	{
 		$this->add('error', $msg);
 	}
 
 	// Save messages to Flashdata
-	public function save($to_flashdata = TRUE)
+	public function save($to = 'flash')
 	{
-		if ($to_flashdata)
-			$this->CI->session->set_flashdata($this->mSessionKey, $this->mMessages);
-		else
-			$this->CI->session->set_userdata($this->mSessionKey, $this->mMessages);
+		switch ($to)
+		{
+			case 'flash':
+				$this->CI->session->set_flashdata($this->mSessionKey, $this->mMessages);
+				break;
+			case 'session':
+				$this->CI->session->set_userdata($this->mSessionKey, $this->mMessages);
+				break;
+			case 'temp':
+				$this->CI->session->set_tempdata($this->mSessionKey, $this->mMessages);
+				break;
+		}
 	}
 
 	// Restore message from Flashdata
-	public function restore($from_flashdata = TRUE, $keep_flashdata = FALSE)
+	public function restore($from = 'flash', $keep_flash = FALSE)
 	{
-		if ($from_flashdata)
-			$this->mMessages = $this->CI->session->flashdata($this->mSessionKey);
-		else
-			$this->mMessages = $this->CI->session->userdata($this->mSessionKey);
+		switch ($from)
+		{
+			case 'flash':
+				$this->mMessages = $this->CI->session->flashdata($this->mSessionKey);
 
-		// keep flashdata for longer time
-		if ($from_flashdata && $keep_flashdata)
-			$this->CI->session->keep_flashdata($this->mSessionKey);
+				// keep flashdata for longer time
+				if ($keep_flash)
+				{
+					$this->CI->session->keep_flashdata($this->mSessionKey);
+				}
+				break;
+			case 'session':
+				$this->mMessages = $this->CI->session->userdata($this->mSessionKey);
+				break;
+			case 'temp':
+				$this->mMessages = $this->CI->session->tempdata($this->mSessionKey);
+				break;
+		}
 	}
 
 	// Render all system messages
-	public function render($from_flashdata = TRUE)
+	public function render($from = 'flash')
 	{
-		$this->restore($from_flashdata);
+		$this->restore($from);
 		return $this->render_by_type('success').$this->render_by_type('error');
 	}
-	
+
 	// Render only one type of message
 	public function render_by_type($type)
 	{

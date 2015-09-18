@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::email'); ?>
+<?php $this->load->view('email/_header'); ?>
 
 <p>This email is sent automatically from <a href="<?php echo site_url(); ?>">CI Bootstrap Website</a>.</p>
 
@@ -10,3 +10,5 @@
 		</tr>
 	<?php endforeach ?>
 </table>
+
+<?php $this->load->view('email/_footer'); ?>

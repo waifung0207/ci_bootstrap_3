@@ -74,6 +74,52 @@ $config = array(
 		),
 	),
 
+	// Demo only
+	'demo/form_basic' => array(
+		array(
+			'field'		=> 'name',
+			'label'		=> 'Name',
+			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'email',
+			'label'		=> 'Email',
+			'rules'		=> 'required|valid_email',
+		),
+		array(
+			'field'		=> 'subject',
+			'label'		=> 'Subject',
+			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'message',
+			'label'		=> 'Message',
+			'rules'		=> 'required',
+		),
+	),
+	'demo/form_bs3' => array(
+		array(
+			'field'		=> 'name',
+			'label'		=> 'Name',
+			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'email',
+			'label'		=> 'Email',
+			'rules'		=> 'required|valid_email',
+		),
+		array(
+			'field'		=> 'subject',
+			'label'		=> 'Subject',
+			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'message',
+			'label'		=> 'Message',
+			'rules'		=> 'required',
+		),
+	),
+
 );
 
 

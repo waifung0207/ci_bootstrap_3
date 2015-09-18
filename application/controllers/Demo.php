@@ -35,58 +35,38 @@ class Demo extends MY_Controller {
 		$this->render('demo/pagination');
 	}
 	
+	// Form without Bootstrap theme
+	// See views/demo/form_basic.php for sample code
 	public function form_basic()
 	{
 		// library from: application/libraries/Form_builder.php
-		$form = $this->form_builder->create_form('demo/form_basic');
-		$form->add_text('name', 'Name');
-		$form->add_text('email', 'Email');
-		$form->add_text('subject', 'Subject');
-		$form->add_textarea('message', 'Message');
-		$form->add_recaptcha();
-		$form->add_submit();
-		
-		$post_data = $this->input->post();
-		if ( !empty($post_data) &&  $form->validate() )
-		{
-			// passed validation
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
+		$form = $this->form_builder->create_form();
 
-			if ( empty($user_id) )
-			{
-				// failed
-				$form->add_custom_error('Failed to create user');
-			}
-			else
-			{
-				// success
-				set_alert('success', 'Thanks for registration. We have sent you a email and please follow the instruction to activate your account.');
-				redirect('account/login');
-			}
+		if ($form->validate())
+		{
+			$this->system_message->set_success('Succcess!');
+			refresh();
 		}
 
-		// display form when no POST data, or validation failed
+		$this->mTitle = 'Form (Basic)';
 		$this->mViewData['form'] = $form;
-		$this->render('demo/form');
+		$this->render('demo/form_basic');
 	}
 	
-	public function form_advanced()
+	public function form_bs3()
 	{
-		// Required for reCAPTCHA
-		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+		// library from: application/libraries/Form_builder.php
+		$form = $this->form_builder->create_form();
 
-		$form = $this->form_builder->create_form('demo/form_advanced');
-		$form->set_horizontal();
-		$form->add_text('name', 'Name');
-		$form->add_text('email', 'Email');
-		$form->add_text('subject', 'Subject');
-		$form->add_textarea('message', 'Message');
-		$form->add_recaptcha();
-		$form->add_submit();
+		if ($form->validate())
+		{
+			$this->system_message->set_success('Succcess!');
+			refresh();
+		}
 
+		$this->mTitle = 'Form (Bootstrap 3)';
 		$this->mViewData['form'] = $form;
-		$this->render('demo/form');
+		$this->render('demo/form_bs3');
 	}
 
 	// Example to work with database and models inherit from MY_Model

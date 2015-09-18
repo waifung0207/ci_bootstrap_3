@@ -6,24 +6,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 	- render form with Bootstrap theme (support Vertical form only at this moment)
  * 	- reduce effort to repeated create labels, setting placeholder, etc. with flexibility
  * 	- shortcut functions to append form elements (currently support: text, password, textarea, submit)
- * 	- help with form validation and provide inline error to each field
- * 	- automatically restore "value" to fields when validation failed (using CodeIgniter set_value() function)
+ * 	- form validation and redirect page when failed, with field values maintained in flashdata
  *
  * TODO:
  * 	- support more field types (checkbox, dropdown, upload, etc.)
  * 	- automatically set "required" fields (matching with rule set)
- * 	- fix inline error handling (after refactoring to use flashdata error)
+ * 	- add inline error handling
  */
 class Form_builder {
 
 	protected $mFormCount = 0;
-
+	
 	public function __construct()
 	{
 		$CI =& get_instance();
+		
 		$CI->load->helper('form');
 		$CI->load->library('form_validation');
 		$CI->load->config('form_validation');
+
+		// CI Bootstrap libraries
+		$CI->load->library('system_message');
 	}
 
 	// Initialize a form and return the object
@@ -50,9 +53,6 @@ class Form {
 	protected $mMultipart;			// whether the form supports multipart
 	protected $mAttributes;
 
-	// state whether the form contains reCAPTCHA
-	protected $mRecaptchaAdded;
-
 	// session key to store field data before redirection
 	protected $mFormData;
 	protected $mSessionKey;
@@ -61,14 +61,13 @@ class Form {
 	public function __construct($url, $multipart, $attributes)
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->library('system_message');
 
 		$this->mPostUrl = $url;
-		$this->mFormUrl = $url;
+		$this->mFormUrl = current_url();
 		$this->mMultipart = $multipart;
 		$this->mAttributes = $attributes;
 	}
-
+	
 	// Update form ID and according data from session (to support multiple forms on one page)
 	public function set_id($id)
 	{
@@ -180,7 +179,6 @@ class Form {
 	{
 		$config = $this->CI->config->item('recaptcha');
 		$site_key = $config['site_key'];
-		$this->mRecaptchaAdded = TRUE;
 		return '<div class="g-recaptcha" data-sitekey="'.$site_key.'"></div>';
 	}
 	
@@ -188,14 +186,14 @@ class Form {
 	 * Buttons
 	 */
 	// Submit button
-	public function btn_submit($label, $extra = array())
+	public function btn_submit($label = 'Submit', $extra = array())
 	{
 		$data = array('type' => 'submit');
 		return form_button($data, $label, $extra);
 	}
 
 	// Reset button
-	public function btn_reset($label, $extra = array())
+	public function btn_reset($label = 'Reset', $extra = array())
 	{
 		$data = array('type' => 'reset');
 		return form_button($data, $label, $extra);
@@ -228,7 +226,7 @@ class Form {
 		return '<div class="form-group">'.form_label($label, $name).$this->field_textarea($name, $value, $extra).'</div>';
 	}
 
-	public function bs3_submit($label, $style = 'primary', $extra = array())
+	public function bs3_submit($label = 'Submit', $style = 'primary', $extra = array())
 	{
 		$extra['class'] = 'btn btn-'.$style;
 		return $this->btn_submit($label, $extra);
@@ -252,13 +250,14 @@ class Form {
 		if ( !empty($post_data) )
 		{
 			// Step 1. reCAPTCHA verification (skipped in development mode)
-			if ( $this->mRecaptchaAdded && ENVIRONMENT!='development' )
+			$recaptcha_response = $this->CI->input->post('g-recaptcha-response');
+			if ( isset($recaptcha_response) && ENVIRONMENT!='development' )
 			{
 				$config = $this->CI->config->item('recaptcha');
 				$secret_key = $config['secret_key'];
 				$recaptcha = new \ReCaptcha\ReCaptcha($secret_key);
-				$resp = $recaptcha->verify($this->CI->input->post('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
-
+				$resp = $recaptcha->verify($recaptcha_response, $_SERVER['REMOTE_ADDR']);
+				
 				if (!$resp->isSuccess())
 				{
 					// save POST data to flashdata
@@ -269,7 +268,6 @@ class Form {
 					$this->CI->system_message->set_error('ReCAPTCHA failed.');
 
 					// redirect to form page (interrupt other operations)
-					$this->CI->system_message->save();
 					redirect($this->mFormUrl);
 				}
 			}
@@ -285,17 +283,11 @@ class Form {
 				$this->CI->system_message->set_error(validation_errors());
 
 				// redirect to form page (interrupt other operations)
-				$this->CI->system_message->save();
 				redirect($this->mFormUrl);
 			}
 			else
 			{
 				// return TRUE to indicate the result is positive
-				$this->CI->system_message->set_success('Success');
-				$this->CI->system_message->save();
-
-				// TODO: handle case when there is no redirection upon success
-				
 				return TRUE;
 			}
 		}
