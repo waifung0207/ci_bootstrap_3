@@ -25,6 +25,51 @@ class Demo extends MY_Controller {
 		$this->mViewData['demo_id'] = $demo_id;
 		$this->render('demo/item');
 	}
+	
+	// Bootstrap Carousel
+	public function carousel()
+	{
+		// grab records from database table "cover_photos"
+		$this->load->database();
+		$this->load->model('cover_photo_model', 'photos');
+		$this->mViewData['photos'] = $this->photos->get_all();
+		$this->render('demo/carousel');
+	}
+	
+	// Blog Posts
+	public function blog_posts()
+	{
+		$page = $this->input->get('p');
+		$page = empty($page) ? 1 : $page;
+
+		$this->load->database();
+		$this->load->model('blog_post_model', 'posts');
+		$results = $this->posts->with('category')->with('author')->paginate($page);
+		$posts = $results['data'];
+		$counts = $results['counts'];
+		
+		// call render() from MY_Pagination
+		$this->load->library('pagination');
+		$pagination = $this->pagination->render($counts['total_num'], $counts['limit']);
+
+		$this->mViewData['posts'] = $posts;
+		$this->mViewData['counts'] = $counts;
+		$this->mViewData['pagination'] = $pagination;
+		$this->render('demo/blog_posts');
+	}
+	
+	// Blog Post
+	public function blog_post($post_id)
+	{
+		$this->load->database();
+		$this->load->model('blog_post_model', 'posts');
+		$post = $this->posts->with('category')->with('author')->get($post_id);
+
+		$this->push_breadcrumb('Blog Posts', 'demo/blog_posts');
+		$this->mTitle = $post->title;
+		$this->mViewData['post'] = $post;
+		$this->render('demo/blog_post');
+	}
 
 	public function pagination()
 	{
@@ -34,7 +79,7 @@ class Demo extends MY_Controller {
 		$this->mViewData['pagination'] = $this->pagination->render(200, 20);
 		$this->render('demo/pagination');
 	}
-	
+
 	// Form without Bootstrap theme
 	// See views/demo/form_basic.php for sample code
 	public function form_basic()
@@ -44,7 +89,7 @@ class Demo extends MY_Controller {
 
 		if ($form->validate())
 		{
-			$this->system_message->set_success('Succcess!');
+			$this->system_message->set_success('Success!');
 			refresh();
 		}
 
@@ -60,44 +105,12 @@ class Demo extends MY_Controller {
 
 		if ($form->validate())
 		{
-			$this->system_message->set_success('Succcess!');
+			$this->system_message->set_success('Success!');
 			refresh();
 		}
 
 		$this->mTitle = 'Form (Bootstrap 3)';
 		$this->mViewData['form'] = $form;
 		$this->render('demo/form_bs3');
-	}
-
-	// Example to work with database and models inherit from MY_Model
-	public function db()
-	{
-		$this->load->database();
-		$this->load->model('user_model', 'm');
-		
-		// set alias so we can use "u" in SELECT clause
-		$this->m->set_table_alias('u');
-
-		// Example 1: get multiple user records (with counts)
-		$page = empty($this->input->get('p')) ? 1 : $this->input->get('p');
-		$this->db->select('u.*, g.name AS group_name');
-		$joins[] = array('user_groups AS g', 'u.group_id = g.id');
-		$where = array('g.name' => 'member');
-		$users = $this->m->get_many_by($where, $page, $joins, TRUE);
-		var_dump($users);
-
-		// Example 2: get a user record
-		$user_id = 1;
-		$this->db->select('u.*, g.name AS group_name');
-		$user = $this->m->get_by_id($user_id, $joins);
-		var_dump($user);
-
-		// Example 3: get a user record
-		$user_id = 1;
-		$user_email = $this->m->get_field($user_id, 'email');
-		var_dump($user_email);
-
-		// Display profiler for debug purpose
-		$this->output->enable_profiler(TRUE);
 	}
 }

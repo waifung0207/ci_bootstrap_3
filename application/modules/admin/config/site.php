@@ -37,6 +37,21 @@ $config['site'] = array(
 			'url'		=> 'user',
 			'icon'		=> 'fa fa-users',
 		),
+		'cover_photo' => array(
+			'name'		=> 'Cover Photos',
+			'url'		=> 'cover_photo',
+			'icon'		=> 'fa fa-photo',
+		),
+		'blog' => array(
+			'name'		=> 'Blog',
+			'url'		=> 'blog',
+			'icon'		=> 'fa fa-pencil',
+			'children'  => array(
+				'Posts'			=> 'blog/post',
+				'Categories'	=> 'blog/category',
+				'Tags'			=> 'blog/tag',
+			)
+		),
 		// Demo to add sections with subpages
 		'demo' => array(
 			'name'		=> 'Demo',

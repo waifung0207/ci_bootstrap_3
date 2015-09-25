@@ -84,3 +84,14 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+/*
+|--------------------------------------------------------------------------
+| Custom Constants (added by CI Bootstrap)
+|--------------------------------------------------------------------------
+| Constants to be used in both Frontend and other modules
+|
+*/
+define('UPLOAD_COVER_PHOTO',		'assets/uploads/cover_photos');
+define('UPLOAD_BLOG_POST',			'assets/uploads/blog_posts');

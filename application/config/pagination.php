@@ -47,7 +47,7 @@ $config['prev_tag_open']				= '<li>';			// default: '<div>'
 $config['prev_tag_close']				= '</li>';			// default: '</div>'
 
 // Customizing the "Current Page" Link
-$config['cur_tag_open']					= '<li class="active"><a href="#">';	// default: '<b>'
+$config['cur_tag_open']					= '<li class="active"><a href="#" onclick="return false;">';	// default: '<b>'
 $config['cur_tag_close']				= '</a></li>';		// default: '</b>'
 
 // Customizing the "Digit" Link

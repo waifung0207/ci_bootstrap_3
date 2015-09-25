@@ -28,7 +28,7 @@ class User_model extends MY_Model {
 		if ( empty($user) )
 		{
 			// create user record
-			$status = $require_activation ? 'inactive' : 'active';
+			$status = $require_activation ? 'pending' : 'active';
 			$user = array(
 				$login_field	=> $login,
 				'password'		=> password_hash($password, PASSWORD_DEFAULT),
@@ -67,7 +67,7 @@ class User_model extends MY_Model {
 	 */
 	public function activate($code)
 	{
-		$where = array('activation_code' => $code, 'status' => 'inactive');
+		$where = array('activation_code' => $code, 'status' => 'pending');
 		$user = $this->get_by($where);
 
 		if ( empty($user) )
