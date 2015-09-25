@@ -1,6 +1,6 @@
 ## CodeIgniter 3 Bootstrap 
 
-**Work in progress**
+**Note: This project is still in progress, but welcome for any issues encountered**
 
 A starter template that supports multi-tenant (Frontend / Admin Panel / API) website in a single application.
 
@@ -26,6 +26,7 @@ This repository contains setup for rapid development:
 * User authentication for Admin Panel (Login, Change Password, etc.)
 * Preset layouts and templates
 * Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-starter 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
+* Preset data structure for Blogging (with pagination) and Cover Photos (carousel), which can be managed from Admin Panel
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
 * Breadcrumb and Pagination handling fit with Bootstrap theme
 * Custom 404 pages for Frontend Website and Admin Panel
@@ -95,10 +96,18 @@ assets/
     uploads/                    --- Default directory of upload files, where permission should set as writable
 gulpfile.js/                    --- Task runner following gulp-starter 2.0 practice
 screenshots/                    --- Screenshot images for preview
-sql/                            --- MySQL data which contains preset user data
+sql/                            --- MySQL files
+    backup/                     --- Files which will be created when backup database from CLI
+    core/                       --- Files contains preset data divided by feature
+    latest.sql                  --- Latest version of all preset data
 system/                         --- CodeIgniter core files (unchanged as clean CI3 installation)
 .htaccess                       --- URL rewrite for Apache web server (require mod enabled)
 ```
+
+
+### Setup Guide
+
+To be completed
 
 
 ### Screenshots
@@ -121,6 +130,5 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Enhance Form Builder library to support more field types
 * Widget helper to include reusable views (e.g. for Admin Panel components)
 * Example of using Image CRUD
-* Database migration setup (consider using [Phinx](https://phinx.org/) instead of CodeIgniter built-in one)
 * API authentication (by API key or JSON Web Token, i.e. JWT)
 * More helpers to enhance code reusability
