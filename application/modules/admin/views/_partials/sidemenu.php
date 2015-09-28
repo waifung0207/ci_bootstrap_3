@@ -36,10 +36,10 @@
 
 	<li class="header">USEFUL LINKS</li>
 	<li>
-		<a href="<?php echo base_url(); ?>" target='_blank'><i class="fa fa-circle-o text-info"></i> Frontend Site</a>
+		<a href="<?php echo base_url(); ?>" target='_blank'><i class="fa fa-circle-o text-aqua"></i> Frontend Site</a>
 	</li>
 	<li>
-		<a href="<?php echo base_url('api'); ?>" target='_blank'><i class="fa fa-circle-o text-info"></i> API Site</a>
+		<a href="<?php echo base_url('api'); ?>" target='_blank'><i class="fa fa-circle-o text-orange"></i> API Site</a>
 	</li>
 
 </ul>
