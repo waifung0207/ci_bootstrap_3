@@ -33,7 +33,7 @@ function box_open($title, $style = 'primary', $solid = FALSE)
 	$solid = $solid ? 'box-solid' : '';
 	$style = empty($style) ? '' : 'box-'.$style;
 	return "<div class='box $style $solid'>
-		<div class='box-header'>
+		<div class='box-header with-border'>
 			<h3 class='box-title'>$title</h3>
 		</div>
 		<div class='box-body'>";
