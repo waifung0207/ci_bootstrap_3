@@ -31,9 +31,21 @@ class Blog extends Admin_Controller {
 	public function category()
 	{
 		$crud = $this->crud->generate_crud('blog_categories');
+		$crud->columns('title');
 		$this->mTitle = 'Blog Categories';
+		$this->mViewData['crud_note'] = btn('Sort Order', 'blog/category_sortable');
 		$this->mViewData['crud_data'] = $this->crud->render();
 		$this->render('crud');
+	}
+	
+	// Blog Categories (Sort Order)
+	public function category_sortable()
+	{
+		$this->load->library('sortable');
+		$this->sortable->init('blog_category_model');
+		$this->mViewData['content'] = $this->sortable->render('{title}', 'blog/category');
+		$this->mTitle = 'Blog Categories';
+		$this->render('general');
 	}
 
 	// Blog Tags

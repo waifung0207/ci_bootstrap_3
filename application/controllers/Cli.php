@@ -71,7 +71,7 @@ class Cli extends CI_Controller {
 		$this->load->dbutil();
 		$this->load->helper('file');
 		$prefs = array('format' => 'txt');
-
+		
 		// Admin Users
 		$prefs['tables'] = array('admin_users');
 		$backup = $this->dbutil->backup($prefs);
@@ -79,7 +79,7 @@ class Cli extends CI_Controller {
 		write_file($file_path, $backup);
 		echo 'Database saved to: '.$file_path.PHP_EOL;
 		
-		// Admin Users
+		// Frontend Users
 		$prefs['tables'] = array('users');
 		$backup = $this->dbutil->backup($prefs);
 		$file_path = FCPATH.'sql/core/users.sql';

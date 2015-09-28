@@ -72,7 +72,7 @@ module.exports = {
 			],
 			admin: [
 				// bower files
-				dir_bower + '/bootstrap/dist/css/bootstrap.min.css',
+				dir_bower + '/admin-lte/bootstrap/css/bootstrap.min.css',
 				dir_bower + '/font-awesome/css/font-awesome.min.css',
 				dir_bower + '/ionicons/css/ionicons.min.css',
 				dir_bower + '/admin-lte/dist/css/AdminLTE.min.css',
@@ -105,7 +105,7 @@ module.exports = {
 				// bower files (use jQuery 1.x for compatibility with Grocery CRUD)
 				dir_bower + '/jquery-legacy/dist/jquery.js',
 				dir_bower + '/jquery-migrate/jquery-migrate.js',
-				dir_bower + '/bootstrap/dist/js/bootstrap.min.js',
+				dir_bower + '/admin-lte/bootstrap/js/bootstrap.min.js',
 				dir_bower + '/admin-lte/plugins/fastclick/fastclick.js',
 				dir_bower + '/admin-lte/dist/js/app.min.js',
 				dir_bower + '/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js',

@@ -1,4 +1,3 @@
-
 <header class="main-header">
 	<a href="" class="logo"><b><?php echo $site_name; ?></b></a>
 	<nav class="navbar navbar-static-top" role="navigation">

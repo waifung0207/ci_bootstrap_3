@@ -27,12 +27,14 @@ DROP TABLE IF EXISTS `blog_categories`;
 
 CREATE TABLE `blog_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pos` int(11) NOT NULL DEFAULT '0',
   `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `blog_categories` (`id`, `title`) VALUES ('1', 'Category 1');
-INSERT INTO `blog_categories` (`id`, `title`) VALUES ('2', 'Category 2');
+INSERT INTO `blog_categories` (`id`, `pos`, `title`) VALUES ('1', '1', 'Category 1');
+INSERT INTO `blog_categories` (`id`, `pos`, `title`) VALUES ('2', '2', 'Category 2');
+INSERT INTO `blog_categories` (`id`, `pos`, `title`) VALUES ('3', '3', 'Category 3');
 
 
 #

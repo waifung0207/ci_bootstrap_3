@@ -5,34 +5,34 @@
  * Styling from: http://almsaeedstudio.com/AdminLTE/
  */
 
-
 /**----------------------------------
  * Buttons
  **----------------------------------*/
-function btn($label, $url = '#', $icon = '', $style = 'primary', $size = '')
+function btn($label, $url = '#', $icon = '', $style = 'btn-primary', $size = '')
 {
 	$size = empty($size) ? '' : 'btn-'.$size;
 	$icon = empty($icon) ? '' : "<i class='fa fa-$icon'></i>";
 
 	if ( $url==='#' )
-		return "<button class='btn btn-$style $size'>$icon $label</button>";
+		return "<button class='btn btn-flat $style $size'>$icon $label</button>";
 	else
-		return "<a class='btn btn-$style $size' href='$url'>$icon $label</a>";
+		return "<a class='btn btn-flat $style $size' href='$url'>$icon $label</a>";
 }
 
-function btn_submit($label = 'Submit', $style = 'primary')
+function btn_submit($label = 'Submit', $style = 'bg-olive')
 {
-	return "<button class='btn btn-$style' type='submit'>$label</button>";
+	return "<button class='btn btn-flat $style' type='submit'>$label</button>";
 }
 
 
 /**----------------------------------
  * Widgets
  **----------------------------------*/
-function box_open($title, $style = 'primary')
+function box_open($title, $style = 'primary', $solid = FALSE)
 {
+	$solid = $solid ? 'box-solid' : '';
 	$style = empty($style) ? '' : 'box-'.$style;
-	return "<div class='box $style'>
+	return "<div class='box $style $solid'>
 		<div class='box-header'>
 			<h3 class='box-title'>$title</h3>
 		</div>

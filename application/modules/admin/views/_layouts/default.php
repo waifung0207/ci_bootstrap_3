@@ -25,7 +25,7 @@
 		</section>
 		<section class="content">
 			<?=$this->section('content')?>
-			<?php //$this->insert('partials::back'); ?>
+			<?php $this->insert('partials::back_btn'); ?>
 		</section>
 	</div>
 
