@@ -2235,6 +2235,18 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.ckeditor.config.js');
 				break;
 
+				// Added by CI Bootstrap 3
+				case 'ckeditor4':
+					$this->set_js_lib($this->default_texteditor_path.'/ckeditor4/ckeditor.js');
+					$this->set_js_lib($this->default_texteditor_path.'/ckeditor4/adapters/jquery.js');
+					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.ckeditor4.config.js');
+				break;
+				case 'summernote':
+					$this->set_css($this->default_texteditor_path.'/summernote/summernote.css');
+					$this->set_js_lib($this->default_texteditor_path.'/summernote/summernote.min.js');
+					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/summernote.config.js');
+				break;
+
 				case 'tinymce':
 					$this->set_js_lib($this->default_texteditor_path.'/tiny_mce/jquery.tinymce.js');
 					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.tine_mce.config.js');

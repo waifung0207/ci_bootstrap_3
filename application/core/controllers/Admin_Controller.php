@@ -10,6 +10,9 @@ class Admin_Controller extends MY_Controller {
 	{
 		parent::__construct();
 		$this->verify_auth();
+		
+		// get menu belongs to a user role
+		$this->mMenu = $this->mMenu[$this->mUser->role];
 	}
 
 	// Verify user authentication
@@ -38,8 +41,9 @@ class Admin_Controller extends MY_Controller {
 	// Render template (override parent)
 	protected function render($view_file)
 	{
-		// (optional) change color scheme according to login user role
-		$this->mViewData['body_class'] = 'skin-blue';
+		// load skin according to user role
+		$config = $this->mSiteConfig['adminlte'];
+		$this->mViewData['body_class'] = $config['skins'][$this->mUser->role];
 		parent::render($view_file);
 	}
 }

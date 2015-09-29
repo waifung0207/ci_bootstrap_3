@@ -13,6 +13,8 @@
 					<a href="account"><i class="fa fa-circle text-success"></i> Online</a>
 				</div>
 			</div>
+			<?php // (Optional) Add Search box here ?>
+			<?php //$this->insert('partials::sidemenu_search'); ?>
 			<?php $this->insert('partials::sidemenu'); ?>
 		</section>
 	</aside>
@@ -25,7 +27,7 @@
 		</section>
 		<section class="content">
 			<?=$this->section('content')?>
-			<?php //$this->insert('partials::back'); ?>
+			<?php $this->insert('partials::back_btn'); ?>
 		</section>
 	</div>
 

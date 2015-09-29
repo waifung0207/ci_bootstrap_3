@@ -9,9 +9,20 @@ require APPPATH."core/Base_Model.php";
 
 class MY_Model extends Base_Model {
 
+	// Override variables from Base_Model
+	public $before_get = array('callback_before_get');
+	public $after_get = array('callback_after_get');
+
+	// Variables from CI Bootstrap
+	// (sample usage: see Cover_photo_model, Blog_post_model)
+	protected $where = array();
+	protected $order_by = array();
+	protected $limit;
+	protected $upload_fields = array();
+
 	/**
 	 * Extra functions on top of Base_Model
-	 */	
+	 */
 	// Get a field value from single result (by ID)
 	public function get_field($id, $field)
 	{
@@ -41,22 +52,76 @@ class MY_Model extends Base_Model {
 		return $this->update_field($id, $field, $field.'-'.$diff, FALSE);
 	}
 
-	// Get multiple records with pagination (to be completed)
-	public function get_many_with_pagination($where, $page = 1, $limit = 20)
+	// Get multiple records with pagination
+	public function paginate($page = 1, $where = array(), $limit = NULL)
 	{
+		// decide per-page limit by: 1) $this->limit; 2) a default value (10)
+		if ( !empty($this->limit) && $limit===NULL )
+			$limit = $this->limit;
+		else if ( $limit===NULL )
+			$limit = 10;
+
+		// avoid overrided by $this->limit
+		$this->limit = NULL;
+
+		// get filtered results
+		$where = array_merge($where, $this->where);
 		$offset = ($page<=1) ? 0 : ($page-1)*$limit;
 		$this->db->limit($limit, $offset);
-		$results = $this->get_many_by($where);
+		$results = parent::get_many_by($where);
 
-		return array(
-			'data'			=> $results,
-			'pagination'	=> array(
-				'from_num'		=> 0,
-				'to_num'		=> 0,
-				'total_count'	=> count($results),
-				'curr_page'		=> $page,
-				'total_pages'	=> count($results),
-			)
+		// get counts (e.g. for pagination)
+		$count_results = count($results);
+		$count_total = parent::count_by($where);
+		$total_pages = ceil($count_total / $limit);
+		$counts = array(
+			'from_num'		=> ($count_results==0) ? 0 : $offset + 1,
+			'to_num'		=> ($count_results==0) ? 0 : $offset + $count_results,
+			'total_num'		=> $count_total,
+			'curr_page'		=> $page,
+			'total_pages'	=> ($count_results==0) ? 1 : $total_pages,
+			'limit'			=> $limit,
 		);
+
+		return array('data' => $results, 'counts' => $counts);
+	}
+	
+	/**
+	 * Callback functions
+	 */
+	protected function callback_before_get($result)
+	{
+		// default filter
+		if ( !empty($this->where) )
+			$this->db->where($this->where);
+
+		// default order
+		switch (count($this->order_by))
+		{
+			case 1: $this->db->order_by($this->order_by[0]); break;
+			case 2: $this->db->order_by($this->order_by[0], $this->order_by[1]); break;
+			case 3: $this->db->order_by($this->order_by[0], $this->order_by[1], $this->order_by[2]); break;
+		}
+
+		// default limit
+		if ( !empty($this->limit) )
+			$this->db->limit($this->limit);
+	}
+
+	protected function callback_after_get($result)
+	{
+		// prepend folder path to upload assets
+		if ( !empty($this->upload_fields) )
+		{
+			foreach ($this->upload_fields as $key => $folder)
+			{
+				if ( !empty($result->$key) )
+				{
+					$result->$key = base_url($folder.'/'.$result->$key);
+				}
+			}
+		}
+
+		return $result;
 	}
 }

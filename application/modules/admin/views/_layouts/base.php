@@ -12,10 +12,6 @@
 	<meta name='description' content='CI Bootstrap 3'>
 	<?=$this->section('meta')?>
 
-	<?php // Stylesheets ?>
-	<link href='<?php echo dist_url('admin.min.css'); ?>' rel='stylesheet'>
-	<?=$this->section('styles')?>
-
 	<?php // Scripts at page start ?>
 	<script src='<?php echo dist_url('admin.min.js'); ?>'></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,18 +20,13 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<?=$this->section('scripts_head')?>
-	
-	<?php
-		// Grocery CRUD scripts
-		if ( !empty($crud_data) )
-		{
-			foreach ($crud_data->css_files as $file)
-				echo "<link href='$file' rel='stylesheet'>".PHP_EOL;
 
-			foreach ($crud_data->js_files as $file)
-				echo "<script src='$file'></script>".PHP_EOL;
-		}
-	?>
+	<?php // Scripts and Stylesheets for Grocery CRUD ?>
+	<?=$this->section('scripts_crud')?>
+
+	<?php // Stylesheets ?>
+	<link href='<?php echo dist_url('admin.min.css'); ?>' rel='stylesheet'>
+	<?=$this->section('styles')?>
 </head>
 <body class="<?php echo $body_class; ?>">
 	<?php // Main content (from inner view, or nested layout) ?>

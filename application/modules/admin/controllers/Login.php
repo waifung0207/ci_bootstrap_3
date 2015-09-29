@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// NOTE: this controller inherits from MY_Controller,
+// instead of Admin_Controller since no authentication is required
 class Login extends MY_Controller {
 
 	/**
@@ -8,15 +10,10 @@ class Login extends MY_Controller {
 	 */
 	public function index()
 	{
-		// Login form
 		$this->load->library('form_builder');
-		$form = $this->form_builder->create_form('admin/login');
-		$form->add_text('username', '', 'Username', 'admin');
-		$form->add_password('password', '', 'Password', 'admin');
-		$form->add_submit('Sign In', 'primary', TRUE);
-		
-		$post_data = $this->input->post();
-		if ( !empty($post_data) && $form->validate() )
+		$form = $this->form_builder->create_form();
+
+		if ($form->validate())
 		{
 			// passed validation
 			$username = $this->input->post('username');
@@ -27,7 +24,7 @@ class Login extends MY_Controller {
 			if ( empty($user) )
 			{
 				// login failed
-				set_alert('danger', 'Invalid Login');
+				$this->system_message->set_error('Invalid Login');
 				refresh();
 			}
 			else
@@ -37,7 +34,7 @@ class Login extends MY_Controller {
 				redirect('admin');
 			}
 		}
-
+		
 		// display form when no POST data, or validation failed
 		$this->mViewData['body_class'] = 'login-page';
 		$this->mViewData['form'] = $form;

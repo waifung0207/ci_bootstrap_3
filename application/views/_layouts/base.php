@@ -32,7 +32,7 @@
 	<script src='<?php echo dist_url('app.min.js'); ?>'></script>
 	<?=$this->section('scripts_foot')?>
 
-	<?php // (optional) Google Analytics ?>
-	<?php //$this->insert('partials::ga') ?>
+	<?php // Google Analytics ?>
+	<?php $this->insert('partials::ga') ?>
 </body>
 </html>

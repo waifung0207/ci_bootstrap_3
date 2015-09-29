@@ -28,10 +28,11 @@ class User_model extends MY_Model {
 		if ( empty($user) )
 		{
 			// create user record
+			$status = $require_activation ? 'pending' : 'active';
 			$user = array(
 				$login_field	=> $login,
 				'password'		=> password_hash($password, PASSWORD_DEFAULT),
-				'active'		=> !$require_activation,
+				'status'		=> $status,
 			);
 			$user = array_merge($user, $additional_fields);
 			$user_id = $this->insert($user);
@@ -66,7 +67,7 @@ class User_model extends MY_Model {
 	 */
 	public function activate($code)
 	{
-		$where = array('activation_code' => $code, 'active' => 0);
+		$where = array('activation_code' => $code, 'status' => 'pending');
 		$user = $this->get_by($where);
 
 		if ( empty($user) )
@@ -80,7 +81,7 @@ class User_model extends MY_Model {
 			$data = array(
 				'activation_code'	=> NULL,
 				'activated_at'		=> date('Y-m-d H:i:s'),
-				'active'			=> 1,
+				'status'			=> 'active',
 			);
 			return $this->update($user->id, $data);
 		}
@@ -93,7 +94,7 @@ class User_model extends MY_Model {
 	{
 		// only activated user can proceed
 		$login_field = $this->mConfig['login_field'];
-		$where = array($login_field => $login, 'active' => 1);
+		$where = array($login_field => $login, 'status' => 'active');
 		$user = $this->get_by($where);
 
 		if ( !empty($user) && password_verify($password, $user->password) )
@@ -112,7 +113,7 @@ class User_model extends MY_Model {
 	 */
 	public function login_social($platform = 'facebook')
 	{
-		// to be completed
+		// TODO: complete function or use third-party libraries
 	}
 
 	/**
@@ -122,7 +123,7 @@ class User_model extends MY_Model {
 	{
 		// only activated user can proceed
 		$login_field = $this->mConfig['login_field'];
-		$where = array($login_field => $login, 'active' => 1);
+		$where = array($login_field => $login, 'status' => 'active');
 		$user = $this->get_by($where);
 
 		if ( !empty($user) )
@@ -185,7 +186,7 @@ class User_model extends MY_Model {
 		$data = elements(array('email', 'first_name', 'last_name'), $data);
 		return $this->update($user_id, $data);
 	}
-
+	
 	/**
 	 * Change password
 	 */

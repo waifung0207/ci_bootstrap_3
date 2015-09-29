@@ -127,6 +127,7 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['base_url'] = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
 		$this->mViewData['menu'] = $this->mMenu;
 		$this->mViewData['user'] = $this->mUser;
+		$this->mViewData['ga_id'] = empty($this->mSiteConfig['ga_id']) ? '' : $this->mSiteConfig['ga_id'];
 
 		// automatically push current page to last record of breadcrumb
 		$this->push_breadcrumb($this->mTitle);
