@@ -32,7 +32,7 @@ class API_Controller extends MY_Controller {
 		if ($this->mMethod!=strtoupper($method))
 		{
 			if ($error_response===NULL)
-				$this->to_error_not_found();
+				$this->to_error_method_not_allowed();
 			else
 				$this->render_json($error_response, $error_code);
 		}
