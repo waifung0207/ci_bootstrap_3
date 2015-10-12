@@ -165,6 +165,11 @@ class MY_Controller extends CI_Controller {
 			->set_status_header($code)
 			->set_content_type('application/json')
 			->set_output(json_encode($data));
+			
+		// force output immediately and interrupt other scripts
+		global $OUT;
+		$OUT->_display();
+		exit;
 	}
 
 	// Add breadcrumb entry
