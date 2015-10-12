@@ -25,6 +25,18 @@ class API_Controller extends MY_Controller {
 		// TODO: implement API Key or JWT handling
 		$this->mUser = NULL;
 	}
+	
+	// Verify request method
+	protected function verify_method($method, $error_response = NULL, $error_code = 404)
+	{
+		if ($this->mMethod!=strtoupper($method))
+		{
+			if ($error_response===NULL)
+				$this->to_error_not_found();
+			else
+				$this->render_json($error_response, $error_code);
+		}
+	}
 
 	// Parse request to obtain request info (method, body)
 	protected function parse_request()
