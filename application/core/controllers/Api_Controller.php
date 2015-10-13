@@ -37,6 +37,18 @@ class API_Controller extends MY_Controller {
 				$this->render_json($error_response, $error_code);
 		}
 	}
+	
+	// Verify user role
+	protected function verify_role($role, $error_response = NULL, $error_code = 404)
+	{
+		if ( empty($this->mUser) || $this->mUser->role!=strtolower($role) )
+		{
+			if ($error_response===NULL)
+				$this->to_error_unauthorized();
+			else
+				$this->render_json($error_response, $error_code);
+		}
+	}
 
 	// Parse request to obtain request info (method, body)
 	protected function parse_request()
