@@ -85,7 +85,10 @@ class API_Controller extends MY_Controller {
 			{
 				// JSON from text body
 				$data = file_get_contents("php://input");
-				$params = array_merge($params, json_decode(trim($data), TRUE));
+				if ( !empty($data) )
+				{
+					$params = array_merge($params, json_decode(trim($data), TRUE));
+				}
 			}
 		}
 
