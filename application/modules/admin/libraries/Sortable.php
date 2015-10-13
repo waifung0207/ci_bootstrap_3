@@ -70,7 +70,7 @@ class Sortable {
 				{/items}
 			</ul>';
 			$data = array('items' => $this->mItems);
-			$html.= $this->CI->parser->parse_string($template, $data);
+			$html.= $this->CI->parser->parse_string($template, $data, TRUE);
 
 			if ($back_url!=NULL)
 				$html.= btn('Back', $back_url, 'reply', 'bg-purple').' ';
