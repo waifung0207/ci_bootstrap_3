@@ -5,7 +5,7 @@
 A starter template that supports multi-tenant (Frontend / Admin Panel / API) website in a single application.
 
 This repository is developed upon the following tools: 
-* [CodeIgniter](http://www.codeigniter.com/) (v3.0.1) - PHP framework
+* [CodeIgniter](http://www.codeigniter.com/) (v3.0.2) - PHP framework
 * [CodeIgniter HMVC Extensions](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - modular structure by [wiredesignz](http://wiredesignz.co.nz/)
 * [Bootstrap](http://getbootstrap.com/) (v3.3.5) - popular frontend framework
 * [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.2) - feature-rich library to build CRUD tables
