@@ -56,7 +56,7 @@ class Sortable {
 			$html = box_open('Sort Order', 'primary');
 
 			// Render form with alert message
-			$html.= '<form action="'.current_url().'" method="POST">';
+			$html.= '<form action="'.current_full_url().'" method="POST">';
 			$html.= $this->CI->system_message->render();
 			$html.= '<p>Drag and drop below items to sort them in ascending order:</p>';
 
