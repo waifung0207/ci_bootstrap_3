@@ -43,10 +43,16 @@ function refresh()
 	redirect(current_full_url(), 'refresh');
 }
 
-// redirect back to referrer page
-function redirect_referrer()
+// referrer page
+function referrer()
 {
 	$CI =& get_instance();
 	$CI->load->library('user_agent');
-	redirect($CI->agent->referrer());
+	return $CI->agent->referrer();
+}
+
+// redirect back to referrer page
+function redirect_referrer()
+{
+	redirect(referrer());
 }
