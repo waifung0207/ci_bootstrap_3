@@ -7,6 +7,7 @@ A starter template that supports multi-tenant (Frontend / Admin Panel / API) web
 This repository is developed upon the following tools: 
 * [CodeIgniter](http://www.codeigniter.com/) (v3.0.2) - PHP framework
 * [CodeIgniter HMVC Extensions](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - modular structure by [wiredesignz](http://wiredesignz.co.nz/)
+* [codeigniter-base-model](https://github.com/jamierumbelow/codeigniter-base-model) - more advanced CRUD functions for models
 * [Bootstrap](http://getbootstrap.com/) (v3.3.5) - popular frontend framework
 * [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.2) - feature-rich library to build CRUD tables
 * [Image CRUD](http://www.grocerycrud.com/image-crud) (v0.6) - CRUD library for image management
@@ -67,7 +68,7 @@ application/                    --- Main CodeIgniter source files
         MY_Controller.php       --- Important class which contains shared logic of all controllers
         MY_Form_validation.php  --- Contains additional rule for validation
         MY_Loader.php           --- Required for HMVC extension
-        MY_Model.php            --- Contains shared function for model classes (can consider to replace by https://github.com/jamierumbelow/codeigniter-base-model)
+        MY_Model.php            --- Contains shared function for model classes
         MY_Router.php           --- Required for HMVC extension
     helpers/                    --- Contains custom helper functions being used throughout this repo
     language/                   --- Preset language files
