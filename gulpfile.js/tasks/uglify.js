@@ -17,4 +17,11 @@ gulp.task('uglify:admin', function() {
 		.pipe(gulp.dest(config.dest));
 });
 
-gulp.task('uglify', ['uglify:frontend', 'uglify:admin']);
+gulp.task('uglify:adminlte', function() {
+	return gulp.src(config.src.adminlte)
+		.pipe(uglify(config.dest_file.adminlte, config.settings))
+		.on('error', handleErrors)
+		.pipe(gulp.dest(config.dest));
+});
+
+gulp.task('uglify', ['uglify:frontend', 'uglify:admin', 'uglify:adminlte']);

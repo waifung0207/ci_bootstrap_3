@@ -63,6 +63,7 @@ module.exports = {
 	// css (minify)
 	css: {
 		src: {
+			// Frontend Website
 			frontend: [
 				// bower files
 				dir_bower + '/bootstrap/dist/css/bootstrap.min.css',
@@ -70,13 +71,17 @@ module.exports = {
 				// custom files
 				dir_asset + '/css/frontend.css'
 			],
+			// Admin Panel - AdminLTE theme
+			adminlte: [
+				dir_bower + '/admin-lte/bootstrap/css/bootstrap.min.css',
+				dir_bower + '/admin-lte/dist/css/AdminLTE.min.css',
+				dir_bower + '/admin-lte/dist/css/skins/_all-skins.min.css',
+			],
+			// Admin Panel - 3rd party libraries and custom scripts
 			admin: [
 				// bower files
-				dir_bower + '/admin-lte/bootstrap/css/bootstrap.min.css',
 				dir_bower + '/font-awesome/css/font-awesome.min.css',
 				dir_bower + '/ionicons/css/ionicons.min.css',
-				dir_bower + '/admin-lte/dist/css/AdminLTE.min.css',
-				dir_bower + '/admin-lte/dist/css/skins/_all-skins.css',
 				// custom files
 				dir_asset + '/css/admin.css'
 			]
@@ -84,7 +89,8 @@ module.exports = {
 		dest: dir_dist,
 		dest_file: {
 			frontend: 'app.min.css',
-			admin: 'admin.min.css'
+			admin: 'admin.min.css',
+			adminlte: 'adminlte.min.css'
 		},
 		settings: {
 			keepBreaks: false
@@ -94,6 +100,7 @@ module.exports = {
 	// js (uglify)
 	js: {
 		src: {
+			// Admin Panel
 			frontend: [
 				// bower files
 				dir_bower + '/jquery/dist/jquery.min.js',
@@ -101,14 +108,20 @@ module.exports = {
 				// custom files
 				dir_asset + '/js/frontend.js'
 			],
-			admin: [
-				// bower files (use jQuery 1.x for compatibility with Grocery CRUD)
+			// Admin Panel - AdminLTE theme
+			adminlte: [
+				// use jQuery 1.x for compatibility with Grocery CRUD
 				dir_bower + '/jquery-legacy/dist/jquery.js',
 				dir_bower + '/jquery-migrate/jquery-migrate.js',
 				dir_bower + '/admin-lte/bootstrap/js/bootstrap.min.js',
 				dir_bower + '/admin-lte/plugins/fastclick/fastclick.js',
-				dir_bower + '/admin-lte/dist/js/app.min.js',
 				dir_bower + '/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js',
+				dir_bower + '/admin-lte/dist/js/app.min.js',
+				// include other plugins below when necessary
+			],
+			// Admin Panel - 3rd party libraries and custom stylesheets
+			admin: [
+				// bower files
 				dir_bower + '/Sortable/Sortable.min.js',
 				// custom files
 				dir_asset + '/js/admin.js'
@@ -117,7 +130,8 @@ module.exports = {
 		dest: dir_dist,
 		dest_file: {
 			frontend: 'app.min.js',
-			admin: 'admin.min.js'
+			admin: 'admin.min.js',
+			adminlte: 'adminlte.min.js'
 		},
 		settings: {
 			outSourceMap: true

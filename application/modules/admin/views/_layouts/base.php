@@ -13,6 +13,7 @@
 	<?=$this->section('meta')?>
 
 	<?php // Scripts at page start ?>
+	<script src='<?php echo dist_url('adminlte.min.js'); ?>'></script>
 	<script src='<?php echo dist_url('admin.min.js'); ?>'></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -25,6 +26,7 @@
 	<?=$this->section('scripts_crud')?>
 
 	<?php // Stylesheets ?>
+	<link href='<?php echo dist_url('adminlte.min.css'); ?>' rel='stylesheet'>
 	<link href='<?php echo dist_url('admin.min.css'); ?>' rel='stylesheet'>
 	<?=$this->section('styles')?>
 </head>

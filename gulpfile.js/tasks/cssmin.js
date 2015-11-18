@@ -22,4 +22,13 @@ gulp.task('cssmin:admin', function() {
 		.pipe(gulp.dest(config.dest));
 });
 
-gulp.task('cssmin', ['cssmin:frontend', 'cssmin:admin']);
+gulp.task('cssmin:adminlte', function() {
+	return gulp.src(config.src.adminlte)
+		.pipe(sourcemaps.init())
+		.pipe(minifyCSS(config.settings))
+		.pipe(concat(config.dest_file.adminlte))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(config.dest));
+});
+
+gulp.task('cssmin', ['cssmin:frontend', 'cssmin:admin', 'cssmin:adminlte']);
