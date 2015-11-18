@@ -91,5 +91,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 | Constants to be used in both Frontend and other modules
 |
 */
+define('CI_BOOTSTRAP_VERSION',		'Build 20151118');	// will follow semantic version (e.g. v1.x.x) after first stable launch
+
 define('UPLOAD_COVER_PHOTO',		'assets/uploads/cover_photos');
 define('UPLOAD_BLOG_POST',			'assets/uploads/blog_posts');
