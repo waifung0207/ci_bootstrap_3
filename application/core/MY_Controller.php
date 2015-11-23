@@ -36,6 +36,8 @@ class MY_Controller extends CI_Controller {
 
 	// Login user
 	protected $mUser = NULL;
+	protected $mUserGroups = array();
+	protected $mUserGroupConfig = array();
 
 	// Constructor
 	public function __construct()

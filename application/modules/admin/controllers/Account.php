@@ -32,18 +32,22 @@ class Account extends Admin_Controller {
 	 */
 	public function update_info()
 	{
-		$this->load->model('admin_user_model', 'admin_users');
-		$updated = $this->admin_users->update_info($this->mUser->id, $this->input->post());
-
-		if ($updated)
+		//$this->load->model('admin_user_model', 'admin_users');
+		//$updated = $this->admin_users->update_info($this->mUser->id, $this->input->post());
+		$data = $this->input->post();
+		if ($this->ion_auth->update($this->mUser->id, $data))
 		{
-			$this->system_message->set_success('Successfully updated account info.');
-			$this->mUser->full_name = $this->input->post('full_name');
-			$this->session->set_userdata('admin_user', $this->mUser);
+			//$this->system_message->set_success('Successfully updated account info.');
+			//$this->mUser->first_name = $this->input->post('first_name');
+			//$this->session->set_userdata('admin_user', $this->mUser);
+			$messages = $this->ion_auth->messages();
+			$this->system_message->set_success($messages);
 		}
 		else
 		{
-			$this->system_message->set_error('Failed to update info.');
+			//$this->system_message->set_error('Failed to update info.');
+			$errors = $this->ion_auth->errors();
+			$this->system_message->set_error($errors);
 		}
 
 		redirect('admin/account');
@@ -54,13 +58,20 @@ class Account extends Admin_Controller {
 	 */
 	public function change_password()
 	{
-		$this->load->model('admin_user_model', 'admin_users');
-		$updated = $this->admin_users->change_password($this->mUser->id, $this->input->post('new_password'));
+		//$this->load->model('admin_user_model', 'admin_users');
+		//$updated = $this->admin_users->change_password($this->mUser->id, $this->input->post('new_password'));
 
-		if ($updated)
-			$this->system_message->set_success('Successfully changed password.');
+		$data = array('password' => $this->input->post('new_password'));
+		if ($this->ion_auth->update($this->mUser->id, $data))
+		{
+			$messages = $this->ion_auth->messages();
+			$this->system_message->set_success($messages);
+		}
 		else
-			$this->system_message->set_error('Failed to changed password.');
+		{
+			$errors = $this->ion_auth->errors();
+			$this->system_message->set_error($errors);
+		}
 
 		redirect('admin/account');
 	}

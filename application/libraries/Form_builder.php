@@ -226,12 +226,12 @@ class Form {
 		return '<div class="form-group">'.form_label($label, $name).$this->field_textarea($name, $value, $extra).'</div>';
 	}
 
-	public function bs3_submit($label = 'Submit', $style = 'primary', $extra = array())
+	public function bs3_submit($label = 'Submit', $class = 'btn btn-primary', $extra = array())
 	{
-		$extra['class'] = 'btn btn-'.$style;
+		$extra['class'] = $class;
 		return $this->btn_submit($label, $extra);
 	}
-
+	
 	/**
 	 * Success / Error messages
 	 */

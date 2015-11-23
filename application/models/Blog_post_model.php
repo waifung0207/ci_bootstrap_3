@@ -8,7 +8,7 @@ class Blog_post_model extends MY_Model {
 			'primary_key'	=> 'category_id'
 		),
 		'author' => array(
-			'model'			=> 'admin_user_model',
+			'model'			=> 'user_model',
 			'primary_key'	=> 'author_id'
 		)
 	);

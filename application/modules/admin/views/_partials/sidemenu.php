@@ -33,13 +33,16 @@
 		<?php endif; ?>
 
 	<?php endforeach; ?>
-
-	<li class="header">USEFUL LINKS</li>
-	<li>
-		<a href="<?php echo base_url(); ?>" target='_blank'><i class="fa fa-circle-o text-aqua"></i> Frontend Site</a>
-	</li>
-	<li>
-		<a href="<?php echo base_url('api'); ?>" target='_blank'><i class="fa fa-circle-o text-orange"></i> API Site</a>
-	</li>
+	
+	<?php if ( !empty($useful_links) ): ?>
+		<li class="header">USEFUL LINKS</li>
+		<?php foreach ($useful_links as $link): ?>
+			<li>
+				<a href="<?php echo starts_with($link['url'], 'http') ? $link['url'] : base_url($link['url']); ?>" target='<?php echo $link['target']; ?>'>
+					<i class="fa fa-circle-o <?php echo $link['color']; ?>"></i> <?php echo $link['name']; ?>
+				</a>
+			</li>
+		<?php endforeach; ?>
+	<?php endif; ?>
 
 </ul>

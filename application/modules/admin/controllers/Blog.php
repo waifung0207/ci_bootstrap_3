@@ -19,7 +19,7 @@ class Blog extends Admin_Controller {
 		}
 		else
 		{
-			$crud->set_relation('author_id', 'admin_users', 'full_name');
+			$crud->set_relation('author_id', 'users', '{first_name} {last_name}');
 		}
 
 		$this->mTitle = 'Blog Posts';

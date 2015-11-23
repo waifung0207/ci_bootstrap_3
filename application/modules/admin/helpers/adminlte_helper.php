@@ -77,7 +77,8 @@ function info_box($color, $number, $label, $icon, $url = '#')
 function app_btn($icon, $label, $url = '#', $badge = '', $badge_color = 'purple')
 {
 	$badge = isset($badge) ? "<span class='badge bg-$badge_color'>$badge</span>": '';
-	return "<a class='btn btn-app' href='$url'>$badge<i class='fa fa-$icon'></i> $label</a>";
+	$target = starts_with($url, 'http') ? '_blank' : '_self';
+	return "<a class='btn btn-app' href='$url' target='$target'>$badge<i class='fa fa-$icon'></i> $label</a>";
 }
 
 

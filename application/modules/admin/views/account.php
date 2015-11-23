@@ -11,7 +11,8 @@
 			</div>
 			<div class="box-body">
 				<?php echo $form1->open(); ?>
-					<?php echo $form1->bs3_text('Full Name', 'full_name', $user->full_name); ?>
+					<?php echo $form1->bs3_text('First Name', 'first_name', $user->first_name); ?>
+					<?php echo $form1->bs3_text('Last Name', 'last_name', $user->last_name); ?>
 					<?php echo $form1->bs3_submit('Update'); ?>
 				<?php echo $form1->close(); ?>
 			</div>

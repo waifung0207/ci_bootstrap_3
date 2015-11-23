@@ -1,25 +1,4 @@
 #
-# TABLE STRUCTURE FOR: admin_users
-#
-
-DROP TABLE IF EXISTS `admin_users`;
-
-CREATE TABLE `admin_users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `role` enum('admin','staff') NOT NULL DEFAULT 'staff',
-  `username` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `full_name` varchar(50) DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT '1',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-INSERT INTO `admin_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES ('1', 'admin', 'admin', '$2y$10$7lw24RIkDD4z/P4ZrdWcBuLf3MfvkDAZyZi5k7oJqA.s2hBFvOJiG', 'Administrator', '1', '2014-07-31 12:56:41');
-INSERT INTO `admin_users` (`id`, `role`, `username`, `password`, `full_name`, `active`, `created_at`) VALUES ('2', 'staff', 'staff', '$2y$10$uvx0ySA7s2GZDsKcrlv40.Wev5q9xkjVg.pirwZOH9n2K4lPrIOvC', 'Staff', '1', '2014-08-11 18:10:37');
-
-
-#
 # TABLE STRUCTURE FOR: blog_categories
 #
 
@@ -113,6 +92,39 @@ INSERT INTO `cover_photos` (`id`, `pos`, `image_url`, `status`) VALUES ('3', '3'
 
 
 #
+# TABLE STRUCTURE FOR: groups
+#
+
+DROP TABLE IF EXISTS `groups`;
+
+CREATE TABLE `groups` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES ('1', 'admin', 'Administrator');
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES ('2', 'manager', 'Manager');
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES ('3', 'staff', 'Staff');
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES ('4', 'members', 'General User');
+
+
+#
+# TABLE STRUCTURE FOR: login_attempts
+#
+
+DROP TABLE IF EXISTS `login_attempts`;
+
+CREATE TABLE `login_attempts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(15) NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `time` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
 # TABLE STRUCTURE FOR: users
 #
 
@@ -120,17 +132,52 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `role` enum('member') NOT NULL DEFAULT 'member',
-  `email` varchar(100) NOT NULL,
+  `ip_address` varchar(15) NOT NULL,
+  `username` varchar(100) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `salt` varchar(255) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_time` int(11) unsigned DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
+  `created_on` int(11) unsigned NOT NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
-  `activation_code` varchar(32) DEFAULT NULL,
-  `forgot_password_code` varchar(32) DEFAULT NULL,
-  `forgot_password_time` timestamp NULL DEFAULT NULL,
-  `status` enum('pending','active') NOT NULL DEFAULT 'pending',
-  `activated_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `company` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES ('1', '127.0.0.1', 'admin', '$2y$08$U2kIOloYcCwk4jqYJaRS3ua5eyZvR1/tFBj5BvK8L6UmCETOiAgvu', NULL, '', NULL, NULL, NULL, NULL, '1268889823', '1448250160', '1', 'Admin', NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES ('2', '127.0.0.1', 'manager', '$2y$08$HNeY0TJaGvLywt6AY5Bo3ujl4sPwPzSGOv/R9Y6nuYopBQUdWwU2O', NULL, '', NULL, NULL, NULL, NULL, '1447915390', '1447915490', '1', 'Manager', NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES ('3', '127.0.0.1', 'staff', '$2y$08$.HZ5N74rMwtL8eX1eySehe3QsEg/n0vpWJSx3IZPYHp.PlvnO6hjO', NULL, '', NULL, NULL, NULL, NULL, '1447915390', '1447915481', '1', 'Staff', NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES ('4', '127.0.0.1', 'member', '$2y$08$0EELOw5PYr0k43Rga2M4QOw.JF5WE68Qwp80KHHV1omwYUn.OYPOm', NULL, '', NULL, NULL, NULL, NULL, '1447915463', NULL, '1', 'Member', NULL, NULL, NULL);
+
+
+#
+# TABLE STRUCTURE FOR: users_groups
+#
+
+DROP TABLE IF EXISTS `users_groups`;
+
+CREATE TABLE `users_groups` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `group_id` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
+  KEY `fk_users_groups_users1_idx` (`user_id`),
+  KEY `fk_users_groups_groups1_idx` (`group_id`),
+  CONSTRAINT `fk_users_groups_groups1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_groups_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES ('1', '1', '1');
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES ('2', '2', '2');
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES ('3', '3', '3');
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES ('4', '4', '4');
+
 
