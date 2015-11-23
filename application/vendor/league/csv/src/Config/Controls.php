@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -62,29 +62,34 @@ trait Controls
     protected $newline = "\n";
 
     /**
-     * Returns the CSV Iterator
-     *
-     * @return \Iterator
-     */
-    abstract public function getIterator();
-
-    /**
-     * Sets the field delimeter
+     * Sets the field delimiter
      *
      * @param string $delimiter
      *
-     * @throws \InvalidArgumentException If $delimeter is not a single character
+     * @throws InvalidArgumentException If $delimiter is not a single character
      *
      * @return $this
      */
     public function setDelimiter($delimiter)
     {
-        if (1 != mb_strlen($delimiter)) {
+        if (!$this->isValidCsvControls($delimiter)) {
             throw new InvalidArgumentException('The delimiter must be a single character');
         }
         $this->delimiter = $delimiter;
 
         return $this;
+    }
+
+    /**
+     * Tell whether the submitted string is a valid CSV Control character
+     *
+     * @param string $str The submitted string
+     *
+     * @return bool
+     */
+    protected function isValidCsvControls($str)
+    {
+        return 1 == mb_strlen($str);
     }
 
     /**
@@ -98,68 +103,86 @@ trait Controls
     }
 
     /**
-     * Detects the actual number of row according to a delimiter
-     *
-     * @param string $delimiter a CSV delimiter
-     * @param int    $nb_rows   the number of row to consider
-     *
-     * @return int
-     */
-    protected function fetchRowsCountByDelimiter($delimiter, $nb_rows = 1)
-    {
-        $iterator = $this->getIterator();
-        $iterator->setCsvControl($delimiter, $this->enclosure, $this->escape);
-        $iterator = new LimitIterator($iterator, 0, $nb_rows);
-        $iterator = new CallbackFilterIterator($iterator, function ($row) {
-            return is_array($row) && count($row) > 1;
-        });
-
-        return count(iterator_to_array($iterator, false), COUNT_RECURSIVE);
-    }
-
-    /**
      * Detects the CSV file delimiters
+     *
+     * Returns a associative array where each key represents
+     * the number of occurences and each value a delimiter with the
+     * given occurence
+     *
+     * This method returns incorrect informations when two delimiters
+     * have the same occurrence count
+     *
+     * DEPRECATION WARNING! This method will be removed in the next major point release
+     *
+     * @deprecated deprecated since version 7.2
      *
      * @param int      $nb_rows
      * @param string[] $delimiters additional delimiters
-     *
-     * @throws \InvalidArgumentException If $nb_rows value is invalid
      *
      * @return string[]
      */
     public function detectDelimiterList($nb_rows = 1, array $delimiters = [])
     {
-        $nb_rows = filter_var($nb_rows, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-        if (! $nb_rows) {
-            throw new InvalidArgumentException('`$nb_rows` must be a valid positive integer');
+        $delimiters = array_merge([$this->delimiter, ',', ';', "\t"], $delimiters);
+        $stats = $this->fetchDelimitersOccurrence($delimiters, $nb_rows);
+
+        return array_flip(array_filter($stats));
+    }
+
+    /**
+     * Detect Delimiters occurences in the CSV
+     *
+     * Returns a associative array where each key represents
+     * a valid delimiter and each value the number of occurences
+     *
+     * @param string[] $delimiters the delimiters to consider
+     * @param int      $nb_rows    Detection is made using $nb_rows of the CSV
+     *
+     * @throws InvalidArgumentException If $nb_rows value is invalid
+     *
+     * @return array
+     */
+    public function fetchDelimitersOccurrence(array $delimiters, $nb_rows = 1)
+    {
+        if (!($nb_rows = filter_var($nb_rows, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]))) {
+            throw new InvalidArgumentException('The number of rows to consider must be a valid positive integer');
         }
 
-        $delimiters = array_filter($delimiters, function ($str) {
-            return 1 == mb_strlen($str);
-        });
-        $delimiters = array_unique(array_merge([$this->delimiter, ',', ';', "\t"], $delimiters));
-        $res = array_fill_keys($delimiters, 0);
-        array_walk($res, function (&$value, $delim) use ($nb_rows) {
-            $value = $this->fetchRowsCountByDelimiter($delim, $nb_rows);
-        });
-
+        $filterRow = function ($row) {
+            return is_array($row) && count($row) > 1;
+        };
+        $delimiters = array_unique(array_filter($delimiters, [$this, 'isValidCsvControls']));
+        $csv = $this->getIterator();
+        $res = [];
+        foreach ($delimiters as $delim) {
+            $csv->setCsvControl($delim, $this->enclosure, $this->escape);
+            $iterator = new CallbackFilterIterator(new LimitIterator($csv, 0, $nb_rows), $filterRow);
+            $res[$delim] = count(iterator_to_array($iterator, false), COUNT_RECURSIVE);
+        }
         arsort($res, SORT_NUMERIC);
 
-        return array_flip(array_filter($res));
+        return $res;
     }
+
+    /**
+     * Returns the CSV Iterator
+     *
+     * @return SplFileObject
+     */
+    abstract public function getIterator();
 
     /**
      * Sets the field enclosure
      *
      * @param string $enclosure
      *
-     * @throws \InvalidArgumentException If $enclosure is not a single character
+     * @throws InvalidArgumentException If $enclosure is not a single character
      *
      * @return $this
      */
     public function setEnclosure($enclosure)
     {
-        if (1 != mb_strlen($enclosure)) {
+        if (!$this->isValidCsvControls($enclosure)) {
             throw new InvalidArgumentException('The enclosure must be a single character');
         }
         $this->enclosure = $enclosure;
@@ -182,13 +205,13 @@ trait Controls
      *
      * @param string $escape
      *
-     * @throws \InvalidArgumentException If $escape is not a single character
+     * @throws InvalidArgumentException If $escape is not a single character
      *
      * @return $this
      */
     public function setEscape($escape)
     {
-        if (1 != mb_strlen($escape)) {
+        if (!$this->isValidCsvControls($escape)) {
             throw new InvalidArgumentException('The escape character must be a single character');
         }
         $this->escape = $escape;
@@ -211,20 +234,22 @@ trait Controls
      *
      * @param int $flags
      *
-     * @throws \InvalidArgumentException If the argument is not a valid integer
+     * @throws InvalidArgumentException If the argument is not a valid integer
      *
      * @return $this
      */
     public function setFlags($flags)
     {
-        if (false === filter_var($flags, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]])) {
-            throw new InvalidArgumentException('you should use a `SplFileObject` Constant');
-        }
-
-        $this->flags = $flags|SplFileObject::READ_CSV;
+        $flags = $this->filterInteger($flags, 0, 'you should use a `SplFileObject` Constant');
+        $this->flags = $flags | SplFileObject::READ_CSV;
 
         return $this;
     }
+
+    /**
+     * @inheritdoc
+     */
+    abstract protected function filterInteger($int, $minValue, $errorMessage);
 
     /**
      * Returns the file Flags

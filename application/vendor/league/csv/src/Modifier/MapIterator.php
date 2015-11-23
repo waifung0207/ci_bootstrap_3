@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -36,7 +36,7 @@ class MapIterator extends IteratorIterator
      * The Constructor
      *
      * @param Iterator $iterator
-     * @param callable    $callable
+     * @param callable $callable
      */
     public function __construct(Iterator $iterator, callable $callable)
     {
@@ -50,8 +50,7 @@ class MapIterator extends IteratorIterator
     public function current()
     {
         $iterator = $this->getInnerIterator();
-        $callable = $this->callable;
 
-        return $callable($iterator->current(), $iterator->key(), $iterator);
+        return call_user_func($this->callable, $iterator->current(), $iterator->key(), $iterator);
     }
 }

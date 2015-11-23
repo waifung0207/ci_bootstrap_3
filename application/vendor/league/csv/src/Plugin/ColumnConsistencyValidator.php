@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -42,9 +42,8 @@ class ColumnConsistencyValidator
      *
      * @param int $value
      *
-     * @throws \InvalidArgumentException If $value is lesser than -1
+     * @throws InvalidArgumentException If $value is lesser than -1
      *
-     * @return void
      */
     public function setColumnsCount($value)
     {
@@ -70,7 +69,6 @@ class ColumnConsistencyValidator
      * and therefore will also validate the next line whatever length it has no matter
      * the current $columns_count property value.
      *
-     * @return void
      */
     public function autodetectColumnsCount()
     {

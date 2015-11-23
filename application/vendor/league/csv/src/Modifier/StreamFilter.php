@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -52,7 +52,12 @@ trait StreamFilter
      *
      * @var string
      */
-    protected $stream_regex = ',^php://filter/(?P<mode>:?read=|write=)?(?P<filters>.*?)/resource=(?P<resource>.*)$,i';
+    protected $stream_regex = ',^
+        php://filter/
+        (?P<mode>:?read=|write=)?  # The resource open mode
+        (?P<filters>.*?)           # The resource registered filters
+        /resource=(?P<resource>.*) # The resource path
+        $,ix';
 
     /**
      * Internal path setter
@@ -77,15 +82,15 @@ trait StreamFilter
 
             return;
         }
-        $this->stream_uri         = $matches['resource'];
-        $this->stream_filters     = explode('|', $matches['filters']);
+        $this->stream_uri = $matches['resource'];
+        $this->stream_filters = explode('|', $matches['filters']);
         $this->stream_filter_mode = $this->fetchStreamModeAsInt($matches['mode']);
     }
 
     /**
      * Get the stream mode
      *
-     * @param  string $mode
+     * @param string $mode
      *
      * @return int
      */
@@ -107,11 +112,11 @@ trait StreamFilter
     /**
      * Check if the trait methods can be used
      *
-     * @throws \LogicException If the API can not be use
+     * @throws LogicException If the API can not be use
      */
     protected function assertStreamable()
     {
-        if (! is_string($this->stream_uri)) {
+        if (!is_string($this->stream_uri)) {
             throw new LogicException('The stream filter API can not be used');
         }
     }
@@ -134,14 +139,14 @@ trait StreamFilter
      *
      * @param int $mode
      *
-     * @throws \OutOfBoundsException If the mode is invalid
+     * @throws OutOfBoundsException If the mode is invalid
      *
      * @return $this
      */
     public function setStreamFilterMode($mode)
     {
         $this->assertStreamable();
-        if (! in_array($mode, [STREAM_FILTER_ALL, STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
+        if (!in_array($mode, [STREAM_FILTER_ALL, STREAM_FILTER_READ, STREAM_FILTER_WRITE])) {
             throw new OutOfBoundsException('the $mode should be a valid `STREAM_FILTER_*` constant');
         }
 
@@ -203,9 +208,7 @@ trait StreamFilter
     protected function sanitizeStreamFilter($filter_name)
     {
         $this->assertStreamable();
-        $filter_name = (string) $filter_name;
-
-        return trim($filter_name);
+        return (string) $filter_name;
     }
 
     /**

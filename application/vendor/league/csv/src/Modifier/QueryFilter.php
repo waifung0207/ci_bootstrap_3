@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -14,7 +14,6 @@ namespace League\Csv\Modifier;
 
 use ArrayObject;
 use CallbackFilterIterator;
-use InvalidArgumentException;
 use Iterator;
 use LimitIterator;
 
@@ -65,7 +64,7 @@ trait QueryFilter
     /**
      * Stripping BOM setter
      *
-     * @param  bool $status
+     * @param bool $status
      *
      * @return $this
      */
@@ -77,7 +76,7 @@ trait QueryFilter
     }
 
     /**
-     * Tell whethe we can strip or not the leading BOM sequence
+     * Tell whether we can strip or not the leading BOM sequence
      *
      * @return bool
      */
@@ -102,16 +101,18 @@ trait QueryFilter
      */
     public function setOffset($offset = 0)
     {
-        if (false === filter_var($offset, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]])) {
-            throw new InvalidArgumentException('the offset must be a positive integer or 0');
-        }
-        $this->iterator_offset = $offset;
+        $this->iterator_offset = $this->filterInteger($offset, 0, 'the offset must be a positive integer or 0');
 
         return $this;
     }
 
     /**
-     * Set LimitInterator Count
+     * @inheritdoc
+     */
+    abstract protected function filterInteger($int, $minValue, $errorMessage);
+
+    /**
+     * Set LimitIterator Count
      *
      * @param int $limit
      *
@@ -119,10 +120,7 @@ trait QueryFilter
      */
     public function setLimit($limit = -1)
     {
-        if (false === filter_var($limit, FILTER_VALIDATE_INT, ['options' => ['min_range' => -1]])) {
-            throw new InvalidArgumentException('the limit must an integer greater or equals to -1');
-        }
-        $this->iterator_limit = $limit;
+        $this->iterator_limit = $this->filterInteger($limit, -1, 'the limit must an integer greater or equals to -1');
 
         return $this;
     }
@@ -151,9 +149,7 @@ trait QueryFilter
     public function removeSortBy(callable $callable)
     {
         $res = array_search($callable, $this->iterator_sort_by, true);
-        if (false !== $res) {
-            unset($this->iterator_sort_by[$res]);
-        }
+        unset($this->iterator_sort_by[$res]);
 
         return $this;
     }
@@ -206,9 +202,7 @@ trait QueryFilter
     public function removeFilter(callable $callable)
     {
         $res = array_search($callable, $this->iterator_filters, true);
-        if (false !== $res) {
-            unset($this->iterator_filters[$res]);
-        }
+        unset($this->iterator_filters[$res]);
 
         return $this;
     }
@@ -240,7 +234,7 @@ trait QueryFilter
     /**
      * Remove the BOM sequence from the CSV
      *
-     * @param  Iterator $iterator
+     * @param Iterator $iterator
      *
      * @return \Iterator
      */
@@ -264,11 +258,11 @@ trait QueryFilter
     /**
      * Return the Iterator without the BOM sequence
      *
-     * @param  Iterator $iterator
+     * @param Iterator $iterator
      *
      * @return Iterator
      */
-    protected function getStripBomIterator($iterator)
+    protected function getStripBomIterator(Iterator $iterator)
     {
         $bom = $this->getInputBom();
 
@@ -344,7 +338,7 @@ trait QueryFilter
         $obj->uasort(function ($rowA, $rowB) {
             $sortRes = 0;
             foreach ($this->iterator_sort_by as $callable) {
-                if (0 !== ($sortRes = $callable($rowA, $rowB))) {
+                if (0 !== ($sortRes = call_user_func($callable, $rowA, $rowB))) {
                     break;
                 }
             }
