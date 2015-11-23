@@ -7,8 +7,7 @@ class Account extends MY_Controller {
 	{
 		parent::__construct();
 
-		$this->load->database();
-		$this->load->model('user_model', 'users');
+		$this->load->library('ion_auth');
 
 		// CI Bootstrap libraries
 		$this->load->library('form_builder');
@@ -28,24 +27,26 @@ class Account extends MY_Controller {
 		if ($form->validate())
 		{
 			// passed validation
-			$email = $this->input->post('email');
+			$identity = $this->input->post('email');
 			$password = $this->input->post('password');
-			$additional_fields = array(
+			$additional_data = array(
 				'first_name'	=> $this->input->post('first_name'),
 				'last_name'		=> $this->input->post('last_name'),
 			);
-			$user_id = $this->users->sign_up($email, $password, $additional_fields);
 
-			if ($user_id)
+			// create user (default group as "members")
+			if ($this->ion_auth->register($identity, $password, $identity, $additional_data))
 			{
 				// success
-				$this->system_message->set_success('Thanks for registration. We have sent you a email and please follow the instruction to activate your account.');
+				$messages = $this->ion_auth->messages();
+				$this->system_message->set_success($messages);
 				redirect('account/login');
 			}
 			else
 			{
 				// failed
-				$this->system_message->set_error('Failed to create user');
+				$errors = $this->ion_auth->errors();
+				$this->system_message->set_error($errors);
 				refresh();
 			}
 		}
@@ -53,22 +54,6 @@ class Account extends MY_Controller {
 		// display form
 		$this->mViewData['form'] = $form;
 		$this->render('account/sign_up');
-	}
-
-	/**
-	 * Account - Activation
-	 */
-	public function activate()
-	{
-		$code = $this->input->get_post('code');
-		$activated = $this->users->activate($code);
-
-		if ($activated)
-			$this->system_message->set_success('Successfully activated. Please login to your account.');
-		else
-			$this->system_message->set_error('Invalid code.');
-
-		redirect('account/login');
 	}
 
 	/**
@@ -81,15 +66,15 @@ class Account extends MY_Controller {
 		if ($form->validate())
 		{
 			// passed validation
-			$email = $this->input->post('email');
+			$identity = $this->input->post('email');
 			$password = $this->input->post('password');
-			$user = $this->users->login($email, $password);
+			$remember = ($this->input->post('remember')=='on');
 
-			if (empty($user))
+			if ($this->ion_auth->login($identity, $password, $remember))
 			{
-				// success - save user to session
-				$this->session->set_userdata('user', $user);
-				$this->system_message->set_success('Login success.');
+				// success
+				$messages = $this->ion_auth->messages();
+				$this->system_message->set_success($messages);
 
 				// TODO: redirect to user dashboard
 				redirect('account/login');
@@ -97,7 +82,8 @@ class Account extends MY_Controller {
 			else
 			{
 				// failed
-				$this->system_message->set_error('Invalid login');
+				$errors = $this->ion_auth->errors();
+				$this->system_message->set_error($errors);
 				refresh();
 			}
 		}
@@ -105,6 +91,24 @@ class Account extends MY_Controller {
 		// display form
 		$this->mViewData['form'] = $form;
 		$this->render('account/login');
+	}
+
+	/**
+	 * Account - Logout
+	 */
+	public function logout()
+	{
+		$this->ion_auth->logout();	
+		redirect();
+	}
+
+	/**
+	 * Account - Activation
+	 */
+	public function activate()
+	{
+		// To be integrated with Ion Auth
+		redirect('account/login');
 	}
 
 	/**
@@ -117,24 +121,25 @@ class Account extends MY_Controller {
 		if ($form->validate())
 		{
 			// passed validation
-			$email = $this->input->post('email');
-			$result = $this->users->forgot_password($email);
+			$identity = $this->input->post('email');
 
-			if ($result)
+			if ( $this->ion_auth->forgotten_password($identity) )
 			{
 				// success
-				$this->system_message->set_success('A email has been sent to you, please check your inbox and follow instruction to reset your password.');
+				$messages = $this->ion_auth->messages();
+				$this->system_message->set_success($messages);
 				redirect('account/login');
 			}
 			else
 			{
 				// failed
-				$this->system_message->set_error('Forgot password failed');
+				$errors = $this->ion_auth->errors();
+				$this->system_message->set_error($errors);
 				refresh();
 			}
 		}
 
-		// display form when no POST data, or validation failed
+		// display form
 		$this->mViewData['form'] = $form;
 		$this->render('account/forgot_password');
 	}
@@ -142,41 +147,53 @@ class Account extends MY_Controller {
 	/**
 	 * Account - Reset Password
 	 */
-	public function reset_password()
+	public function reset_password($code = NULL)
 	{
-		// skip when code not found or invalid
-		$code = $this->input->get_post('code');
-		if ( !$this->users->verify_forgot_password_code($code) )
+		if (!$code)
 		{
-			$this->system_message->set_error('Invalid Code');
-			redirect('account/login');
+			redirect('');
 		}
 
-		$form = $this->form_builder->create_form();
+		// check whether code is valid
+		$user = $this->ion_auth->forgotten_password_check($code);
 
-		if ($form->validate())
+		if ($user)
 		{
-			// passed validation
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-			$result = $this->users->reset_password($code, $password);
+			$form = $this->form_builder->create_form();
 
-			if ($result)
+			if ($form->validate())
 			{
-				// success
-				$this->system_message->set_success('Your password has been reset. Please login again.');
-				redirect('account/login');
+				// passed validation
+				$identity = $user->email;
+				$password = $this->input->post('password');
+
+				// confirm update password
+				if ( $this->ion_auth->reset_password($identity, $password) )
+				{
+					// success
+					$messages = $this->ion_auth->messages();
+					$this->system_message->set_success($messages);
+					redirect('account/login');
+				}
+				else
+				{
+					// failed
+					$errors = $this->ion_auth->errors();
+					$this->system_message->set_error($errors);
+					redirect('account/reset_password/' . $code);
+				}
 			}
-			else
-			{
-				// failed
-				$this->system_message->set_error('Reset password failed');
-				refresh();
-			}
+
+			// display form
+			$this->mViewData['form'] = $form;
+			$this->render('account/reset_password');
 		}
-
-		$this->mViewData['form'] = $form;
-		$this->mViewData['code'] = $code;
-		$this->render('account/reset_password');
+		else
+		{
+			// code invalid
+			$errors = $this->ion_auth->errors();
+			$this->system_message->set_error($errors);
+			redirect('account/forgot_password', 'refresh');
+		}
 	}
 }
