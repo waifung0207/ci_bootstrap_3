@@ -77,7 +77,7 @@ class Auth extends MY_Controller {
 			$identity = $this->input->post('email');
 			$password = $this->input->post('password');
 			$remember = ($this->input->post('remember')=='on');
-
+			
 			if ($this->ion_auth->login($identity, $password, $remember))
 			{
 				// success
