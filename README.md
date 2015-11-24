@@ -100,7 +100,8 @@ gulpfile.js/                    --- Task runner following gulp-starter 2.0 pract
 screenshots/                    --- Screenshot images for preview
 sql/                            --- MySQL files
     backup/                     --- Files which will be created when backup database from CLI
-    core/                       --- Files contains preset data divided by feature
+    core/                       --- Files contains core data (e.g. Ion Auth)
+    demo/                       --- Files contains demo data
     latest.sql                  --- Latest version of all preset data
 system/                         --- CodeIgniter core files (unchanged as clean CI3 installation)
 .htaccess                       --- URL rewrite for Apache web server (require mod enabled)
