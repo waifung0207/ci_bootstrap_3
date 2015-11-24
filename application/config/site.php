@@ -70,11 +70,11 @@ $config['site'] = array(
 		// end of demo
 		'sign_up' => array(
 			'name'		=> 'Sign Up',
-			'url'		=> 'account/sign_up',
+			'url'		=> 'auth/sign_up',
 		),
 		'login' => array(
 			'name'		=> 'Login',
-			'url'		=> 'account/login',
+			'url'		=> 'auth/login',
 		),
 	),
 

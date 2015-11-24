@@ -27,5 +27,4 @@ $config['subject_prefix'] = "[CI Bootstrap] ";
 $config['mailgun'] = array(
 	'domain'				=> '',
 	'private_api_key'		=> '',
-	'from_email'			=> '',
 );

@@ -17,7 +17,7 @@
 	<p><?php echo $form->field_recaptcha(); ?></p>
 
 	<div class="form-group">
-		Have an Account? <a href="account/login">Log In</a>
+		Have an Account? <a href="auth/login">Log In</a>
 	</div>
 	
 	<?php echo $form->bs3_submit('Sign Up'); ?>

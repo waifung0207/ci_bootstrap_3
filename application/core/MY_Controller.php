@@ -37,8 +37,8 @@ class MY_Controller extends CI_Controller {
 	// Login user
 	protected $mUser = NULL;
 	protected $mUserGroups = array();
-	protected $mUserGroupConfig = array();
-
+	protected $mUserMainGroup;
+	
 	// Constructor
 	public function __construct()
 	{
@@ -93,19 +93,28 @@ class MY_Controller extends CI_Controller {
 			$this->push_breadcrumb($page, '');	
 		}
 
+		// get user data if logged in
+		if ( $this->ion_auth->logged_in() )
+		{
+			$this->mUser = $this->ion_auth->user()->row();
+			$this->mUserGroups = $this->ion_auth->get_users_groups($this->mUser->id)->result();
+
+			// TODO: get group with most permissions (instead of getting first group)
+			$this->mUserMainGroup = $this->mUserGroups[0]->name;
+		}
+
 		$this->mSiteConfig = $site_config;
 	}
 
 	// Verify user authentication
-	protected function verify_auth($redirect_url = 'account/login')
+	// $group parameter can be name, ID, name array, ID array, or mixed array
+	// Reference: http://benedmunds.com/ion_auth/#in_group
+	protected function verify_auth($group = 'members', $redirect_url = 'auth/login')
 	{
-		// obtain user data from session; redirect to Login page if not found
-		if ($this->session->has_userdata('user'))
-			$this->mUser = $this->session->userdata('user');
-		else
+		if ( !$this->ion_auth->logged_in() || !$this->ion_auth->in_group($group) )
 			redirect($redirect_url);
 	}
-	
+
 	// Render template (using Plates template)
 	protected function render($view_file)
 	{
