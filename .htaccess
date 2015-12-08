@@ -1,5 +1,10 @@
+# uncomment this line for production server
 #SetEnv CI_ENV production
 
+# change "*" to "your-domain.com" for better security
+Header add Access-Control-Allow-Origin "*"
+
+# URL rewrite
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
