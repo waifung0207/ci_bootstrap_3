@@ -84,4 +84,18 @@ $config = array(
 		),
 	),
 
+	// Reset User Password
+	'user/reset_password' => array(
+		array(
+			'field'		=> 'new_password',
+			'label'		=> 'New Password',
+			'rules'		=> 'required',
+		),
+		array(
+			'field'		=> 'retype_password',
+			'label'		=> 'Retype Password',
+			'rules'		=> 'required|matches[new_password]',
+		),
+	),
+
 );
