@@ -58,9 +58,6 @@ class Account extends Admin_Controller {
 	 */
 	public function change_password()
 	{
-		//$this->load->model('admin_user_model', 'admin_users');
-		//$updated = $this->admin_users->change_password($this->mUser->id, $this->input->post('new_password'));
-
 		$data = array('password' => $this->input->post('new_password'));
 		if ($this->ion_auth->update($this->mUser->id, $data))
 		{

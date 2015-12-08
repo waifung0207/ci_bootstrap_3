@@ -46,6 +46,10 @@ $config['site'] = array(
 			'name'		=> 'Users',
 			'url'		=> 'user',
 			'icon'		=> 'fa fa-users',
+			'children'  => array(
+				'List'		=> 'user',
+				'Create'	=> 'user/create',
+			)
 		),
 		'cover_photo' => array(
 			'groups'	=> array('admin'),

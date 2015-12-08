@@ -97,10 +97,13 @@ class MY_Controller extends CI_Controller {
 		if ( $this->ion_auth->logged_in() )
 		{
 			$this->mUser = $this->ion_auth->user()->row();
-			$this->mUserGroups = $this->ion_auth->get_users_groups($this->mUser->id)->result();
+			if ( !empty($this->mUser) )
+			{
+				$this->mUserGroups = $this->ion_auth->get_users_groups($this->mUser->id)->result();
 
-			// TODO: get group with most permissions (instead of getting first group)
-			$this->mUserMainGroup = $this->mUserGroups[0]->name;
+				// TODO: get group with most permissions (instead of getting first group)
+				$this->mUserMainGroup = $this->mUserGroups[0]->name;	
+			}
 		}
 
 		$this->mSiteConfig = $site_config;
