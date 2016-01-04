@@ -1,10 +1,12 @@
-# uncomment this line for production server
+# Uncomment this line for production or testing server
 #SetEnv CI_ENV production
 
-# change "*" to "your-domain.com" for better security
+# Change "*" to "your-domain.com" for better security
+# Note: require Headers mod enabled (sudo a2enmod headers)
 Header add Access-Control-Allow-Origin "*"
 
 # URL rewrite
+# Note: require Headers mod enabled (sudo a2enmod rewrite)
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
