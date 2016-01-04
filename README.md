@@ -108,6 +108,16 @@ system/                         --- CodeIgniter core files (unchanged as clean C
 ```
 
 
+### Admin Users (and default login accounts)
+
+There are 4 preset users for Admin Panel:
+
+* Webmaster (default username & password are both "webmaster", belongs to the webmaster group)
+* Admin (default username & password are both "admin", belongs to the admin group)
+* Manager (default username & password are both "manager", belongs to the manager group)
+* Staff (default username & password are both "staff", belongs to the staff group)
+
+
 ### Setup Guide
 
 To be completed

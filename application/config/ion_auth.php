@@ -22,7 +22,7 @@
 */
 
 /**
- * Notes from CI Bootstrap 3 (https://github.com/waifung0207/ci_bootstrap_3).
+ * Changes by CI Bootstrap 3 (https://github.com/waifung0207/ci_bootstrap_3).
  * 
  * The following values are changed to fit with CI Bootstrap:
  *  - $config['site_title'] = 'CI Bootstrap'; (default: 'Example.com')

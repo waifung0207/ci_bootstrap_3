@@ -9,6 +9,7 @@ CREATE TABLE `demo_blog_posts` (
   `category_id` int(11) NOT NULL DEFAULT '1',
   `author_id` int(11) NOT NULL,
   `title` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
+  `image_url` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
   `content_brief` text COLLATE utf8_unicode_ci NOT NULL,
   `content` text COLLATE utf8_unicode_ci NOT NULL,
   `publish_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -16,7 +17,7 @@ CREATE TABLE `demo_blog_posts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `demo_blog_posts` (`id`, `category_id`, `author_id`, `title`, `content_brief`, `content`, `publish_time`, `status`) VALUES ('1', '1', '1', 'Blog Post 1', '<p>\r\n	Blog Post 1 Content Brief</p>\r\n', '<p>\r\n	Blog Post 1 Content</p>\r\n', '2015-09-26 00:00:00', 'active');
+INSERT INTO `demo_blog_posts` (`id`, `category_id`, `author_id`, `title`, `image_url`, `content_brief`, `content`, `publish_time`, `status`) VALUES ('1', '1', '2', 'Blog Post 1', '', '<p>\r\n	Blog Post 1 Content Brief</p>\r\n', '<p>\r\n	Blog Post 1 Content</p>\r\n', '2015-09-26 00:00:00', 'active');
 
 
 #

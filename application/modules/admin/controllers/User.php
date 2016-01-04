@@ -9,9 +9,7 @@ class User extends Admin_Controller {
 		$this->load->library('form_builder');
 	}
 
-	/**
-	 * User Management page (e.g. CRUD operations)
-	 */
+	// Frontend User CRUD
 	public function index()
 	{
 		$crud = $this->crud->generate_crud('users');
@@ -20,18 +18,19 @@ class User extends Admin_Controller {
 		$crud->callback_field('last_login', array($this, 'callback_timestamp'));
 		$crud->callback_field('created_on', array($this, 'callback_timestamp'));
 
-		// only admin can create all groups of users, and reset user password
-		if ($this->ion_auth->in_group('admin'))
+		// only webmaster and admin can change member groups
+		if ($crud->getState()=='list' || $this->ion_auth->in_group(array('webmaster', 'admin')))
 		{
 			$crud->set_relation_n_n('groups', 'users_groups', 'groups', 'user_id', 'group_id', 'name');
+		}
+
+		// only webmaster and admin can reset user password
+		if ($this->ion_auth->in_group(array('webmaster', 'admin')))
+		{
 			$crud->add_action('Reset Password', '', 'admin/user/reset_password', 'fa fa-repeat');
 		}
-		else
-		{
-			$where = array('name' => 'members');
-			$crud->set_relation_n_n('groups', 'users_groups', 'groups', 'user_id', 'group_id', 'name', NULL, $where);
-		}
-		
+
+		// disable direct create / delete Frontend User
 		$crud->unset_add();
 		$crud->unset_delete();
 
@@ -40,9 +39,7 @@ class User extends Admin_Controller {
 		$this->render('crud');
 	}
 
-	/**
-	 * Create user
-	 */
+	// Create Frontend User
 	public function create()
 	{
 		$form = $this->form_builder->create_form();
@@ -58,10 +55,18 @@ class User extends Admin_Controller {
 				'first_name'	=> $this->input->post('first_name'),
 				'last_name'		=> $this->input->post('last_name'),
 			);
-			$groups = $this->ion_auth->in_group('admin') ? $this->input->post('groups') : NULL;
+			$groups = $this->input->post('groups');
 
-			// create user (default group as "members")
-			$user = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups);
+			// [IMPORTANT] override database tables to update Frontend Users instead of Admin Users
+			$this->ion_auth_model->tables = array(
+				'users'				=> 'users',
+				'groups'			=> 'groups',
+				'users_groups'		=> 'users_groups',
+				'login_attempts'	=> 'login_attempts',
+			);
+
+			// proceed to create user
+			$user = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups);			
 			if ($user)
 			{
 				// success
@@ -77,35 +82,45 @@ class User extends Admin_Controller {
 			refresh();
 		}
 
-		// only "admin" can create all groups of users; otherwise can create "members" only
-		if ($this->ion_auth->in_group('admin'))
-		{
-			$groups = $this->ion_auth->groups()->result();
-			$this->mViewData['groups'] = $groups;
-			$this->mTitle = 'Create User';
-		}
-		else
-		{
-			$this->mTitle = 'Create Member';	
-		}
+		// get list of Frontend user groups
+		$this->load->model('group_model', 'groups');
+		$this->mViewData['groups'] = $this->groups->get_all();
+		$this->mTitle = 'Create User';
 
 		$this->mViewData['form'] = $form;
 		$this->render('user/create');
 	}
 
-	/**
-	 * Reset password
-	 */
+	// User Groups CRUD
+	public function group()
+	{
+		$crud = $this->crud->generate_crud('groups');
+		$this->mTitle = 'User Groups';
+		$this->mViewData['crud_data'] = $this->crud->render();
+		$this->render('crud');
+	}
+
+	// Frontend User Reset Password
 	public function reset_password($user_id)
 	{
-		// only admin can reset user passwords
-		$this->verify_auth('admin', 'admin/login');
+		// only top-level users can reset user passwords
+		$this->verify_auth(array('webmaster', 'admin'));
 
 		$form = $this->form_builder->create_form();
 		if ($form->validate())
 		{
 			// pass validation
 			$data = array('password' => $this->input->post('new_password'));
+			
+			// [IMPORTANT] override database tables to update Frontend Users instead of Admin Users
+			$this->ion_auth_model->tables = array(
+				'users'				=> 'users',
+				'groups'			=> 'groups',
+				'users_groups'		=> 'users_groups',
+				'login_attempts'	=> 'login_attempts',
+			);
+
+			// proceed to change user password
 			if ($this->ion_auth->update($user_id, $data))
 			{
 				$messages = $this->ion_auth->messages();
@@ -124,6 +139,7 @@ class User extends Admin_Controller {
 		$this->mViewData['target'] = $target;
 
 		$this->mViewData['form'] = $form;
+		$this->mTitle = 'Reset User Password';
 		$this->render('user/reset_password');
 	}
 }

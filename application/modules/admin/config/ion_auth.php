@@ -1,10 +1,15 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Notes from CI Bootstrap 3 (https://github.com/waifung0207/ci_bootstrap_3).
+ * Changes by CI Bootstrap 3 (https://github.com/waifung0207/ci_bootstrap_3).
  * 
  * The following values are changed to fit with CI Bootstrap:
+ * 	- $config['tables']['users'] = 'admin_users'; (default: 'users')
+ * 	- $config['tables']['groups'] = 'admin_groups'; (default: 'groups')
+ * 	- $config['tables']['users_groups'] = 'admin_users_groups'; (default: 'users_groups')
+ * 	- $config['tables']['login_attempts'] = 'admin_login_attempts'; (default: 'login_attempts')
  * 	- $config['site_title'] = "Admin Panel"; (default: 'Example.com')
+ * 	- $config['default_group'] = 'admin'; (default: 'members')
  * 	- $config['identity'] = 'username'; (default: 'email')
  * 	- $config['email_templates'] = 'email/auth/'; (default: 'auth/email/')
  * 	- $config['email_activate']	= 'activate.php'; (default: 'activate.tpl.php')
@@ -18,10 +23,10 @@
 | -------------------------------------------------------------------------
 | Database table names.
 */
-$config['tables']['users']           = 'users';
-$config['tables']['groups']          = 'groups';
-$config['tables']['users_groups']    = 'users_groups';
-$config['tables']['login_attempts']  = 'login_attempts';
+$config['tables']['users']           = 'admin_users';
+$config['tables']['groups']          = 'admin_groups';
+$config['tables']['users_groups']    = 'admin_users_groups';
+$config['tables']['login_attempts']  = 'admin_login_attempts';
 
 /*
  | Users table column and Group table column you want to join WITH.
@@ -75,7 +80,7 @@ $config['salt_prefix']    = version_compare(PHP_VERSION, '5.3.7', '<') ? '$2a$' 
  */
 $config['site_title']                 = "Admin Panel";       // Site Title, example.com
 $config['admin_email']                = "admin@example.com"; // Admin Email, admin@example.com
-$config['default_group']              = 'members';           // Default group, use name
+$config['default_group']              = 'admin';             // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
 $config['identity']                   = 'username';          // You can use any unique column in your table as identity column. The values in this column, alongside password, will be used for login purposes
 $config['min_password_length']        = 8;                   // Minimum Required Length of Password

@@ -15,7 +15,7 @@
 	</tr>
 	<tr>
 		<th>Author: </th>
-		<td><?php echo $post->author->full_name; ?></td>
+		<td><?php echo $post->author->first_name; ?> <?php echo $post->author->last_name; ?></td>
 	</tr>
 	<tr>
 		<th>Category: </th>

@@ -109,13 +109,30 @@ class MY_Controller extends CI_Controller {
 		$this->mSiteConfig = $site_config;
 	}
 
+	// Verify user login (regardless of user group)
+	protected function verify_login($redirect_url = NULL)
+	{
+		if ( !$this->ion_auth->logged_in() )
+		{
+			if ( $redirect_url==NULL )
+				$redirect_url = $this->mSiteConfig['login_url'];
+
+			redirect($redirect_url);
+		}
+	}
+
 	// Verify user authentication
 	// $group parameter can be name, ID, name array, ID array, or mixed array
 	// Reference: http://benedmunds.com/ion_auth/#in_group
-	protected function verify_auth($group = 'members', $redirect_url = 'auth/login')
+	protected function verify_auth($group = 'members', $redirect_url = NULL)
 	{
 		if ( !$this->ion_auth->logged_in() || !$this->ion_auth->in_group($group) )
+		{
+			if ( $redirect_url==NULL )
+				$redirect_url = $this->mSiteConfig['login_url'];
+			
 			redirect($redirect_url);
+		}
 	}
 
 	// Render template (using Plates template)

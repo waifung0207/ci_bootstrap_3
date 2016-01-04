@@ -16,7 +16,7 @@
 		</tr>
 		<tr>
 			<th>Author: </th>
-			<td><?php echo $post->author->full_name; ?></td>
+			<td><?php echo $post->author->first_name; ?> <?php echo $post->author->last_name; ?></td>
 		</tr>
 		<tr>
 			<th>Category: </th>
@@ -37,7 +37,7 @@
 
 <div class="row text-center">
 	<div class="col col-md-12">
-		<p>Result <strong><?php echo $counts['from_num']; ?></strong> to <strong><?php echo $counts['to_num']; ?></strong> (out of <strong><?php echo $counts['total_num']; ?></strong> results)</p>
+		<p>Results: <strong><?php echo $counts['from_num']; ?></strong> to <strong><?php echo $counts['to_num']; ?></strong> (total <strong><?php echo $counts['total_num']; ?></strong> results)</p>
 		<?php echo $pagination; ?>
 	</div>
 </div>

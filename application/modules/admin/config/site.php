@@ -24,12 +24,12 @@ $config['site'] = array(
 	// Multilingual settings (set empty array to disable this)
 	'multilingual' => array(),
 
-	// User groups that is allowed to login Admin Panel;
-	// each group will have different AdminLTE skin
-	'authorized_groups' => array(
-		'admin'		=> array('adminlte_skin' => 'skin-purple'),
-		'manager'	=> array('adminlte_skin' => 'skin-black'),
-		'staff'		=> array('adminlte_skin' => 'skin-blue')
+	// AdminLTE settings
+	'adminlte' => array(
+		'webmaster'	=> array('skin' => 'skin-red'),
+		'admin'		=> array('skin' => 'skin-purple'),
+		'manager'	=> array('skin' => 'skin-black'),
+		'staff'		=> array('skin' => 'skin-blue')
 	),
 
 	// Menu items which support icon fonts, e.g. Font Awesome
@@ -47,25 +47,9 @@ $config['site'] = array(
 			'url'		=> 'user',
 			'icon'		=> 'fa fa-users',
 			'children'  => array(
-				'List'		=> 'user',
-				'Create'	=> 'user/create',
-			)
-		),
-		'cover_photo' => array(
-			'groups'	=> array('admin'),
-			'name'		=> 'Cover Photos',
-			'url'		=> 'cover_photo',
-			'icon'		=> 'fa fa-photo',
-		),
-		'blog' => array(
-			'groups'	=> array('admin'),
-			'name'		=> 'Blog',
-			'url'		=> 'blog',
-			'icon'		=> 'fa fa-pencil',
-			'children'  => array(
-				'Posts'			=> 'blog/post',
-				'Categories'	=> 'blog/category',
-				'Tags'			=> 'blog/tag',
+				'List'			=> 'user',
+				'Create'		=> 'user/create',
+				'User Groups'	=> 'user/group',
 			)
 		),
 		'demo' => array(
@@ -74,20 +58,39 @@ $config['site'] = array(
 			'url'		=> 'demo',
 			'icon'		=> 'ion ion-gear-b',	// use Ionicons (instead of FontAwesome)
 			'children'  => array(
-				'Pagination'	=> 'demo/pagination',
-				'Sortable'		=> 'demo/sortable',
-				'Item 1'		=> 'demo/item/1',
-				'Item 2'		=> 'demo/item/2',
-				'Item 3'		=> 'demo/item/3',
+				'Blog Posts'		=> 'demo/blog_post',
+				'Blog Categories'	=> 'demo/blog_category',
+				'Blog Tags'			=> 'demo/blog_tag',
+				'Cover Photos'		=> 'demo/cover_photo',
+				'Pagination'		=> 'demo/pagination',
+				'Sortable'			=> 'demo/sortable',
+				'Item 1'			=> 'demo/item/1',
+				'Item 2'			=> 'demo/item/2',
+				'Item 3'			=> 'demo/item/3',
+			)
+		),
+		'panel' => array(
+			'groups'	=> array('admin'),
+			'name'		=> 'Admin Panel',
+			'url'		=> 'panel',
+			'icon'		=> 'fa fa-cog',
+			'children'  => array(
+				'Admin Users'			=> 'panel/admin_user',
+				'Create Admin User'		=> 'panel/admin_user_create',
+				'Admin User Groups'		=> 'panel/admin_user_group',
+				'Account Settings'		=> 'panel/account',
 			)
 		),
 		'logout' => array(
 			'groups'	=> array('admin', 'manager', 'staff'),
 			'name'		=> 'Sign Out',
-			'url'		=> 'account/logout',
+			'url'		=> 'panel/logout',
 			'icon'		=> 'fa fa-sign-out',
 		)
 	),
+
+	// default page when redirect non-logged-in user
+	'login_url' => 'admin/login',
 
 	// Useful links to display at bottom of sidemenu (e.g. to pages outside Admin Panel)
 	'useful_links' => array(

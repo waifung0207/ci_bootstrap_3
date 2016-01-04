@@ -8,7 +8,7 @@ class Account extends MY_Controller {
 		parent::__construct();
 
 		// only login users can access Account controller
-		$this->verify_auth();
+		$this->verify_login();
 	}
 
 	public function index()

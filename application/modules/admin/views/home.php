@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="col-md-4">
-		<?php echo info_box('aqua', $count['blog_posts'], 'Blog Posts', 'pencil', 'blog/post'); ?>
+		<?php echo info_box('aqua', $count['admin_users'], 'Admin Users', 'users', 'panel/admin_user'); ?>
 	</div>
 
 </div>

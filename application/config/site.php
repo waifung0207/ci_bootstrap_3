@@ -78,28 +78,9 @@ $config['site'] = array(
 		),
 	),
 
-	// User authenication (to be completed)
-	'auth' => array(
-
-		// Field name for logging in (e.g. email, username)
-		'login_field'		=> 'email',
-
-		// Activation settings
-		'activation'		=> array(
-			'enabled'		=> TRUE,
-			'url'			=> 'account/activate',
-			'email'			=> 'frontend_activation',
-			'email_subject'	=> 'Activation',
-		),
-
-		// Forgot Password settings
-		'forgot_password'	=> array(
-			'url'			=> 'account/reset_password',
-			'email'			=> 'frontend_forgot_password',
-			'email_subject'	=> 'Forgot Password',
-		),
-	),
-
+	// default page when redirect non-logged-in user
+	'login_url' => 'auth/login',
+	
 	// For debug purpose (available only when ENVIRONMENT = 'development')
 	'debug' => array(
 		'view_data'		=> FALSE,	// whether to display MY_Controller's mViewData at page end

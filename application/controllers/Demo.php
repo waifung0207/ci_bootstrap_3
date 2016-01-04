@@ -30,8 +30,7 @@ class Demo extends MY_Controller {
 	public function carousel()
 	{
 		// grab records from database table "cover_photos"
-		$this->load->database();
-		$this->load->model('cover_photo_model', 'photos');
+		$this->load->model('demo_cover_photo_model', 'photos');
 		$this->mViewData['photos'] = $this->photos->get_all();
 		$this->render('demo/carousel');
 	}
@@ -42,8 +41,7 @@ class Demo extends MY_Controller {
 		$page = $this->input->get('p');
 		$page = empty($page) ? 1 : $page;
 
-		$this->load->database();
-		$this->load->model('blog_post_model', 'posts');
+		$this->load->model('demo_blog_post_model', 'posts');
 		$results = $this->posts->with('category')->with('author')->paginate($page);
 		$posts = $results['data'];
 		$counts = $results['counts'];
@@ -61,8 +59,7 @@ class Demo extends MY_Controller {
 	// Blog Post
 	public function blog_post($post_id)
 	{
-		$this->load->database();
-		$this->load->model('blog_post_model', 'posts');
+		$this->load->model('demo_blog_post_model', 'posts');
 		$post = $this->posts->with('category')->with('author')->get($post_id);
 
 		$this->push_breadcrumb('Blog Posts', 'demo/blog_posts');
