@@ -20,6 +20,6 @@
 				Memory Usage: <strong>{memory_usage}</strong>
 			</p>
 		<?php endif; ?>
-		<p class="text-muted">&copy; 2015 All rights reserved.</p>
+		<p class="text-muted">&copy; <strong><?php echo COPYRIGHT_YEAR; ?></strong> All rights reserved.</p>
 	</div>
 </div>
