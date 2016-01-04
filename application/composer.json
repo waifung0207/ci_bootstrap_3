@@ -5,6 +5,6 @@
         "league/csv": "^7.0",
         "league/plates": "3.*",
         "firebase/php-jwt": "^2.1",
-        "mailgun/mailgun-php": "1.7.*"
+        "mailgun/mailgun-php": "1.8.*"
     }
 }
