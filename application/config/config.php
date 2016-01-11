@@ -336,7 +336,7 @@ $config['encryption_key'] = '';
 |
 | 'sess_save_path'
 |
-|	The location to save sessions to, driver dependant.
+|	The location to save sessions to, driver dependent.
 |
 |	For the 'files' driver, it's a path to a writable directory.
 |	WARNING: Only absolute paths are supported!
