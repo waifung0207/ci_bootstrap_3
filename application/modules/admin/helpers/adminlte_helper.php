@@ -74,6 +74,24 @@ function info_box($color, $number, $label, $icon, $url = '#')
 	</div>";
 }
 
+// for Second Type of LTEadmin Info Boxes @buoncri
+function info_box2($color, $number, $label, $icon, $url = '#', $progress, $progress_description) {
+    return "
+    <div class = 'info-box bg-$color'>
+        <span class = 'info-box-icon'><i class = 'fa fa-$icon'></i></span>
+        <div class = 'info-box-content'>
+            <span class = 'info-box-text'>$label</span>
+            <span class = 'info-box-number'>$number</span>
+            <div class = 'progress'>
+                <div class = 'progress-bar' style = 'width: $progress%'></div>
+            </div>
+            <span class = 'progress-description'>
+            $progress_description
+            </span>
+        </div><!--/.info-box-content -->
+        </div><!--/.info-box -->";
+}
+
 function app_btn($icon, $label, $url = '#', $badge = '', $badge_color = 'purple')
 {
 	$badge = isset($badge) ? "<span class='badge bg-$badge_color'>$badge</span>": '';
