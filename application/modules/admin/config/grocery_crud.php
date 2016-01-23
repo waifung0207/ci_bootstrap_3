@@ -39,15 +39,17 @@
 	 */
 	$config['grocery_crud_unset_jquery'] = TRUE;
 	$config['grocery_crud_unset_jquery_ui'] = FALSE;
-	$config['grocery_crud_unset_print'] = TRUE;
-	$config['grocery_crud_unset_export'] = TRUE;
+	$config['grocery_crud_unset_print'] = FALSE;
+	$config['grocery_crud_unset_export'] = FALSE;
 	$config['grocery_crud_unset_read'] = FALSE;
-
+	
 	// common fields to unset from CRUD
 	$config['grocery_crud_unset_fields'] = array(
-		'created_at', 'updated_at', 'activated_at', 
-		'password', 'activation_code', 'forgot_password_code', 'forgot_password_time',
-		'pos',
+		// fields from Ion Auth
+		'password', 'salt', 'activation_code', 'forgotten_password_code', 'forgotten_password_time', 'remember_code', 'created_on',
+		
+		// general fields to hide from CRUD
+		'pos', 'created_at', 'updated_at', 'activated_at',
 	);
 	
 	// common fields to "display as"

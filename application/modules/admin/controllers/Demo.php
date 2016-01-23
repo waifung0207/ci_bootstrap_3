@@ -18,7 +18,7 @@ class Demo extends Admin_Controller {
 	// Grocery CRUD - Blog Posts
 	public function blog_post()
 	{
-		$crud = $this->crud->generate_crud('demo_blog_posts');
+		$crud = $this->generate_crud('demo_blog_posts');
 		$crud->columns('author_id', 'category_id', 'title', 'image_url', 'tags', 'publish_time', 'status');
 		$crud->set_field_upload('image_url', UPLOAD_DEMO_BLOG_POST);
 		$crud->set_relation('category_id', 'demo_blog_categories', 'title');
@@ -36,19 +36,17 @@ class Demo extends Admin_Controller {
 		}
 
 		$this->mTitle.= 'Blog Posts';
-		$this->mViewData['crud_data'] = $this->crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 
 	// Grocery CRUD - Blog Categories
 	public function blog_category()
 	{
-		$crud = $this->crud->generate_crud('demo_blog_categories');
+		$crud = $this->generate_crud('demo_blog_categories');
 		$crud->columns('title');
 		$this->mTitle.= 'Blog Categories';
 		$this->mViewData['crud_note'] = btn('Sort Order', 'demo/blog_category_sortable');
-		$this->mViewData['crud_data'] = $this->crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 	
 	// Sortable - Blog Categories
@@ -64,19 +62,17 @@ class Demo extends Admin_Controller {
 	// Grocery CRUD - Blog Tags
 	public function blog_tag()
 	{
-		$crud = $this->crud->generate_crud('demo_blog_tags');
+		$crud = $this->generate_crud('demo_blog_tags');
 		$this->mTitle.= 'Blog Tags';
-		$this->mViewData['crud_data'] = $this->crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 
 	// Image CRUD - Cover Photos
 	public function cover_photo()
 	{
-		$crud = $this->crud->generate_image_crud('demo_cover_photos', 'image_url', UPLOAD_DEMO_COVER_PHOTO);
+		$crud = $this->generate_image_crud('demo_cover_photos', 'image_url', UPLOAD_DEMO_COVER_PHOTO);
 		$this->mTitle.= 'Cover Photos';
-		$this->mViewData['crud_data'] = $crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 	
 	// Simple page with parameter

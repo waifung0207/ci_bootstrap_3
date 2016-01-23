@@ -1,5 +1,3 @@
-<?php $this->layout('layouts::default') ?>
-
 <div id="carousel-home" class="carousel slide" data-ride="carousel" style="width:1000px">
 
 	<!-- Indicators -->

@@ -1,12 +1,8 @@
-<?php $this->layout('layouts::base') ?>
-
 <div class="container">
-	<?php $this->insert('partials::navbar') ?>
+	<?php $this->load->view('_partials/navbar'); ?>
 	<section class="content">
-		<?php if (!empty($enable_breadcrumb)): ?>
-			<?php $this->insert('partials::breadcrumb') ?>
-		<?php endif ?>
-		<?=$this->section('content')?>
+		<?php $this->load->view('_partials/breadcrumb'); ?>
+		<?php $this->load->view($inner_view); ?>
 	</section>
 </div>
 

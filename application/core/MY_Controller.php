@@ -17,6 +17,9 @@ class MY_Controller extends CI_Controller {
 	// Config values from config/site.php
 	protected $mSiteConfig = array();
 	protected $mSiteName = '';
+	protected $mMetaData = array();
+	protected $mScripts = array();
+	protected $mStylesheets = array();
 
 	// Plates instance (reference: http://platesphp.com/)
 	protected $mTemplates;
@@ -25,6 +28,7 @@ class MY_Controller extends CI_Controller {
 	protected $mTitle = '';
 	protected $mMenu = array();
 	protected $mBreadcrumb = array();
+	protected $mBodyClass = '';
 
 	// Multilingual
 	protected $mMultilingual = FALSE;
@@ -49,7 +53,7 @@ class MY_Controller extends CI_Controller {
 		$this->mCtrler = $this->router->fetch_class();
 		$this->mAction = $this->router->fetch_method();
 		$this->mMethod = $this->input->server('REQUEST_METHOD');
-
+		
 		// initial setup
 		$this->_setup();
 	}
@@ -63,12 +67,9 @@ class MY_Controller extends CI_Controller {
 		$this->mSiteName = $site_config['name'];
 		$this->mTitle = $site_config['title'];
 		$this->mMenu = $site_config['menu'];
-
-		// setup Plates template
-		$template_dir = empty($this->mModule) ? 'application/views' : 'application/modules/'.$this->mModule.'/views';
-		$this->mTemplates = new League\Plates\Engine($template_dir);
-		$this->mTemplates->addFolder('layouts', $template_dir.'/_layouts');
-		$this->mTemplates->addFolder('partials', $template_dir.'/_partials');
+		$this->mMetaData = $site_config['meta'];
+		$this->mScripts = $site_config['scripts'];
+		$this->mStylesheets = $site_config['stylesheets'];
 
 		// multilingual setup
 		$lang_config = $site_config['multilingual'];
@@ -135,8 +136,8 @@ class MY_Controller extends CI_Controller {
 		}
 	}
 
-	// Render template (using Plates template)
-	protected function render($view_file)
+	// Render template
+	protected function render($view_file, $layout = 'default')
 	{
 		// automatically generate page title
 		if ( empty($this->mTitle) )
@@ -152,13 +153,17 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['action'] = $this->mAction;
 
 		$this->mViewData['site_name'] = $this->mSiteName;
-		$this->mViewData['title'] = $this->mTitle;
+		$this->mViewData['page_title'] = $this->mTitle;
 		$this->mViewData['current_uri'] = empty($this->mModule) ? uri_string(): str_replace($this->mModule.'/', '', uri_string());
+		$this->mViewData['meta_data'] = $this->mMetaData;
+		$this->mViewData['scripts'] = $this->mScripts;
+		$this->mViewData['stylesheets'] = $this->mStylesheets;
 
 		$this->mViewData['base_url'] = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
 		$this->mViewData['menu'] = $this->mMenu;
 		$this->mViewData['user'] = $this->mUser;
 		$this->mViewData['ga_id'] = empty($this->mSiteConfig['ga_id']) ? '' : $this->mSiteConfig['ga_id'];
+		$this->mViewData['body_class'] = $this->mBodyClass;
 
 		// automatically push current page to last record of breadcrumb
 		$this->push_breadcrumb($this->mTitle);
@@ -171,22 +176,21 @@ class MY_Controller extends CI_Controller {
 			$this->mViewData['language'] = $this->mLanguage;
 		}
 
-		// set global view data
-		//$this->mViewData['ci'] = $this;	// uncomment this line if need to use CI instance, e.g. $ci->benchmark->elapsed_time()
-		$this->mTemplates->addData($this->mViewData);
-
-		// note: need to use CodeIgniter Output class instead of echo() directly
-		$this->output->set_output($this->mTemplates->render($view_file));
-
 		// debug tools
 		$debug_config = $this->mSiteConfig['debug'];
 		if (ENVIRONMENT==='development' && !empty($debug_config))
 		{
 			$this->output->enable_profiler($debug_config['profiler']);
 
+			/*
 			if ($debug_config['view_data'])
-				$this->output->append_output('<hr/>'.print_r($this->mViewData, TRUE));
+				$this->output->append_output('<hr/>'.print_r($this->mViewData, TRUE));*/
 		}
+
+		$this->mViewData['inner_view'] = $view_file;
+		$this->load->view('_base/head', $this->mViewData);
+		$this->load->view('_layouts/'.$layout, $this->mViewData);
+		$this->load->view('_base/foot', $this->mViewData);
 	}
 
 	// Output JSON string

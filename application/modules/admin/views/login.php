@@ -1,5 +1,3 @@
-<?php $this->layout('layouts::login') ?>
-
 <div class="login-box">
 
 	<div class="login-logo"><b><?php echo $site_name; ?></b></div>

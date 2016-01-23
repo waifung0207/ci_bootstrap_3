@@ -1,10 +1,3 @@
-<?php $this->layout('layouts::default') ?>
-
-<?php // append scripts to <head> ?>
-<?php $this->start('scripts_head') ?>
-	<script src='https://www.google.com/recaptcha/api.js'></script>
-<?php $this->stop() ?>
-
 <?php echo $form->open(); ?>
 	
 	<?php echo $form->messages(); ?>

@@ -1,8 +1,6 @@
-<?php $this->layout('layouts::base') ?>
-
 <div class="wrapper">
 
-	<?php $this->insert('partials::navbar'); ?>
+	<?php $this->load->view('_partials/navbar'); ?>
 
 	<?php // Left side column. contains the logo and sidebar ?>
 	<aside class="main-sidebar">
@@ -14,20 +12,20 @@
 				</div>
 			</div>
 			<?php // (Optional) Add Search box here ?>
-			<?php //$this->insert('partials::sidemenu_search'); ?>
-			<?php $this->insert('partials::sidemenu'); ?>
+			<?php //$this->load->view('_partials/sidemenu_search'); ?>
+			<?php $this->load->view('_partials/sidemenu'); ?>
 		</section>
 	</aside>
 
 	<?php // Right side column. Contains the navbar and content of the page ?>
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1><?php echo $title; ?></h1>
-			<?php $this->insert('partials::breadcrumb'); ?>
+			<h1><?php echo $page_title; ?></h1>
+			<?php $this->load->view('_partials/breadcrumb'); ?>
 		</section>
 		<section class="content">
-			<?=$this->section('content')?>
-			<?php $this->insert('partials::back_btn'); ?>
+			<?php $this->load->view($inner_view); ?>
+			<?php $this->load->view('_partials/back_btn'); ?>
 		</section>
 	</div>
 

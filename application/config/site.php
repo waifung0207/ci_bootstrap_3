@@ -18,8 +18,28 @@ $config['site'] = array(
 	'name' => 'CI Bootstrap 3',
 
 	// Default page title
-	// (set empty then MY_Controller will automatically generate one according to controller / action)
+	// (set empty then MY_Controller will automatically generate one based on controller / action)
 	'title' => '',
+
+	// Default meta data (name => content)
+	'meta'	=> array(
+		'author'		=> 'Michael Chan (https://github.com/waifung0207)',
+		'description'	=> 'CI Bootstrap 3'
+	),
+
+	// Default scripts to embed at page head / end
+	'scripts' => array(
+		'head'	=> array(
+		),
+		'foot'	=> array(
+			'assets/dist/app.min.js'
+		),
+	),
+
+	// Default stylesheets to embed at page head
+	'stylesheets' => array(
+		'assets/dist/app.min.css'
+	),
 
 	// Multilingual settings (set empty array to disable this)
 	'multilingual' => array(

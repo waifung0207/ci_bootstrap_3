@@ -12,13 +12,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $autoload['packages'] = array();
 
-$autoload['libraries'] = array('database', 'session', 'crud');
+$autoload['libraries'] = array();
 
 $autoload['drivers'] = array();
 
-$autoload['helper'] = array('url', 'adminlte');
+$autoload['helper'] = array('adminlte');
 
-$autoload['config'] = array('site');
+$autoload['config'] = array();
 
 $autoload['language'] = array();
 

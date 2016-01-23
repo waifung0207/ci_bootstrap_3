@@ -9,10 +9,8 @@ class Demo extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->library('form_builder');
 		$this->push_breadcrumb('Demo');
-		$this->mViewData['enable_breadcrumb'] = TRUE;
 	}
 
 	public function index()
@@ -90,6 +88,9 @@ class Demo extends MY_Controller {
 			refresh();
 		}
 
+		// require reCAPTCHA script at page head
+		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+
 		$this->mTitle = 'Form (Basic)';
 		$this->mViewData['form'] = $form;
 		$this->render('demo/form_basic');
@@ -106,6 +107,9 @@ class Demo extends MY_Controller {
 			refresh();
 		}
 
+		// require reCAPTCHA script at page head
+		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+		
 		$this->mTitle = 'Form (Bootstrap 3)';
 		$this->mViewData['form'] = $form;
 		$this->render('demo/form_bs3');

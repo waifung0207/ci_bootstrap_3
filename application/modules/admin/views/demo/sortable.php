@@ -1,5 +1,3 @@
-<?php $this->layout('layouts::default') ?>
-
 <form action="<?php echo current_url(); ?>" method="POST">
 
 	<ul class="sortable list-group">

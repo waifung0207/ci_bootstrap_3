@@ -1,11 +1,9 @@
-<?php $this->layout('layouts::default') ?>
-
 <div class="row">
 
 	<div class="col-md-4">	
 		<?php echo box_open('Shortcuts'); ?>
-			<?php echo app_btn('user', 'Account', 'account'); ?>
-			<?php echo app_btn('sign-out', 'Logout', 'account/logout'); ?>
+			<?php echo app_btn('user', 'Account', 'panel/account'); ?>
+			<?php echo app_btn('sign-out', 'Logout', 'panel/logout'); ?>
 		<?php echo box_close(); ?>
 
 		<?php echo box_open('Welcome!'); ?>

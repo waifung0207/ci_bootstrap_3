@@ -18,8 +18,30 @@ $config['site'] = array(
 	'name' => 'Admin Panel',
 
 	// Default page title
-	// (set empty then MY_Controller will automatically generate one according to controller / action)
+	// (set empty then MY_Controller will automatically generate one based on controller / action)
 	'title' => '',
+
+	// Default meta data (name => content)
+	'meta'	=> array(
+		'author'		=> 'Michael Chan (https://github.com/waifung0207)',
+		'description'	=> 'CI Bootstrap 3 Admin Panel'
+	),
+
+	// Default scripts to embed at page head / end
+	'scripts' => array(
+		'head'	=> array(
+			'assets/dist/adminlte.min.js',
+			'assets/dist/admin.min.js'
+		),
+		'foot'	=> array(
+		),
+	),
+
+	// Default stylesheets to embed at page head
+	'stylesheets' => array(
+		'assets/dist/adminlte.min.css',
+		'assets/dist/admin.min.css'
+	),
 
 	// Multilingual settings (set empty array to disable this)
 	'multilingual' => array(),
@@ -56,7 +78,7 @@ $config['site'] = array(
 			'groups'	=> array('admin', 'manager', 'staff'),
 			'name'		=> 'Demo',
 			'url'		=> 'demo',
-			'icon'		=> 'ion ion-gear-b',	// use Ionicons (instead of FontAwesome)
+			'icon'		=> 'ion ion-load-b',	// use Ionicons (instead of FontAwesome)
 			'children'  => array(
 				'Blog Posts'		=> 'demo/blog_post',
 				'Blog Categories'	=> 'demo/blog_category',

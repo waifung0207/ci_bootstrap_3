@@ -13,7 +13,6 @@ class Auth extends MY_Controller {
 		$this->load->library('email_client');
 
 		$this->push_breadcrumb('Auth');
-		$this->mViewData['enable_breadcrumb'] = TRUE;
 	}
 
 	/**
@@ -58,6 +57,9 @@ class Auth extends MY_Controller {
 				refresh();
 			}
 		}
+		
+		// require reCAPTCHA script at page head
+		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
 
 		// display form
 		$this->mViewData['form'] = $form;

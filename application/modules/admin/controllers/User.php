@@ -12,11 +12,9 @@ class User extends Admin_Controller {
 	// Frontend User CRUD
 	public function index()
 	{
-		$crud = $this->crud->generate_crud('users');
-		$this->crud->unset_fields(array('ip_address', 'salt', 'forgotten_password_code', 'forgotten_password_time', 'remember_code', 'created_on', 'last_login'));
+		$crud = $this->generate_crud('users');
 		$crud->columns('groups', 'username', 'email', 'first_name', 'last_name', 'active');
-		$crud->callback_field('last_login', array($this, 'callback_timestamp'));
-		$crud->callback_field('created_on', array($this, 'callback_timestamp'));
+		$this->unset_crud_fields('ip_address', 'last_login');
 
 		// only webmaster and admin can change member groups
 		if ($crud->getState()=='list' || $this->ion_auth->in_group(array('webmaster', 'admin')))
@@ -35,8 +33,7 @@ class User extends Admin_Controller {
 		$crud->unset_delete();
 
 		$this->mTitle = 'Users';
-		$this->mViewData['crud_data'] = $this->crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 
 	// Create Frontend User
@@ -94,10 +91,9 @@ class User extends Admin_Controller {
 	// User Groups CRUD
 	public function group()
 	{
-		$crud = $this->crud->generate_crud('groups');
+		$crud = $this->generate_crud('groups');
 		$this->mTitle = 'User Groups';
-		$this->mViewData['crud_data'] = $this->crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 
 	// Frontend User Reset Password

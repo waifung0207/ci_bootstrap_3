@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// NOTE: this controller inherits from MY_Controller,
-// instead of Admin_Controller since no authentication is required
+// NOTE: this controller inherits from MY_Controller instead of Admin_Controller,
+// since no authentication is required
 class Login extends MY_Controller {
 
 	/**

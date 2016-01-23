@@ -111,8 +111,8 @@ module.exports = {
 			// Admin Panel - AdminLTE theme
 			adminlte: [
 				// use jQuery 1.x for compatibility with Grocery CRUD
-				dir_bower + '/jquery-legacy/dist/jquery.js',
-				dir_bower + '/jquery-migrate/jquery-migrate.js',
+				dir_bower + '/jquery-legacy/dist/jquery.min.js',
+				dir_bower + '/jquery-migrate/jquery-migrate.min.js',
 				dir_bower + '/admin-lte/bootstrap/js/bootstrap.min.js',
 				dir_bower + '/admin-lte/plugins/fastclick/fastclick.js',
 				dir_bower + '/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js',

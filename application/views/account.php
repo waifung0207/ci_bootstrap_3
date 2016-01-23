@@ -1,4 +1,3 @@
-<?php $this->layout('layouts::default') ?>
 
 <h3>Welcome, <?php echo $user->first_name.' '.$user->last_name; ?>!</h3>
 

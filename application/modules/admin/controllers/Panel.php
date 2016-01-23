@@ -20,11 +20,9 @@ class Panel extends Admin_Controller {
 	// Admin Users CRUD
 	public function admin_user()
 	{
-		$crud = $this->crud->generate_crud('admin_users');
-		$this->crud->unset_fields(array('ip_address', 'salt', 'forgotten_password_code', 'forgotten_password_time', 'remember_code', 'created_on', 'last_login'));
+		$crud = $this->generate_crud('admin_users');
 		$crud->columns('groups', 'username', 'first_name', 'last_name', 'active');
-		$crud->callback_field('last_login', array($this, 'callback_timestamp'));
-		$crud->callback_field('created_on', array($this, 'callback_timestamp'));
+		$this->unset_crud_fields('ip_address', 'last_login');
 
 		// cannot change Admin User groups once created
 		if ($crud->getState()=='list')
@@ -43,8 +41,7 @@ class Panel extends Admin_Controller {
 		$crud->unset_delete();
 
 		$this->mTitle.= 'Admin Users';
-		$this->mViewData['crud_data'] = $this->crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 
 	// Create Admin User
@@ -96,10 +93,9 @@ class Panel extends Admin_Controller {
 	// Admin User Groups CRUD
 	public function admin_user_group()
 	{
-		$crud = $this->crud->generate_crud('admin_groups');
+		$crud = $this->generate_crud('admin_groups');
 		$this->mTitle.= 'Admin User Groups';
-		$this->mViewData['crud_data'] = $this->crud->render();
-		$this->render('crud');
+		$this->render_crud();
 	}
 
 	// Admin User Reset password

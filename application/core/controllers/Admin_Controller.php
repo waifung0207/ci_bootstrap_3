@@ -8,6 +8,10 @@ class Admin_Controller extends MY_Controller {
 	protected $mLoginUrl = 'admin/login';
 	protected $mUsefulLinks = array();
 
+	// Grocery CRUD or Image CRUD
+	protected $mCrud;
+	protected $mCrudUnsetFields;
+
 	// Constructor
 	public function __construct()
 	{
@@ -21,15 +25,118 @@ class Admin_Controller extends MY_Controller {
 	}
 
 	// Render template (override parent)
-	protected function render($view_file)
+	protected function render($view_file, $layout = 'default')
 	{
 		// load skin according to user role
 		$config = $this->mSiteConfig['adminlte'][$this->mUserMainGroup];
-		$this->mViewData['body_class'] = $config['skin'];
-
+		$this->mBodyClass = $config['skin'];
+		
 		// additional view data
 		$this->mViewData['useful_links'] = $this->mUsefulLinks;
 
 		parent::render($view_file);
+	}
+
+	// Initialize CRUD table via Grocery CRUD library
+	// Reference: http://www.grocerycrud.com/
+	protected function generate_crud($table, $subject = '')
+	{
+		// create CRUD object
+		$this->load->library('Grocery_CRUD');
+		$crud = new grocery_CRUD();
+		$crud->set_table($table);
+
+		// auto-generate subject
+		if ( empty($subject) )
+		{
+			$crud->set_subject(humanize(singular($table)));
+		}
+
+		// load settings from: application/config/grocery_crud.php
+		$this->load->config('grocery_crud');
+		$this->mCrudUnsetFields = $this->config->item('grocery_crud_unset_fields');
+
+		if ($this->config->item('grocery_crud_unset_jquery'))
+			$crud->unset_jquery();
+
+		if ($this->config->item('grocery_crud_unset_jquery_ui'))
+			$crud->unset_jquery_ui();
+
+		if ($this->config->item('grocery_crud_unset_print'))
+			$crud->unset_print();
+
+		if ($this->config->item('grocery_crud_unset_export'))
+			$crud->unset_export();
+
+		if ($this->config->item('grocery_crud_unset_read'))
+			$crud->unset_read();
+
+		foreach ($this->config->item('grocery_crud_display_as') as $key => $value)
+			$crud->display_as($key, $value);
+
+		// other custom logic to be done outside
+		$this->mCrud = $crud;
+		return $crud;
+	}
+
+	// Append additional fields to unset from CRUD
+	protected function unset_crud_fields()
+	{
+		$args = func_get_args();
+		if(isset($args[0]) && is_array($args[0]))
+		{
+			$args = $args[0];
+		}
+		$this->mCrudUnsetFields = array_merge($this->mCrudUnsetFields, $args);
+	}
+
+	// Initialize CRUD album via Image CRUD library
+	// Reference: http://www.grocerycrud.com/image-crud
+	protected function generate_image_crud($table, $url_field, $upload_path, $order_field = 'pos', $title_field = '')
+	{
+		// create CRUD object
+		$this->load->library('Image_crud');
+		$crud = new image_CRUD();
+		$crud->set_table($table);
+		$crud->set_url_field($url_field);
+		$crud->set_image_path($upload_path);
+
+		// [Optional] field name of image order (e.g. "pos")
+		if ( !empty($order_field) )
+		{
+			$crud->set_ordering_field($order_field);
+		}
+
+		// [Optional] field name of image caption (e.g. "caption")
+		if ( !empty($title_field) )
+		{
+			$crud->set_title_field($title_field);
+		}
+
+		// other custom logic to be done outside
+		$this->mCrud = $crud;
+		return $crud;
+	}
+
+	// Render CRUD
+	protected function render_crud()
+	{
+		// logic specific for Grocery CRUD only
+		$crud_obj_name = strtolower(get_class($this->mCrud));
+		if ($crud_obj_name==='grocery_crud')
+		{
+			$this->mCrud->unset_fields($this->mCrudUnsetFields);	
+		}
+
+		// render CRUD 
+		$crud_data = $this->mCrud->render();
+
+		// append scripts
+		$this->mStylesheets = array_merge($crud_data->css_files, $this->mStylesheets);
+		$this->mScripts['head'] = array_merge($this->mScripts['head'], $crud_data->js_files);
+
+		// display view
+		$this->mViewData['crud_output'] = $crud_data->output;
+		$this->render('crud');
 	}
 }

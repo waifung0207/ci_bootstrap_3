@@ -1,5 +1,3 @@
-<?php $this->layout('layouts::default') ?>
-
 <table class="table table-striped table-bordered">
 	<tr>
 		<th>Title: </th>

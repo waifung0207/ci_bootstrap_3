@@ -1,5 +1,3 @@
-<?php $this->layout('layouts::default') ?>
-
 <?php echo $form->open(); ?>
 	
 	<?php echo $form->messages(); ?>

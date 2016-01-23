@@ -1,5 +1,3 @@
-<?php $this->layout('layouts::default') ?>
-
 <?php foreach ($posts as $post): ?>
 	<table class="table table-striped table-bordered">
 		<tr>
