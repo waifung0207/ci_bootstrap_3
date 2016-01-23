@@ -27,7 +27,7 @@ This repository contains setup for rapid development:
 * User authentication for Frontend Website (Sign Up, Login, Forgot Password, etc.)
 * User authentication for Admin Panel (Login, Change Password, etc.)
 * Preset layouts and templates
-* Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-starter 2.0 branch](https://github.com/greypants/gulp-starter/tree/2.0))
+* Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-starter](https://github.com/greypants/gulp-starter))
 * Preset data structure for Blogging (with pagination) and Cover Photos (carousel), which can be managed from Admin Panel
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
 * Breadcrumb and Pagination handling fit with Bootstrap theme
