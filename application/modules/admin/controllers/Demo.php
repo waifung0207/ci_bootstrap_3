@@ -15,6 +15,13 @@ class Demo extends Admin_Controller {
 		redirect('demo/item/1');
 	}
 
+	// AdminLTE Components
+	public function adminlte()
+	{
+		$this->mTitle.= 'AdminLTE Components';
+		$this->render('demo/adminlte');
+	}
+
 	// Grocery CRUD - Blog Posts
 	public function blog_post()
 	{
@@ -45,7 +52,7 @@ class Demo extends Admin_Controller {
 		$crud = $this->generate_crud('demo_blog_categories');
 		$crud->columns('title');
 		$this->mTitle.= 'Blog Categories';
-		$this->mViewData['crud_note'] = btn('Sort Order', 'demo/blog_category_sortable');
+		$this->mViewData['crud_note'] = modules::run('adminlte/widget/btn', 'Sort Order', 'demo/blog_category_sortable');
 		$this->render_crud();
 	}
 	

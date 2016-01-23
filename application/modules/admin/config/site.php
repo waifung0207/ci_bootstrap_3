@@ -80,6 +80,7 @@ $config['site'] = array(
 			'url'		=> 'demo',
 			'icon'		=> 'ion ion-load-b',	// use Ionicons (instead of FontAwesome)
 			'children'  => array(
+				'AdminLTE'			=> 'demo/adminlte',
 				'Blog Posts'		=> 'demo/blog_post',
 				'Blog Categories'	=> 'demo/blog_category',
 				'Blog Tags'			=> 'demo/blog_tag',

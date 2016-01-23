@@ -16,7 +16,7 @@ $autoload['libraries'] = array();
 
 $autoload['drivers'] = array();
 
-$autoload['helper'] = array('adminlte');
+$autoload['helper'] = array();
 
 $autoload['config'] = array();
 

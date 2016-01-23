@@ -6,7 +6,7 @@
  * 	- Admin_Controller: 
  * 	- API_Controller: 
  */
-class MY_Controller extends CI_Controller {
+class MY_Controller extends MX_Controller {
 
 	// Values to be obtained automatically from router
 	protected $mModule = '';			// module name (empty = Frontend Website)

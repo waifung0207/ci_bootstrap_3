@@ -9,6 +9,6 @@
 		<?php endfor; ?>
 	</ul>
 
-	<?php echo btn_submit('Save'); ?>
+	<?php echo modules::run('adminlte/widget/btn_submit', 'Save'); ?>
 
 </form>
