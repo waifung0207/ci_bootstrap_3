@@ -10,7 +10,7 @@ This repository is developed upon the following tools:
 * [codeigniter-base-model](https://github.com/jamierumbelow/codeigniter-base-model) - more advanced CRUD functions for models by [jamierumbelow](https://github.com/jamierumbelow)
 * [Ion Auth](http://benedmunds.com/ion_auth/) - authentication library for CodeIgniter by [Ben Edmunds](http://benedmunds.com/)
 * [Bootstrap](http://getbootstrap.com/) (v3.3.6) - popular frontend framework
-* [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.2) - feature-rich library to build CRUD tables
+* [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.4) - feature-rich library to build CRUD tables
 * [Image CRUD](http://www.grocerycrud.com/image-crud) (v0.6) - CRUD library for image management
 * [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.3.2) - bootstrap theme for Admin Panel
 
