@@ -41,7 +41,7 @@
 				Memory Usage: <strong>{memory_usage}</strong>
 			</div>
 		<?php endif; ?>
-		<strong>&copy; <?php echo COPYRIGHT_YEAR; ?> <a href="#"><?php //echo COMPANY_NAME; ?></a></strong> All rights reserved.
+		<strong>&copy; <?php echo date('Y'); ?> <a href="#"><?php //echo COMPANY_NAME; ?></a></strong> All rights reserved.
 	</footer>
 
 </div>
