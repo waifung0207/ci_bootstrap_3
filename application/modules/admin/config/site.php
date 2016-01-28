@@ -39,8 +39,10 @@ $config['site'] = array(
 
 	// Default stylesheets to embed at page head
 	'stylesheets' => array(
-		'assets/dist/adminlte.min.css',
-		'assets/dist/admin.min.css'
+		'screen' => array(
+			'assets/dist/adminlte.min.css',
+			'assets/dist/admin.min.css'
+		)
 	),
 
 	// Multilingual settings (set empty array to disable this)

@@ -14,10 +14,13 @@
 			echo "<meta name='$name' content='$content'>".PHP_EOL;
 		}
 
-		foreach ($stylesheets as $file)
+		foreach ($stylesheets as $media => $files)
 		{
-			$url = starts_with($file, 'http') ? $file : base_url($file);
-			echo "<link href='$url' rel='stylesheet'>".PHP_EOL;
+			foreach ($files as $file)
+			{
+				$url = starts_with($file, 'http') ? $file : base_url($file);
+				echo "<link href='$url' rel='stylesheet' media='$media'>".PHP_EOL;	
+			}
 		}
 		
 		foreach ($scripts['head'] as $file)

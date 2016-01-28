@@ -38,7 +38,9 @@ $config['site'] = array(
 
 	// Default stylesheets to embed at page head
 	'stylesheets' => array(
-		'assets/dist/app.min.css'
+		'screen' => array(
+			'assets/dist/app.min.css'
+		)
 	),
 
 	// Multilingual settings (set empty array to disable this)

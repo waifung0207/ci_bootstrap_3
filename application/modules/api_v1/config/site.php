@@ -46,14 +46,18 @@ $config['site'] = array(
 		'foot'	=> array(
 		),
 	),
-
+	
 	// Default stylesheets to embed at page head
 	'stylesheets' => array(
-		'assets/api/css/typography.css',
-		'assets/api/css/reset.css',
-		'assets/api/css/screen.css',
-		//'assets/api/css/reset.css',
-		//'assets/api/css/print.css',
+		'screen' => array(
+			'assets/api/css/typography.css',
+			'assets/api/css/reset.css',
+			'assets/api/css/screen.css',
+		),
+		'print' => array(
+			'assets/api/css/reset.css',
+			'assets/api/css/print.css',
+		)
 	),
 
 	// Raw PHP Headers (e.g. enable CORS or not) to send at page start

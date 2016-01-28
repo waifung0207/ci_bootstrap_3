@@ -136,6 +136,31 @@ class MY_Controller extends MX_Controller {
 		}
 	}
 
+	// Add script files, either append or prepend to $this->mScripts array
+	// ($files can be string or string array)
+	protected function add_script($files, $append = TRUE, $position = 'foot')
+	{
+		$files = is_string($files) ? array($files) : $files;
+		$position = ($position==='head' || $position==='foot') ? $position : 'foot';
+
+		if ($append)
+			$this->mScripts[$position] = array_merge($this->mScripts[$position], $files);
+		else
+			$this->mScripts[$position] = array_merge($files, $this->mScripts[$position]);
+	}
+
+	// Add stylesheet files, either append or prepend to $this->mStylesheets array
+	// ($files can be string or string array)
+	protected function add_stylesheet($files, $append = TRUE, $media = 'screen')
+	{
+		$files = is_string($files) ? array($files) : $files;
+
+		if ($append)
+			$this->mStylesheets[$media] = array_merge($this->mStylesheets[$media], $files);
+		else
+			$this->mStylesheets[$media] = array_merge($files, $this->mStylesheets[$media]);
+	}
+
 	// Render template
 	protected function render($view_file, $layout = 'default')
 	{

@@ -128,12 +128,12 @@ class Admin_Controller extends MY_Controller {
 			$this->mCrud->unset_fields($this->mCrudUnsetFields);	
 		}
 
-		// render CRUD 
+		// render CRUD
 		$crud_data = $this->mCrud->render();
 
 		// append scripts
-		$this->mStylesheets = array_merge($crud_data->css_files, $this->mStylesheets);
-		$this->mScripts['head'] = array_merge($this->mScripts['head'], $crud_data->js_files);
+		$this->add_stylesheet($crud_data->css_files, FALSE);
+		$this->add_script($crud_data->js_files, TRUE, 'head');
 
 		// display view
 		$this->mViewData['crud_output'] = $crud_data->output;
