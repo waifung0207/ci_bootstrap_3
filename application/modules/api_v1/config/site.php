@@ -37,8 +37,9 @@ $config['site'] = array(
 			'assets/api/lib/handlebars-2.0.0.js',
 			'assets/api/lib/underscore-min.js',
 			'assets/api/lib/backbone-min.js',
-			'assets/api/swagger-ui.js',
+			'assets/api/swagger-ui.min.js',
 			'assets/api/lib/highlight.7.3.pack.js',
+			'assets/api/lib/jsoneditor.min.js',
 			'assets/api/lib/marked.js',
 			'assets/api/lib/swagger-oauth.js',
 		),
@@ -51,6 +52,8 @@ $config['site'] = array(
 		'assets/api/css/typography.css',
 		'assets/api/css/reset.css',
 		'assets/api/css/screen.css',
+		//'assets/api/css/reset.css',
+		//'assets/api/css/print.css',
 	),
 
 	// Raw PHP Headers (e.g. enable CORS or not) to send at page start
