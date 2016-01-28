@@ -7,8 +7,13 @@ class Home extends API_Controller {
 	{
 		// API Doc page only accessible during development env
 		if (ENVIRONMENT=='development')
-			$this->render('home');
+		{
+			$this->mBodyClass = 'swagger-section';
+			$this->render('home', 'empty');
+		}
 		else
+		{
 			redirect();
+		}
 	}
 }

@@ -15,6 +15,14 @@ class API_Controller extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		
+		// Send PHP headers
+		$headers = empty($this->mSiteConfig['headers']) ? array() : $this->mSiteConfig['headers'];
+		foreach ($headers as $header)
+		{
+			header($header);
+		}
+
 		$this->verify_token();
 		$this->parse_request();
 	}

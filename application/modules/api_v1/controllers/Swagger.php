@@ -8,7 +8,7 @@ class Swagger extends API_Controller {
 	{
 		// basic setup
 		$this->load->library('swagger_generator');
-		$s = $this->swagger_generator->init('CI Bootstrap 3 API', 'API documentation for CI Bootstrap 3');
+		$s = $this->swagger_generator->init('CI Bootstrap 3 API', 'API documentation');
 		//$s->add_contact('info@email.com', 'CI Bootstrap 3');
 		
 		// Tags (like "group" for endpoints)

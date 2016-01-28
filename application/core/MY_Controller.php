@@ -66,13 +66,13 @@ class MY_Controller extends MX_Controller {
 		// load default values
 		$this->mSiteName = $site_config['name'];
 		$this->mTitle = $site_config['title'];
-		$this->mMenu = $site_config['menu'];
-		$this->mMetaData = $site_config['meta'];
+		$this->mMenu = empty($site_config['menu']) ? array() : $site_config['menu'];
+		$this->mMetaData = empty($site_config['meta']) ? array() : $site_config['meta'];
 		$this->mScripts = $site_config['scripts'];
 		$this->mStylesheets = $site_config['stylesheets'];
 
 		// multilingual setup
-		$lang_config = $site_config['multilingual'];
+		$lang_config = empty($site_config['multilingual']) ? array() : $site_config['multilingual'];
 		if ( !empty($lang_config) )
 		{
 			$this->mMultilingual = TRUE;
