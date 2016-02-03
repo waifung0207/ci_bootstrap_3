@@ -4,7 +4,7 @@
  * Controller to be called from CLI only
  * Reference: http://www.codeigniter.com/user_guide/general/cli.html
  */
-class Cli extends CI_Controller {
+class Cli extends MX_Controller {
 
 	// Constructor
 	public function __construct()
