@@ -35,7 +35,7 @@ class Demo extends Admin_Controller {
 		if ($state==='add')
 		{
 			$crud->field_type('author_id', 'hidden', $this->mUser->id);
-			$this->crud->unset_fields(array('status'));
+			$this->unset_crud_fields('status');
 		}
 		else
 		{
