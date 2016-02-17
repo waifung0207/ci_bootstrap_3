@@ -60,13 +60,13 @@ $config['site'] = array(
 	// (or directly update view file: /application/modules/admin/views/_partials/sidemenu.php)
 	'menu' => array(
 		'home' => array(
-			'groups'	=> array('admin', 'manager', 'staff'),
+			'groups'	=> array('webmaster', 'admin', 'manager', 'staff'),
 			'name'		=> 'Home',
 			'url'		=> '',
 			'icon'		=> 'fa fa-home',
 		),
 		'user' => array(
-			'groups'	=> array('admin'),
+			'groups'	=> array('webmaster', 'admin', 'manager'),
 			'name'		=> 'Users',
 			'url'		=> 'user',
 			'icon'		=> 'fa fa-users',
@@ -77,7 +77,7 @@ $config['site'] = array(
 			)
 		),
 		'demo' => array(
-			'groups'	=> array('admin', 'manager', 'staff'),
+			'groups'	=> array('webmaster', 'admin', 'manager', 'staff'),
 			'name'		=> 'Demo',
 			'url'		=> 'demo',
 			'icon'		=> 'ion ion-load-b',	// use Ionicons (instead of FontAwesome)
@@ -95,7 +95,7 @@ $config['site'] = array(
 			)
 		),
 		'panel' => array(
-			'groups'	=> array('admin'),
+			'groups'	=> array('webmaster'),
 			'name'		=> 'Admin Panel',
 			'url'		=> 'panel',
 			'icon'		=> 'fa fa-cog',
@@ -107,7 +107,7 @@ $config['site'] = array(
 			)
 		),
 		'logout' => array(
-			'groups'	=> array('admin', 'manager', 'staff'),
+			'groups'	=> array('webmaster', 'admin', 'manager', 'staff'),
 			'name'		=> 'Sign Out',
 			'url'		=> 'panel/logout',
 			'icon'		=> 'fa fa-sign-out',
@@ -120,21 +120,21 @@ $config['site'] = array(
 	// Useful links to display at bottom of sidemenu (e.g. to pages outside Admin Panel)
 	'useful_links' => array(
 		array(
-			'groups'	=> array('admin', 'manager', 'staff'),
+			'groups'	=> array('webmaster', 'admin', 'manager', 'staff'),
 			'name'		=> 'Frontend Website',
 			'url'		=> '',
 			'target'	=> '_blank',
 			'color'		=> 'text-aqua'
 		),
 		array(
-			'groups'	=> array('admin'),
+			'groups'	=> array('webmaster', 'admin'),
 			'name'		=> 'API Site',
 			'url'		=> 'api',
 			'target'	=> '_blank',
 			'color'		=> 'text-orange'
 		),
 		array(
-			'groups'	=> array('admin', 'manager', 'staff'),
+			'groups'	=> array('webmaster', 'admin', 'manager', 'staff'),
 			'name'		=> 'Github Repo',
 			'url'		=> CI_BOOTSTRAP_REPO,
 			'target'	=> '_blank',

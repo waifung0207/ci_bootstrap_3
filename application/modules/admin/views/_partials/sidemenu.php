@@ -4,6 +4,7 @@
 
 	<?php foreach ($menu as $parent => $parent_params): ?>
 
+		<?php if ($this->ion_auth->in_group($parent_params['groups']) ): ?>
 		<?php if (empty($parent_params['children'])): ?>
 
 			<?php $active = ($current_uri==$parent_params['url'] || $ctrler==$parent); ?>
@@ -31,17 +32,20 @@
 			</li>
 
 		<?php endif; ?>
+		<?php endif; ?>
 
 	<?php endforeach; ?>
 	
 	<?php if ( !empty($useful_links) ): ?>
 		<li class="header">USEFUL LINKS</li>
 		<?php foreach ($useful_links as $link): ?>
+			<?php if ($this->ion_auth->in_group($link['groups']) ): ?>
 			<li>
 				<a href="<?php echo starts_with($link['url'], 'http') ? $link['url'] : base_url($link['url']); ?>" target='<?php echo $link['target']; ?>'>
 					<i class="fa fa-circle-o <?php echo $link['color']; ?>"></i> <?php echo $link['name']; ?>
 				</a>
 			</li>
+			<?php endif; ?>
 		<?php endforeach; ?>
 	<?php endif; ?>
 
