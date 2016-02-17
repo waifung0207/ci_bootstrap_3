@@ -6,34 +6,30 @@ class Swagger extends API_Controller {
 	// Output Swagger JSON
 	public function index()
 	{
-		// basic setup
-		$this->load->library('swagger_generator');
-		$s = $this->swagger_generator->init('CI Bootstrap 3 API', 'API documentation');
-		//$s->add_contact('info@email.com', 'CI Bootstrap 3');
+		// Define constants according to server environment
+		// Reference: https://github.com/zircote/swagger-php/blob/master/docs/Getting-started.md#using-variables-in-annotations
+		switch (ENVIRONMENT)
+		{
+			case 'development':
+				define('API_HOST', 'localhost/ci_bootstrap_3');
+				break;
+			case 'testing':
+			case 'production':
+			default:
+				define('API_HOST', '');
+				break;
+		}
 		
-		// Tags (like "group" for endpoints)
-		$s->add_tag('user', '(For demo only)');
+		// folders which include files with Swagger annotations
+		$module_dir = APPPATH.'modules/'.$this->mModule;
+		$paths = array(
+			$module_dir.'/swagger',
+			$module_dir.'/controllers',
+		);
+		$swagger = \Swagger\scan($paths);
 
-		// Definitions
-		$s->add_definition('User', array(
-			'id'				=> array('type' => 'INT', 'description' => 'Unique ID'),
-			'name'				=> array('type' => 'STRING'),
-		));
-
-		// Path - [GET] /users
-		$p = $s->add_path('GET', '/users', 'user');
-		$p->mSummary = 'Get list of users';
-		$p->add_response('User', TRUE);
-		$p->add_query_param('status', 'Filter by user status', 'ARRAY_STRING', ['active', 'hidden']);
-		$p->add_query_param('tags', 'Filter by user tags', 'ARRAY_STRING');
-
-		// Path - [GET] /users/{id}
-		$p = $s->add_path('GET', '/users/{id}', 'user');
-		$p->mSummary = 'Get user info';
-		$p->add_path_param('id', 'Record ID', 'INT', TRUE);
-		$p->add_response('User');
-		$p->add_error(404, 'Record not found');
-
-		$s->render();
+		// output JSON
+		header('Content-Type: application/json');		
+		echo $swagger;
 	}
 }

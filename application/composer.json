@@ -4,6 +4,7 @@
         "google/recaptcha": "~1.1",
         "league/csv": "^7.0",
         "firebase/php-jwt": "^2.1",
-        "mailgun/mailgun-php": "1.8.*"
+        "mailgun/mailgun-php": "1.8.*",
+        "zircote/swagger-php": "^2.0"
     }
 }

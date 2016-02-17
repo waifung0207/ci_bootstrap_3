@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Example to override functions from API_Controller
- * TODO: link with real data
+ * Controller with Swagger annotations
+ * Reference: https://github.com/zircote/swagger-php/
  */
 class Users extends API_Controller {
 
@@ -13,7 +13,17 @@ class Users extends API_Controller {
 		$this->load->model('user_model', 'users');
 	}
 
-	// [GET] /users
+	/**
+	 * @SWG\Get(
+	 * 	path="/users",
+	 * 	tags={"user"},
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="List of users",
+	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/User"))
+	 * 	)
+	 * )
+	 */
 	protected function get_items()
 	{
 		$params = $this->input->get();
@@ -21,7 +31,28 @@ class Users extends API_Controller {
 		$this->to_response($data);
 	}
 
-	// [GET] /users/{id}
+	/**
+	 * @SWG\Get(
+	 * 	path="/users/{id}",
+	 * 	tags={"user"},
+	 * 	@SWG\Parameter(
+	 * 		name="id",
+	 * 		in="path",
+	 * 		description="User ID",
+	 * 		required=true,
+	 * 		type="integer"
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="User object",
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="404",
+	 * 		description="Invalid user ID"
+	 * 	)
+	 * )
+	 */
 	protected function get_item($id)
 	{
 		$data = $this->users->get($id);
