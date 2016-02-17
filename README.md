@@ -83,6 +83,7 @@ application/                    --- Main CodeIgniter source files
             libraries/          --- Libraries from Grocery CRUD and Image CRUB
             models/             --- Models only being used in Admin panel
             views/              --- Views for Admin Panel; can reuse Frontend views, or override by using same path/filename
+        adminlte/               --- Module with AdminLTE widgets
         api/                    --- Another module specific for API endpoints
     third_party/
         MX/                     --- Required for HMVC extension
@@ -141,7 +142,5 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Changelog file
 * Better documentation (e.g. on [Gitbook](http://gitbook.com/))
 * Enhance Form Builder library to support more field types
-* Widget helper to include reusable views (e.g. for Admin Panel components)
-* Example of using Image CRUD
 * API authentication (by API key or JSON Web Token, i.e. JWT)
 * More helpers to enhance code reusability
