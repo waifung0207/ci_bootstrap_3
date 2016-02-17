@@ -102,7 +102,13 @@ $config['site'] = array(
 
 	// default page when redirect non-logged-in user
 	'login_url' => 'auth/login',
-	
+
+	// restricted pages to specific groups of users, which will affect sidemenu item as well
+	// pages out of this array will have no restriction
+	'page_auth' => array(
+		'account'		=> array('members')
+	),
+
 	// For debug purpose (available only when ENVIRONMENT = 'development')
 	'debug' => array(
 		'view_data'		=> FALSE,	// whether to display MY_Controller's mViewData at page end

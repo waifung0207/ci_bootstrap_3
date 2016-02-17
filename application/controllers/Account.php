@@ -6,7 +6,7 @@ class Account extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
+		
 		// only login users can access Account controller
 		$this->verify_login();
 	}

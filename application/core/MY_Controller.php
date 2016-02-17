@@ -21,9 +21,6 @@ class MY_Controller extends MX_Controller {
 	protected $mScripts = array();
 	protected $mStylesheets = array();
 
-	// Plates instance (reference: http://platesphp.com/)
-	protected $mTemplates;
-
 	// Values and objects to be overrided or accessible from child controllers
 	protected $mTitle = '';
 	protected $mMenu = array();
@@ -39,6 +36,7 @@ class MY_Controller extends MX_Controller {
 	protected $mViewData = array();
 
 	// Login user
+	protected $mPageAuth = array();
 	protected $mUser = NULL;
 	protected $mUserGroups = array();
 	protected $mUserMainGroup;
@@ -70,6 +68,15 @@ class MY_Controller extends MX_Controller {
 		$this->mMetaData = empty($site_config['meta']) ? array() : $site_config['meta'];
 		$this->mScripts = $site_config['scripts'];
 		$this->mStylesheets = $site_config['stylesheets'];
+		$this->mPageAuth = $site_config['page_auth'];
+
+		// restrict pages
+		$uri = empty($this->mModule) ? $this->uri->uri_string() : str_replace($this->mModule.'/', '', $this->uri->uri_string());
+		if ( !empty($this->mPageAuth[$uri]) && !$this->ion_auth->in_group($this->mPageAuth[$uri]) )
+		{
+			$redirect_url = empty($this->mModule) ? 'error' : $this->mModule.'/error';
+			redirect($redirect_url);
+		}
 
 		// multilingual setup
 		$lang_config = empty($site_config['multilingual']) ? array() : $site_config['multilingual'];
@@ -183,6 +190,7 @@ class MY_Controller extends MX_Controller {
 		$this->mViewData['meta_data'] = $this->mMetaData;
 		$this->mViewData['scripts'] = $this->mScripts;
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
+		$this->mViewData['page_auth'] = $this->mPageAuth;
 
 		$this->mViewData['base_url'] = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
 		$this->mViewData['menu'] = $this->mMenu;

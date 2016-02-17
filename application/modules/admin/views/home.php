@@ -11,8 +11,4 @@
 		<?php echo modules::run('adminlte/widget/info_box', 'yellow', $count['users'], 'Users', 'fa fa-users', 'user'); ?>
 	</div>
 
-	<div class="col-md-4">
-		<?php echo modules::run('adminlte/widget/info_box', 'aqua', $count['admin_users'], 'Admin Users', 'fa fa-users', 'panel/admin_user'); ?>
-	</div>
-
 </div>
