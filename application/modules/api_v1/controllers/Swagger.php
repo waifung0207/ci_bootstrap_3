@@ -11,7 +11,7 @@ class Swagger extends API_Controller {
 		switch (ENVIRONMENT)
 		{
 			case 'development':
-				define('API_HOST', 'localhost/ci_bootstrap_3');
+				define('API_HOST', $this->input->server('HTTP_HOST').'/ci_bootstrap_3');
 				break;
 			case 'testing':
 			case 'production':

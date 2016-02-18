@@ -19,7 +19,7 @@ class User {
 	/**
 	 * Unique ID
 	 * @var int
-	 * @SWG\Property(example="1")
+	 * @SWG\Property()
 	 */
 	public $id;
 

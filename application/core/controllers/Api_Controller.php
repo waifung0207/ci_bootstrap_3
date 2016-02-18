@@ -241,7 +241,7 @@ class API_Controller extends MY_Controller {
 	protected function to_accepted()
 	{
 		$data = array('message' => 'Accepted');
-		$this->render_json($data, 201);
+		$this->render_json($data, 202);
 	}
 
 	/**

@@ -26,8 +26,11 @@ class MY_Model extends Base_Model {
 	// Select specific fields only
 	// Usage: $this->article_model->select('id, title')->get_all();
 	// Reference: https://github.com/jamierumbelow/codeigniter-base-model/issues/217
-	public function select($what = '*', $escape = true) {
-		$this->_database->select($what, $escape);
+	public function select($fields = '*', $escape = true) {
+		if ( is_array($fields) )
+			$fields = implode(',', $fields);
+		
+		$this->_database->select($fields, $escape);
 		return $this;
 	}
 

@@ -12,11 +12,12 @@ class Users extends API_Controller {
 		parent::__construct();
 		$this->load->model('user_model', 'users');
 	}
-	
+
 	/**
 	 * @SWG\Get(
 	 * 	path="/users",
 	 * 	tags={"user"},
+	 * 	summary="List out users",
 	 * 	@SWG\Response(
 	 * 		response="200",
 	 * 		description="List of users",
@@ -33,12 +34,72 @@ class Users extends API_Controller {
 	}
 
 	/**
+	 * @SWG\Post(
+	 * 	path="/users",
+	 * 	tags={"user"},
+	 * 	summary="Create new user",
+	 * 	consumes={"application/json"},
+	 * 	produces={"application/json"},
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="Created user info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation",
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	)
+	 * )
+	 */
+	protected function create_item()
+	{
+		parent::create_item();
+	}
+
+	/**
+	 * @SWG\Put(
+	 * 	path="/users/{id}",
+	 * 	tags={"user"},
+	 * 	summary="Update an existing user",
+	 * 	consumes={"application/json"},
+	 * 	produces={"application/json"},
+	 * 	@SWG\Parameter(
+	 * 		in="path",
+	 * 		name="id",
+	 * 		description="User ID",
+	 * 		required=true,
+	 * 		type="integer"
+	 * 	),
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="Updated user info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation",
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	)
+	 * )
+	 */
+	protected function update_item($id)
+	{
+		parent::update_item($id);
+	}
+
+	/**
 	 * @SWG\Get(
 	 * 	path="/users/{id}",
 	 * 	tags={"user"},
+	 * 	summary="Look up a user",
 	 * 	@SWG\Parameter(
-	 * 		name="id",
 	 * 		in="path",
+	 * 		name="id",
 	 * 		description="User ID",
 	 * 		required=true,
 	 * 		type="integer"
