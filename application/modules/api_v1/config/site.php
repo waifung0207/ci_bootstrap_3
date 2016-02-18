@@ -42,6 +42,11 @@ $config['site'] = array(
 			'assets/api/lib/jsoneditor.min.js',
 			'assets/api/lib/marked.js',
 			'assets/api/lib/swagger-oauth.js',
+			
+			// Some basic translations (uncomment translator.js and a language when needed)
+			//'assets/api/lang/translator.js',
+			//'assets/api/lang/en.js',
+			//'assets/api/lang/zh-cn.js',
 		),
 		'foot'	=> array(
 		),
