@@ -26,10 +26,9 @@ class Users extends API_Controller {
 	 */
 	protected function get_items()
 	{
-		$params = $this->input->get();
 		$data = $this->users
-			->select('id, username, email, active, first_name, last_name, company, phone')
-			->get_many_by($params);
+			->select('id, username, email, active, first_name, last_name')
+			->get_all();
 		$this->to_response($data);
 	}
 
@@ -58,7 +57,7 @@ class Users extends API_Controller {
 	protected function get_item($id)
 	{
 		$data = $this->users
-			->select('id, username, email, active, first_name, last_name, company, phone')
+			->select('id, username, email, active, first_name, last_name')
 			->get($id);
 		$this->to_response($data);
 	}
