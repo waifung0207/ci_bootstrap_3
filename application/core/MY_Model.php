@@ -22,6 +22,15 @@ class MY_Model extends Base_Model {
 	/**
 	 * Extra functions on top of Base_Model
 	 */
+
+	// Select specific fields only
+	// Usage: $this->article_model->select('id, title')->get_all();
+	// Reference: https://github.com/jamierumbelow/codeigniter-base-model/issues/217
+	public function select($what = '*', $escape = true) {
+		$this->_database->select($what, $escape);
+		return $this;
+	}
+
 	// Get a field value from single result (by ID)
 	public function get_field($id, $field)
 	{

@@ -12,7 +12,7 @@ class Users extends API_Controller {
 		parent::__construct();
 		$this->load->model('user_model', 'users');
 	}
-
+	
 	/**
 	 * @SWG\Get(
 	 * 	path="/users",
@@ -27,7 +27,9 @@ class Users extends API_Controller {
 	protected function get_items()
 	{
 		$params = $this->input->get();
-		$data = $this->users->get_many_by($params);
+		$data = $this->users
+			->select('id, username, email, active, first_name, last_name, company, phone')
+			->get_many_by($params);
 		$this->to_response($data);
 	}
 
@@ -55,7 +57,9 @@ class Users extends API_Controller {
 	 */
 	protected function get_item($id)
 	{
-		$data = $this->users->get($id);
+		$data = $this->users
+			->select('id, username, email, active, first_name, last_name, company, phone')
+			->get($id);
 		$this->to_response($data);
 	}
 }
