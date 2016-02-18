@@ -68,7 +68,7 @@ class MY_Controller extends MX_Controller {
 		$this->mMetaData = empty($site_config['meta']) ? array() : $site_config['meta'];
 		$this->mScripts = $site_config['scripts'];
 		$this->mStylesheets = $site_config['stylesheets'];
-		$this->mPageAuth = $site_config['page_auth'];
+		$this->mPageAuth = empty($site_config['page_auth']) ? array() : $site_config['page_auth'];
 
 		// restrict pages
 		$uri = empty($this->mModule) ? $this->uri->uri_string() : str_replace($this->mModule.'/', '', $this->uri->uri_string());
