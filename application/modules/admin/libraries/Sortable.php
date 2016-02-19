@@ -73,7 +73,7 @@ class Sortable {
 			$html.= $this->CI->parser->parse_string($template, $data, TRUE);
 
 			if ($back_url!=NULL)
-				$html.= modules::run('adminlte/widget/btn', 'Back', $back_url, 'reply', 'bg-purple').' ';
+				$html.= modules::run('adminlte/widget/btn', 'Back', $back_url, 'fa fa-reply', 'bg-purple').' ';
 
 			$html.= modules::run('adminlte/widget/btn_submit', 'Save');
 			$html.= '</form>';

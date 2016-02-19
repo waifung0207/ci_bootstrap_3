@@ -29,7 +29,7 @@ class Widget extends MX_Controller {
 	{
 		$badge = isset($badge) ? "<span class='badge bg-$badge_color'>$badge</span>": '';
 		$target = starts_with($url, 'http') ? '_blank' : '_self';
-		return "<a class='btn btn-app' href='$url' target='$target'>$badge<i class='fa fa-$icon'></i> $label</a>";
+		return "<a class='btn btn-app' href='$url' target='$target'>$badge<i class='$icon'></i> $label</a>";
 	}
 
 	function box_open($title, $style = 'primary', $solid = FALSE)
@@ -59,7 +59,7 @@ class Widget extends MX_Controller {
 				<p>$label</p>
 			</div>
 			<div class='icon'>
-				<i class='fa fa-$icon'></i>
+				<i class='$icon'></i>
 			</div>
 			<a href='$url' class='small-box-footer'>$more_info</a>
 		</div>";
@@ -68,7 +68,7 @@ class Widget extends MX_Controller {
 	function btn($label, $url = '#', $icon = '', $style = 'btn-primary', $size = '')
 	{
 		$size = empty($size) ? '' : 'btn-'.$size;
-		$icon = empty($icon) ? '' : "<i class='fa fa-$icon'></i>";
+		$icon = empty($icon) ? '' : "<i class='$icon'></i>";
 
 		if ( $url==='#' )
 			return "<button class='btn btn-flat $style $size'>$icon $label</button>";
