@@ -78,6 +78,26 @@ class Admin_Controller extends MY_Controller {
 		$this->mCrud = $crud;
 		return $crud;
 	}
+	
+	// Set field(s) to color picker
+	protected function set_crud_color_picker()
+	{
+		$args = func_get_args();
+		if(isset($args[0]) && is_array($args[0]))
+		{
+			$args = $args[0];
+		}
+		foreach ($args as $field)
+		{
+			$this->mCrud->callback_field($field, array($this, 'callback_color_picker'));
+		}
+	}
+
+	public function callback_color_picker($value = '', $primary_key = NULL, $field = NULL)
+	{
+		$name = $field->name;
+		return "<input type='color' name='$name' value='$value' style='width:80px' />";
+	}
 
 	// Append additional fields to unset from CRUD
 	protected function unset_crud_fields()

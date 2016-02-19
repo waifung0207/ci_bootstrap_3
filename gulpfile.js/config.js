@@ -82,6 +82,7 @@ module.exports = {
 				// bower files
 				dir_bower + '/font-awesome/css/font-awesome.min.css',
 				dir_bower + '/ionicons/css/ionicons.min.css',
+				dir_bower + '/spectrum/spectrum.css',
 				// custom files
 				dir_asset + '/css/admin.css'
 			]
@@ -123,6 +124,7 @@ module.exports = {
 			admin: [
 				// bower files
 				dir_bower + '/Sortable/Sortable.min.js',
+				dir_bower + '/spectrum/spectrum.js',
 				// custom files
 				dir_asset + '/js/admin.js'
 			]
