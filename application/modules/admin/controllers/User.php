@@ -14,7 +14,6 @@ class User extends Admin_Controller {
 	{
 		$crud = $this->generate_crud('users');
 		$crud->columns('groups', 'username', 'email', 'first_name', 'last_name', 'active');
-		$this->set_crud_color_picker('company', 'phone');
 		$this->unset_crud_fields('ip_address', 'last_login');
 
 		// only webmaster and admin can change member groups
