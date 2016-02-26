@@ -60,14 +60,7 @@ class MY_Controller extends MX_Controller {
 	private function _setup()
 	{
 		$site_config = $this->config->item('site');
-
-		// send PHP headers when necessary (e.g. to enable CORS for API site)
-		$headers = empty($site_config['headers']) ? array() : $site_config['headers'];
-		foreach ($headers as $header)
-		{
-			header($header);
-		}
-
+		
 		// load default values
 		$this->mSiteName = $site_config['name'];
 		$this->mTitle = $site_config['title'];
