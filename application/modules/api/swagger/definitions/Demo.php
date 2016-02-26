@@ -14,7 +14,7 @@ namespace MySwaggerDefinitions;
 /**
  * @SWG\Definition()
  */
-class Example {
+class Demo {
 
 	/**
 	 * Unique ID

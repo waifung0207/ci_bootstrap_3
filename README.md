@@ -8,6 +8,7 @@ This repository is developed upon the following tools:
 * [CodeIgniter](http://www.codeigniter.com/) (v3.0.4) - PHP framework
 * [CodeIgniter HMVC Extensions](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - modular structure by [wiredesignz](http://wiredesignz.co.nz/)
 * [codeigniter-base-model](https://github.com/jamierumbelow/codeigniter-base-model) - more advanced CRUD functions for models by [jamierumbelow](https://github.com/jamierumbelow)
+* [codeigniter-restserver](https://github.com/chriskacerguis/codeigniter-restserver) - base setup for API module
 * [Ion Auth](http://benedmunds.com/ion_auth/) - authentication library for CodeIgniter by [Ben Edmunds](http://benedmunds.com/)
 * [Bootstrap](http://getbootstrap.com/) (v3.3.6) - popular frontend framework
 * [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.4) - feature-rich library to build CRUD tables
@@ -23,6 +24,7 @@ This repository contains setup for rapid development:
 * Custom config files (sites.php, locale.php) for easy configuration of website behavior
 * Admin Panel with AdminLTE v2 theme, and Grocery CRUD integration
 * Admin Panel includes usage of [Sortable](http://rubaxa.github.io/Sortable/) library
+* API Site with [Swagger](http://swagger.io/) UI integrated, via annotations supported by [swagger-php](https://github.com/zircote/swagger-php) library
 * API Site to handle RESTful endpoints, with shortcut functions to grab parameters and display results
 * User authentication for Frontend Website (Sign Up, Login, Forgot Password, etc.)
 * User authentication for Admin Panel (Login, Change Password, etc.)
@@ -44,7 +46,28 @@ Below configuration are preferred; other environments are not well-tested, but s
 
 * **PHP 5.5+**
 * **Apache 2.2+** with rewrite mod enabled
-* **MySQL 5.5+**
+* **MySQL 5.5+** (not tested on MariaDB)
+
+
+### Setup Guide
+
+1. git clone this repo
+2. Create a database (e.g. named "ci_bootstrap_3"), then import /sql/latest.sql into MySQL server
+3. Make sure the database config (/application/config/database.php) is set correctly
+4. You should be able to access Frontend Website, Admin Panel and API Site (with Swagger Doc) respectively
+5. Visit the Demo Controllers (exist in both Frontend / Admin Panel / API) for sample usage
+
+**Note** For more advanced workflow (includes repo upgrade), please have a look on my suggestion in [this issue](https://github.com/waifung0207/ci_bootstrap_3/issues/42). After release the v1.0 version, I will try to keep the upgrade procedure more developer friendly. 
+
+
+### Admin Users (and default login accounts)
+
+There are 4 preset users for Admin Panel:
+
+* Webmaster (default username & password are both "webmaster", belongs to the webmaster group)
+* Admin (default username & password are both "admin", belongs to the admin group)
+* Manager (default username & password are both "manager", belongs to the manager group)
+* Staff (default username & password are both "staff", belongs to the staff group)
 
 
 ### Folder Structure
@@ -107,21 +130,6 @@ sql/                            --- MySQL files
 system/                         --- CodeIgniter core files (unchanged as clean CI3 installation)
 .htaccess                       --- URL rewrite for Apache web server (require mod enabled)
 ```
-
-
-### Admin Users (and default login accounts)
-
-There are 4 preset users for Admin Panel:
-
-* Webmaster (default username & password are both "webmaster", belongs to the webmaster group)
-* Admin (default username & password are both "admin", belongs to the admin group)
-* Manager (default username & password are both "manager", belongs to the manager group)
-* Staff (default username & password are both "staff", belongs to the staff group)
-
-
-### Setup Guide
-
-To be completed
 
 
 ### Screenshots

@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * For demo only
+ * For demo purpose only
  */
 class Demo extends MY_Controller {
 

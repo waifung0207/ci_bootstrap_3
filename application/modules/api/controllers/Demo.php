@@ -2,18 +2,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Examples to work with REST endpoints
+ * Demo to work with REST endpoints
  */
-class Example extends API_Controller {
+class Demo extends API_Controller {
 
 	/**
 	 * @SWG\Get(
-	 * 	path="/example",
-	 * 	tags={"example"},
+	 * 	path="/demo",
+	 * 	tags={"demo"},
 	 * 	@SWG\Response(
 	 * 		response="200",
 	 * 		description="Sample result",
-	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Example"))
+	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Demo"))
 	 * 	)
 	 * )
 	 */
@@ -29,14 +29,14 @@ class Example extends API_Controller {
 
 	/**
 	 * @SWG\Post(
-	 * 	path="/example",
-	 * 	tags={"example"},
+	 * 	path="/demo",
+	 * 	tags={"demo"},
 	 * 	@SWG\Parameter(
 	 * 		in="body",
 	 * 		name="body",
 	 * 		description="Created info",
 	 * 		required=true,
-	 * 		@SWG\Schema(ref="#/definitions/Example")
+	 * 		@SWG\Schema(ref="#/definitions/Demo")
 	 * 	),
 	 * 	@SWG\Response(
 	 * 		response="200",
@@ -52,19 +52,19 @@ class Example extends API_Controller {
 
 	/**
 	 * @SWG\Get(
-	 * 	path="/example/{id}",
-	 * 	tags={"example"},
+	 * 	path="/demo/{id}",
+	 * 	tags={"demo"},
 	 * 	@SWG\Parameter(
 	 * 		in="path",
 	 * 		name="id",
-	 * 		description="Example ID",
+	 * 		description="Demo ID",
 	 * 		required=true,
 	 * 		type="integer"
 	 * 	),
 	 * 	@SWG\Response(
 	 * 		response="200",
 	 * 		description="Sample result",
-	 * 		@SWG\Schema(ref="#/definitions/Example")
+	 * 		@SWG\Schema(ref="#/definitions/Demo")
 	 * 	)
 	 * )
 	 */
@@ -76,12 +76,12 @@ class Example extends API_Controller {
 
 	/**
 	 * @SWG\Put(
-	 * 	path="/example/{id}",
-	 * 	tags={"example"},
+	 * 	path="/demo/{id}",
+	 * 	tags={"demo"},
 	 * 	@SWG\Parameter(
 	 * 		in="path",
 	 * 		name="id",
-	 * 		description="Example ID",
+	 * 		description="Demo ID",
 	 * 		required=true,
 	 * 		type="integer"
 	 * 	),
@@ -99,12 +99,12 @@ class Example extends API_Controller {
 
 	/**
 	 * @SWG\Delete(
-	 * 	path="/example/{id}",
-	 * 	tags={"example"},
+	 * 	path="/demo/{id}",
+	 * 	tags={"demo"},
 	 * 	@SWG\Parameter(
 	 * 		in="path",
 	 * 		name="id",
-	 * 		description="Example ID",
+	 * 		description="Demo ID",
 	 * 		required=true,
 	 * 		type="integer"
 	 * 	),
@@ -121,19 +121,19 @@ class Example extends API_Controller {
 	
 	/**
 	 * @SWG\Get(
-	 * 	path="/example/{id}/subitem",
-	 * 	tags={"example"},
+	 * 	path="/demo/{id}/subitem",
+	 * 	tags={"demo"},
 	 * 	@SWG\Parameter(
 	 * 		in="path",
 	 * 		name="id",
-	 * 		description="Example ID",
+	 * 		description="Demo ID",
 	 * 		required=true,
 	 * 		type="integer"
 	 * 	),
 	 * 	@SWG\Response(
 	 * 		response="200",
 	 * 		description="Sample result",
-	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Example"))
+	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/Demo"))
 	 * 	)
 	 * )
 	 */
