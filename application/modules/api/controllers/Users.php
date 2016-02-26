@@ -34,63 +34,6 @@ class Users extends API_Controller {
 	}
 
 	/**
-	 * @SWG\Post(
-	 * 	path="/users",
-	 * 	tags={"user"},
-	 * 	summary="Create new user",
-	 * 	consumes={"application/json"},
-	 * 	produces={"application/json"},
-	 * 	@SWG\Parameter(
-	 * 		in="body",
-	 * 		name="body",
-	 * 		description="Created user info",
-	 * 		required=true,
-	 * 		@SWG\Schema(ref="#/definitions/User")
-	 * 	),
-	 * 	@SWG\Response(
-	 * 		response="200",
-	 * 		description="Successful operation",
-	 * 		@SWG\Schema(ref="#/definitions/User")
-	 * 	)
-	 * )
-	 */
-	public function index_post()
-	{
-	}
-
-	/**
-	 * @SWG\Put(
-	 * 	path="/users/{id}",
-	 * 	tags={"user"},
-	 * 	summary="Update an existing user",
-	 * 	consumes={"application/json"},
-	 * 	produces={"application/json"},
-	 * 	@SWG\Parameter(
-	 * 		in="path",
-	 * 		name="id",
-	 * 		description="User ID",
-	 * 		required=true,
-	 * 		type="integer"
-	 * 	),
-	 * 	@SWG\Parameter(
-	 * 		in="body",
-	 * 		name="body",
-	 * 		description="Updated user info",
-	 * 		required=true,
-	 * 		@SWG\Schema(ref="#/definitions/User")
-	 * 	),
-	 * 	@SWG\Response(
-	 * 		response="200",
-	 * 		description="Successful operation",
-	 * 		@SWG\Schema(ref="#/definitions/User")
-	 * 	)
-	 * )
-	 */
-	public function index_put($id)
-	{
-	}
-
-	/**
 	 * @SWG\Get(
 	 * 	path="/users/{id}",
 	 * 	tags={"user"},
@@ -119,10 +62,5 @@ class Users extends API_Controller {
 			->select('id, username, email, active, first_name, last_name')
 			->get($id);
 		$this->response($data);
-	}
-
-	public function subitem_get($id)
-	{
-		echo $id;
 	}
 }
