@@ -53,20 +53,36 @@ $route['default_controller'] = 'home';
 $route['404_override'] = 'error';
 $route['translate_uri_dashes'] = FALSE;
 
-/**
- * Custom routes by CI Bootstrap 3
- */
+/*
+| -------------------------------------------------------------------------
+| Added by CI Bootstrap 3
+| Additional routes on top of codeigniter-restserver
+| -------------------------------------------------------------------------
+| Examples from rule: "api/(:any)/(:num)"
+|	- [GET]		/api/users/1 ==> Users Controller's id_get($id)
+|	- [POST]	/api/users/1 ==> Users Controller's id_post($id)
+|	- [PUT]		/api/users/1 ==> Users Controller's id_put($id)
+|	- [DELETE]	/api/users/1 ==> Users Controller's id_delete($id)
+| 
+| Examples from rule: "api/(:any)/(:num)/(:any)"
+|	- [GET]		/api/users/1/subitem ==> Users Controller's subitem_get($parent_id)
+|	- [POST]	/api/users/1/subitem ==> Users Controller's subitem_post($parent_id)
+|	- [PUT]		/api/users/1/subitem ==> Users Controller's subitem_put($parent_id)
+|	- [DELETE]	/api/users/1/subitem ==> Users Controller's subitem_delete($parent_id)
+*/
+$route['api/(:any)/(:num)']				= 'api/$1/id/$2';
+$route['api/(:any)/(:num)/(:any)']		= 'api/$1/$3/$2';
 
-// API endpoints to specific version
+/*
+| -------------------------------------------------------------------------
+| Added by CI Bootstrap 3
+| Uncomment these if require API versioning (by module name like api_v1)
+| -------------------------------------------------------------------------
+*/
+/*
 $route['api/v1']						= "api_v1";
 $route['api/v1/(:any)']					= "api_v1/$1";
-$route['api/v1/(:any)/(:num)']			= "api_v1/$1/index/$2";
-$route['api/v1/(:any)/(:num)/(:any)']	= "api_v1/$1/index/$2/$3";
+$route['api/v1/(:any)/(:num)']			= "api_v1/$1/id/$2";
+$route['api/v1/(:any)/(:num)/(:any)']	= "api_v1/$1/$3/$2";
 $route['api/v1/(:any)/(:any)']			= "api_v1/$1/$2";
-
-// API endpoints to latest version (need to change "api_v1" when there is a later version)
-$route['api']							= "api_v1";
-$route['api/(:any)']					= "api_v1/$1";
-$route['api/(:any)/(:num)']				= "api_v1/$1/index/$2";
-$route['api/(:any)/(:num)/(:any)']		= "api_v1/$1/index/$2/$3";
-$route['api/(:any)/(:any)']				= "api_v1/$1/$2";
+*/

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Swagger extends API_Controller {
+class Swagger extends MY_Controller {
 	
 	// Output Swagger JSON
 	public function index()

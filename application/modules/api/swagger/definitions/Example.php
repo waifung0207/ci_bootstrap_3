@@ -9,12 +9,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // To avoid class naming conflicts when defining Swagger Definitions
-namespace MySwagger;
+namespace MySwaggerDefinitions;
 
 /**
  * @SWG\Definition()
  */
-class User {
+class Example {
 
 	/**
 	 * Unique ID
@@ -27,17 +27,5 @@ class User {
 	 * @var string
 	 * @SWG\Property()
 	 */
-	public $first_name;
-
-	/**
-	 * @var string
-	 * @SWG\Property()
-	 */
-	public $last_name;
-
-	/**
-	 * @var string
-	 * @SWG\Property(enum={"pending", "blacklisted"})
-	 */
-	public $status;
+	public $name;
 }

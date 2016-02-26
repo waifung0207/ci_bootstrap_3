@@ -25,12 +25,12 @@ class Users extends API_Controller {
 	 * 	)
 	 * )
 	 */
-	protected function get_items()
+	public function index_get()
 	{
 		$data = $this->users
 			->select('id, username, email, active, first_name, last_name')
 			->get_all();
-		$this->to_response($data);
+		$this->response($data);
 	}
 
 	/**
@@ -54,9 +54,8 @@ class Users extends API_Controller {
 	 * 	)
 	 * )
 	 */
-	protected function create_item()
+	public function index_post()
 	{
-		parent::create_item();
 	}
 
 	/**
@@ -87,9 +86,8 @@ class Users extends API_Controller {
 	 * 	)
 	 * )
 	 */
-	protected function update_item($id)
+	public function index_put($id)
 	{
-		parent::update_item($id);
 	}
 
 	/**
@@ -115,11 +113,16 @@ class Users extends API_Controller {
 	 * 	)
 	 * )
 	 */
-	protected function get_item($id)
+	public function id_get($id)
 	{
 		$data = $this->users
 			->select('id, username, email, active, first_name, last_name')
 			->get($id);
-		$this->to_response($data);
+		$this->response($data);
+	}
+
+	public function subitem_get($id)
+	{
+		echo $id;
 	}
 }

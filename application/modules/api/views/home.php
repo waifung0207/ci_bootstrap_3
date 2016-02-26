@@ -84,7 +84,7 @@ $(function () {
 
 <div id='header'>
 	<div class="swagger-ui-wrap">
-		<a id="logo" href="">API Doc</a>
+		<a id="logo" href=""><?php echo $page_title; ?></a>
 		<form id='api_selector'>
 			<div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
 			<div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>

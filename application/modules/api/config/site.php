@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['site'] = array(
 
 	// Site name
-	'name' => 'Admin Panel',
+	'name' => 'API Site',
 
 	// Default page title
 	// (set empty then MY_Controller will automatically generate one based on controller / action)
