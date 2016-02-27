@@ -4,34 +4,15 @@
 
 // basic paths
 var dir_bower = "./bower_components",
-	dir_public = "./",
-	dir_asset = "./assets",
-	dir_dist = dir_asset + "/dist",
-	dir_fonts = dir_asset + "/fonts";
+	dir_asset = "./assets",				// base folder for all assets
+	dir_dist = dir_asset + "/dist",		// destination for post-processed scripts and images
+	dir_fonts = dir_asset + "/fonts",	// destination for font files
+	dir_theme = dir_asset + "/theme";	// default folder for theme files
 
 module.exports = {
-
-	// php server (php 5.4+)
-	php: {
-		src: "application/**/*.php",
-		settings: {
-			base: dir_public,
-			port: 8010,
-			keepalive: true
-		}
-	},
-
-	// browser-sync (linked with php server for live reload)
-	browserSync: {
-		settings: {
-			proxy: "127.0.0.1:8010",
-			port: 8080,
-			open: false,
-			notify: false
-		}
-	},
 	
-	// clean
+	// Task: clean up destination folder
+	// Plugin: del (https://github.com/sindresorhus/del)
 	clean: {
 		src: [
 			dir_dist + "**/*",
@@ -41,7 +22,7 @@ module.exports = {
 		]
 	},
 
-	// copy
+	// Task: copy required files & folders to destination folder
 	copy: {
 		src: {
 			fonts: [
@@ -50,18 +31,19 @@ module.exports = {
 				dir_bower + '/font-awesome/fonts/**',
 				dir_bower + '/ionicons/fonts/**'
 			],
-			scripts: [
-				// js files
+			files: [
+				// files (JS / CSS / etc.) directly copy to destination folder
 			]
 		},
 		dest: {
 			fonts: dir_fonts,
-			scripts: dir_dist
+			files: dir_dist
 		}
 	},
 
-	// css (minify)
-	css: {
+	// Task: concat and minify CSS files
+	// Plugin: gulp-clean-css (https://github.com/scniro/gulp-clean-css)
+	cssmin: {
 		src: {
 			// Frontend Website
 			frontend: [
@@ -93,15 +75,17 @@ module.exports = {
 			admin: 'admin.min.css',
 			adminlte: 'adminlte.min.css'
 		},
-		settings: {
-			keepBreaks: false
+		options: {
+			advanced: true,	// set "false" for faster operation, but slightly larger output files
+			keepSpecialComments: 0
 		}
 	},
 
-	// js (uglify)
-	js: {
+	// Task: concat and minify (uglify) JS files
+	// Plugin: gulp-uglify (https://github.com/terinjokes/gulp-uglify)
+	uglify: {
 		src: {
-			// Admin Panel
+			// Frontend Website
 			frontend: [
 				// bower files
 				dir_bower + '/jquery/dist/jquery.min.js',
@@ -135,15 +119,16 @@ module.exports = {
 			admin: 'admin.min.js',
 			adminlte: 'adminlte.min.js'
 		},
-		settings: {
-			outSourceMap: true
+		options: {
 		}
 	},
 
-	// imagemin
-	images: {
-		src: dir_asset + "/images/**/*.{png,jpg,gif}",
-		dest: dir_dist + "/images"
+	// Tasks: optimize images
+	// Plugin: gulp-imagemin (https://github.com/sindresorhus/gulp-imagemin)
+	imagemin: {
+		src: dir_asset + "/images/**/*.{png,jpg,gif,svg}",
+		dest: dir_dist + "/images",
+		options: {
+		}
 	}
-
 };

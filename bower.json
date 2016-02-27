@@ -20,9 +20,7 @@
     "ionicons": "~2.*",
     "jquery-legacy": "jquery#1.11.*",
     "jquery-migrate": "1.2.*",
-    "Sortable": "1.*"
-  },
-  "dependencies": {
-    "spectrum": "^1.8.0"
+    "Sortable": "1.*",
+    "spectrum": "1.8.*"
   }
 }

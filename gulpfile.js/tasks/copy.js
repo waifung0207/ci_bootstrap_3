@@ -6,9 +6,9 @@ gulp.task('copy:fonts', function() {
 		.pipe(gulp.dest(config.dest.fonts));
 });
 
-gulp.task('copy:scripts', function() {
-	gulp.src(config.src.scripts)
-		.pipe(gulp.dest(config.dest.scripts));
+gulp.task('copy:files', function() {
+	gulp.src(config.src.files)
+		.pipe(gulp.dest(config.dest.files));
 });
 
-gulp.task('copy', ['copy:fonts', 'copy:scripts']);
+gulp.task('copy', ['copy:fonts', 'copy:files']);
