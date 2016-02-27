@@ -29,7 +29,7 @@ This repository contains setup for rapid development:
 * User authentication for Frontend Website (Sign Up, Login, Forgot Password, etc.)
 * User authentication for Admin Panel (Login, Change Password, etc.)
 * Preset layouts and templates
-* Preset asset pipeline (e.g. minify scripts, image optimization) via Gulp (reference from [gulp-starter](https://github.com/greypants/gulp-starter))
+* Preset asset pipeline (e.g. minify scripts, image optimization) via gulp (reference from [gulp-starter](https://github.com/greypants/gulp-starter))
 * Preset data structure for Blogging (with pagination) and Cover Photos (carousel), which can be managed from Admin Panel
 * Form Builder library to help with form rendering with Bootstrap theme, form validation, etc.
 * Breadcrumb and Pagination handling fit with Bootstrap theme
@@ -112,15 +112,17 @@ application/                    --- Main CodeIgniter source files
         MX/                     --- Required for HMVC extension
     views/                      --- Views for Frontend Website, can also be used by modules unless overrided
 assets/
+    api/                        --- Swagger UI assets
     css/                        --- Custom CSS files append to each site
-    dist/                       --- Minified scripts, stylesheets and optimized images via Gulp tasks
-    fonts/                      --- Font files copied via Gulp tasks
+    dist/                       --- Post-processed scripts and images via gulp tasks (don't manually edit files here!)
+    fonts/                      --- Font files copied via gulp tasks
     grocery_crud/               --- Asset files from Grocery CRUD library
     image_crud/                 --- Asset files from Image CRUD library
     images/                     --- Source image files before optimization
     js/                         --- Custom CSS files append to each site
-    uploads/                    --- Default directory of upload files, where permission should set as writable
-gulpfile.js/                    --- Task runner following gulp-starter 2.0 practice
+    theme/                      --- Default folder for additional theme files
+    uploads/                    --- Default folder for upload files, where permission should set as writable
+gulpfile.js/                    --- Task runner following gulp-starter practice
 screenshots/                    --- Screenshot images for preview
 sql/                            --- MySQL files
     backup/                     --- Files which will be created when backup database from CLI
@@ -130,6 +132,21 @@ sql/                            --- MySQL files
 system/                         --- CodeIgniter core files (unchanged as clean CI3 installation)
 .htaccess                       --- URL rewrite for Apache web server (require mod enabled)
 ```
+
+
+### Preset Gulp Tasks
+
+The gulpfile.js folder is prepared with following tasks available:
+
+* **default**: run **build** task first, then **watch** for file change
+* **build**: run **imagemin**, **cssmin** and **uglify** tasks in parallel
+* **rebuild**: run **clean** task first, then **copy**, **imagemin**, **cssmin** and **uglify** tasks in parallel
+* **clean**: remove all files inside the dist folder (default: /assets/dist)
+* **copy**: copy required files to dist folder
+* **cssmin**: concat and minify CSS files
+* **imagemin**: optimize images (jpg, png, gif, svg) and output to dist folder (default: /assets/dist/images)
+* **uglify**: concat and minify (uglify) JS files
+* **watch**: monitor JS / CSS / image files and execute specific tasks upon changes
 
 
 ### Screenshots
