@@ -2,7 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Demo to work with REST endpoints
+ * Demo Controller with Swagger annotations
+ * Reference: https://github.com/zircote/swagger-php/
  */
 class Demo extends API_Controller {
 
@@ -144,6 +145,59 @@ class Demo extends API_Controller {
 			array('id' => 2, 'name' => 'Parent '.$parent_id.' - Subitem 2'),
 			array('id' => 3, 'name' => 'Parent '.$parent_id.' - Subitem 3'),
 		);
+		$this->response($data);
+	}
+
+	/**
+	 * @SWG\Get(
+	 * 	path="/demo/users",
+	 * 	tags={"demo"},
+	 * 	summary="List out users",
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="List of users",
+	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/User"))
+	 * 	)
+	 * )
+	 */
+	public function users_get()
+	{
+		$this->load->model('user_model', 'users');
+		$data = $this->users
+			->select('id, username, email, active, first_name, last_name')
+			->get_all();
+		$this->response($data);
+	}
+
+	/**
+	 * @SWG\Get(
+	 * 	path="/demo/user/{id}",
+	 * 	tags={"demo"},
+	 * 	summary="Look up a user",
+	 * 	@SWG\Parameter(
+	 * 		in="path",
+	 * 		name="id",
+	 * 		description="User ID",
+	 * 		required=true,
+	 * 		type="integer"
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="User object",
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="404",
+	 * 		description="Invalid user ID"
+	 * 	)
+	 * )
+	 */
+	public function user_get($id)
+	{
+		$this->load->model('user_model', 'users');
+		$data = $this->users
+			->select('id, username, email, active, first_name, last_name')
+			->get($id);
 		$this->response($data);
 	}
 }
