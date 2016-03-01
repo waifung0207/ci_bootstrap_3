@@ -69,7 +69,25 @@ class DemoUser {
 /**
  * @SWG\Definition()
  */
-class DemoUserPost {
+class DemoUserPut {
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $first_name;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $last_name;
+}
+
+/**
+ * @SWG\Definition()
+ */
+class DemoSignUp {
 	
 	/**
 	 * @var string
@@ -99,19 +117,19 @@ class DemoUserPost {
 /**
  * @SWG\Definition()
  */
-class DemoUserPut {
+class DemoActivate {
 
 	/**
 	 * @var string
 	 * @SWG\Property()
 	 */
-	public $first_name;
+	public $id;
 
 	/**
 	 * @var string
 	 * @SWG\Property()
 	 */
-	public $last_name;
+	public $code;
 }
 
 /**

@@ -63,12 +63,15 @@ class User extends Admin_Controller {
 			);
 
 			// proceed to create user
-			$user = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups);			
-			if ($user)
+			$user_id = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups);			
+			if ($user_id)
 			{
 				// success
 				$messages = $this->ion_auth->messages();
 				$this->system_message->set_success($messages);
+
+				// directly activate user
+				$this->ion_auth->activate($user_id);
 			}
 			else
 			{

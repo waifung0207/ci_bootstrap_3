@@ -202,44 +202,6 @@ class Demo extends API_Controller {
 	}
 
 	/**
-	 * @SWG\Post(
-	 * 	path="/demo/user",
-	 * 	tags={"demo"},
-	 * 	summary="Create new user",
-	 * 	@SWG\Parameter(
-	 * 		in="body",
-	 * 		name="body",
-	 * 		description="User info",
-	 * 		required=true,
-	 * 		@SWG\Schema(ref="#/definitions/DemoUserPost")
-	 * 	),
-	 * 	@SWG\Response(
-	 * 		response="200",
-	 * 		description="Successful operation"
-	 * 	)
-	 * )
-	 */
-	public function user_post()
-	{
-		// required fields
-		$password = $this->post('password');
-		$email = $this->post('email');
-		$username = $this->post('email');
-
-		// additional fields
-		$additional_data = elements(array('first_name', 'last_name'), $this->post());
-
-		// set user to "members" group
-		$group = array('1');
-
-		// proceed to create user
-		$user_id = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
-
-		// result
-		($user_id) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
-	}
-
-	/**
 	 * @SWG\Put(
 	 * 	path="/demo/user/{id}",
 	 * 	tags={"demo"},
@@ -274,6 +236,72 @@ class Demo extends API_Controller {
 
 		// result
 		($updated) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
+	}
+
+	/**
+	 * @SWG\Post(
+	 * 	path="/demo/sign_up",
+	 * 	tags={"demo"},
+	 * 	summary="Create new user",
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="User info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/DemoSignUp")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function sign_up_post()
+	{
+		// required fields
+		$password = $this->post('password');
+		$email = $this->post('email');
+		$username = $this->post('email');
+
+		// additional fields
+		$additional_data = elements(array('first_name', 'last_name'), $this->post());
+
+		// set user to "members" group
+		$group = array('1');
+
+		// proceed to create user
+		$user_id = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+
+		// result
+		($user_id) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
+	}
+
+	/**
+	 * @SWG\Post(
+	 * 	path="/demo/activate",
+	 * 	tags={"demo"},
+	 * 	summary="Activate a user",
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="Login info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/DemoActivate")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function activate_post()
+	{
+		$user_id = $this->post('id');
+		$code = $this->post('code');
+		$activation = $this->ion_auth->activate($user_id, $code);
+
+		// result
+		($activation) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
 	}
 
 	/**
@@ -317,7 +345,7 @@ class Demo extends API_Controller {
 
 			// TODO: append API key
 			$user->api_key = '';
-			
+
 			// return result
 			$this->response($user);
 		}
@@ -398,9 +426,7 @@ class Demo extends API_Controller {
 			if ($reset)
 			{
 				// proceed to change user password
-				$this->load->model('user_model', 'users');
-				$user = $this->users->get_by('email', $reset['identity']);
-				$updated = $this->ion_auth->update($user->id, array('password' => $password));
+				$updated = $this->ion_auth->reset_password($reset['identity'], $password);
 				($updated) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
 			}
 			else
