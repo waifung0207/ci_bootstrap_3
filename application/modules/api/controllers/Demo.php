@@ -29,29 +29,6 @@ class Demo extends API_Controller {
 	}
 
 	/**
-	 * @SWG\Post(
-	 * 	path="/demo",
-	 * 	tags={"demo"},
-	 * 	@SWG\Parameter(
-	 * 		in="body",
-	 * 		name="body",
-	 * 		description="Created info",
-	 * 		required=true,
-	 * 		@SWG\Schema(ref="#/definitions/Demo")
-	 * 	),
-	 * 	@SWG\Response(
-	 * 		response="200",
-	 * 		description="Successful operation"
-	 * 	)
-	 * )
-	 */
-	public function index_post()
-	{
-		$params = elements(array('filter', 'valid', 'fields', 'here'), $this->post());
-		$this->created();
-	}
-
-	/**
 	 * @SWG\Get(
 	 * 	path="/demo/{id}",
 	 * 	tags={"demo"},
@@ -73,6 +50,29 @@ class Demo extends API_Controller {
 	{
 		$data = array('id' => $id, 'name' => 'Demo '.$id);
 		$this->response($data);
+	}
+
+	/**
+	 * @SWG\Post(
+	 * 	path="/demo",
+	 * 	tags={"demo"},
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="Created info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/Demo")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function index_post()
+	{
+		$params = elements(array('filter', 'valid', 'fields', 'here'), $this->post());
+		$this->created();
 	}
 
 	/**
@@ -199,5 +199,64 @@ class Demo extends API_Controller {
 			->select('id, username, email, active, first_name, last_name')
 			->get($id);
 		$this->response($data);
+	}
+
+	/**
+	 * @SWG\Post(
+	 * 	path="/demo/user",
+	 * 	tags={"demo"},
+	 * 	summary="Create new user",
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="User info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function user_post()
+	{
+		$this->load->model('user_model', 'users');
+		$data = elements(array('first_name', 'last_name'), $this->post());
+		$user_id = $this->users->insert($data);
+		($user_id) ? $this->created() : $this->error('Create failed');
+	}
+
+	/**
+	 * @SWG\Put(
+	 * 	path="/demo/user/{id}",
+	 * 	tags={"demo"},
+	 * 	summary="Update an existing user",
+	 * 	@SWG\Parameter(
+	 * 		in="path",
+	 * 		name="id",
+	 * 		description="User ID",
+	 * 		required=true,
+	 * 		type="integer"
+	 * 	),
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="User info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function user_put($id)
+	{
+		$this->load->model('user_model', 'users');
+		$data = elements(array('first_name', 'last_name'), $this->put());
+		$updated = $this->users->update($id, $data);
+		($updated) ? $this->created() : $this->error('Create failed');
 	}
 }
