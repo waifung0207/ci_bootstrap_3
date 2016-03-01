@@ -113,3 +113,57 @@ class DemoUserPut {
 	 */
 	public $last_name;
 }
+
+/**
+ * @SWG\Definition()
+ */
+class DemoLogin {
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $email;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $password;
+}
+
+/**
+ * @SWG\Definition()
+ */
+class DemoForgotPassword {
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $email;
+}
+
+/**
+ * @SWG\Definition()
+ */
+class DemoResetPassword {
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $code;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $password;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $password_confirm;
+}

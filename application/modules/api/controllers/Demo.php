@@ -275,4 +275,142 @@ class Demo extends API_Controller {
 		// result
 		($updated) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
 	}
+
+	/**
+	 * @SWG\Post(
+	 * 	path="/demo/login",
+	 * 	tags={"demo"},
+	 * 	summary="Login a user and get API key",
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="Login info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/DemoLogin")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function login_post()
+	{
+		$email = $this->post('email');
+		$password = $this->post('password');
+
+		// proceed to login user
+		$logged_in = $this->ion_auth->login($email, $password, FALSE);
+
+		// result
+		if ($logged_in)
+		{
+			// get User object and remove unnecessary fields
+			$user = $this->ion_auth->user()->row();
+			unset($user->password);
+			unset($user->salt);
+			unset($user->ip_address);
+			unset($user->activation_code);
+			unset($user->forgotten_password_code);
+			unset($user->forgotten_password_time);
+			unset($user->remember_code);
+
+			// TODO: append API key
+			$user->api_key = '';
+			
+			// return result
+			$this->response($user);
+		}
+		else
+		{
+			$this->error($this->ion_auth->errors());
+		}
+	}
+
+	/**
+	 * @SWG\Post(
+	 * 	path="/demo/forgot_password",
+	 * 	tags={"demo"},
+	 * 	summary="Submission of Forgot Password form",
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="Forgot Password info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/DemoForgotPassword")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function forgot_password_post()
+	{
+		// proceed to forgot password
+		$email = $this->post('email');
+		$forgotten = $this->ion_auth->forgotten_password($email);
+
+		if ($forgotten)
+		{
+			// TODO: send email to user
+			$code = $forgotten['forgotten_password_code'];
+
+			$this->success($this->ion_auth->messages());
+		}
+		else
+		{
+			$this->error($this->ion_auth->errors());
+		}
+	}
+
+	/**
+	 * @SWG\Post(
+	 * 	path="/demo/reset_password",
+	 * 	tags={"demo"},
+	 * 	summary="Submission of Reset Password form",
+	 * 	@SWG\Parameter(
+	 * 		in="body",
+	 * 		name="body",
+	 * 		description="Reset Password info",
+	 * 		required=true,
+	 * 		@SWG\Schema(ref="#/definitions/DemoResetPassword")
+	 * 	),
+	 * 	@SWG\Response(
+	 * 		response="200",
+	 * 		description="Successful operation"
+	 * 	)
+	 * )
+	 */
+	public function reset_password_post()
+	{
+		// proceed to reset password
+		$code = $this->post('code');
+		$password = $this->post('password');
+		$password_confirm = $this->post('password_confirm');
+
+		// verify passwords are the same (TODO: better validation)
+		if ($password===$password_confirm)
+		{
+			// verify reset code
+			$reset = $this->ion_auth->forgotten_password_complete($code);
+
+			if ($reset)
+			{
+				// proceed to change user password
+				$this->load->model('user_model', 'users');
+				$user = $this->users->get_by('email', $reset['identity']);
+				$updated = $this->ion_auth->update($user->id, array('password' => $password));
+				($updated) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
+			}
+			else
+			{
+				$this->error($this->ion_auth->errors());
+			}
+		}
+		else
+		{
+			$this->error('Password not identical');
+		}
+	}
 }
