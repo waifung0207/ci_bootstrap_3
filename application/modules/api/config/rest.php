@@ -2,6 +2,20 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Changes by CI Bootstrap 3 (https://github.com/waifung0207/ci_bootstrap_3).
+ * 
+ * The following values are changed to fit with CI Bootstrap:
+ *  - $config['rest_keys_table'] = 'api_keys'; (default: 'keys')
+ *  - $config['rest_enable_keys'] = TRUE; (default: FALSE)
+ *  - $config['rest_logs_table'] = 'api_logs'; (default: 'logs')
+ *  - $config['rest_access_table'] = 'api_access'; (default: 'access')
+ *  - $config['rest_limits_table'] = 'api_limits'; (default: 'limits')
+ *
+ * Demo controller methods can be accessed without X-API-KEY
+ *  - $config['auth_override_class_method']['demo']['*'] = 'none';
+ */
+
 /*
 |--------------------------------------------------------------------------
 | HTTP protocol
@@ -186,6 +200,7 @@ $config['auth_library_function'] = '';
 
 // ---Uncomment list line for the wildard unit test
 // $config['auth_override_class_method']['wildcard_test_cases']['*'] = 'basic';
+$config['auth_override_class_method']['demo']['*'] = 'none';
 
 /*
 |--------------------------------------------------------------------------
@@ -288,7 +303,7 @@ $config['rest_database_group'] = 'default';
 | The table name in your database that stores API keys
 |
 */
-$config['rest_keys_table'] = 'keys';
+$config['rest_keys_table'] = 'api_keys';
 
 /*
 |--------------------------------------------------------------------------
@@ -313,7 +328,7 @@ $config['rest_keys_table'] = 'keys';
 |   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
-$config['rest_enable_keys'] = FALSE;
+$config['rest_enable_keys'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -403,7 +418,7 @@ $config['rest_enable_logging'] = FALSE;
 | table name to match e.g. my_logs
 |
 */
-$config['rest_logs_table'] = 'logs';
+$config['rest_logs_table'] = 'api_logs';
 
 /*
 |--------------------------------------------------------------------------
@@ -435,7 +450,7 @@ $config['rest_enable_access'] = FALSE;
 | table name to match e.g. my_access
 |
 */
-$config['rest_access_table'] = 'access';
+$config['rest_access_table'] = 'api_access';
 
 /*
 |--------------------------------------------------------------------------
@@ -485,7 +500,7 @@ $config['rest_enable_limits'] = FALSE;
 | table name to match e.g. my_limits
 |
 */
-$config['rest_limits_table'] = 'limits';
+$config['rest_limits_table'] = 'api_limits';
 
 /*
 |--------------------------------------------------------------------------

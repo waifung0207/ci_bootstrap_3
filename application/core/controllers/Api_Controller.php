@@ -8,6 +8,8 @@ require_once(APPPATH.'modules/api/libraries/REST_Controller.php');
 class API_Controller extends REST_Controller {
 
 	// The user who is consuming the API endpoint
+	protected $mApiKey;
+	protected $mUserID;
 	protected $mUser;
 
 	// Constructor
@@ -29,9 +31,10 @@ class API_Controller extends REST_Controller {
 	// Verify access token (e.g. API Key, JSON Web Token)
 	protected function verify_token()
 	{
-		// TODO: implement API Key or JWT handling
-		$this->mUser = new stdClass();
-		$this->mUser->id = 1;
+		$this->mApiKey = $this->input->get_request_header('X-API-KEY');
+		$key = $this->api_keys->get_by('key', $this->mApiKey);
+		$this->mUserID = empty($key) ? NULL : $key->user_id;
+		$this->mUser = empty($this->mUserID) ? NULL : $this->users->get($this->mUserID);
 	}
 
 	// Verify user authentication
@@ -42,7 +45,7 @@ class API_Controller extends REST_Controller {
 		$groups = is_string($groups) ? array($groups) : $groups;
 
 		// user groups not match with requirement
-		if ( !$this->ion_auth->in_group($groups, $this->mUser->id) )
+		if ( !$this->ion_auth->in_group($groups, $this->mUserID) )
 			$this->error_unauthorized();
 	}
 	

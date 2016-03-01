@@ -153,6 +153,13 @@ class Demo extends API_Controller {
 	 * 	path="/demo/users",
 	 * 	tags={"demo"},
 	 * 	summary="List out users",
+	 * 	@SWG\Parameter(
+	 * 		in="header",
+	 * 		name="X-API-KEY",
+	 * 		description="API Key",
+	 * 		required=false,
+	 * 		type="string"
+	 * 	),
 	 * 	@SWG\Response(
 	 * 		response="200",
 	 * 		description="List of users",
@@ -162,7 +169,6 @@ class Demo extends API_Controller {
 	 */
 	public function users_get()
 	{
-		$this->load->model('user_model', 'users');
 		$data = $this->users
 			->select('id, username, email, active, first_name, last_name')
 			->get_all();
@@ -194,7 +200,6 @@ class Demo extends API_Controller {
 	 */
 	public function user_get($id)
 	{
-		$this->load->model('user_model', 'users');
 		$data = $this->users
 			->select('id, username, email, active, first_name, last_name')
 			->get($id);
