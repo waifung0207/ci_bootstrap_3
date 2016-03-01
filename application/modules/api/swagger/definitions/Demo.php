@@ -29,3 +29,87 @@ class Demo {
 	 */
 	public $name;
 }
+/**
+ * @SWG\Definition()
+ */
+class DemoUser {
+
+	/**
+	 * Unique ID
+	 * @var int
+	 * @SWG\Property()
+	 */
+	public $id;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $email;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $first_name;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $last_name;
+
+	/**
+	 * @var string
+	 * @SWG\Property(enum={"pending", "blacklisted"})
+	 */
+	public $status;
+}
+
+/**
+ * @SWG\Definition()
+ */
+class DemoUserPost {
+	
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $email;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $password;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $first_name;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $last_name;
+}
+
+/**
+ * @SWG\Definition()
+ */
+class DemoUserPut {
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $first_name;
+
+	/**
+	 * @var string
+	 * @SWG\Property()
+	 */
+	public $last_name;
+}

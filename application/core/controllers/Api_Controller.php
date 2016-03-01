@@ -47,21 +47,24 @@ class API_Controller extends REST_Controller {
 	}
 	
 	// Shortcut functions following REST_Controller convention
-	protected function success()
+	protected function success($msg = NULL)
 	{
 		$data = array('status' => TRUE);
+		if ( !empty($msg) ) $data['message'] = $msg;
 		$this->response($data, REST_Controller::HTTP_OK);
 	}
 
-	protected function created()
+	protected function created($msg = NULL)
 	{
 		$data = array('status' => TRUE);
+		if ( !empty($msg) ) $data['message'] = $msg;
 		$this->response($data, REST_Controller::HTTP_CREATED);
 	}
 	
-	protected function accepted()
+	protected function accepted($msg = NULL)
 	{
 		$data = array('status' => TRUE);
+		if ( !empty($msg) ) $data['message'] = $msg;
 		$this->response($data, REST_Controller::HTTP_ACCEPTED);
 	}
 

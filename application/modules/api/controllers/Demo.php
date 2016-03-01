@@ -156,7 +156,7 @@ class Demo extends API_Controller {
 	 * 	@SWG\Response(
 	 * 		response="200",
 	 * 		description="List of users",
-	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/User"))
+	 * 		@SWG\Schema(type="array", @SWG\Items(ref="#/definitions/DemoUser"))
 	 * 	)
 	 * )
 	 */
@@ -184,7 +184,7 @@ class Demo extends API_Controller {
 	 * 	@SWG\Response(
 	 * 		response="200",
 	 * 		description="User object",
-	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 		@SWG\Schema(ref="#/definitions/DemoUser")
 	 * 	),
 	 * 	@SWG\Response(
 	 * 		response="404",
@@ -211,7 +211,7 @@ class Demo extends API_Controller {
 	 * 		name="body",
 	 * 		description="User info",
 	 * 		required=true,
-	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 		@SWG\Schema(ref="#/definitions/DemoUserPost")
 	 * 	),
 	 * 	@SWG\Response(
 	 * 		response="200",
@@ -221,10 +221,22 @@ class Demo extends API_Controller {
 	 */
 	public function user_post()
 	{
-		$this->load->model('user_model', 'users');
-		$data = elements(array('first_name', 'last_name'), $this->post());
-		$user_id = $this->users->insert($data);
-		($user_id) ? $this->created() : $this->error('Create failed');
+		// required fields
+		$password = $this->post('password');
+		$email = $this->post('email');
+		$username = $this->post('email');
+
+		// additional fields
+		$additional_data = elements(array('first_name', 'last_name'), $this->post());
+
+		// set user to "members" group
+		$group = array('1');
+
+		// proceed to create user
+		$user_id = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+
+		// result
+		($user_id) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
 	}
 
 	/**
@@ -244,7 +256,7 @@ class Demo extends API_Controller {
 	 * 		name="body",
 	 * 		description="User info",
 	 * 		required=true,
-	 * 		@SWG\Schema(ref="#/definitions/User")
+	 * 		@SWG\Schema(ref="#/definitions/DemoUserPut")
 	 * 	),
 	 * 	@SWG\Response(
 	 * 		response="200",
@@ -252,11 +264,15 @@ class Demo extends API_Controller {
 	 * 	)
 	 * )
 	 */
+	// TODO: user should be able to update their own account only
 	public function user_put($id)
 	{
-		$this->load->model('user_model', 'users');
 		$data = elements(array('first_name', 'last_name'), $this->put());
-		$updated = $this->users->update($id, $data);
-		($updated) ? $this->created() : $this->error('Create failed');
+
+		// proceed to update user
+		$updated = $this->ion_auth->update($id, $data);
+
+		// result
+		($updated) ? $this->success($this->ion_auth->messages()) : $this->error($this->ion_auth->errors());
 	}
 }
