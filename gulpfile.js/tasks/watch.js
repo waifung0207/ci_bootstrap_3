@@ -1,29 +1,17 @@
 var gulp = require('gulp'),
 	watch = require('gulp-watch'),
-	config = require('../config'),
-	browserSync = require('browser-sync');
+	config = require('../config');
 
-// create tasks that ensures the compilations are complete before reloading browsers
-gulp.task('watch:js-frontend', ['uglify:frontend'], browserSync.reload);
-gulp.task('watch:js-admin', ['uglify:admin'], browserSync.reload);
-gulp.task('watch:css-frontend', ['cssmin:frontend'], browserSync.reload);
-gulp.task('watch:css-admin', ['cssmin:admin'], browserSync.reload);
-gulp.task('watch:images', ['images'], browserSync.reload);
-
-gulp.task('watch', function(callback) {
-
-	// watch PHP files
-	gulp.watch(config.php.src, browserSync.reload);
+gulp.task('watch', function() {
 
 	// watch JS files
-	gulp.watch(config.js.src.frontend, ['watch:js-frontend']);
-	gulp.watch(config.js.src.admin, ['watch:js-admin']);
+	gulp.watch(config.uglify.src.frontend, ['uglify:frontend']);
+	gulp.watch(config.uglify.src.admin, ['uglify:admin']);
 
 	// watch CSS files
-	gulp.watch(config.css.src.frontend, ['watch:css-frontend']);
-	gulp.watch(config.css.src.admin, ['watch:css-admin']);
+	gulp.watch(config.cssmin.src.frontend, ['cssmin:frontend']);
+	gulp.watch(config.cssmin.src.admin, ['cssmin:admin']);
 
 	// watch images
-	gulp.watch(config.images.src, ['watch:images']);
-
+	gulp.watch(config.imagemin.src, ['imagemin']);
 });

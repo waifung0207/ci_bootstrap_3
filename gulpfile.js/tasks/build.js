@@ -1,6 +1,3 @@
-var gulp = require('gulp'),
-	gulpSequence = require('gulp-sequence');
+var gulp = require('gulp');
 
-gulp.task('build', function(cb) {
-	gulpSequence('clean', ['copy', 'images', 'cssmin', 'uglify'], cb);
-});
+gulp.task('build', ['imagemin', 'cssmin', 'uglify']);

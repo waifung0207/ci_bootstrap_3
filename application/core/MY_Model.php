@@ -17,12 +17,23 @@ class MY_Model extends Base_Model {
 	// (sample usage: see Cover_photo_model, Blog_post_model)
 	protected $where = array();
 	protected $order_by = array();
-	protected $limit;
 	protected $upload_fields = array();
 
 	/**
 	 * Extra functions on top of Base_Model
 	 */
+
+	// Select specific fields only
+	// Usage: $this->article_model->select('id, title')->get_all();
+	// Reference: https://github.com/jamierumbelow/codeigniter-base-model/issues/217
+	public function select($fields = '*', $escape = true) {
+		if ( is_array($fields) )
+			$fields = implode(',', $fields);
+		
+		$this->_database->select($fields, $escape);
+		return $this;
+	}
+
 	// Get a field value from single result (by ID)
 	public function get_field($id, $field)
 	{
@@ -53,17 +64,8 @@ class MY_Model extends Base_Model {
 	}
 
 	// Get multiple records with pagination
-	public function paginate($page = 1, $where = array(), $limit = NULL)
+	public function paginate($page = 1, $where = array(), $limit = 10)
 	{
-		// decide per-page limit by: 1) $this->limit; 2) a default value (10)
-		if ( !empty($this->limit) && $limit===NULL )
-			$limit = $this->limit;
-		else if ( $limit===NULL )
-			$limit = 10;
-
-		// avoid overrided by $this->limit
-		$this->limit = NULL;
-
 		// get filtered results
 		$where = array_merge($where, $this->where);
 		$offset = ($page<=1) ? 0 : ($page-1)*$limit;
@@ -102,10 +104,6 @@ class MY_Model extends Base_Model {
 			case 2: $this->db->order_by($this->order_by[0], $this->order_by[1]); break;
 			case 3: $this->db->order_by($this->order_by[0], $this->order_by[1], $this->order_by[2]); break;
 		}
-
-		// default limit
-		if ( !empty($this->limit) )
-			$this->db->limit($this->limit);
 	}
 
 	protected function callback_after_get($result)

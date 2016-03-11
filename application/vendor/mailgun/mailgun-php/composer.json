@@ -1,0 +1,25 @@
+{
+    "name": "mailgun/mailgun-php",
+    "description": "The Mailgun SDK provides methods for all API functions.",
+    "require": {
+        "guzzlehttp/guzzle": "~5.0"
+    },
+    "require-dev": {
+        "php": ">=5.4.0",
+        "phpunit/phpunit": "~4.6"
+    },
+    "autoload": {
+        "psr-0": {
+            "Mailgun\\Tests": "tests/",
+            "Mailgun": "src/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Travis Swientek",
+            "email": "travis@mailgunhq.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}

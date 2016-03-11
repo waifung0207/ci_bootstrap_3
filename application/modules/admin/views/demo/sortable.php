@@ -1,5 +1,3 @@
-<?php $this->layout('layouts::default') ?>
-
 <form action="<?php echo current_url(); ?>" method="POST">
 
 	<ul class="sortable list-group">
@@ -11,6 +9,6 @@
 		<?php endfor; ?>
 	</ul>
 
-	<?php echo btn_submit('Save'); ?>
+	<?php echo modules::run('adminlte/widget/btn_submit', 'Save'); ?>
 
 </form>

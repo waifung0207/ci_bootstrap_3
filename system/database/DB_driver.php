@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2015, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Drivers
  * @category	Database
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/database/
+ * @link		https://codeigniter.com/user_guide/database/
  */
 abstract class CI_DB_driver {
 
@@ -505,6 +505,18 @@ abstract class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
+	 * Last error
+	 *
+	 * @return	array
+	 */
+	public function error()
+	{
+		return array('code' => NULL, 'message' => NULL);
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
 	 * Set client character set
 	 *
 	 * @param	string
@@ -664,13 +676,15 @@ abstract class CI_DB_driver {
 				// if transactions are enabled. If we don't call this here
 				// the error message will trigger an exit, causing the
 				// transactions to remain in limbo.
-				if ($this->_trans_depth !== 0)
+				while ($this->_trans_depth !== 0)
 				{
-					do
+					$trans_depth = $this->_trans_depth;
+					$this->trans_complete();
+					if ($trans_depth === $this->_trans_depth)
 					{
-						$this->trans_complete();
+						log_message('error', 'Database: Failure during an automated transaction commit/rollback!');
+						break;
 					}
-					while ($this->_trans_depth !== 0);
 				}
 
 				// Display errors
@@ -768,7 +782,10 @@ abstract class CI_DB_driver {
 	{
 		if ( ! $this->conn_id)
 		{
-			$this->initialize();
+			if ( ! $this->initialize())
+			{
+				return FALSE;
+			}
 		}
 
 		return $this->_execute($sql);
@@ -813,24 +830,16 @@ abstract class CI_DB_driver {
 	 * Start Transaction
 	 *
 	 * @param	bool	$test_mode = FALSE
-	 * @return	void
+	 * @return	bool
 	 */
 	public function trans_start($test_mode = FALSE)
 	{
 		if ( ! $this->trans_enabled)
 		{
-			return;
+			return FALSE;
 		}
 
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 0)
-		{
-			$this->_trans_depth += 1;
-			return;
-		}
-
-		$this->trans_begin($test_mode);
-		$this->_trans_depth += 1;
+		return $this->trans_begin($test_mode);
 	}
 
 	// --------------------------------------------------------------------
@@ -845,17 +854,6 @@ abstract class CI_DB_driver {
 		if ( ! $this->trans_enabled)
 		{
 			return FALSE;
-		}
-
-		// When transactions are nested we only begin/commit/rollback the outermost ones
-		if ($this->_trans_depth > 1)
-		{
-			$this->_trans_depth -= 1;
-			return TRUE;
-		}
-		else
-		{
-			$this->_trans_depth = 0;
 		}
 
 		// The query() function will set this flag to FALSE in the event that a query failed
@@ -875,8 +873,7 @@ abstract class CI_DB_driver {
 			return FALSE;
 		}
 
-		$this->trans_commit();
-		return TRUE;
+		return $this->trans_commit();
 	}
 
 	// --------------------------------------------------------------------
@@ -889,6 +886,87 @@ abstract class CI_DB_driver {
 	public function trans_status()
 	{
 		return $this->_trans_status;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Begin Transaction
+	 *
+	 * @param	bool	$test_mode
+	 * @return	bool
+	 */
+	public function trans_begin($test_mode = FALSE)
+	{
+		if ( ! $this->trans_enabled)
+		{
+			return FALSE;
+		}
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		elseif ($this->_trans_depth > 0)
+		{
+			$this->_trans_depth++;
+			return TRUE;
+		}
+
+		// Reset the transaction failure flag.
+		// If the $test_mode flag is set to TRUE transactions will be rolled back
+		// even if the queries produce a successful result.
+		$this->_trans_failure = ($test_mode === TRUE);
+
+		if ($this->_trans_begin())
+		{
+			$this->_trans_depth++;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Commit Transaction
+	 *
+	 * @return	bool
+	 */
+	public function trans_commit()
+	{
+		if ( ! $this->trans_enabled OR $this->_trans_depth === 0)
+		{
+			return FALSE;
+		}
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		elseif ($this->_trans_depth > 1 OR $this->_trans_commit())
+		{
+			$this->_trans_depth--;
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Rollback Transaction
+	 *
+	 * @return	bool
+	 */
+	public function trans_rollback()
+	{
+		if ( ! $this->trans_enabled OR $this->_trans_depth === 0)
+		{
+			return FALSE;
+		}
+		// When transactions are nested we only begin/commit/rollback the outermost ones
+		elseif ($this->_trans_depth > 1 OR $this->_trans_rollback())
+		{
+			$this->_trans_depth--;
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	// --------------------------------------------------------------------

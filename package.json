@@ -18,14 +18,13 @@
     "del": "*",
     "gulp": "*",
     "gulp-changed": "*",
+    "gulp-clean-css": "*",
     "gulp-concat": "*",
-    "gulp-connect-php": "*",
     "gulp-imagemin": "*",
-    "gulp-minify-css": "*",
     "gulp-notify": "*",
     "gulp-sequence": "*",
     "gulp-sourcemaps": "*",
-    "gulp-uglifyjs": "*",
+    "gulp-uglify": "*",
     "gulp-watch": "*",
     "require-dir": "*"
   }

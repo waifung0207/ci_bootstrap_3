@@ -22,3 +22,9 @@ $config['newline'] = "\r\n";
 $config['from_email'] = "noreply@email.com";
 $config['from_name'] = "CI Bootstrap";
 $config['subject_prefix'] = "[CI Bootstrap] ";
+
+// Mailgun API (to be used in Email Client library)
+$config['mailgun'] = array(
+	'domain'				=> '',
+	'private_api_key'		=> '',
+);

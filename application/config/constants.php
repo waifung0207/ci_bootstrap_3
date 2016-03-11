@@ -91,5 +91,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 | Constants to be used in both Frontend and other modules
 |
 */
-define('UPLOAD_COVER_PHOTO',		'assets/uploads/cover_photos');
-define('UPLOAD_BLOG_POST',			'assets/uploads/blog_posts');
+define('CI_BOOTSTRAP_REPO',			'https://github.com/waifung0207/ci_bootstrap_3');
+define('CI_BOOTSTRAP_VERSION',		'Build 20160227');	// will follow semantic version (e.g. v1.x.x) after first stable launch
+
+define('UPLOAD_DEMO_COVER_PHOTO',	'assets/uploads/demo/cover_photos');
+define('UPLOAD_DEMO_BLOG_POST',		'assets/uploads/demo/blog_posts');

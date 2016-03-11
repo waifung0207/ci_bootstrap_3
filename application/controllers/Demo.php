@@ -2,17 +2,15 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * For demo only
+ * For demo purpose only
  */
 class Demo extends MY_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->library('form_builder');
 		$this->push_breadcrumb('Demo');
-		$this->mViewData['enable_breadcrumb'] = TRUE;
 	}
 
 	public function index()
@@ -30,8 +28,7 @@ class Demo extends MY_Controller {
 	public function carousel()
 	{
 		// grab records from database table "cover_photos"
-		$this->load->database();
-		$this->load->model('cover_photo_model', 'photos');
+		$this->load->model('demo_cover_photo_model', 'photos');
 		$this->mViewData['photos'] = $this->photos->get_all();
 		$this->render('demo/carousel');
 	}
@@ -42,8 +39,7 @@ class Demo extends MY_Controller {
 		$page = $this->input->get('p');
 		$page = empty($page) ? 1 : $page;
 
-		$this->load->database();
-		$this->load->model('blog_post_model', 'posts');
+		$this->load->model('demo_blog_post_model', 'posts');
 		$results = $this->posts->with('category')->with('author')->paginate($page);
 		$posts = $results['data'];
 		$counts = $results['counts'];
@@ -61,8 +57,7 @@ class Demo extends MY_Controller {
 	// Blog Post
 	public function blog_post($post_id)
 	{
-		$this->load->database();
-		$this->load->model('blog_post_model', 'posts');
+		$this->load->model('demo_blog_post_model', 'posts');
 		$post = $this->posts->with('category')->with('author')->get($post_id);
 
 		$this->push_breadcrumb('Blog Posts', 'demo/blog_posts');
@@ -93,6 +88,9 @@ class Demo extends MY_Controller {
 			refresh();
 		}
 
+		// require reCAPTCHA script at page head
+		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+
 		$this->mTitle = 'Form (Basic)';
 		$this->mViewData['form'] = $form;
 		$this->render('demo/form_basic');
@@ -109,6 +107,9 @@ class Demo extends MY_Controller {
 			refresh();
 		}
 
+		// require reCAPTCHA script at page head
+		$this->mScripts['head'][] = 'https://www.google.com/recaptcha/api.js';
+		
 		$this->mTitle = 'Form (Bootstrap 3)';
 		$this->mViewData['form'] = $form;
 		$this->render('demo/form_bs3');

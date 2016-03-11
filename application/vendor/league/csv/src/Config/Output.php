@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -15,7 +15,7 @@ namespace League\Csv\Config;
 use DomDocument;
 use InvalidArgumentException;
 use Iterator;
-use League\Csv\Modifier;
+use League\Csv\Modifier\MapIterator;
 use SplFileObject;
 
 /**
@@ -49,14 +49,14 @@ trait Output
     /**
      * Returns the CSV Iterator
      *
-     * @return \Iterator
+     * @return Iterator
      */
     abstract protected function getConversionIterator();
 
     /**
      * Returns the CSV Iterator
      *
-     * @return \Iterator
+     * @return Iterator
      */
     abstract public function getIterator();
 
@@ -70,7 +70,7 @@ trait Output
     public function setEncodingFrom($str)
     {
         $str = str_replace('_', '-', $str);
-        $str = filter_var($str, FILTER_SANITIZE_STRING, ['flags' => FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH]);
+        $str = filter_var($str, FILTER_SANITIZE_STRING, ['flags' => FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH]);
         if (empty($str)) {
             throw new InvalidArgumentException('you should use a valid charset');
         }
@@ -92,7 +92,7 @@ trait Output
     /**
      * Sets the BOM sequence to prepend the CSV on output
      *
-     * @param string $str  The BOM sequence
+     * @param string $str The BOM sequence
      *
      * @return static
      */
@@ -103,9 +103,8 @@ trait Output
 
             return $this;
         }
-        $str = (string) $str;
-        $str = trim($str);
-        $this->output_bom = $str;
+
+        $this->output_bom = (string) $str;
 
         return $this;
     }
@@ -156,11 +155,10 @@ trait Output
      */
     public function output($filename = null)
     {
-        if (! is_null($filename)) {
-            $filename = trim($filename);
+        if (!is_null($filename)) {
             $filename = filter_var($filename, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-            header("Content-Type: application/octet-stream");
-            header("Content-Transfer-Encoding: binary");
+            header('Content-Type: application/octet-stream');
+            header('Content-Transfer-Encoding: binary');
             header("Content-Disposition: attachment; filename=\"$filename\"");
         }
 
@@ -181,9 +179,9 @@ trait Output
             $bom = $this->output_bom;
         }
         $csv = $this->getIterator();
-        $csv->rewind();
         $csv->setFlags(SplFileObject::READ_CSV);
-        if (! empty($bom)) {
+        $csv->rewind();
+        if (!empty($bom)) {
             $csv->fseek(mb_strlen($input_bom));
         }
         echo $bom;
@@ -218,7 +216,9 @@ trait Output
     /**
      * Convert Csv file into UTF-8
      *
-     * @return \Iterator
+     * @param Iterator $iterator
+     *
+     * @return Iterator
      */
     protected function convertToUtf8(Iterator $iterator)
     {
@@ -226,7 +226,7 @@ trait Output
             return $iterator;
         }
 
-        return new Modifier\MapIterator($iterator, function ($row) {
+        return new MapIterator($iterator, function ($row) {
             foreach ($row as &$value) {
                 $value = mb_convert_encoding($value, 'UTF-8', $this->encodingFrom);
             }
@@ -258,7 +258,7 @@ trait Output
      * @param string $row_name  XML row node name
      * @param string $cell_name XML cell node name
      *
-     * @return \DomDocument
+     * @return DomDocument
      */
     public function toXML($root_name = 'csv', $row_name = 'row', $cell_name = 'cell')
     {
@@ -269,7 +269,7 @@ trait Output
             $item = $doc->createElement($row_name);
             array_walk($row, function ($value) use (&$item, $doc, $cell_name) {
                 $content = $doc->createTextNode($value);
-                $cell    = $doc->createElement($cell_name);
+                $cell = $doc->createElement($cell_name);
                 $cell->appendChild($content);
                 $item->appendChild($cell);
             });

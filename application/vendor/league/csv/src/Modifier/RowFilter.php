@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -61,9 +61,7 @@ trait RowFilter
     public function removeFormatter(callable $callable)
     {
         $res = array_search($callable, $this->formatters, true);
-        if (false !== $res) {
-            unset($this->formatters[$res]);
-        }
+        unset($this->formatters[$res]);
 
         return $this;
     }
@@ -96,13 +94,12 @@ trait RowFilter
      * add a Validator to the collection
      *
      * @param callable $callable
-     * @param string   $name      the rule name
+     * @param string   $name     the rule name
      *
      * @return $this
      */
     public function addValidator(callable $callable, $name)
     {
-        $name = trim($name);
         $this->validators[$name] = $callable;
 
         return $this;
@@ -117,7 +114,6 @@ trait RowFilter
      */
     public function removeValidator($name)
     {
-        $name = trim($name);
         if (array_key_exists($name, $this->validators)) {
             unset($this->validators[$name]);
         }
@@ -134,13 +130,11 @@ trait RowFilter
      */
     public function hasValidator($name)
     {
-        $name = trim($name);
-
         return array_key_exists($name, $this->validators);
     }
 
     /**
-     * Remove all registered validatior
+     * Remove all registered validators
      *
      * @return $this
      */
@@ -161,7 +155,7 @@ trait RowFilter
     protected function formatRow(array $row)
     {
         foreach ($this->formatters as $formatter) {
-            $row = $formatter($row);
+            $row = call_user_func($formatter, $row);
         }
 
         return $row;
@@ -172,18 +166,14 @@ trait RowFilter
     *
     * @param array $row
     *
-    * @throws \League\Csv\Exception\InvalidRowException If the validation failed
-    *
-    * @return void
+    * @throws InvalidRowException If the validation failed
     */
     protected function validateRow(array $row)
     {
         foreach ($this->validators as $name => $validator) {
-            if (true !== $validator($row)) {
+            if (true !== call_user_func($validator, $row)) {
                 throw new InvalidRowException($name, $row, 'row validation failed');
             }
         }
     }
-
-
 }

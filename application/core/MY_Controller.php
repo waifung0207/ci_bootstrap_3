@@ -6,7 +6,7 @@
  * 	- Admin_Controller: 
  * 	- API_Controller: 
  */
-class MY_Controller extends CI_Controller {
+class MY_Controller extends MX_Controller {
 
 	// Values to be obtained automatically from router
 	protected $mModule = '';			// module name (empty = Frontend Website)
@@ -17,14 +17,15 @@ class MY_Controller extends CI_Controller {
 	// Config values from config/site.php
 	protected $mSiteConfig = array();
 	protected $mSiteName = '';
-
-	// Plates instance (reference: http://platesphp.com/)
-	protected $mTemplates;
+	protected $mMetaData = array();
+	protected $mScripts = array();
+	protected $mStylesheets = array();
 
 	// Values and objects to be overrided or accessible from child controllers
 	protected $mTitle = '';
 	protected $mMenu = array();
 	protected $mBreadcrumb = array();
+	protected $mBodyClass = '';
 
 	// Multilingual
 	protected $mMultilingual = FALSE;
@@ -35,8 +36,11 @@ class MY_Controller extends CI_Controller {
 	protected $mViewData = array();
 
 	// Login user
+	protected $mPageAuth = array();
 	protected $mUser = NULL;
-
+	protected $mUserGroups = array();
+	protected $mUserMainGroup;
+	
 	// Constructor
 	public function __construct()
 	{
@@ -47,7 +51,7 @@ class MY_Controller extends CI_Controller {
 		$this->mCtrler = $this->router->fetch_class();
 		$this->mAction = $this->router->fetch_method();
 		$this->mMethod = $this->input->server('REQUEST_METHOD');
-
+		
 		// initial setup
 		$this->_setup();
 	}
@@ -56,20 +60,26 @@ class MY_Controller extends CI_Controller {
 	private function _setup()
 	{
 		$site_config = $this->config->item('site');
-
+		
 		// load default values
 		$this->mSiteName = $site_config['name'];
 		$this->mTitle = $site_config['title'];
-		$this->mMenu = $site_config['menu'];
+		$this->mMenu = empty($site_config['menu']) ? array() : $site_config['menu'];
+		$this->mMetaData = empty($site_config['meta']) ? array() : $site_config['meta'];
+		$this->mScripts = $site_config['scripts'];
+		$this->mStylesheets = $site_config['stylesheets'];
+		$this->mPageAuth = empty($site_config['page_auth']) ? array() : $site_config['page_auth'];
 
-		// setup Plates template
-		$template_dir = empty($this->mModule) ? 'application/views' : 'application/modules/'.$this->mModule.'/views';
-		$this->mTemplates = new League\Plates\Engine($template_dir);
-		$this->mTemplates->addFolder('layouts', $template_dir.'/_layouts');
-		$this->mTemplates->addFolder('partials', $template_dir.'/_partials');
+		// restrict pages
+		$uri = empty($this->mModule) ? $this->uri->uri_string() : str_replace($this->mModule.'/', '', $this->uri->uri_string());
+		if ( !empty($this->mPageAuth[$uri]) && !$this->ion_auth->in_group($this->mPageAuth[$uri]) )
+		{
+			$redirect_url = empty($this->mModule) ? 'error' : $this->mModule.'/error';
+			redirect($redirect_url);
+		}
 
 		// multilingual setup
-		$lang_config = $site_config['multilingual'];
+		$lang_config = empty($site_config['multilingual']) ? array() : $site_config['multilingual'];
 		if ( !empty($lang_config) )
 		{
 			$this->mMultilingual = TRUE;
@@ -91,21 +101,75 @@ class MY_Controller extends CI_Controller {
 			$this->push_breadcrumb($page, '');	
 		}
 
+		// get user data if logged in
+		if ( $this->ion_auth->logged_in() )
+		{
+			$this->mUser = $this->ion_auth->user()->row();
+			if ( !empty($this->mUser) )
+			{
+				$this->mUserGroups = $this->ion_auth->get_users_groups($this->mUser->id)->result();
+
+				// TODO: get group with most permissions (instead of getting first group)
+				$this->mUserMainGroup = $this->mUserGroups[0]->name;	
+			}
+		}
+
 		$this->mSiteConfig = $site_config;
 	}
 
-	// Verify user authentication
-	protected function verify_auth($redirect_url = 'account/login')
+	// Verify user login (regardless of user group)
+	protected function verify_login($redirect_url = NULL)
 	{
-		// obtain user data from session; redirect to Login page if not found
-		if ($this->session->has_userdata('user'))
-			$this->mUser = $this->session->userdata('user');
-		else
+		if ( !$this->ion_auth->logged_in() )
+		{
+			if ( $redirect_url==NULL )
+				$redirect_url = $this->mSiteConfig['login_url'];
+
 			redirect($redirect_url);
+		}
 	}
-	
-	// Render template (using Plates template)
-	protected function render($view_file)
+
+	// Verify user authentication
+	// $group parameter can be name, ID, name array, ID array, or mixed array
+	// Reference: http://benedmunds.com/ion_auth/#in_group
+	protected function verify_auth($group = 'members', $redirect_url = NULL)
+	{
+		if ( !$this->ion_auth->logged_in() || !$this->ion_auth->in_group($group) )
+		{
+			if ( $redirect_url==NULL )
+				$redirect_url = $this->mSiteConfig['login_url'];
+			
+			redirect($redirect_url);
+		}
+	}
+
+	// Add script files, either append or prepend to $this->mScripts array
+	// ($files can be string or string array)
+	protected function add_script($files, $append = TRUE, $position = 'foot')
+	{
+		$files = is_string($files) ? array($files) : $files;
+		$position = ($position==='head' || $position==='foot') ? $position : 'foot';
+
+		if ($append)
+			$this->mScripts[$position] = array_merge($this->mScripts[$position], $files);
+		else
+			$this->mScripts[$position] = array_merge($files, $this->mScripts[$position]);
+	}
+
+	// Add stylesheet files, either append or prepend to $this->mStylesheets array
+	// ($files can be string or string array)
+	protected function add_stylesheet($files, $append = TRUE, $media = 'screen')
+	{
+		$files = is_string($files) ? array($files) : $files;
+
+		if ($append)
+			$this->mStylesheets[$media] = array_merge($this->mStylesheets[$media], $files);
+		else
+			$this->mStylesheets[$media] = array_merge($files, $this->mStylesheets[$media]);
+	}
+
+	// Render template
+	protected function render($view_file, $layout = 'default')
 	{
 		// automatically generate page title
 		if ( empty($this->mTitle) )
@@ -121,13 +185,18 @@ class MY_Controller extends CI_Controller {
 		$this->mViewData['action'] = $this->mAction;
 
 		$this->mViewData['site_name'] = $this->mSiteName;
-		$this->mViewData['title'] = $this->mTitle;
+		$this->mViewData['page_title'] = $this->mTitle;
 		$this->mViewData['current_uri'] = empty($this->mModule) ? uri_string(): str_replace($this->mModule.'/', '', uri_string());
+		$this->mViewData['meta_data'] = $this->mMetaData;
+		$this->mViewData['scripts'] = $this->mScripts;
+		$this->mViewData['stylesheets'] = $this->mStylesheets;
+		$this->mViewData['page_auth'] = $this->mPageAuth;
 
 		$this->mViewData['base_url'] = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
 		$this->mViewData['menu'] = $this->mMenu;
 		$this->mViewData['user'] = $this->mUser;
 		$this->mViewData['ga_id'] = empty($this->mSiteConfig['ga_id']) ? '' : $this->mSiteConfig['ga_id'];
+		$this->mViewData['body_class'] = $this->mBodyClass;
 
 		// automatically push current page to last record of breadcrumb
 		$this->push_breadcrumb($this->mTitle);
@@ -140,22 +209,21 @@ class MY_Controller extends CI_Controller {
 			$this->mViewData['language'] = $this->mLanguage;
 		}
 
-		// set global view data
-		//$this->mViewData['ci'] = $this;	// uncomment this line if need to use CI instance, e.g. $ci->benchmark->elapsed_time()
-		$this->mTemplates->addData($this->mViewData);
-
-		// note: need to use CodeIgniter Output class instead of echo() directly
-		$this->output->set_output($this->mTemplates->render($view_file));
-
 		// debug tools
 		$debug_config = $this->mSiteConfig['debug'];
 		if (ENVIRONMENT==='development' && !empty($debug_config))
 		{
 			$this->output->enable_profiler($debug_config['profiler']);
 
+			/*
 			if ($debug_config['view_data'])
-				$this->output->append_output('<hr/>'.print_r($this->mViewData, TRUE));
+				$this->output->append_output('<hr/>'.print_r($this->mViewData, TRUE));*/
 		}
+
+		$this->mViewData['inner_view'] = $view_file;
+		$this->load->view('_base/head', $this->mViewData);
+		$this->load->view('_layouts/'.$layout, $this->mViewData);
+		$this->load->view('_base/foot', $this->mViewData);
 	}
 
 	// Output JSON string

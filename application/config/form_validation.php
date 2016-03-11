@@ -9,7 +9,7 @@
 $config = array(
 
 	// Sign Up
-	'account/sign_up' => array(
+	'auth/sign_up' => array(
 		array(
 			'field'		=> 'first_name',
 			'label'		=> 'First Name',
@@ -28,7 +28,7 @@ $config = array(
 		array(
 			'field'		=> 'password',
 			'label'		=> 'Password',
-			'rules'		=> 'required|min_length[6]',
+			'rules'		=> 'required|min_length[8]',
 		),
 		array(
 			'field'		=> 'retype_password',
@@ -38,7 +38,7 @@ $config = array(
 	),
 
 	// Login
-	'account/login' => array(
+	'auth/login' => array(
 		array(
 			'field'		=> 'email',
 			'label'		=> 'Email',
@@ -52,7 +52,7 @@ $config = array(
 	),
 
 	// Forgot Password
-	'account/forgot_password' => array(
+	'auth/forgot_password' => array(
 		array(
 			'field'		=> 'email',
 			'label'		=> 'Email',
@@ -61,11 +61,11 @@ $config = array(
 	),
 
 	// Reset Password
-	'account/reset_password' => array(
+	'auth/reset_password' => array(
 		array(
 			'field'		=> 'password',
 			'label'		=> 'Password',
-			'rules'		=> 'required|min_length[6]',
+			'rules'		=> 'required|min_length[8]',
 		),
 		array(
 			'field'		=> 'retype_password',
@@ -121,7 +121,6 @@ $config = array(
 	),
 
 );
-
 
 /**
  * Google reCAPTCHA settings:

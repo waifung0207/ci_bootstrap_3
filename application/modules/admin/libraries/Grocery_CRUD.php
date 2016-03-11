@@ -16,7 +16,7 @@
  * @package    	grocery CRUD
  * @copyright  	Copyright (c) 2010 through 2014, John Skoumbourdis
  * @license    	https://github.com/scoumbourdis/grocery-crud/blob/master/license-grocery-crud.txt
- * @version    	1.5.2
+ * @version    	1.5.4
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
@@ -468,22 +468,22 @@ class grocery_CRUD_Field_Types
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.2
+ * @version    	1.5.4
  * @link		http://www.grocerycrud.com/documentation
  */
 class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 {
 	/**
-	 * @var grocery_CRUD_Model
+	 * @var Grocery_crud_model
 	 */
 	public $basic_model = null;
 
 	protected function set_default_Model()
 	{
 		$ci = &get_instance();
-		$ci->load->model('grocery_CRUD_Model');
+		$ci->load->model('Grocery_crud_model');
 
-		$this->basic_model = new grocery_CRUD_Model();
+		$this->basic_model = new Grocery_crud_model();
 	}
 
 	protected function get_total_results()
@@ -536,7 +536,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 	public function set_model($model_name)
 	{
 		$ci = &get_instance();
-		$ci->load->model('grocery_CRUD_Model');
+		$ci->load->model('Grocery_crud_model');
 
 		$ci->load->model($model_name);
 
@@ -1383,7 +1383,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 				header('Access-Control-Allow-Headers: X-File-Name, X-File-Type, X-File-Size');
 
 				$allowed_files = $this->config->file_upload_allow_file_types;
-				
+
 		                $reg_exp = '';
 		                if(!empty($upload_info->allowed_file_types)){
 		                    $reg_exp = '/(\\.|\\/)('.$upload_info->allowed_file_types.')$/i';
@@ -1517,7 +1517,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.2
+ * @version    	1.5.4
  */
 class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 {
@@ -2217,8 +2217,18 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		$value = !is_string($value) ? '' : str_replace('"',"&quot;",$value);
 
 		$extra_attributes = '';
-		if(!empty($field_info->db_max_length))
-			$extra_attributes .= "maxlength='{$field_info->db_max_length}'";
+		if (!empty($field_info->db_max_length)) {
+
+            if (in_array($field_info->type, array("decimal", "float"))) {
+                $decimal_lentgh = explode(",", $field_info->db_max_length);
+                $decimal_lentgh = ((int)$decimal_lentgh[0]) + 1;
+
+                $extra_attributes .= "maxlength='" . $decimal_lentgh . "'";
+            } else {
+                $extra_attributes .= "maxlength='{$field_info->db_max_length}'";
+            }
+
+        }
 		$input = "<input id='field-{$field_info->name}' class='form-control' name='{$field_info->name}' type='text' value=\"$value\" $extra_attributes />";
 		return $input;
 	}
@@ -2229,11 +2239,6 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		{
 			$editor = $this->config->default_text_editor;
 			switch ($editor) {
-				case 'ckeditor':
-					$this->set_js_lib($this->default_texteditor_path.'/ckeditor/ckeditor.js');
-					$this->set_js_lib($this->default_texteditor_path.'/ckeditor/adapters/jquery.js');
-					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.ckeditor.config.js');
-				break;
 
 				// Added by CI Bootstrap 3
 				case 'ckeditor4':
@@ -2245,6 +2250,12 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 					$this->set_css($this->default_texteditor_path.'/summernote/summernote.css');
 					$this->set_js_lib($this->default_texteditor_path.'/summernote/summernote.min.js');
 					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/summernote.config.js');
+				break;
+				
+				case 'ckeditor':
+					$this->set_js_lib($this->default_texteditor_path.'/ckeditor/ckeditor.js');
+					$this->set_js_lib($this->default_texteditor_path.'/ckeditor/adapters/jquery.js');
+					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.ckeditor.config.js');
 				break;
 
 				case 'tinymce':
@@ -2979,7 +2990,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.2
+ * @version    	1.5.4
  */
 class grocery_CRUD_States extends grocery_CRUD_Layout
 {
@@ -3408,7 +3419,7 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
  * @package    	grocery CRUD
  * @copyright  	Copyright (c) 2010 through 2014, John Skoumbourdis
  * @license    	https://github.com/scoumbourdis/grocery-crud/blob/master/license-grocery-crud.txt
- * @version    	1.5.2
+ * @version    	1.5.4
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
@@ -3431,7 +3442,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 	 *
 	 * @var	string
 	 */
-	const	VERSION = "1.5.2";
+	const	VERSION = "1.5.4";
 
 	const	JQUERY 			= "jquery-1.11.1.min.js";
 	const	JQUERY_UI_JS 	= "jquery-ui-1.10.3.custom.min.js";
@@ -3744,10 +3755,10 @@ class Grocery_CRUD extends grocery_CRUD_States
 
 		return $this;
 	}
-	
+
 	/**
 	 * Just an alias to unset_read
-	 * 
+	 *
 	 * @return	void
 	 * */
 	public function unset_view()

@@ -21,6 +21,9 @@ application/composer.lock
 */cache/!index.html
 */cache/!.htaccess
 
+## Source map files (local gulp tasks will still produce .map for debug use) ###
+*.map
+
 ### SQL backup files ###
 sql/backup/*
 sql/backup/!index.html

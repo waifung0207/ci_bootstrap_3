@@ -18,8 +18,30 @@ $config['site'] = array(
 	'name' => 'CI Bootstrap 3',
 
 	// Default page title
-	// (set empty then MY_Controller will automatically generate one according to controller / action)
+	// (set empty then MY_Controller will automatically generate one based on controller / action)
 	'title' => '',
+
+	// Default meta data (name => content)
+	'meta'	=> array(
+		'author'		=> 'Michael Chan (https://github.com/waifung0207)',
+		'description'	=> 'CI Bootstrap 3'
+	),
+
+	// Default scripts to embed at page head / end
+	'scripts' => array(
+		'head'	=> array(
+		),
+		'foot'	=> array(
+			'assets/dist/app.min.js'
+		),
+	),
+
+	// Default stylesheets to embed at page head
+	'stylesheets' => array(
+		'screen' => array(
+			'assets/dist/app.min.css'
+		)
+	),
 
 	// Multilingual settings (set empty array to disable this)
 	'multilingual' => array(
@@ -70,34 +92,21 @@ $config['site'] = array(
 		// end of demo
 		'sign_up' => array(
 			'name'		=> 'Sign Up',
-			'url'		=> 'account/sign_up',
+			'url'		=> 'auth/sign_up',
 		),
 		'login' => array(
 			'name'		=> 'Login',
-			'url'		=> 'account/login',
+			'url'		=> 'auth/login',
 		),
 	),
 
-	// User authenication (to be completed)
-	'auth' => array(
+	// default page when redirect non-logged-in user
+	'login_url' => 'auth/login',
 
-		// Field name for logging in (e.g. email, username)
-		'login_field'		=> 'email',
-
-		// Activation settings
-		'activation'		=> array(
-			'enabled'		=> TRUE,
-			'url'			=> 'account/activate',
-			'email'			=> 'frontend_activation',
-			'email_subject'	=> 'Activation',
-		),
-
-		// Forgot Password settings
-		'forgot_password'	=> array(
-			'url'			=> 'account/reset_password',
-			'email'			=> 'frontend_forgot_password',
-			'email_subject'	=> 'Forgot Password',
-		),
+	// restricted pages to specific groups of users, which will affect sidemenu item as well
+	// pages out of this array will have no restriction
+	'page_auth' => array(
+		'account'		=> array('members')
 	),
 
 	// For debug purpose (available only when ENVIRONMENT = 'development')

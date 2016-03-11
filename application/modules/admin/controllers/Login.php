@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// NOTE: this controller inherits from MY_Controller,
-// instead of Admin_Controller since no authentication is required
+// NOTE: this controller inherits from MY_Controller instead of Admin_Controller,
+// since no authentication is required
 class Login extends MY_Controller {
 
 	/**
@@ -16,22 +16,23 @@ class Login extends MY_Controller {
 		if ($form->validate())
 		{
 			// passed validation
-			$username = $this->input->post('username');
+			$identity = $this->input->post('username');
 			$password = $this->input->post('password');
-			$this->load->model('admin_user_model', 'users');
-			$user = $this->users->login($username, $password);
-
-			if ( empty($user) )
+			$remember = ($this->input->post('remember')=='on');
+			
+			if ($this->ion_auth->login($identity, $password, $remember))
 			{
-				// login failed
-				$this->system_message->set_error('Invalid Login');
-				refresh();
+				// login succeed
+				$messages = $this->ion_auth->messages();
+				$this->system_message->set_success($messages);
+				redirect('admin');
 			}
 			else
 			{
-				// login success
-				$this->session->set_userdata('admin_user', $user);
-				redirect('admin');
+				// login failed
+				$errors = $this->ion_auth->errors();
+				$this->system_message->set_error($errors);
+				refresh();
 			}
 		}
 		

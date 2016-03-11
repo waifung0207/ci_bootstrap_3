@@ -4,7 +4,7 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 7.1.1
+* @version 7.2.0
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
@@ -13,7 +13,7 @@
 namespace League\Csv;
 
 use InvalidArgumentException;
-use League\Csv\Modifier;
+use League\Csv\Modifier\RowFilter;
 use ReflectionMethod;
 use Traversable;
 
@@ -26,8 +26,10 @@ use Traversable;
  */
 class Writer extends AbstractCsv
 {
+    use RowFilter;
+
     /**
-     * {@ihneritdoc}
+     * @inheritdoc
      */
     protected $stream_filter_mode = STREAM_FILTER_WRITE;
 
@@ -53,12 +55,7 @@ class Writer extends AbstractCsv
     protected static $fputcsv_param_count;
 
     /**
-     * Row Formatter and Validator trait
-     */
-    use Modifier\RowFilter;
-
-    /**
-     * {@ihneritdoc}
+     * @inheritdoc
      */
     protected function __construct($path, $open_mode = 'r+')
     {
@@ -72,7 +69,7 @@ class Writer extends AbstractCsv
     protected static function initFputcsv()
     {
         if (is_null(static::$fputcsv)) {
-            static::$fputcsv             = new ReflectionMethod('\SplFileObject', 'fputcsv');
+            static::$fputcsv  = new ReflectionMethod('\SplFileObject', 'fputcsv');
             static::$fputcsv_param_count = static::$fputcsv->getNumberOfParameters();
         }
     }
@@ -82,15 +79,15 @@ class Writer extends AbstractCsv
      *
      * a simple wrapper method around insertOne
      *
-     * @param \Traversable|array $rows a multidimentional array or a Traversable object
+     * @param Traversable|array $rows a multidimensional array or a Traversable object
      *
-     * @throws \InvalidArgumentException If the given rows format is invalid
+     * @throws InvalidArgumentException If the given rows format is invalid
      *
      * @return static
      */
     public function insertAll($rows)
     {
-        if (! is_array($rows) && ! $rows instanceof Traversable) {
+        if (!is_array($rows) && !$rows instanceof Traversable) {
             throw new InvalidArgumentException(
                 'the provided data must be an array OR a \Traversable object'
             );
@@ -112,7 +109,7 @@ class Writer extends AbstractCsv
      */
     public function insertOne($row)
     {
-        if (! is_array($row)) {
+        if (!is_array($row)) {
             $row = str_getcsv($row, $this->delimiter, $this->enclosure, $this->escape);
         }
         $row = $this->formatRow($row);
@@ -134,7 +131,7 @@ class Writer extends AbstractCsv
     /**
      * returns the parameters for SplFileObject::fputcsv
      *
-     * @param  array $fields The fields to be add
+     * @param array $fields The fields to be add
      *
      * @return array
      */
