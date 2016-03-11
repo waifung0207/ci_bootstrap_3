@@ -21,8 +21,8 @@ $lang['account_creation_duplicate_email'] 	 = 'Email en uso o inválido';
 $lang['account_creation_duplicate_identity'] = 'Nombre de usuario en uso o inválido';
 
 // TODO Please Translate
-$lang['account_creation_missing_default_group'] = 'Default group is not set';
-$lang['account_creation_invalid_default_group'] = 'Invalid default group name set';
+$lang['account_creation_missing_default_group'] = 'Grupo predeterminado no está establecido';
+$lang['account_creation_invalid_default_group'] = 'Nombre de grupo predeterminado no válido';
 
 
 // Password
@@ -42,8 +42,8 @@ $lang['activation_email_unsuccessful']   	 = 'No se ha podido enviar el email de
 // Login / Logout
 $lang['login_successful'] 		      	     = 'Sesión iniciada con éxito';
 $lang['login_unsuccessful'] 		  	     = 'No se ha podido iniciar sesión';
-$lang['login_unsuccessful_not_active'] 		 = 'Account is inactive';
-$lang['login_timeout']                       = 'Temporarily Locked Out. Try again later.';
+$lang['login_unsuccessful_not_active'] 		 = 'Cuenta está inactiva';
+$lang['login_timeout']                       = 'Temporalmente bloqueada. Inténtelo de nuevo más tarde.';
 $lang['logout_successful'] 		 	         = 'Sesión finalizada con éxito';
 
 // Account Changes
@@ -53,26 +53,26 @@ $lang['delete_successful'] 		 	         = 'Usuario eliminado';
 $lang['delete_unsuccessful'] 		 	     = 'No se ha podido Eliminar el usuario';
 
 // Groups
-$lang['group_creation_successful']  = 'Group created Successfully';
-$lang['group_already_exists']       = 'Group name already taken';
-$lang['group_update_successful']    = 'Group details updated';
-$lang['group_delete_successful']    = 'Group deleted';
-$lang['group_delete_unsuccessful'] 	= 'Unable to delete group';
-$lang['group_delete_notallowed']    = 'Can\'t delete the administrators\' group';
-$lang['group_name_required'] 		= 'Group name is a required field';
-$lang['group_name_admin_not_alter'] = 'Admin group name can not be changed';
+$lang['group_creation_successful']  = 'Grupo creado con éxito';
+$lang['group_already_exists']       = 'Nombre del grupo ya está ocupado';
+$lang['group_update_successful']    = 'Detalles del grupo se han actualizado';
+$lang['group_delete_successful']    = 'Grupo borrado';
+$lang['group_delete_unsuccessful'] 	= 'No se puede eliminar el grupo';
+$lang['group_delete_notallowed']    = 'No se ha podido borrar el grupo de administradores';
+$lang['group_name_required'] 		= 'Nombre del grupo requerido';
+$lang['group_name_admin_not_alter'] = 'Nombre del grupo de administración no se puede cambiar';
 
 // Activation Email
 $lang['email_activation_subject']            = 'Activación de la cuenta';
-$lang['email_activate_heading']    = 'Activate account for %s';
-$lang['email_activate_subheading'] = 'Please click this link to %s.';
-$lang['email_activate_link']       = 'Activate Your Account';
+$lang['email_activate_heading']    = 'Activar cuenta para %s';
+$lang['email_activate_subheading'] = 'Por favor, haga click en este enlace para %s.';
+$lang['email_activate_link']       = 'Activa tu cuenta';
 // Forgot Password Email
 $lang['email_forgotten_password_subject']    = 'Verificación de contraseña olvidada';
-$lang['email_forgot_password_heading']    = 'Reset Password for %s';
-$lang['email_forgot_password_subheading'] = 'Please click this link to %s.';
-$lang['email_forgot_password_link']       = 'Reset Your Password';
+$lang['email_forgot_password_heading']    = 'Restablecer contraseña para %s';
+$lang['email_forgot_password_subheading'] = 'Por favor, haga click en este enlace para %s.';
+$lang['email_forgot_password_link']       = 'Restablecer su contraseña';
 // New Password Email
 $lang['email_new_password_subject']          = 'Nueva Contraseña';
-$lang['email_new_password_heading']    = 'New Password for %s';
-$lang['email_new_password_subheading'] = 'Your password has been reset to: %s';
+$lang['email_new_password_heading']    = 'New Contraseña para %s';
+$lang['email_new_password_subheading'] = 'Su contraseña ha sido cambiado para: %s';
