@@ -55,12 +55,18 @@ class User extends Admin_Controller {
 			$groups = $this->input->post('groups');
 
 			// [IMPORTANT] override database tables to update Frontend Users instead of Admin Users
-			$this->ion_auth_model->tables = array(
-				'users'				=> 'users',
-				'groups'			=> 'groups',
-				'users_groups'		=> 'users_groups',
-				'login_attempts'	=> 'login_attempts',
-			);
+		        $frontend_config = $this->load->config('ion_auth_frontend', TRUE);
+		
+			$this->ion_auth_model->tables = $frontend_config['tables'];
+		        $this->ion_auth_model->identity_column = $frontend_config['identity'];
+		        $this->ion_auth_model->store_salt = $frontend_config['store_salt'];
+		        $this->ion_auth_model->salt_length = $frontend_config['salt_length'];
+		        $this->ion_auth_model->join = $frontend_config['join'];
+		        $this->ion_auth_model->hash_method = $frontend_config['hash_method'];
+		        $this->ion_auth_model->default_rounds = $frontend_config['default_rounds'];
+		        $this->ion_auth_model->random_rounds = $frontend_config['random_rounds'];
+		        $this->ion_auth_model->min_rounds = $frontend_config['min_rounds'];
+		        $this->ion_auth_model->max_rounds = $frontend_config['max_rounds'];
 
 			// proceed to create user
 			$user_id = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups);			
