@@ -231,7 +231,7 @@ class CI_Session {
 			}
 		}
 
-		if ( ! class_exists($prefix.$class) && file_exists($file_path = APPPATH.'libraries/Session/drivers/'.$prefix.$class.'.php'))
+		if ( ! class_exists($prefix.$class, FALSE) && file_exists($file_path = APPPATH.'libraries/Session/drivers/'.$prefix.$class.'.php'))
 		{
 			require_once($file_path);
 			if (class_exists($prefix.$class, FALSE))
@@ -579,6 +579,24 @@ class CI_Session {
 		}
 
 		return NULL;
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
+	 * __isset()
+	 *
+	 * @param	string	$key	'session_id' or a session data key
+	 * @return	bool
+	 */
+	public function __isset($key)
+	{
+		if ($key === 'session_id')
+		{
+			return (session_status() === PHP_SESSION_ACTIVE);
+		}
+
+		return isset($_SESSION[$key]);
 	}
 
 	// ------------------------------------------------------------------------
