@@ -2,12 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Home page
+ * For demo purpose only
  */
 class Home extends MY_Controller {
 
 	public function index()
 	{
-		$this->render('home', 'fullwidth');
+		$this->render('home');
 	}
 }

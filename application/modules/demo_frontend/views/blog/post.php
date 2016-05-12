@@ -29,4 +29,4 @@
 	</tr>
 </table>
 
-<a class="btn btn-primary" href="demo/blog_posts">Back</a>
+<a class="btn btn-primary" href="blog_demo/posts">Back</a>

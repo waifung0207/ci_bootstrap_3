@@ -2,7 +2,7 @@
 	<table class="table table-striped table-bordered">
 		<tr>
 			<th>Title: </th>
-			<td><a href="demo/blog_post/<?php echo $post->id; ?>"><?php echo $post->title; ?></a></td>
+			<td><a href="blog_demo/post/<?php echo $post->id; ?>"><?php echo $post->title; ?></a></td>
 		</tr>
 		<tr>
 			<th>Content Brief: </th>

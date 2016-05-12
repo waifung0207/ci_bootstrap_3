@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends MY_Controller {
+class Auth_demo extends MY_Controller {
 
 	public function __construct()
 	{
@@ -47,7 +47,7 @@ class Auth extends MY_Controller {
 				// success
 				$messages = $this->ion_auth->messages();
 				$this->system_message->set_success($messages);
-				redirect('auth/login');
+				redirect('auth_demo/login');
 			}
 			else
 			{
@@ -87,7 +87,7 @@ class Auth extends MY_Controller {
 				$this->system_message->set_success($messages);
 
 				// redirect to user dashboard
-				redirect('account');
+				redirect('account_demo');
 			}
 			else
 			{

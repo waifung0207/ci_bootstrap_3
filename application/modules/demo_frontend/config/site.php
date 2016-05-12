@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['site'] = array(
 
 	// Site name
-	'name' => 'CI Bootstrap 3',
+	'name' => 'CI Bootstrap 3 Demo',
 
 	// Default page title
 	// (set empty then MY_Controller will automatically generate one based on controller / action)
@@ -42,7 +42,7 @@ $config['site'] = array(
 			'assets/dist/app.min.css'
 		)
 	),
-	
+
 	// Multilingual settings (set empty array to disable this)
 	'multilingual' => array(
 		'default'		=> 'en',			// to decide which of the "available" languages should be used
@@ -73,16 +73,58 @@ $config['site'] = array(
 			'name'		=> 'Home',
 			'url'		=> '',
 		),
+		'element_demo' => array(
+			'name'		=> 'Elements',
+			'url'		=> 'element_demo',
+			'children'  => array(
+				'Carousel'				=> 'element_demo/carousel',
+				'Pagination'			=> 'element_demo/pagination',
+				'Item 1'				=> 'element_demo/item/1',
+				'Item 2'				=> 'element_demo/item/2',
+				'Item 3'				=> 'element_demo/item/3',
+			)
+		),
+		'form_demo' => array(
+			'name'		=> 'Forms',
+			'url'		=> 'form_demo',
+			'children'  => array(
+				'Form (Basic)'			=> 'form_demo/basic',
+				'Form (Bootstrap 3)'	=> 'form_demo/bs3',
+			)
+		),
+		'blog_demo' => array(
+			'name'		=> 'Blog',
+			'url'		=> 'blog_demo',
+			'children'  => array(
+				'Posts'		=> 'blog_demo/posts',
+			)
+		),
+		'auth_demo' => array(
+			'name'		=> 'Auth',
+			'url'		=> 'auth_demo',
+			'children'  => array(
+				'Sign Up'	=> 'auth_demo/sign_up',
+				'Login'		=> 'auth_demo/login',
+			)
+		),
+		'account_demo' => array(
+			'name'		=> 'Account',
+			'url'		=> 'account_demo',
+		),
+		'error_demo' => array(
+			'name'		=> '404 Error',
+			'url'		=> 'non_existed',
+		),
 	),
 
 	// default page when redirect non-logged-in user
-	'login_url' => '',
+	'login_url' => 'demo_frontend/auth_demo/login',
 
 	// restricted pages to specific groups of users, which will affect sidemenu item as well
 	// pages out of this array will have no restriction
 	'page_auth' => array(
 	),
-
+	
 	// For debug purpose (available only when ENVIRONMENT = 'development')
 	'debug' => array(
 		'view_data'		=> FALSE,	// whether to display MY_Controller's mViewData at page end

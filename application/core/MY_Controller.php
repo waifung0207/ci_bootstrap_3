@@ -16,6 +16,7 @@ class MY_Controller extends MX_Controller {
 
 	// Config values from config/site.php
 	protected $mSiteConfig = array();
+	protected $mBaseUrl = array();
 	protected $mSiteName = '';
 	protected $mMetaData = array();
 	protected $mScripts = array();
@@ -62,6 +63,7 @@ class MY_Controller extends MX_Controller {
 		$site_config = $this->config->item('site');
 		
 		// load default values
+		$this->mBaseUrl = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
 		$this->mSiteName = $site_config['name'];
 		$this->mTitle = $site_config['title'];
 		$this->mMenu = empty($site_config['menu']) ? array() : $site_config['menu'];
@@ -192,7 +194,7 @@ class MY_Controller extends MX_Controller {
 		$this->mViewData['stylesheets'] = $this->mStylesheets;
 		$this->mViewData['page_auth'] = $this->mPageAuth;
 
-		$this->mViewData['base_url'] = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
+		$this->mViewData['base_url'] = $this->mBaseUrl;
 		$this->mViewData['menu'] = $this->mMenu;
 		$this->mViewData['user'] = $this->mUser;
 		$this->mViewData['ga_id'] = empty($this->mSiteConfig['ga_id']) ? '' : $this->mSiteConfig['ga_id'];

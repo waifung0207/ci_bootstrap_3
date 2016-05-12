@@ -2,20 +2,24 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * For demo purpose only
+ * For demo purpose only (Frontend Website)
  */
-class Demo extends MY_Controller {
+class Frontend extends MY_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
+
+		// override base URL, so it can connect with Frontend Website
+		$this->mBaseUrl = base_url();
+		
 		$this->load->library('form_builder');
 		$this->push_breadcrumb('Demo');
 	}
 
 	public function index()
 	{
-		redirect('demo/item/1');
+		redirect('item/1');
 	}
 
 	public function item($demo_id)

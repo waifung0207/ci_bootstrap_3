@@ -1,1 +1,1 @@
-view: errors/custom/error_404.php
+<h3>404 Not Found</h3>
