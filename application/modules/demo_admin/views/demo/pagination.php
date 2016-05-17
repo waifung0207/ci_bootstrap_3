@@ -1,0 +1,1 @@
+<nav><?php echo $pagination; ?></nav>
