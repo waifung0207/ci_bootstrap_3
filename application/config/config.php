@@ -23,20 +23,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-switch (ENVIRONMENT)
+
+if (php_sapi_name()=='cli')
 {
-	case 'development':
-		$config['base_url'] = '';
-		break;
-	case 'testing';
-		$config['base_url'] = '';
-		break;
-	case 'production';
-		$config['base_url'] = '';
-		break;
-	default:
-		$config['base_url'] = '';
-		break;
+	// for CLI request
+	$config['base_url'] = '';
+}
+else
+{
+	// for HTTP / HTTPS requests
+	$base_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
+	$base_url.= dirname($_SERVER['SCRIPT_NAME']);
+	$config['base_url'] = $base_url;
 }
 
 /*
