@@ -1,0 +1,1 @@
+<button class='btn btn-flat <?php echo $style; ?>' type='submit'><?php echo $label; ?></button>

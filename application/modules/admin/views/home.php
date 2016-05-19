@@ -10,5 +10,5 @@
 	<div class="col-md-4">
 		<?php echo modules::run('adminlte/widget/info_box', 'yellow', $count['users'], 'Users', 'fa fa-users', 'user'); ?>
 	</div>
-
+	
 </div>
