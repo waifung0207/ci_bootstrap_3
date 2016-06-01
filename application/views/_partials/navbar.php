@@ -54,7 +54,7 @@
 					</a>
 					<ul role='menu' class='dropdown-menu'>
 						<?php foreach ($available_languages as $abbr => $item): ?>
-						<li><a href="language/set/<?php echo $abbr; ?>"><?php echo $item['label']; ?></a></li>
+						<li><a href="<?php echo lang_url($abbr); ?>"><?php echo $item['label']; ?></a></li>
 						<?php endforeach; ?>
 					</ul>
 				</li>

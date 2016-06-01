@@ -94,20 +94,32 @@ class MY_Controller extends MX_Controller {
 			$this->mMultilingual = TRUE;
 			$this->load->helper('language');
 
-			// default language from config (NOT the one from CodeIgniter: application/config/config.php)
-			$this->mLanguage = $this->session->has_userdata('language') ? $this->session->userdata('language') : $lang_config['default'];
-			
-			$this->mAvailableLanguages = $lang_config['available'];
+			// redirect to Home page in default language
+			if ( empty($this->uri->segment(1)) )
+			{
+				$home_url = base_url($lang_config['default']);
+				redirect($home_url);
+			}
 
+			// get language from URL, or from config's default value (in site.php)
+			$this->mAvailableLanguages = $lang_config['available'];
+			$language = array_key_exists($this->uri->segment(1), $this->mAvailableLanguages) ? $this->uri->segment(1) : $lang_config['default'];
+
+			// append to base URL
+			$this->mBaseUrl.= $language.'/';
+
+			// autoload language files
 			foreach ($lang_config['autoload'] as $file)
-				$this->lang->load($file, $this->mAvailableLanguages[$this->mLanguage]['value']);
+				$this->lang->load($file, $this->mAvailableLanguages[$language]['value']);
+
+			$this->mLanguage = $language;
 		}
 
 		// push first entry to breadcrumb
 		if ($this->mCtrler!='home')
 		{
 			$page = $this->mMultilingual ? lang('home') : 'Home';
-			$this->push_breadcrumb($page, '');	
+			$this->push_breadcrumb($page, '');
 		}
 
 		// get user data if logged in

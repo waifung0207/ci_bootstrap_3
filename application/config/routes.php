@@ -56,6 +56,15 @@ $route['translate_uri_dashes'] = FALSE;
 /*
 | -------------------------------------------------------------------------
 | Added by CI Bootstrap 3
+| Multilingual routing (update en|zh|cn for available languages)
+| -------------------------------------------------------------------------
+*/
+$route['^en|zh|cn/(.+)$'] = "$1";
+$route['^en|zh|cn$'] = $route['default_controller'];
+
+/*
+| -------------------------------------------------------------------------
+| Added by CI Bootstrap 3
 | Additional routes on top of codeigniter-restserver
 | -------------------------------------------------------------------------
 | Examples from rule: "api/(:any)/(:num)"

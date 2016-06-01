@@ -28,6 +28,45 @@ function image_url($path)
 	return base_url('assets/dist/images/'.$path);	
 }
 
+// location to pages in different language
+// Sample Usage: 
+// 	- lang_url('en'): to English version of current page
+// 	- lang_url('en', 'about'): to English version of About page
+function lang_url($lang, $url = NULL)
+{
+	$CI =& get_instance();
+
+	$site_config = $CI->config->item('site');
+	if ( empty($site_config['multilingual']) )
+	{
+		$url = ($url===NULL) ? current_full_url() : $url;
+		return base_url($url);
+	}
+	else
+	{
+		$lang_config = $site_config['multilingual'];
+		$available_lang = $lang_config['available'];
+
+		if ($url===NULL)
+		{
+			$segment_1 = $CI->uri->segment(1, $lang_config['default']);
+			
+			// current page in target language
+			if (array_key_exists($segment_1, $available_lang))
+				$target_url = str_replace("/$segment_1", "/$lang", current_full_url());
+			else
+				$target_url = base_url($lang.'/'.$CI->uri->uri_string());
+		}
+		else
+		{
+			// target page in target language
+			$target_url = base_url($lang.'/'.$url);
+		}
+
+		return $target_url;
+	}
+}
+
 // current URL includes query string
 // Reference: http://stackoverflow.com/questions/4160377/codeigniter-current-url-doesnt-show-query-strings
 function current_full_url()
