@@ -1,15 +1,18 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Base model to enhance form validation library
  */
 class MY_Form_validation extends CI_Form_validation {
 
+	public $CI;
+
 	public function __construct()
 	{
 		parent::__construct();
 	}
-
+	
 	/**
 	 * Custom rules
 	 */

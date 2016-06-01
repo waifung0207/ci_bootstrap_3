@@ -12,7 +12,7 @@ class MY_Controller extends MX_Controller {
 	public $autoload = array(
 		'config'	=> array('site'),
 		'helper'	=> array('array', 'inflector', 'string', 'url'),
-		'libraries'	=> array('database', 'ion_auth'),
+		'libraries'	=> array('database', 'form_validation', 'ion_auth'),
 	);
 	
 	// Values to be obtained automatically from router
@@ -124,6 +124,9 @@ class MY_Controller extends MX_Controller {
 		}
 
 		$this->mSiteConfig = $site_config;
+		
+		// fix usage of MY_Form_validation in HMVC structure
+		$this->form_validation->CI =& $this;
 	}
 
 	// Verify user login (regardless of user group)
