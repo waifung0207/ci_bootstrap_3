@@ -1,0 +1,20 @@
+v.0.6
+	#1 - Doesn't work in internet explorer browser.
+	Allow only images to upload
+v.0.5
+	Added jQuery Colorbox plugin instead of Fancybox.
+	Updating jQuery to v1.8.2 and custom jQuery UI to v1.9.0.
+	Unset Upload functionality.
+	Unset Delete functionality.
+	Multilingual functionality.
+	Title functionality for each photo with quick edit.
+	#3 - Generate thumbnails for existing images.
+	#2 - Allow different primary keys than "id".
+v.0.5 BETA
+	Multiple selection of photos to upload the same time
+	Auto thumbnail croping
+	Auto croping for max size image (800px X 600px max)
+	Reordering the photos after the upload
+	Delete image
+	Auto renaming special characters
+	Adding a relation and automatically adding id from the url

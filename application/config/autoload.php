@@ -40,9 +40,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $autoload['packages'] = array(
+	APPPATH.'third_party/ion_auth',
 	APPPATH.'third_party/grocery_crud',
 	APPPATH.'third_party/image_crud',
-	APPPATH.'third_party/ion_auth'
 );
 
 /*
@@ -62,7 +62,7 @@ $autoload['packages'] = array(
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('database', 'ion_auth');
+$autoload['libraries'] = array();
 
 /*
 | -------------------------------------------------------------------
@@ -87,7 +87,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'inflector', 'string', 'array');
+$autoload['helper'] = array();
 
 /*
 | -------------------------------------------------------------------
@@ -101,7 +101,7 @@ $autoload['helper'] = array('url', 'inflector', 'string', 'array');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array('site');
+$autoload['config'] = array();
 
 /*
 | -------------------------------------------------------------------

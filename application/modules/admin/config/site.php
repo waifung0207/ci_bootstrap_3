@@ -153,3 +153,10 @@ $config['site'] = array(
 		'profiler'		=> FALSE,	// whether to display CodeIgniter's profiler at page end
 	),
 );
+
+/*
+| -------------------------------------------------------------------------
+| Override values from /application/config/config.php
+| -------------------------------------------------------------------------
+*/
+$config['sess_cookie_name'] = 'ci_session_admin';

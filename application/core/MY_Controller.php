@@ -8,6 +8,13 @@
  */
 class MY_Controller extends MX_Controller {
 
+	// Required files for CI Bootstrap (all modules)
+	public $autoload = array(
+		'config'	=> array('site'),
+		'helper'	=> array('array', 'inflector', 'string', 'url'),
+		'libraries'	=> array('database', 'ion_auth'),
+	);
+	
 	// Values to be obtained automatically from router
 	protected $mModule = '';			// module name (empty = Frontend Website)
 	protected $mCtrler = 'home';		// current controller
