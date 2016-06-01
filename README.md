@@ -168,4 +168,6 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Better documentation (e.g. on [Gitbook](http://gitbook.com/))
 * Enhance Form Builder library to support more field types
 * API authentication (by API key or JSON Web Token, i.e. JWT)
-* More helpers to enhance code reusability
+* Database backup and restore versions
+* Grocery CRUD / Image CRUD file upload - add Amazon S3 integration
+* Grocery CRUD / Image CRUD image upload - add cropping feature
