@@ -11,9 +11,9 @@ This repository is developed upon the following tools:
 * [codeigniter-restserver](https://github.com/chriskacerguis/codeigniter-restserver) - base setup for API module
 * [Ion Auth](http://benedmunds.com/ion_auth/) - authentication library for CodeIgniter by [Ben Edmunds](http://benedmunds.com/)
 * [Bootstrap](http://getbootstrap.com/) (v3.3.6) - popular frontend framework
-* [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.4) - feature-rich library to build CRUD tables
+* [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.5) - feature-rich library to build CRUD tables
 * [Image CRUD](http://www.grocerycrud.com/image-crud) (v0.6) - CRUD library for image management
-* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.3.2) - bootstrap theme for Admin Panel
+* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.3.3) - bootstrap theme for Admin Panel
 
 
 ### Features
