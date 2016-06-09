@@ -7,13 +7,6 @@
  * 	- API_Controller: for API Site, extends from REST_Controller
  */
 class MY_Controller extends MX_Controller {
-
-	// Required files for CI Bootstrap (all modules)
-	public $autoload = array(
-		'config'	=> array('ci_bootstrap'),
-		'helper'	=> array('array', 'inflector', 'string', 'url'),
-		'libraries'	=> array('form_validation', 'ion_auth'),
-	);
 	
 	// Values to be obtained automatically from router
 	protected $mModule = '';			// module name (empty = Frontend Website)

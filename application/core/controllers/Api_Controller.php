@@ -7,10 +7,8 @@ require_once(APPPATH.'modules/api/libraries/REST_Controller.php');
  */
 class API_Controller extends REST_Controller {
 
-	// The user who is consuming the API endpoint
-	protected $mApiKey;
-	protected $mUserID;
-	protected $mUser;
+	// API Key object to represent identity consuming the API endpoint
+	protected $mApiKey = NULL;
 
 	// Constructor
 	public function __construct()
@@ -31,25 +29,49 @@ class API_Controller extends REST_Controller {
 	// Verify access token (e.g. API Key, JSON Web Token)
 	protected function verify_token()
 	{
-		$this->mApiKey = $this->input->get_request_header('X-API-KEY');
+		// lookup API Key record by value from HTTP header
+		$key = $this->input->get_request_header('X-API-KEY');
+		$this->mApiKey = $this->api_keys->get_by('key', $key);
 
-		$this->load->model('api_key_model', 'api_keys');
-		$key = $this->api_keys->get_by('key', $this->mApiKey);
+		if ( !empty($this->mApiKey) )
+		{
+			$this->mUser = $this->users->get($this->mApiKey->user_id);
 
-		$this->mUserID = empty($key) ? NULL : $key->user_id;
-		$this->mUser = empty($this->mUserID) ? NULL : $this->users->get($this->mUserID);
+			// only when the API Key represents a user
+			if ( !empty($this->mUser) )
+			{
+				$this->mUserGroups = $this->ion_auth->get_users_groups($this->mUser->id)->result();
+
+				// TODO: get group with most permissions (instead of getting first group)
+				$this->mUserMainGroup = $this->mUserGroups[0]->name;	
+			}
+			else
+			{
+				// anonymous access via API Key
+				$this->mUserMainGroup = 'anonymous';
+			}
+		}
 	}
-
-	// Verify user authentication
+	
+	// Verify authentication (by user group, or by "anonymous")
 	// $group parameter can be name, ID, name array, ID array, or mixed array
 	// Reference: http://benedmunds.com/ion_auth/#in_group
 	protected function verify_auth($groups = 'members')
 	{
 		$groups = is_string($groups) ? array($groups) : $groups;
 
-		// user groups not match with requirement
-		if ( !$this->ion_auth->in_group($groups, $this->mUserID) )
-			$this->error_unauthorized();
+		if ( empty($this->mUser) )
+		{
+			// anonymous access
+			if ( !in_array($this->mUserMainGroup, $groups) )
+				$this->error_unauthorized();
+		}
+		else
+		{
+			// user groups not match with requirement
+			if ( !$this->ion_auth->in_group($groups, $this->mUser->id) )
+				$this->error_unauthorized();
+		}
 	}
 	
 	// Shortcut functions following REST_Controller convention
