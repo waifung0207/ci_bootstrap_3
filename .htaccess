@@ -1,13 +1,19 @@
-#--- Uncomment this line for production or testing server
-#SetEnv CI_ENV production
+<IfModule mod_rewrite.c>
+	#--- Uncomment this line for production or testing server
+	#SetEnv CI_ENV production
 
-#--- Allow remote API access; change "*" to "your-domain.com" for better security
-#--- Note: require Headers mod enabled (sudo a2enmod headers)
-#Header add Access-Control-Allow-Origin "*"
+	#--- URL rewrite
+	#--- Note: require Rewrite mod enabled (sudo a2enmod rewrite)
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
 
-#--- URL rewrite
-#--- Note: require Headers mod enabled (sudo a2enmod rewrite)
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
+<IfModule !mod_rewrite.c>
+	# If we don't have mod_rewrite installed, all 404's
+	# can be sent to index.php, and everything works as normal.
+	# Reference: https://gist.github.com/philipptempel/4226750
+
+	ErrorDocument 404 /index.php
+</IfModule>
