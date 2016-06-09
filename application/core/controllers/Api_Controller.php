@@ -1,6 +1,6 @@
 <?php
 
-require_once(APPPATH.'modules/api/libraries/REST_Controller.php');
+require_once(APPPATH.'third_party/rest_server/libraries/REST_Controller.php');
 
 /**
  * Base Controller for API module
