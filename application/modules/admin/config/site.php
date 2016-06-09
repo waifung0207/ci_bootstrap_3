@@ -74,23 +74,6 @@ $config['site'] = array(
 				'User Groups'	=> 'user/group',
 			)
 		),
-		'demo' => array(
-			'name'		=> 'Demo',
-			'url'		=> 'demo',
-			'icon'		=> 'ion ion-load-b',	// use Ionicons (instead of FontAwesome)
-			'children'  => array(
-				'AdminLTE'			=> 'demo/adminlte',
-				'Blog Posts'		=> 'demo/blog_post',
-				'Blog Categories'	=> 'demo/blog_category',
-				'Blog Tags'			=> 'demo/blog_tag',
-				'Cover Photos'		=> 'demo/cover_photo',
-				'Pagination'		=> 'demo/pagination',
-				'Sortable'			=> 'demo/sortable',
-				'Item 1'			=> 'demo/item/1',
-				'Item 2'			=> 'demo/item/2',
-				'Item 3'			=> 'demo/item/3',
-			)
-		),
 		'panel' => array(
 			'name'		=> 'Admin Panel',
 			'url'		=> 'panel',

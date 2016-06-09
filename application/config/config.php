@@ -23,19 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-
-if (php_sapi_name()=='cli')
-{
-	// for CLI request
-	$config['base_url'] = '';
-}
-else
-{
-	// for HTTP / HTTPS requests
-	$base_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
-	$base_url.= dirname($_SERVER['SCRIPT_NAME']);
-	$config['base_url'] = $base_url;
-}
+$config['base_url'] = defined('BASE_URL') ? BASE_URL : '';
 
 /*
 |--------------------------------------------------------------------------

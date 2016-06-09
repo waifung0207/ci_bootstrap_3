@@ -85,20 +85,6 @@ class Cli extends MX_Controller {
 		$file_path = FCPATH.'sql/core/ion_auth_admin.sql';
 		write_file($file_path, $backup);
 		echo 'Database saved to: '.$file_path.PHP_EOL;
-
-		// Demo - Cover Photos
-		$prefs['tables'] = array('demo_cover_photos');
-		$backup = $this->dbutil->backup($prefs);
-		$file_path = FCPATH.'sql/demo/cover_photos.sql';
-		write_file($file_path, $backup);
-		echo 'Database saved to: '.$file_path.PHP_EOL;
-
-		// Demo - Blog
-		$prefs['tables'] = array('demo_blog_posts', 'demo_blog_categories', 'demo_blog_tags', 'demo_blog_posts_tags');
-		$backup = $this->dbutil->backup($prefs);
-		$file_path = FCPATH.'sql/demo/blog.sql';
-		write_file($file_path, $backup);
-		echo 'Database saved to: '.$file_path.PHP_EOL;
 	}
 	
 	// Reset database to default (i.e. from /sql/latest.sql)

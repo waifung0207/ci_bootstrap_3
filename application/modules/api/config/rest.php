@@ -11,9 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *  - $config['rest_logs_table'] = 'api_logs'; (default: 'logs')
  *  - $config['rest_access_table'] = 'api_access'; (default: 'access')
  *  - $config['rest_limits_table'] = 'api_limits'; (default: 'limits')
- *
- * Demo controller methods can be accessed without X-API-KEY
- *  - $config['auth_override_class_method']['demo']['*'] = 'none';
  */
 
 /*
@@ -200,7 +197,6 @@ $config['auth_library_function'] = '';
 
 // ---Uncomment list line for the wildard unit test
 // $config['auth_override_class_method']['wildcard_test_cases']['*'] = 'basic';
-$config['auth_override_class_method']['demo']['*'] = 'none';
 
 /*
 |--------------------------------------------------------------------------

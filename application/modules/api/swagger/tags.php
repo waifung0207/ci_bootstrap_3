@@ -14,10 +14,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *   description="Everything about users"
  * )
  */
-
-/**
- * @SWG\Tag(
- *   name="demo",
- *   description="For demo purpose only"
- * )
- */

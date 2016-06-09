@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *		)
  *	),
  * 	schemes={"http"},
- *  host=API_HOST,
+ *  host=BASE_URL,
  *  basePath="/api"
  * )
  */

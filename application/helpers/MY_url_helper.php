@@ -35,8 +35,8 @@ function image_url($path)
 function lang_url($lang, $url = NULL)
 {
 	$CI =& get_instance();
-
 	$site_config = $CI->config->item('site');
+	
 	if ( empty($site_config['multilingual']) )
 	{
 		$url = ($url===NULL) ? current_full_url() : $url;

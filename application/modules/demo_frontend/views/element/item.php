@@ -1,1 +1,0 @@
-Demo ID: <?php if ( !empty($demo_id) ) echo $demo_id; ?>

@@ -15,8 +15,6 @@ class API_Controller extends REST_Controller {
 	// Constructor
 	public function __construct()
 	{
-		parent::__construct();
-
 		// send PHP headers when necessary (e.g. enable CORS)
 		$site_config = $this->config->item('site');
 		$headers = empty($site_config['headers']) ? array() : $site_config['headers'];

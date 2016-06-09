@@ -91,8 +91,17 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 | Constants to be used in both Frontend and other modules
 |
 */
-define('CI_BOOTSTRAP_REPO',			'https://github.com/waifung0207/ci_bootstrap_3');
-define('CI_BOOTSTRAP_VERSION',		'Build 20160601');	// will follow semantic version (e.g. v1.x.x) after first stable launch
+if (!(PHP_SAPI === 'cli' OR defined('STDIN')))
+{
+	// Base URL with directory support; also for API prefix in Swagger annotation (/application/modules/api/swagger/info.php)
+	$protocol = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS'])!== 'off') ? 'https' : 'http';
+	$base_url = $protocol.'://'.$_SERVER['HTTP_HOST'];
+	$base_url.= dirname($_SERVER['SCRIPT_NAME']);
+	define('BASE_URL', $base_url);
+}
 
-define('UPLOAD_DEMO_COVER_PHOTO',	'assets/uploads/demo/cover_photos');
-define('UPLOAD_DEMO_BLOG_POST',		'assets/uploads/demo/blog_posts');
+define('CI_BOOTSTRAP_REPO',			'https://github.com/waifung0207/ci_bootstrap_3');
+define('CI_BOOTSTRAP_VERSION',		'Build 20160609');	// will follow semantic version (e.g. v1.x.x) after first stable launch
+
+// Upload paths
+//define('UPLOAD_COVER_PHOTO',	'assets/uploads/cover_photos');
