@@ -1,10 +1,8 @@
 /**
- * SASS for Admin Panel
+ * Related to Grocery CRUD
  */
 
-/**
- * Fix GroceryCrud styling (e.g. conflict with AdminLTE)
- */
+// Fix GroceryCrud styling (e.g. conflict with AdminLTE)
 .flexigrid div.form-div input[type="text"], .flexigrid div.form-div input[type="password"] {
 	height: auto !important;
 }
@@ -15,9 +13,7 @@
 	margin-top: 5px;
 }
 
-/**
- * Font icons inside GroceryCRUD
- */
+// Font icons inside GroceryCRUD
 .ajax_list .fa {
 	font-size: 18px;
 	color: inherit;

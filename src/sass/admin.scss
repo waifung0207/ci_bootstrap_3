@@ -1,0 +1,11 @@
+/**
+ * SASS for Admin Panel
+ */
+ 
+// Shared mixins
+@import "_mixins";
+
+// Admin Panel specific
+@import "admin/_variables";
+@import "admin/_crud";
+@import "admin/_pages";

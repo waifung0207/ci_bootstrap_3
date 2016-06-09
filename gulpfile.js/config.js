@@ -3,11 +3,11 @@
  */
 
 // basic paths
-var dir_bower = "./bower_components",
-	dir_asset = "./assets",				// base folder for all assets
-	dir_dist = dir_asset + "/dist",		// destination for post-processed scripts and images
-	dir_fonts = dir_dist + "/fonts",	// destination for font files
-	dir_theme = dir_asset + "/theme";	// default folder for theme files
+var dir_bower = './bower_components',	// folder with Bower packages
+	dir_src = './src',					// folder for non-public source scripts, stylesheets, pre-processed images, etc.
+	dir_asset = './assets',				// folder for public assets
+	dir_dist = dir_asset + '/dist',		// destination for post-processed scripts, stylesheets and images
+	dir_theme = dir_src + '/theme';		// default folder for theme files
 
 module.exports = {
 	
@@ -34,7 +34,7 @@ module.exports = {
 			]
 		},
 		dest: {
-			fonts: dir_fonts,
+			fonts: dir_dist + '/fonts',
 			files: dir_dist
 		}
 	},
@@ -83,22 +83,22 @@ module.exports = {
 			// Frontend Website
 			frontend: [
 				// Main SASS file
-				dir_asset + '/sass/frontend.scss',
+				dir_src + '/sass/frontend.scss',
 
 				// Bootstrap examples (http://getbootstrap.com/getting-started/#examples)
 				// Comment this to remove preset styles
-				dir_asset + '/css/bootstrap-examples/sticky-footer-navbar.css',
+				dir_src + '/css/bootstrap-examples/sticky-footer-navbar.css',
 
 				// Custom CSS file  (recommended to avoid this)
-				dir_asset + '/css/frontend.css'
+				dir_src + '/css/frontend.css'
 			],
 			// Admin Panel
 			admin: [
 				// Main SASS file
-				dir_asset + '/sass/admin.scss',
+				dir_src + '/sass/admin.scss',
 
 				// Custom CSS file (recommended to avoid this)
-				dir_asset + '/css/admin.css'
+				dir_src + '/css/admin.css'
 			]
 		},
 		dest: {
@@ -125,7 +125,7 @@ module.exports = {
 			],
 			// Frontend Website - custom scripts
 			frontend: [
-				dir_asset + '/js/frontend.js'
+				dir_src + '/js/frontend.js'
 			],
 			// Admin Panel - AdminLTE theme
 			adminlte: [
@@ -145,7 +145,7 @@ module.exports = {
 			],
 			// Admin Panel - custom scripts
 			admin: [
-				dir_asset + '/js/admin.js'
+				dir_src + '/js/admin.js'
 			]
 		},
 		dest: {
@@ -166,7 +166,7 @@ module.exports = {
 	// Tasks: optimize images
 	// Plugin: gulp-imagemin (https://github.com/sindresorhus/gulp-imagemin)
 	imagemin: {
-		src: dir_asset + "/images/**/*.{png,jpg,gif,svg}",
+		src: dir_src + "/images/**/*.{png,jpg,gif,svg}",
 		dest: dir_dist + "/images",
 		options: {
 		}

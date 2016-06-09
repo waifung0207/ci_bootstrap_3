@@ -91,11 +91,9 @@ application/                    --- Main CodeIgniter source files
         routes.php              --- Changed default controller from Welcome to Home
     controllers/                --- Controllers for Frontend Website; extends from MY_Controller (except Cli)
         Cli.php                 --- Utility function that can only be called from command line
-        Home.php                --- Default controller for Frontend Website        
-        Language.php            --- Controller to handle language switching
+        Home.php                --- Default controller for Frontend Website
     core/                       --- Extending CodeIgniter core classes; can also be used within modules
         MY_Controller.php       --- Important class which contains shared logic of all controllers
-        MY_Form_validation.php  --- Contains additional rule for validation
         MY_Loader.php           --- Required for HMVC extension
         MY_Model.php            --- Contains shared function for model classes
         MY_Router.php           --- Required for HMVC extension
@@ -107,34 +105,33 @@ application/                    --- Main CodeIgniter source files
         admin/                  --- Module for Admin Panel
             config/             --- Configuration for Admin Panel (overriding application/config/)
             controllers/        --- Controllers for Admin Panel; also extends from MY_Controller
-            helpers/            --- Helper classes, e.g. to generate AdminLTE widgets
-            libraries/          --- Libraries from Grocery CRUD and Image CRUB
-            models/             --- Models only being used in Admin panel
+            libraries/          --- Libraries specific for Admin Panel
+            models/             --- Models only being used in Admin Panel
             views/              --- Views for Admin Panel; can reuse Frontend views, or override by using same path/filename
         adminlte/               --- Module with AdminLTE widgets
         api/                    --- Another module specific for API endpoints
-    third_party/
-        MX/                     --- Required for HMVC extension
+    third_party/				--- 3rd party files (HMVC extension, Grocery CRUD, Rest Server, etc.)
     views/                      --- Views for Frontend Website, can also be used by modules unless overrided
-assets/
+assets/                         --- Folder for public files
     api/                        --- Swagger UI assets
-    css/                        --- Custom CSS files append to each site
     dist/                       --- Post-processed scripts and images via gulp tasks (don't manually edit files here!)
-    fonts/                      --- Font files copied via gulp tasks
     grocery_crud/               --- Asset files from Grocery CRUD library
     image_crud/                 --- Asset files from Image CRUD library
-    images/                     --- Source image files before optimization
-    js/                         --- Custom CSS files append to each site
-    sass/                       --- SASS files for styling
-    theme/                      --- Default folder for additional theme files
     uploads/                    --- Default folder for upload files, where permission should set as writable
 gulpfile.js/                    --- Task runner following gulp-starter practice
+    tasks/                      --- Gulp tasks
+    config.js                   --- Configuration for Gulp tasks
 screenshots/                    --- Screenshot images for preview
 sql/                            --- MySQL files
     backup/                     --- Files which will be created when backup database from CLI
     core/                       --- Files contains core data (e.g. Ion Auth)
-    demo/                       --- Files contains demo data
     latest.sql                  --- Latest version of all preset data
+src/                            --- Folder for non-public source files
+    css/                        --- Custom CSS files append to each site
+    images/                     --- Source image files before optimization
+    js/                         --- Custom CSS files append to each site
+    sass/                       --- SASS files for styling
+    theme/                      --- Default folder for additional theme files
 system/                         --- CodeIgniter core files (unchanged as clean CI3 installation)
 .htaccess                       --- URL rewrite for Apache web server (require mod enabled)
 ```
