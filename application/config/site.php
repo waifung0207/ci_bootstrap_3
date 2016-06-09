@@ -27,7 +27,7 @@ $config['site'] = array(
 		'description'	=> 'CI Bootstrap 3'
 	),
 
-	// Default scripts to embed at page head / end
+	// Default scripts to embed at page head or end globally
 	'scripts' => array(
 		'head'	=> array(
 		),
@@ -36,36 +36,21 @@ $config['site'] = array(
 		),
 	),
 
-	// Default stylesheets to embed at page head
+	// Default stylesheets to embed at page head globally
 	'stylesheets' => array(
 		'screen' => array(
 			'assets/dist/app.min.css'
 		)
 	),
 	
-	// Multilingual settings (set empty array to disable this)
+	// Multilingual settings - set empty array for single language website
+	// (need to match with Multilingual routing from /application/config/routes.php)
 	'multilingual' => array(
-		'default'		=> 'en',			// to decide which of the "available" languages should be used
-		'available'		=> array(			// availabe languages with names to display on site (e.g. on menu)
-			'en' => array(					// abbr. value to be used on URL, or linked with database fields
-				'label'	=> 'English',		// label to be displayed on language switcher
-				'value'	=> 'english',		// to match with CodeIgniter folders inside application/language/
-			),
-			'zh' => array(
-				'label'	=> '繁體中文',
-				'value'	=> 'traditional-chinese',
-			),
-			'cn' => array(
-				'label'	=> '简体中文',
-				'value'	=> 'simplified-chinese',
-			),
-		),
-		'autoload'		=> array('general'),	// language files to autoload
 	),
 
 	// Google Analytics User ID (UA-XXXXXXXX-X)
 	'ga_id' => '',
-	
+
 	// Menu items
 	// (or directly update view file: applications/views/_partials/navbar.php)
 	'menu' => array(

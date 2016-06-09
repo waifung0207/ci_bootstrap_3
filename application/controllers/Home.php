@@ -8,6 +8,6 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
-		$this->render('home', 'fullwidth');
+		$this->render('home', 'full_width');
 	}
 }

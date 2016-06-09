@@ -1,7 +1,3 @@
-<?php $this->load->view('_partials/navbar'); ?>
-
-<?php $this->load->view($inner_view); ?>
-
 <div class="footer">
 	<div class="container">
 		<?php if (ENVIRONMENT=='development'): ?>

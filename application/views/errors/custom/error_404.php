@@ -1,1 +1,2 @@
-<h3>404 Not Found</h3>
+<p>The page you requested was not found.</p>
+<p><a href="">Back to home page</a></p>

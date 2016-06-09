@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'home';
-$route['404_override'] = 'error';
+$route['404_override'] = 'errors/page_missing';
 $route['translate_uri_dashes'] = FALSE;
 
 /*
@@ -59,8 +59,9 @@ $route['translate_uri_dashes'] = FALSE;
 | Multilingual routing (update en|zh|cn for available languages)
 | -------------------------------------------------------------------------
 */
-$route['^en|zh|cn/(.+)$'] = "$1";
-$route['^en|zh|cn$'] = $route['default_controller'];
+// Examples:
+//$route['^en|zh|cn/(.+)$'] = "$1";
+//$route['^en|zh|cn$'] = $route['default_controller'];
 
 /*
 | -------------------------------------------------------------------------
