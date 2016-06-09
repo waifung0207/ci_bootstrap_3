@@ -33,8 +33,9 @@ $config['ci_bootstrap'] = array(
 	// Default scripts to embed at page head or end
 	'scripts' => array(
 		'head'	=> array(
-			'assets/dist/adminlte.min.js',
-			'assets/dist/admin.min.js'
+			'assets/dist/admin/adminlte.min.js',
+			'assets/dist/admin/lib.min.js',
+			'assets/dist/admin/app.min.js'
 		),
 		'foot'	=> array(
 		),
@@ -43,8 +44,9 @@ $config['ci_bootstrap'] = array(
 	// Default stylesheets to embed at page head
 	'stylesheets' => array(
 		'screen' => array(
-			'assets/dist/adminlte.min.css',
-			'assets/dist/admin.min.css'
+			'assets/dist/admin/adminlte.min.css',
+			'assets/dist/admin/lib.min.css',
+			'assets/dist/admin/app.min.css'
 		)
 	),
 

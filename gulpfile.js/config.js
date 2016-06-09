@@ -6,7 +6,7 @@
 var dir_bower = "./bower_components",
 	dir_asset = "./assets",				// base folder for all assets
 	dir_dist = dir_asset + "/dist",		// destination for post-processed scripts and images
-	dir_fonts = dir_asset + "/fonts",	// destination for font files
+	dir_fonts = dir_dist + "/fonts",	// destination for font files
 	dir_theme = dir_asset + "/theme";	// default folder for theme files
 
 module.exports = {
@@ -16,23 +16,21 @@ module.exports = {
 	clean: {
 		src: [
 			dir_dist + "**/*",
-			dir_fonts + "**/*",
-			"!" + dir_dist + "/index.html",
-			"!" + dir_fonts + "/index.html",
+			"!" + dir_dist + "/index.html"
 		]
 	},
 
 	// Task: copy required files & folders to destination folder
 	copy: {
 		src: {
+			// Font files from Bower packages
 			fonts: [
-				// bower files
 				dir_bower + '/bootstrap/dist/fonts/**',
 				dir_bower + '/font-awesome/fonts/**',
 				dir_bower + '/ionicons/fonts/**'
 			],
+			// Files (JS / CSS / etc.) directly copy to destination folder
 			files: [
-				// files (JS / CSS / etc.) directly copy to destination folder
 			]
 		},
 		dest: {
@@ -45,15 +43,10 @@ module.exports = {
 	// Plugin: gulp-clean-css (https://github.com/scniro/gulp-clean-css)
 	cssmin: {
 		src: {
-			// Frontend Website
-			frontend: [
-				// bower files
+			// Frontend Website - 3rd party libraries
+			frontend_lib: [
 				dir_bower + '/bootstrap/dist/css/bootstrap.min.css',
 				dir_bower + '/font-awesome/css/font-awesome.min.css',
-				// Bootstrap examples (http://getbootstrap.com/getting-started/#examples)
-				dir_asset + '/css/bootstrap-examples/sticky-footer-navbar.css',
-				// custom files
-				dir_asset + '/css/frontend.css'
 			],
 			// Admin Panel - AdminLTE theme
 			adminlte: [
@@ -61,21 +54,21 @@ module.exports = {
 				dir_bower + '/admin-lte/dist/css/AdminLTE.min.css',
 				dir_bower + '/admin-lte/dist/css/skins/_all-skins.min.css',
 			],
-			// Admin Panel - 3rd party libraries and custom scripts
-			admin: [
-				// bower files
+			// Admin Panel - 3rd party libraries
+			admin_lib: [
 				dir_bower + '/font-awesome/css/font-awesome.min.css',
 				dir_bower + '/ionicons/css/ionicons.min.css',
-				dir_bower + '/spectrum/spectrum.css',
-				// custom files
-				dir_asset + '/css/admin.css'
+				dir_bower + '/spectrum/spectrum.css'
 			]
 		},
-		dest: dir_dist,
+		dest: {
+			frontend: 	dir_dist + '/frontend',
+			admin: 		dir_dist + '/admin'
+		},
 		dest_file: {
-			frontend: 'app.min.css',
-			admin: 'admin.min.css',
-			adminlte: 'adminlte.min.css'
+			frontend_lib: 	'lib.min.css',
+			adminlte: 		'adminlte.min.css',
+			admin_lib: 		'lib.min.css'
 		},
 		options: {
 			advanced: true,	// set "false" for faster operation, but slightly larger output files
@@ -83,16 +76,55 @@ module.exports = {
 		}
 	},
 
+	// Task: compile SASS files (and concat with CSS files)
+	// Plugin: gulp-sass (https://github.com/dlmanning/gulp-sass)
+	sass: {
+		src: {
+			// Frontend Website
+			frontend: [
+				// Main SASS file
+				dir_asset + '/sass/frontend.scss',
+
+				// Bootstrap examples (http://getbootstrap.com/getting-started/#examples)
+				// Comment this to remove preset styles
+				dir_asset + '/css/bootstrap-examples/sticky-footer-navbar.css',
+
+				// Custom CSS file  (recommended to avoid this)
+				dir_asset + '/css/frontend.css'
+			],
+			// Admin Panel
+			admin: [
+				// Main SASS file
+				dir_asset + '/sass/admin.scss',
+
+				// Custom CSS file (recommended to avoid this)
+				dir_asset + '/css/admin.css'
+			]
+		},
+		dest: {
+			frontend: 	dir_dist + '/frontend',
+			admin: 		dir_dist + '/admin'
+		},
+		dest_file: {
+			frontend: 	'app.min.css',
+			admin: 		'app.min.css'
+		},
+		options: {
+			outputStyle: 'compressed'
+		}
+	},
+
 	// Task: concat and minify (uglify) JS files
 	// Plugin: gulp-uglify (https://github.com/terinjokes/gulp-uglify)
 	uglify: {
 		src: {
-			// Frontend Website
-			frontend: [
-				// bower files
+			// Frontend Website - 3rd party libraries
+			frontend_lib: [
 				dir_bower + '/jquery/dist/jquery.min.js',
 				dir_bower + '/bootstrap/dist/js/bootstrap.min.js',
-				// custom files
+			],
+			// Frontend Website - custom scripts
+			frontend: [
 				dir_asset + '/js/frontend.js'
 			],
 			// Admin Panel - AdminLTE theme
@@ -106,20 +138,26 @@ module.exports = {
 				dir_bower + '/admin-lte/dist/js/app.min.js',
 				// include other plugins below when necessary
 			],
-			// Admin Panel - 3rd party libraries and custom stylesheets
-			admin: [
-				// bower files
+			// Admin Panel - 3rd party libraries
+			admin_lib: [
 				dir_bower + '/Sortable/Sortable.min.js',
 				dir_bower + '/spectrum/spectrum.js',
-				// custom files
+			],
+			// Admin Panel - custom scripts
+			admin: [
 				dir_asset + '/js/admin.js'
 			]
 		},
-		dest: dir_dist,
+		dest: {
+			frontend: 		dir_dist + '/frontend',
+			admin: 			dir_dist + '/admin'
+		},
 		dest_file: {
-			frontend: 'app.min.js',
-			admin: 'admin.min.js',
-			adminlte: 'adminlte.min.js'
+			frontend_lib: 	'lib.min.js',
+			frontend: 		'app.min.js',
+			adminlte: 		'adminlte.min.js',
+			admin_lib:		'lib.min.js',
+			admin: 			'app.min.js',
 		},
 		options: {
 		}

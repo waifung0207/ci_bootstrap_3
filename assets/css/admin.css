@@ -1,26 +1,6 @@
 /**
  * Stylesheet for Admin Panel
+ * 
+ * Recommend to avoid this and use SASS file instead:
+ * 	/assets/sass/admin.scss
  */
-
-/**
- * Fix GroceryCrud styling (e.g. conflict with AdminLTE)
- */
-
-.flexigrid div.form-div input[type="text"], .flexigrid div.form-div input[type="password"] {
-	height: auto !important;
-}
-
-.checkbox, .radio {
-	display: inline;
-	margin-bottom: 0;
-	margin-top: 5px;
-}
-
-/**
- * Font icons inside GroceryCRUD
- */
-.ajax_list .fa {
-	font-size: 18px;
-	color: inherit;
-	text-decoration: none;
-}

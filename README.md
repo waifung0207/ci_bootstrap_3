@@ -125,6 +125,7 @@ assets/
     image_crud/                 --- Asset files from Image CRUD library
     images/                     --- Source image files before optimization
     js/                         --- Custom CSS files append to each site
+    sass/                       --- SASS files for styling
     theme/                      --- Default folder for additional theme files
     uploads/                    --- Default folder for upload files, where permission should set as writable
 gulpfile.js/                    --- Task runner following gulp-starter practice

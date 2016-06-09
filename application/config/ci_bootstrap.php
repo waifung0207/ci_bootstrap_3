@@ -35,14 +35,16 @@ $config['ci_bootstrap'] = array(
 		'head'	=> array(
 		),
 		'foot'	=> array(
-			'assets/dist/app.min.js'
+			'assets/dist/frontend/lib.min.js',
+			'assets/dist/frontend/app.min.js'
 		),
 	),
 
 	// Default stylesheets to embed at page head
 	'stylesheets' => array(
 		'screen' => array(
-			'assets/dist/app.min.css'
+			'assets/dist/frontend/lib.min.css',
+			'assets/dist/frontend/app.min.css'
 		)
 	),
 
