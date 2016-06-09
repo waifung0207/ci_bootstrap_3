@@ -2,35 +2,36 @@
 
 /**
  * Base controllers for different purposes
- * 	- MY_Controller: 
- * 	- Admin_Controller: 
- * 	- API_Controller: 
+ * 	- MY_Controller: for Frontend Website
+ * 	- Admin_Controller: for Admin Panel (require login), extends from MY_Controller
+ * 	- API_Controller: for API Site, extends from REST_Controller
  */
 class MY_Controller extends MX_Controller {
 
 	// Required files for CI Bootstrap (all modules)
 	public $autoload = array(
-		'config'	=> array('site'),
+		'config'	=> array('ci_bootstrap'),
 		'helper'	=> array('array', 'inflector', 'string', 'url'),
 		'libraries'	=> array('database', 'form_validation', 'ion_auth'),
 	);
-	
+
 	// Values to be obtained automatically from router
 	protected $mModule = '';			// module name (empty = Frontend Website)
 	protected $mCtrler = 'home';		// current controller
 	protected $mAction = 'index';		// controller function being called
 	protected $mMethod = 'GET';			// HTTP request method
 
-	// Config values from config/site.php
-	protected $mSiteConfig = array();
+	// Config values from config/ci_bootstrap.php
+	protected $mConfig = array();
 	protected $mBaseUrl = array();
 	protected $mSiteName = '';
 	protected $mMetaData = array();
 	protected $mScripts = array();
 	protected $mStylesheets = array();
-
+	
 	// Values and objects to be overrided or accessible from child controllers
-	protected $mTitle = '';
+	protected $mPageTitlePrefix = '';
+	protected $mPageTitle = '';
 	protected $mMenu = array();
 	protected $mBreadcrumb = array();
 	protected $mBodyClass = '';
@@ -48,7 +49,7 @@ class MY_Controller extends MX_Controller {
 	protected $mUser = NULL;
 	protected $mUserGroups = array();
 	protected $mUserMainGroup;
-	
+
 	// Constructor
 	public function __construct()
 	{
@@ -67,17 +68,18 @@ class MY_Controller extends MX_Controller {
 	// Setup values from file: config/site.php
 	private function _setup()
 	{
-		$site_config = $this->config->item('site');
+		$config = $this->config->item('ci_bootstrap');
 		
 		// load default values
 		$this->mBaseUrl = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
-		$this->mSiteName = $site_config['name'];
-		$this->mTitle = $site_config['title'];
-		$this->mMenu = empty($site_config['menu']) ? array() : $site_config['menu'];
-		$this->mMetaData = empty($site_config['meta']) ? array() : $site_config['meta'];
-		$this->mScripts = $site_config['scripts'];
-		$this->mStylesheets = $site_config['stylesheets'];
-		$this->mPageAuth = empty($site_config['page_auth']) ? array() : $site_config['page_auth'];
+		$this->mSiteName = $config['site_name'];
+		$this->mPageTitlePrefix = $config['page_title_prefix'];
+		$this->mPageTitle = $config['page_title'];
+		$this->mMenu = empty($config['menu']) ? array() : $config['menu'];
+		$this->mMetaData = empty($config['meta']) ? array() : $config['meta'];
+		$this->mScripts = $config['scripts'];
+		$this->mStylesheets = $config['stylesheets'];
+		$this->mPageAuth = empty($config['page_auth']) ? array() : $config['page_auth'];
 
 		// restrict pages
 		$uri = empty($this->mModule) ? $this->uri->uri_string() : str_replace($this->mModule.'/', '', $this->uri->uri_string());
@@ -88,7 +90,7 @@ class MY_Controller extends MX_Controller {
 		}
 
 		// multilingual setup
-		$lang_config = empty($site_config['multilingual']) ? array() : $site_config['multilingual'];
+		$lang_config = empty($config['multilingual']) ? array() : $config['multilingual'];
 		if ( !empty($lang_config) )
 		{
 			$this->mMultilingual = TRUE;
@@ -101,7 +103,7 @@ class MY_Controller extends MX_Controller {
 				redirect($home_url);
 			}
 
-			// get language from URL, or from config's default value (in site.php)
+			// get language from URL, or from config's default value (in ci_bootstrap.php)
 			$this->mAvailableLanguages = $lang_config['available'];
 			$language = array_key_exists($this->uri->segment(1), $this->mAvailableLanguages) ? $this->uri->segment(1) : $lang_config['default'];
 
@@ -135,7 +137,7 @@ class MY_Controller extends MX_Controller {
 			}
 		}
 
-		$this->mSiteConfig = $site_config;
+		$this->mConfig = $config;
 		
 		// fix usage of MY_Form_validation in HMVC structure
 		$this->form_validation->CI =& $this;
@@ -147,7 +149,7 @@ class MY_Controller extends MX_Controller {
 		if ( !$this->ion_auth->logged_in() )
 		{
 			if ( $redirect_url==NULL )
-				$redirect_url = $this->mSiteConfig['login_url'];
+				$redirect_url = $this->mConfig['login_url'];
 
 			redirect($redirect_url);
 		}
@@ -161,7 +163,7 @@ class MY_Controller extends MX_Controller {
 		if ( !$this->ion_auth->logged_in() || !$this->ion_auth->in_group($group) )
 		{
 			if ( $redirect_url==NULL )
-				$redirect_url = $this->mSiteConfig['login_url'];
+				$redirect_url = $this->mConfig['login_url'];
 			
 			redirect($redirect_url);
 		}
@@ -196,12 +198,12 @@ class MY_Controller extends MX_Controller {
 	protected function render($view_file, $layout = 'default')
 	{
 		// automatically generate page title
-		if ( empty($this->mTitle) )
+		if ( empty($this->mPageTitle) )
 		{
 			if ( $this->mAction=='index' )
-				$this->mTitle = humanize($this->mCtrler);
+				$this->mPageTitle = humanize($this->mCtrler);
 			else
-				$this->mTitle = humanize($this->mAction);
+				$this->mPageTitle = humanize($this->mAction);
 		}
 
 		$this->mViewData['module'] = $this->mModule;
@@ -209,7 +211,7 @@ class MY_Controller extends MX_Controller {
 		$this->mViewData['action'] = $this->mAction;
 
 		$this->mViewData['site_name'] = $this->mSiteName;
-		$this->mViewData['page_title'] = $this->mTitle;
+		$this->mViewData['page_title'] = $this->mPageTitlePrefix.$this->mPageTitle;
 		$this->mViewData['current_uri'] = empty($this->mModule) ? uri_string(): str_replace($this->mModule.'/', '', uri_string());
 		$this->mViewData['meta_data'] = $this->mMetaData;
 		$this->mViewData['scripts'] = $this->mScripts;
@@ -219,11 +221,11 @@ class MY_Controller extends MX_Controller {
 		$this->mViewData['base_url'] = $this->mBaseUrl;
 		$this->mViewData['menu'] = $this->mMenu;
 		$this->mViewData['user'] = $this->mUser;
-		$this->mViewData['ga_id'] = empty($this->mSiteConfig['ga_id']) ? '' : $this->mSiteConfig['ga_id'];
+		$this->mViewData['ga_id'] = empty($this->mConfig['ga_id']) ? '' : $this->mConfig['ga_id'];
 		$this->mViewData['body_class'] = $this->mBodyClass;
 
 		// automatically push current page to last record of breadcrumb
-		$this->push_breadcrumb($this->mTitle);
+		$this->push_breadcrumb($this->mPageTitle);
 		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
 
 		// multilingual
@@ -233,20 +235,23 @@ class MY_Controller extends MX_Controller {
 			$this->mViewData['language'] = $this->mLanguage;
 		}
 
-		// debug tools
-		$debug_config = $this->mSiteConfig['debug'];
+		// debug tools - CodeIgniter profiler
+		$debug_config = $this->mConfig['debug'];
 		if (ENVIRONMENT==='development' && !empty($debug_config))
 		{
 			$this->output->enable_profiler($debug_config['profiler']);
-
-			/*
-			if ($debug_config['view_data'])
-				$this->output->append_output('<hr/>'.print_r($this->mViewData, TRUE));*/
 		}
 
 		$this->mViewData['inner_view'] = $view_file;
 		$this->load->view('_base/head', $this->mViewData);
 		$this->load->view('_layouts/'.$layout, $this->mViewData);
+
+		// debug tools - display view data
+		if (ENVIRONMENT==='development' && !empty($debug_config) && !empty($debug_config['view_data']))
+		{
+			$this->output->append_output('<hr/>'.print_r($this->mViewData, TRUE));
+		}
+
 		$this->load->view('_base/foot', $this->mViewData);
 	}
 

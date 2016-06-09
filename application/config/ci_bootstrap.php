@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
-| Site (by CI Bootstrap 3)
+| CI Bootstrap 3 Configuration
 | -------------------------------------------------------------------------
 | This file lets you define default values to be passed into views when calling 
 | MY_Controller's render() function. 
@@ -12,14 +12,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['site'] = array(
+$config['ci_bootstrap'] = array(
 
 	// Site name
-	'name' => 'CI Bootstrap 3',
+	'site_name' => 'CI Bootstrap 3',
+
+	// Default page title prefix
+	'page_title_prefix' => 'CI Bootstrap 3 - ',
 
 	// Default page title
 	// (set empty then MY_Controller will automatically generate one based on controller / action)
-	'title' => '',
+	'page_title' => '',
 
 	// Default meta data (name => content)
 	'meta'	=> array(
@@ -27,7 +30,7 @@ $config['site'] = array(
 		'description'	=> 'CI Bootstrap 3'
 	),
 
-	// Default scripts to embed at page head or end globally
+	// Default scripts to embed at page head or end globally (position => script array)
 	'scripts' => array(
 		'head'	=> array(
 		),
@@ -36,7 +39,7 @@ $config['site'] = array(
 		),
 	),
 
-	// Default stylesheets to embed at page head globally
+	// Default stylesheets to embed at page head globally (media => stylesheet array)
 	'stylesheets' => array(
 		'screen' => array(
 			'assets/dist/app.min.css'

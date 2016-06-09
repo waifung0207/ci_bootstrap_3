@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
-| Site (by CI Bootstrap 3)
+| CI Bootstrap 3 Configuration
 | -------------------------------------------------------------------------
 | This file lets you define default values to be passed into views when calling 
 | MY_Controller's render() function. 
