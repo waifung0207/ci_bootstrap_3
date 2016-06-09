@@ -50,6 +50,8 @@ module.exports = {
 				// bower files
 				dir_bower + '/bootstrap/dist/css/bootstrap.min.css',
 				dir_bower + '/font-awesome/css/font-awesome.min.css',
+				// Bootstrap examples (http://getbootstrap.com/getting-started/#examples)
+				dir_asset + '/css/bootstrap-examples/sticky-footer-navbar.css',
 				// custom files
 				dir_asset + '/css/frontend.css'
 			],

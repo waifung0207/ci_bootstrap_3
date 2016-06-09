@@ -18,9 +18,9 @@
     "bootstrap": "~3.*",
     "font-awesome": "~4.*",
     "ionicons": "~2.*",
-    "jquery-legacy": "jquery#1.11.*",
-    "jquery-migrate": "1.2.*",
-    "Sortable": "1.*",
+    "jquery-legacy": "jquery#1.12.*",
+    "jquery-migrate": "1.4.*",
+    "Sortable": "1.4.*",
     "spectrum": "1.8.*"
   }
 }
