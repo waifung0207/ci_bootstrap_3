@@ -1,8 +1,8 @@
 <?php
 
 	$lang['website_name'] = "Mi sitio web";
-	$lang['website_copyright'] = "&copy; 2015 Todos los derechos reservados.";
-
+	$lang['current_language'] = "Idioma actual";
+	
 	// Menu
 	$lang['home'] = "Home";
 	$lang['about_us'] = "About Us";

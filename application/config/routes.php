@@ -56,12 +56,11 @@ $route['translate_uri_dashes'] = FALSE;
 /*
 | -------------------------------------------------------------------------
 | Added by CI Bootstrap 3
-| Multilingual routing (update en|zh|cn for available languages)
+| Multilingual routing (update "en|zh|cn|es" for available languages)
 | -------------------------------------------------------------------------
 */
-// Examples:
-//$route['^en|zh|cn/(.+)$'] = "$1";
-//$route['^en|zh|cn$'] = $route['default_controller'];
+$route['^en|zh|cn|es/(.+)$'] = "$1";
+$route['^en|zh|cn|es$'] = $route['default_controller'];
 
 /*
 | -------------------------------------------------------------------------

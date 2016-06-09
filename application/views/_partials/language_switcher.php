@@ -1,6 +1,6 @@
 <?php if ( !empty($available_languages) ): ?>
 	<ul class="nav navbar-nav navbar-right">
-		<li><a onclick="return false;">Current Language: <?php echo $language; ?></a></li>
+		<li><a onclick="return false;"><?php echo lang('current_language'); ?>: <?php echo $language; ?></a></li>
 		<li class="dropdown">
 			<a data-toggle='dropdown' class='dropdown-toggle' href='#'>
 				<i class="fa fa-globe"></i>

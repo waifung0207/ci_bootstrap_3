@@ -74,24 +74,28 @@ $config['ci_bootstrap'] = array(
 
 	// Multilingual settings (set empty array to disable this)
 	'languages' => array(
-		'default'		=> 'en',			// to decide which of the "available" languages should be used
-		'available'		=> array(			// availabe languages with names to display on site (e.g. on menu)
-			'en' => array(					// abbr. value to be used on URL, or linked with database fields
-				'label'	=> 'English',		// label to be displayed on language switcher
-				'value'	=> 'english',		// to match with CodeIgniter folders inside application/language/
+		'default'		=> 'en',				// to decide which of the "available" languages should be used
+		'autoload'		=> array('general'),	// language files to autoload
+		'available'		=> array(				// availabe languages with names to display on site (e.g. on menu)
+			'en' => array(						// abbr. value to be used on URL, or linked with database fields
+				'label'	=> 'English',			// label to be displayed on language switcher
+				'value'	=> 'english'			// to match with CodeIgniter folders inside application/language/
 			),
 			'zh' => array(
 				'label'	=> '繁體中文',
-				'value'	=> 'traditional-chinese',
+				'value'	=> 'traditional-chinese'
 			),
 			'cn' => array(
 				'label'	=> '简体中文',
-				'value'	=> 'simplified-chinese',
+				'value'	=> 'simplified-chinese'
 			),
-		),
-		'autoload'		=> array('general'),	// language files to autoload
+			'es' => array(
+				'label'	=> 'Español',
+				'value' => 'spanish'
+			)
+		)
 	),
-
+	
 	// Google Analytics User ID
 	'ga_id' => 'UA-XXXXXXXX-X',
 

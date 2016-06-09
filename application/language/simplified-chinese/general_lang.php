@@ -1,7 +1,7 @@
 <?php
 
 	$lang['website_name'] = "我的网站";
-	$lang['website_copyright'] = "&copy; 2015 版权所有";
+	$lang['current_language'] = "目前语言";
 	
 	// Menu
 	$lang['home'] = "主页";

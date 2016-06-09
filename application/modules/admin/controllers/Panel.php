@@ -14,7 +14,6 @@ class Panel extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->library('form_builder');
-		$this->mPageTitle = 'Admin Panel - ';
 	}
 
 	// Admin Users CRUD
@@ -40,7 +39,7 @@ class Panel extends Admin_Controller {
 		$crud->unset_add();
 		$crud->unset_delete();
 
-		$this->mTitle.= 'Admin Users';
+		$this->mPageTitle = 'Admin Users';
 		$this->render_crud();
 	}
 
@@ -84,7 +83,7 @@ class Panel extends Admin_Controller {
 		$groups = $this->ion_auth->groups()->result();
 		unset($groups[0]);	// disable creation of "webmaster" account
 		$this->mViewData['groups'] = $groups;
-		$this->mTitle.= 'Create Admin User';
+		$this->mPageTitle = 'Create Admin User';
 
 		$this->mViewData['form'] = $form;
 		$this->render('panel/admin_user_create');
@@ -94,7 +93,7 @@ class Panel extends Admin_Controller {
 	public function admin_user_group()
 	{
 		$crud = $this->generate_crud('admin_groups');
-		$this->mTitle.= 'Admin User Groups';
+		$this->mPageTitle = 'Admin User Groups';
 		$this->render_crud();
 	}
 
@@ -127,7 +126,7 @@ class Panel extends Admin_Controller {
 		$this->mViewData['target'] = $target;
 
 		$this->mViewData['form'] = $form;
-		$this->mTitle.= 'Reset Admin User Password';
+		$this->mPageTitle = 'Reset Admin User Password';
 		$this->render('panel/admin_user_reset_password');
 	}
 
@@ -144,7 +143,7 @@ class Panel extends Admin_Controller {
 		$form1->set_rule_group('panel/account_change_password');
 		$this->mViewData['form2'] = $form2;
 
-		$this->mTitle = "Account Settings";
+		$this->mPageTitle = "Account Settings";
 		$this->render('panel/account');
 	}
 

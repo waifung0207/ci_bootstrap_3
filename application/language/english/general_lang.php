@@ -1,7 +1,7 @@
 <?php
 
 	$lang['website_name'] = "My Website";
-	$lang['website_copyright'] = "&copy; 2015 All rights reserved.";
+	$lang['current_language'] = "Current Language";
 
 	// Menu
 	$lang['home'] = "Home";

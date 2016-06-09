@@ -50,12 +50,21 @@ function lang_url($lang, $url = NULL)
 		if ($url===NULL)
 		{
 			$segment_1 = $CI->uri->segment(1, $lang_config['default']);
-			
+
 			// current page in target language
 			if (array_key_exists($segment_1, $available_lang))
-				$target_url = str_replace("/$segment_1", "/$lang", current_full_url());
+			{
+				// URL already contains language abbr
+				if ($CI->uri->total_segments()==1)
+					$target_url = str_replace("/$segment_1", "/$lang", current_full_url());
+				else
+					$target_url = str_replace("/$segment_1/", "/$lang/", current_full_url());
+			}
 			else
+			{
+				// URL does not contain language abbr
 				$target_url = base_url($lang.'/'.$CI->uri->uri_string());
+			}
 		}
 		else
 		{

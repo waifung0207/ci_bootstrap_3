@@ -32,7 +32,7 @@ class User extends Admin_Controller {
 		$crud->unset_add();
 		$crud->unset_delete();
 
-		$this->mTitle = 'Users';
+		$this->mPageTitle = 'Users';
 		$this->render_crud();
 	}
 
@@ -85,7 +85,7 @@ class User extends Admin_Controller {
 		// get list of Frontend user groups
 		$this->load->model('group_model', 'groups');
 		$this->mViewData['groups'] = $this->groups->get_all();
-		$this->mTitle = 'Create User';
+		$this->mPageTitle = 'Create User';
 
 		$this->mViewData['form'] = $form;
 		$this->render('user/create');
@@ -95,7 +95,7 @@ class User extends Admin_Controller {
 	public function group()
 	{
 		$crud = $this->generate_crud('groups');
-		$this->mTitle = 'User Groups';
+		$this->mPageTitle = 'User Groups';
 		$this->render_crud();
 	}
 
@@ -138,7 +138,7 @@ class User extends Admin_Controller {
 		$this->mViewData['target'] = $target;
 
 		$this->mViewData['form'] = $form;
-		$this->mTitle = 'Reset User Password';
+		$this->mPageTitle = 'Reset User Password';
 		$this->render('user/reset_password');
 	}
 }
