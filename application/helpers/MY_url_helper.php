@@ -35,16 +35,16 @@ function image_url($path)
 function lang_url($lang, $url = NULL)
 {
 	$CI =& get_instance();
-	$site_config = $CI->config->item('site');
+	$config = $CI->config->item('ci_bootstrap');
 	
-	if ( empty($site_config['multilingual']) )
+	if ( empty($config['languages']) )
 	{
 		$url = ($url===NULL) ? current_full_url() : $url;
 		return base_url($url);
 	}
 	else
 	{
-		$lang_config = $site_config['multilingual'];
+		$lang_config = $config['languages'];
 		$available_lang = $lang_config['available'];
 
 		if ($url===NULL)

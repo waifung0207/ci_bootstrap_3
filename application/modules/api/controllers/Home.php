@@ -5,10 +5,9 @@ class Home extends MY_Controller {
 
 	public function index()
 	{
-		// API Doc page only accessible during development env
-		if (ENVIRONMENT=='development')
+		// API Doc page only accessible during development/testing environments
+		if (in_array(ENVIRONMENT, array('development', 'testing')))
 		{
-			$this->mTitle = 'API Doc';
 			$this->mBodyClass = 'swagger-section';
 			$this->render('home', 'empty');
 		}

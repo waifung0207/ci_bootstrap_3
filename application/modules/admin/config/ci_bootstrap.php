@@ -5,29 +5,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------------
 | CI Bootstrap 3 Configuration
 | -------------------------------------------------------------------------
-| This file lets you define default values to be passed into views when calling 
-| MY_Controller's render() function. 
-|
-| Each of them can be overrided from child controllers.
-|
+| This file lets you define default values to be passed into views 
+| when calling MY_Controller's render() function. 
+| 
+| See example and detailed explanation from:
+| 	/application/config/ci_bootstrap_example.php
 */
 
-$config['site'] = array(
+$config['ci_bootstrap'] = array(
 
 	// Site name
-	'name' => 'Admin Panel',
+	'site_name' => 'Admin Panel',
+
+	// Default page title prefix
+	'page_title_prefix' => '',
 
 	// Default page title
-	// (set empty then MY_Controller will automatically generate one based on controller / action)
-	'title' => '',
+	'page_title' => '',
 
-	// Default meta data (name => content)
-	'meta'	=> array(
-		'author'		=> 'Michael Chan (https://github.com/waifung0207)',
-		'description'	=> 'CI Bootstrap 3 Admin Panel'
+	// Default meta data
+	'meta_data'	=> array(
+		'author'		=> '',
+		'description'	=> '',
+		'keywords'		=> ''
 	),
-
-	// Default scripts to embed at page head / end
+	
+	// Default scripts to embed at page head or end
 	'scripts' => array(
 		'head'	=> array(
 			'assets/dist/adminlte.min.js',
@@ -45,19 +48,14 @@ $config['site'] = array(
 		)
 	),
 
-	// Multilingual settings (set empty array to disable this)
-	'multilingual' => array(),
-
-	// AdminLTE settings
-	'adminlte' => array(
-		'webmaster'	=> array('skin' => 'skin-red'),
-		'admin'		=> array('skin' => 'skin-purple'),
-		'manager'	=> array('skin' => 'skin-black'),
-		'staff'		=> array('skin' => 'skin-blue')
+	// Default CSS class for <body> tag
+	'body_class' => '',
+	
+	// Multilingual settings
+	'languages' => array(
 	),
 
-	// Menu items which support icon fonts, e.g. Font Awesome
-	// (or directly update view file: /application/modules/admin/views/_partials/sidemenu.php)
+	// Menu items
 	'menu' => array(
 		'home' => array(
 			'name'		=> 'Home',
@@ -91,11 +89,10 @@ $config['site'] = array(
 		)
 	),
 
-	// default page when redirect non-logged-in user
+	// Login page
 	'login_url' => 'admin/login',
 
-	// restricted pages to specific groups of users, which will affect sidemenu item as well
-	// pages out of this array will have no restriction (except required admin user login)
+	// Restricted pages
 	'page_auth' => array(
 		'user/create'				=> array('webmaster', 'admin', 'manager'),
 		'user/group'				=> array('webmaster', 'admin', 'manager'),
@@ -105,7 +102,17 @@ $config['site'] = array(
 		'panel/admin_user_group'	=> array('webmaster'),
 	),
 
-	// Useful links to display at bottom of sidemenu (e.g. to pages outside Admin Panel)
+	// AdminLTE settings
+	'adminlte' => array(
+		'body_class' => array(
+			'webmaster'	=> 'skin-red',
+			'admin'		=> 'skin-purple',
+			'manager'	=> 'skin-black',
+			'staff'		=> 'skin-blue',
+		)
+	),
+
+	// Useful links to display at bottom of sidemenu
 	'useful_links' => array(
 		array(
 			'auth'		=> array('webmaster', 'admin', 'manager', 'staff'),
@@ -130,10 +137,10 @@ $config['site'] = array(
 		),
 	),
 
-	// For debug purpose (available only when ENVIRONMENT = 'development')
+	// Debug tools
 	'debug' => array(
-		'view_data'		=> FALSE,	// whether to display MY_Controller's mViewData at page end
-		'profiler'		=> FALSE,	// whether to display CodeIgniter's profiler at page end
+		'view_data'	=> FALSE,
+		'profiler'	=> FALSE
 	),
 );
 

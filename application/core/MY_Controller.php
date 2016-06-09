@@ -14,7 +14,7 @@ class MY_Controller extends MX_Controller {
 		'helper'	=> array('array', 'inflector', 'string', 'url'),
 		'libraries'	=> array('database', 'form_validation', 'ion_auth'),
 	);
-
+	
 	// Values to be obtained automatically from router
 	protected $mModule = '';			// module name (empty = Frontend Website)
 	protected $mCtrler = 'home';		// current controller
@@ -28,13 +28,13 @@ class MY_Controller extends MX_Controller {
 	protected $mMetaData = array();
 	protected $mScripts = array();
 	protected $mStylesheets = array();
-	
+
 	// Values and objects to be overrided or accessible from child controllers
 	protected $mPageTitlePrefix = '';
 	protected $mPageTitle = '';
+	protected $mBodyClass = '';
 	protected $mMenu = array();
 	protected $mBreadcrumb = array();
-	protected $mBodyClass = '';
 
 	// Multilingual
 	protected $mMultilingual = FALSE;
@@ -65,20 +65,21 @@ class MY_Controller extends MX_Controller {
 		$this->_setup();
 	}
 
-	// Setup values from file: config/site.php
+	// Setup values from file: config/ci_bootstrap.php
 	private function _setup()
 	{
 		$config = $this->config->item('ci_bootstrap');
 		
 		// load default values
 		$this->mBaseUrl = empty($this->mModule) ? base_url() : base_url($this->mModule).'/';
-		$this->mSiteName = $config['site_name'];
-		$this->mPageTitlePrefix = $config['page_title_prefix'];
-		$this->mPageTitle = $config['page_title'];
+		$this->mSiteName = empty($config['site_name']) ? '' : $config['site_name'];
+		$this->mPageTitlePrefix = empty($config['page_title_prefix']) ? '' : $config['page_title_prefix'];
+		$this->mPageTitle = empty($config['page_title']) ? '' : $config['page_title'];
+		$this->mBodyClass = empty($config['body_class']) ? '' : $config['body_class'];
 		$this->mMenu = empty($config['menu']) ? array() : $config['menu'];
-		$this->mMetaData = empty($config['meta']) ? array() : $config['meta'];
-		$this->mScripts = $config['scripts'];
-		$this->mStylesheets = $config['stylesheets'];
+		$this->mMetaData = empty($config['meta_data']) ? array() : $config['meta_data'];
+		$this->mScripts = empty($config['scripts']) ? array() : $config['scripts'];
+		$this->mStylesheets = empty($config['stylesheets']) ? array() : $config['stylesheets'];
 		$this->mPageAuth = empty($config['page_auth']) ? array() : $config['page_auth'];
 
 		// restrict pages
@@ -90,7 +91,7 @@ class MY_Controller extends MX_Controller {
 		}
 
 		// multilingual setup
-		$lang_config = empty($config['multilingual']) ? array() : $config['multilingual'];
+		$lang_config = empty($config['languages']) ? array() : $config['languages'];
 		if ( !empty($lang_config) )
 		{
 			$this->mMultilingual = TRUE;
@@ -200,7 +201,7 @@ class MY_Controller extends MX_Controller {
 		// automatically generate page title
 		if ( empty($this->mPageTitle) )
 		{
-			if ( $this->mAction=='index' )
+			if ($this->mAction=='index')
 				$this->mPageTitle = humanize($this->mCtrler);
 			else
 				$this->mPageTitle = humanize($this->mAction);
@@ -229,6 +230,7 @@ class MY_Controller extends MX_Controller {
 		$this->mViewData['breadcrumb'] = $this->mBreadcrumb;
 
 		// multilingual
+		$this->mViewData['multilingual'] = $this->mMultilingual;
 		if ($this->mMultilingual)
 		{
 			$this->mViewData['available_languages'] = $this->mAvailableLanguages;

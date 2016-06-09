@@ -20,16 +20,16 @@ class Admin_Controller extends MY_Controller {
 		$this->verify_login();
 
 		// store site config values
-		$this->mUsefulLinks = $this->mSiteConfig['useful_links'];
+		$this->mUsefulLinks = $this->mConfig['useful_links'];
 	}
 
 	// Render template (override parent)
 	protected function render($view_file, $layout = 'default')
 	{
 		// load skin according to user role
-		$config = $this->mSiteConfig['adminlte'][$this->mUserMainGroup];
-		$this->mBodyClass = $config['skin'];
-		
+		$config = $this->mConfig['adminlte'];
+		$this->mBodyClass = $config['body_class'][$this->mUserMainGroup];
+
 		// additional view data
 		$this->mViewData['useful_links'] = $this->mUsefulLinks;
 

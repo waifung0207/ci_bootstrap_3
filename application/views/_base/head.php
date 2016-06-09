@@ -11,7 +11,8 @@
 	<?php
 		foreach ($meta_data as $name => $content)
 		{
-			echo "<meta name='$name' content='$content'>".PHP_EOL;
+			if (!empty($content))
+				echo "<meta name='$name' content='$content'>".PHP_EOL;
 		}
 
 		foreach ($stylesheets as $media => $files)

@@ -5,11 +5,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------------
 | CI Bootstrap 3 Configuration
 | -------------------------------------------------------------------------
-| This file lets you define default values to be passed into views when calling 
-| MY_Controller's render() function. 
-|
-| Each of them can be overrided from child controllers.
-|
+| This file lets you define default values to be passed into views 
+| when calling MY_Controller's render() function. 
+| 
+| See example and detailed explanation from:
+| 	/application/config/ci_bootstrap_example.php
 */
 
 $config['ci_bootstrap'] = array(
@@ -18,19 +18,19 @@ $config['ci_bootstrap'] = array(
 	'site_name' => 'CI Bootstrap 3',
 
 	// Default page title prefix
-	'page_title_prefix' => 'CI Bootstrap 3 - ',
+	'page_title_prefix' => '',
 
 	// Default page title
-	// (set empty then MY_Controller will automatically generate one based on controller / action)
 	'page_title' => '',
 
-	// Default meta data (name => content)
-	'meta'	=> array(
-		'author'		=> 'Michael Chan (https://github.com/waifung0207)',
-		'description'	=> 'CI Bootstrap 3'
+	// Default meta data
+	'meta_data'	=> array(
+		'author'		=> '',
+		'description'	=> '',
+		'keywords'		=> ''
 	),
 
-	// Default scripts to embed at page head or end globally (position => script array)
+	// Default scripts to embed at page head or end
 	'scripts' => array(
 		'head'	=> array(
 		),
@@ -39,23 +39,24 @@ $config['ci_bootstrap'] = array(
 		),
 	),
 
-	// Default stylesheets to embed at page head globally (media => stylesheet array)
+	// Default stylesheets to embed at page head
 	'stylesheets' => array(
 		'screen' => array(
 			'assets/dist/app.min.css'
 		)
 	),
+
+	// Default CSS class for <body> tag
+	'body_class' => '',
 	
-	// Multilingual settings - set empty array for single language website
-	// (need to match with Multilingual routing from /application/config/routes.php)
-	'multilingual' => array(
+	// Multilingual settings
+	'languages' => array(
 	),
 
-	// Google Analytics User ID (UA-XXXXXXXX-X)
+	// Google Analytics User ID
 	'ga_id' => '',
 
 	// Menu items
-	// (or directly update view file: applications/views/_partials/navbar.php)
 	'menu' => array(
 		'home' => array(
 			'name'		=> 'Home',
@@ -63,18 +64,17 @@ $config['ci_bootstrap'] = array(
 		),
 	),
 
-	// default page when redirect non-logged-in user
+	// Login page
 	'login_url' => '',
 
-	// restricted pages to specific groups of users, which will affect sidemenu item as well
-	// pages out of this array will have no restriction
+	// Restricted pages
 	'page_auth' => array(
 	),
 
-	// For debug purpose (available only when ENVIRONMENT = 'development')
+	// Debug tools
 	'debug' => array(
-		'view_data'		=> FALSE,	// whether to display MY_Controller's mViewData at page end
-		'profiler'		=> FALSE,	// whether to display CodeIgniter's profiler at page end
+		'view_data'	=> FALSE,
+		'profiler'	=> FALSE
 	),
 );
 

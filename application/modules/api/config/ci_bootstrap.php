@@ -3,28 +3,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
-| Site (by CI Bootstrap 3)
+| CI Bootstrap 3 Configuration
 | -------------------------------------------------------------------------
-| This file lets you define default values to be passed into views when calling 
-| MY_Controller's render() function. 
-|
-| Each of them can be overrided from child controllers.
-|
+| This file lets you define default values to be passed into views 
+| when calling MY_Controller's render() function. 
+| 
+| See example and detailed explanation from:
+| 	/application/config/ci_bootstrap_example.php
 */
 
-$config['site'] = array(
+$config['ci_bootstrap'] = array(
 
 	// Site name
-	'name' => 'API Site',
+	'site_name' => 'API Doc',
+
+	// Default page title prefix
+	'page_title_prefix' => '',
 
 	// Default page title
-	// (set empty then MY_Controller will automatically generate one based on controller / action)
-	'title' => '',
-
-	// Default meta data (name => content)
-	'meta'	=> array(
-		'author'		=> 'Michael Chan (https://github.com/waifung0207)',
-		'description'	=> 'API Documentation'
+	'page_title' => '',
+	
+	// Default meta data
+	'meta_data'	=> array(
+		'author'		=> '',
+		'description'	=> '',
+		'keywords'		=> ''
 	),
 
 	// Default scripts to embed at page head / end
@@ -65,16 +68,16 @@ $config['site'] = array(
 		)
 	),
 
-	// Raw PHP Headers (e.g. enable CORS or not) to send at page start
+	// Raw PHP Headers
 	'headers' => array(
 		'Access-Control-Allow-Origin: *',
 		'Access-Control-Request-Method: GET, POST, PUT, DELETE, OPTIONS',
-		'Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization',
+		'Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, X-API-KEY',
 	),
 
-	// For debug purpose (available only when ENVIRONMENT = 'development')
+	// Debug tools
 	'debug' => array(
-		'view_data'		=> FALSE,	// whether to display MY_Controller's mViewData at page end
-		'profiler'		=> FALSE,	// whether to display CodeIgniter's profiler at page end
+		'view_data'	=> FALSE,
+		'profiler'	=> FALSE
 	),
 );
