@@ -15,6 +15,9 @@ class API_Controller extends REST_Controller {
 	// Constructor
 	public function __construct()
 	{
+		parent::__construct();
+		$this->load->database();
+
 		// send PHP headers when necessary (e.g. enable CORS)
 		$config = $this->config->item('ci_bootstrap');
 		$headers = empty($config['headers']) ? array() : $config['headers'];
@@ -30,7 +33,10 @@ class API_Controller extends REST_Controller {
 	protected function verify_token()
 	{
 		$this->mApiKey = $this->input->get_request_header('X-API-KEY');
+
+		$this->load->model('api_key_model', 'api_keys');
 		$key = $this->api_keys->get_by('key', $this->mApiKey);
+
 		$this->mUserID = empty($key) ? NULL : $key->user_id;
 		$this->mUser = empty($this->mUserID) ? NULL : $this->users->get($this->mUserID);
 	}

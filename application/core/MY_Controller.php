@@ -38,7 +38,7 @@ class MY_Controller extends MX_Controller {
 
 	// Multilingual
 	protected $mMultilingual = FALSE;
-	protected $mLanguage = 'english';
+	protected $mLanguage = 'en';
 	protected $mAvailableLanguages = array();
 
 	// Data to pass into views
@@ -82,14 +82,6 @@ class MY_Controller extends MX_Controller {
 		$this->mStylesheets = empty($config['stylesheets']) ? array() : $config['stylesheets'];
 		$this->mPageAuth = empty($config['page_auth']) ? array() : $config['page_auth'];
 
-		// restrict pages
-		$uri = empty($this->mModule) ? $this->uri->uri_string() : str_replace($this->mModule.'/', '', $this->uri->uri_string());
-		if ( !empty($this->mPageAuth[$uri]) && !$this->ion_auth->in_group($this->mPageAuth[$uri]) )
-		{
-			$redirect_url = empty($this->mModule) ? 'error' : $this->mModule.'/error';
-			redirect($redirect_url);
-		}
-
 		// multilingual setup
 		$lang_config = empty($config['languages']) ? array() : $config['languages'];
 		if ( !empty($lang_config) )
@@ -116,6 +108,15 @@ class MY_Controller extends MX_Controller {
 				$this->lang->load($file, $this->mAvailableLanguages[$language]['value']);
 
 			$this->mLanguage = $language;
+		}
+		
+		// restrict pages
+		$uri = ($this->mAction=='index') ? $this->mCtrler : $this->mCtrler.'/'.$this->mAction;
+		if ( !empty($this->mPageAuth[$uri]) && !$this->ion_auth->in_group($this->mPageAuth[$uri]) )
+		{
+			$page_404 = $this->router->routes['404_override'];
+			$redirect_url = empty($this->mModule) ? $page_404 : $this->mModule.'/'.$page_404;
+			redirect($redirect_url);
 		}
 
 		// push first entry to breadcrumb
