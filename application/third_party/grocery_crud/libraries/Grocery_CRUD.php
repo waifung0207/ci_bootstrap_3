@@ -2251,6 +2251,16 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 					$this->set_js_lib($this->default_texteditor_path.'/summernote/summernote.min.js');
 					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/summernote.config.js');
 				break;
+				case 'trumbowyg':
+					$this->set_css($this->default_texteditor_path.'/trumbowyg/ui/trumbowyg.min.css');
+					$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/trumbowyg.min.js');
+					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/trumbowyg.config.js');
+					// plugins
+					$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/plugins/base64/trumbowyg.base64.min.js');
+					$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/plugins/pasteimage/trumbowyg.pasteimage.min.js');
+					// localization
+					//$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/langs/fr.min.js');
+				break;
 				
 				case 'ckeditor':
 					$this->set_js_lib($this->default_texteditor_path.'/ckeditor/ckeditor.js');
