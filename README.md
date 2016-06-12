@@ -1,4 +1,6 @@
-## CodeIgniter 3 Bootstrap 
+## CodeIgniter 3 Bootstrap
+
+**Latest Build: 2016-06-12**
 
 **Note: This project is still in progress, but welcome for any issues encountered**
 
