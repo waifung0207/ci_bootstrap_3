@@ -91,7 +91,6 @@ $config['ci_bootstrap'] = array(
 
 	// Restricted pages
 	'page_auth' => array(
-		'test'	=> array('membders'),
 	),
 
 	// Debug tools

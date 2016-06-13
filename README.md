@@ -1,6 +1,6 @@
 ## CodeIgniter 3 Bootstrap
 
-**Latest Build: 2016-06-12**
+**Latest Build: 2016-06-14**
 
 **Note: This project is still in progress, but welcome for any issues encountered**
 
@@ -42,7 +42,7 @@ This repository contains setup for rapid development:
 * ... more coming!
 
 
-### Demo Project (in progress)
+### Demo Project
 
 A demo repository can be found from: https://github.com/waifung0207/ci_bootstrap_3_demo
 
@@ -172,7 +172,6 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Changelog file
 * Better documentation (e.g. on [Gitbook](http://gitbook.com/))
 * Enhance Form Builder library to support more field types
-* API authentication (by API key or JSON Web Token, i.e. JWT)
 * Database backup and restore versions
 * Grocery CRUD / Image CRUD file upload - add Amazon S3 integration
 * Grocery CRUD / Image CRUD image upload - add cropping feature
