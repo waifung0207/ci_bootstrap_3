@@ -93,6 +93,19 @@ $config['ci_bootstrap'] = array(
 	'page_auth' => array(
 	),
 
+	// Email config
+	'email' => array(
+		'from_email'		=> '',
+		'from_name'			=> '',
+		'subject_prefix'	=> '',
+		
+		// Mailgun HTTP API
+		'mailgun_api'		=> array(
+			'domain'			=> '',
+			'private_api_key'	=> ''
+		),
+	),
+
 	// Debug tools
 	'debug' => array(
 		'view_data'	=> FALSE,

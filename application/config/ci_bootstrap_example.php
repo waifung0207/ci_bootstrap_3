@@ -137,6 +137,19 @@ $config['ci_bootstrap'] = array(
 		'panel/admin_user_group'	=> array('webmaster'),
 	),
 
+	// Email config (to be used in MY_Email library)
+	'email' => array(
+		'from_email'		=> 'noreply@email.com',
+		'from_name'			=> 'CI Bootstrap',
+		'subject_prefix'	=> '[CI Bootstrap] ',
+
+		// Mailgun HTTP API
+		'mailgun_api'		=> array(
+			'domain'			=> '',
+			'private_api_key'	=> ''
+		),
+	),
+
 	// Debug tools (available only when ENVIRONMENT = 'development')
 	'debug' => array(
 		'view_data'	=> FALSE,	// whether to display MY_Controller's mViewData at page end
