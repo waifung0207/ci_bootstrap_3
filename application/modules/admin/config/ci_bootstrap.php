@@ -84,6 +84,14 @@ $config['ci_bootstrap'] = array(
 				'Admin User Groups'		=> 'panel/admin_user_group',
 			)
 		),
+		'util' => array(
+			'name'		=> 'Utilities',
+			'url'		=> 'util',
+			'icon'		=> 'fa fa-cogs',
+			'children'  => array(
+				'Database Versions'		=> 'util/list_db',
+			)
+		),
 		'logout' => array(
 			'name'		=> 'Sign Out',
 			'url'		=> 'panel/logout',
