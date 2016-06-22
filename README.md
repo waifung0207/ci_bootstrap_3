@@ -88,7 +88,7 @@ application/                    --- Main CodeIgniter source files
         autoload.php            --- By default, some files are loaded for this repo
         ci_bootstrap.php        --- Core configuration file for all sites
         database.php            --- Need to verify to ensure connection with MySQL database
-        email.php               --- Created to centralize email configuration (preset: using Mandrill service)
+        email.php               --- Created to centralize email configuration (default: using Mailgun)
         form_validation.php     --- Created to centralize validation forms for all forms, include ReCAPTCHA settings
         routes.php              --- Changed default controller from Welcome to Home
     controllers/                --- Controllers for Frontend Website; extends from MY_Controller (except Cli)
@@ -101,7 +101,8 @@ application/                    --- Main CodeIgniter source files
         MY_Router.php           --- Required for HMVC extension
     helpers/                    --- Contains custom helper functions being used throughout this repo
     language/                   --- Preset language files
-    libraries/                  --- Custom libraries (e.g. Ion Auth, Form Builder, System Message)
+    libraries/                  --- Custom libraries (e.g. Form Builder, System Message)
+        MY_Email.php            --- Enhanced email library, includes work with Mailgun API
     models/                     --- Sample model extending from MY_Model
     modules/                    --- Each module can be accessed by http://{base_url}/{module_name}/{module_controller}/, etc.
         admin/                  --- Module for Admin Panel
@@ -172,6 +173,5 @@ More screenshots can be viewed from the [screenshots folder](https://github.com/
 * Changelog file
 * Better documentation (e.g. on [Gitbook](http://gitbook.com/))
 * Enhance Form Builder library to support more field types
-* Database backup and restore versions
 * Grocery CRUD / Image CRUD file upload - add Amazon S3 integration
 * Grocery CRUD / Image CRUD image upload - add cropping feature
