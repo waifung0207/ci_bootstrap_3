@@ -110,6 +110,11 @@ $config['ci_bootstrap'] = array(
 		'panel/admin_user'			=> array('webmaster'),
 		'panel/admin_user_create'	=> array('webmaster'),
 		'panel/admin_user_group'	=> array('webmaster'),
+		'util'						=> array('webmaster'),
+		'util/list_db'				=> array('webmaster'),
+		'util/backup_db'			=> array('webmaster'),
+		'util/restore_db'			=> array('webmaster'),
+		'util/remove_db'			=> array('webmaster'),
 	),
 
 	// AdminLTE settings
