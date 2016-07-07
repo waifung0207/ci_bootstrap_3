@@ -162,7 +162,7 @@ class Panel extends Admin_Controller {
 			$this->system_message->set_error($errors);
 		}
 
-		redirect('admin/panel/account');
+		redirect($this->mModule.'/panel/account');
 	}
 
 	// Submission of Change Password form
@@ -180,7 +180,7 @@ class Panel extends Admin_Controller {
 			$this->system_message->set_error($errors);
 		}
 
-		redirect('admin/panel/account');
+		redirect($this->mModule.'/panel/account');
 	}
 	
 	/**
@@ -189,6 +189,6 @@ class Panel extends Admin_Controller {
 	public function logout()
 	{
 		$this->ion_auth->logout();
-		redirect('admin/login');
+		redirect($this->mConfig['login_url']);
 	}
 }

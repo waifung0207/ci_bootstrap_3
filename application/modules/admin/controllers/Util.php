@@ -47,7 +47,7 @@ class Util extends Admin_Controller {
 			$result_2 = write_file($file_path_2, $backup);	
 		}
 
-		redirect('admin/util/list_db');
+		redirect($this->mModule.'/util/list_db');
 	}
 
 	// Restore specific version of database
@@ -70,7 +70,7 @@ class Util extends Admin_Controller {
 			exec("mysql -u $username -p$password --database $database < $path");
 		}
 
-		redirect('admin/util/list_db');
+		redirect($this->mModule.'/util/list_db');
 	}
 
 	// Remove specific database version
@@ -85,6 +85,6 @@ class Util extends Admin_Controller {
 			$result = delete_files($path);
 		}
 
-		redirect('admin/util/list_db');
+		redirect($this->mModule.'/util/list_db');
 	}
 }
