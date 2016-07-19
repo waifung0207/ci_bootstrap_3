@@ -107,5 +107,9 @@ define('CI_BOOTSTRAP_REPO',			'https://github.com/waifung0207/ci_bootstrap_3');
 define('CI_BOOTSTRAP_VERSION',		'Build 20160706');	// will follow semantic version (e.g. v1.x.x) after first stable launch
 
 // Upload paths
+<<<<<<< HEAD
 //define('UPLOAD_COVER_PHOTO',	'assets/uploads/cover_photos');
 define('UPLOAD_TUTORIAL',		'assets/uploads/tutorials');
+=======
+//define('UPLOAD_COVER_PHOTO',	'assets/uploads/cover_photos');
+>>>>>>> parent of 6a777f0... Prepare basic structure

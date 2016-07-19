@@ -14,17 +14,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *   description="Everything about users"
  * )
  */
-
-/**
- * @SWG\Tag(
- *   name="config",
- *   description="App config"
- * )
- */
-
-/**
- * @SWG\Tag(
- *   name="tutorials",
- *   description="Tutorials"
- * )
- */
