@@ -60,4 +60,5 @@
 
 		'author_id'				=> 'Author',
 		'category_id'			=> 'Category',
+		'file_url'				=> 'File',
 	);

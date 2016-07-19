@@ -74,6 +74,15 @@ $config['ci_bootstrap'] = array(
 				'User Groups'	=> 'user/group',
 			)
 		),
+		'tutorial' => array(
+			'name'		=> 'Tutorials',
+			'url'		=> 'tutorial',
+			'icon'		=> 'fa fa-users',
+			'children'  => array(
+				'Tutorial Lists'	=> 'tutorial/lists',
+				'Tutorials'			=> 'tutorial',
+			)
+		),
 		'panel' => array(
 			'name'		=> 'Admin Panel',
 			'url'		=> 'panel',

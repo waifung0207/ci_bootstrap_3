@@ -56,8 +56,8 @@ CREATE TABLE `admin_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES ('1', '127.0.0.1', 'webmaster', '$2y$08$/X5gzWjesYi78GqeAv5tA.dVGBVP7C1e1PzqnYCVe5s1qhlDIPPES', NULL, NULL, NULL, NULL, NULL, NULL, '1451900190', '1465489592', '1', 'Webmaster', '');
-INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES ('2', '127.0.0.1', 'admin', '$2y$08$7Bkco6JXtC3Hu6g9ngLZDuHsFLvT7cyAxiz1FzxlX5vwccvRT7nKW', NULL, NULL, NULL, NULL, NULL, NULL, '1451900228', '1465489580', '1', 'Admin', '');
+INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES ('1', '127.0.0.1', 'webmaster', '$2y$08$/X5gzWjesYi78GqeAv5tA.dVGBVP7C1e1PzqnYCVe5s1qhlDIPPES', NULL, NULL, NULL, NULL, NULL, NULL, '1451900190', '1468911402', '1', 'Webmaster', '');
+INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES ('2', '127.0.0.1', 'admin', '$2y$08$7Bkco6JXtC3Hu6g9ngLZDuHsFLvT7cyAxiz1FzxlX5vwccvRT7nKW', NULL, NULL, NULL, NULL, NULL, NULL, '1451900228', '1468900493', '1', 'Admin', '');
 INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES ('3', '127.0.0.1', 'manager', '$2y$08$snzIJdFXvg/rSHe0SndIAuvZyjktkjUxBXkrrGdkPy1K6r5r/dMLa', NULL, NULL, NULL, NULL, NULL, NULL, '1451900430', '1465489585', '1', 'Manager', '');
 INSERT INTO `admin_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`) VALUES ('4', '127.0.0.1', 'staff', '$2y$08$NigAXjN23CRKllqe3KmjYuWXD5iSRPY812SijlhGeKfkrMKde9da6', NULL, NULL, NULL, NULL, NULL, NULL, '1451900439', '1465489590', '1', 'Staff', '');
 
@@ -153,6 +153,21 @@ CREATE TABLE `api_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
+# TABLE STRUCTURE FOR: config
+#
+
+DROP TABLE IF EXISTS `config`;
+
+CREATE TABLE `config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_version` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `config` (`id`, `app_version`) VALUES ('1', '1.0.0');
+
+
+#
 # TABLE STRUCTURE FOR: groups
 #
 
@@ -181,6 +196,68 @@ CREATE TABLE `login_attempts` (
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: tutorial_lists
+#
+
+DROP TABLE IF EXISTS `tutorial_lists`;
+
+CREATE TABLE `tutorial_lists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `status` enum('active','hidden') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `tutorial_lists` (`id`, `code`, `name`, `status`) VALUES ('1', 'AAA001', 'List 1', 'active');
+INSERT INTO `tutorial_lists` (`id`, `code`, `name`, `status`) VALUES ('2', 'AAA002', 'List 2', 'active');
+
+
+#
+# TABLE STRUCTURE FOR: tutorials
+#
+
+DROP TABLE IF EXISTS `tutorials`;
+
+CREATE TABLE `tutorials` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `thumbnail_url` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `file_url` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `file_size` int(11) NOT NULL,
+  `status` enum('active','hidden') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `tutorials` (`id`, `name`, `thumbnail_url`, `file_url`, `file_size`, `status`) VALUES ('1', 'Tutorial 1', '', '', '0', 'active');
+INSERT INTO `tutorials` (`id`, `name`, `thumbnail_url`, `file_url`, `file_size`, `status`) VALUES ('2', 'Tutorial 2', '', '', '0', 'active');
+INSERT INTO `tutorials` (`id`, `name`, `thumbnail_url`, `file_url`, `file_size`, `status`) VALUES ('3', 'Tutorial 3', '', '', '0', 'active');
+INSERT INTO `tutorials` (`id`, `name`, `thumbnail_url`, `file_url`, `file_size`, `status`) VALUES ('4', 'Tutorial 4', '', '', '0', 'active');
+INSERT INTO `tutorials` (`id`, `name`, `thumbnail_url`, `file_url`, `file_size`, `status`) VALUES ('5', 'Tutorial 5', '', '', '0', 'active');
+
+
+#
+# TABLE STRUCTURE FOR: tutorials_lists
+#
+
+DROP TABLE IF EXISTS `tutorials_lists`;
+
+CREATE TABLE `tutorials_lists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `list_id` int(11) NOT NULL,
+  `tutorial_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `tutorials_lists` (`id`, `list_id`, `tutorial_id`) VALUES ('1', '1', '2');
+INSERT INTO `tutorials_lists` (`id`, `list_id`, `tutorial_id`) VALUES ('2', '1', '3');
+INSERT INTO `tutorials_lists` (`id`, `list_id`, `tutorial_id`) VALUES ('3', '2', '1');
+INSERT INTO `tutorials_lists` (`id`, `list_id`, `tutorial_id`) VALUES ('4', '2', '3');
+INSERT INTO `tutorials_lists` (`id`, `list_id`, `tutorial_id`) VALUES ('5', '2', '5');
+
 
 #
 # TABLE STRUCTURE FOR: users
