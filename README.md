@@ -51,7 +51,7 @@ A demo repository can be found from: https://github.com/waifung0207/ci_bootstrap
 
 Below configuration are preferred; other environments are not well-tested, but still feel free to report and issues. 
 
-* **PHP 5.5+**
+* **PHP 5.6+**
 * **Apache 2.2+** with rewrite mod enabled
 * **MySQL 5.5+** (not tested on MariaDB)
 
