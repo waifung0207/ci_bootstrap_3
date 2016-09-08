@@ -3133,7 +3133,8 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
                 {
                     $state_info->order_by = $_POST['order_by'];
                 }
-                if(!empty($_POST['search_text']))
+                // Updated by CI Bootstrap 3 - fixed searching boolean field by typing zero value
+                if(!empty($_POST['search_text']) || $_POST['search_text']==='0')
                 {
                     if(empty($_POST['search_field']))
                     {
