@@ -1,13 +1,13 @@
 ## CodeIgniter 3 Bootstrap
 
-**Latest Build: 2016-08-22**
+**Latest Build: 2016-11-07**
 
 **Note: This project is still in progress, but welcome for any issues encountered**
 
 A starter template that supports multi-tenant (Frontend / Admin Panel / API) website in a single application.
 
 This repository is developed upon the following tools: 
-* [CodeIgniter](http://www.codeigniter.com/) (v3.1.0) - PHP framework
+* [CodeIgniter](http://www.codeigniter.com/) (v3.1.2) - PHP framework
 * [CodeIgniter HMVC Extensions](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - modular structure by [wiredesignz](http://wiredesignz.co.nz/)
 * [codeigniter-base-model](https://github.com/jamierumbelow/codeigniter-base-model) - more advanced CRUD functions for models by [jamierumbelow](https://github.com/jamierumbelow)
 * [codeigniter-restserver](https://github.com/chriskacerguis/codeigniter-restserver) - base setup for API module
@@ -15,7 +15,7 @@ This repository is developed upon the following tools:
 * [Bootstrap](http://getbootstrap.com/) (v3.3.7) - popular frontend framework
 * [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.5) - feature-rich library to build CRUD tables
 * [Image CRUD](http://www.grocerycrud.com/image-crud) (v0.6) - CRUD library for image management
-* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.3.6) - bootstrap theme for Admin Panel
+* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.3.8) - bootstrap theme for Admin Panel
 
 
 ### Features
