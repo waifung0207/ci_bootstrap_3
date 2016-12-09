@@ -104,7 +104,7 @@ if (!(PHP_SAPI === 'cli' OR defined('STDIN')))
 }
 
 define('CI_BOOTSTRAP_REPO',			'https://github.com/waifung0207/ci_bootstrap_3');
-define('CI_BOOTSTRAP_VERSION',		'Build 20161107');	// will follow semantic version (e.g. v1.x.x) after first stable launch
+define('CI_BOOTSTRAP_VERSION',		'Build 20161209');	// will follow semantic version (e.g. v1.x.x) after first stable launch
 
 // Upload paths
 //define('UPLOAD_COVER_PHOTO',	'assets/uploads/cover_photos');
