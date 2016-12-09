@@ -1,5 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-echo '0';
 /**
 * Name:  Ion Auth
 *

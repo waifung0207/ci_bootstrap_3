@@ -2,8 +2,6 @@
 /**
 * Name:  Ion Auth
 *
-* Version: 2.5.2
-*
 * Author: Ben Edmunds
 *		  ben.edmunds@gmail.com
 *         @benedmunds
@@ -133,7 +131,7 @@ class Ion_auth
 	 * forgotten password feature
 	 *
 	 * @param $identity
-	 * @return mixed boolian / array
+	 * @return mixed boolean / array
 	 * @author Mathew
 	 */
 	public function forgotten_password($identity)    //changed $email to $identity

@@ -2,8 +2,6 @@
 /**
 * Name:  Ion Auth Model
 *
-* Version: 2.5.2
-*
 * Author:  Ben Edmunds
 * 		   ben.edmunds@gmail.com
 *	  	   @benedmunds
@@ -13,11 +11,6 @@
 * Location: http://github.com/benedmunds/CodeIgniter-Ion-Auth
 *
 * Created:  10.01.2009
-*
-* Last Change: 3.22.13
-*
-* Changelog:
-* * 3-22-13 - Additional entropy added - 52aa456eef8b60ad6754b31fbdcc77bb
 *
 * Description:  Modified auth system based on redux_auth with extensive customization.  This is basically what Redux Auth 2 should be.
 * Original Author name has been kept but that does not mean that the method has not been modified.
@@ -438,7 +431,7 @@ class Ion_auth_model extends CI_Model
 	 * Activation functions
 	 *
 	 * Activate : Validates and removes activation code.
-	 * Deactivae : Updates a users row with an activation code.
+	 * Deactivate : Updates a users row with an activation code.
 	 *
 	 * @author Mathew
 	 */
@@ -906,6 +899,7 @@ class Ion_auth_model extends CI_Model
 		// Users table.
 		$data = array(
 		    $this->identity_column   => $identity,
+		    'username'   => $identity,
 		    'password'   => $password,
 		    'email'      => $email,
 		    'ip_address' => $ip_address,
@@ -928,7 +922,7 @@ class Ion_auth_model extends CI_Model
 
 		$id = $this->db->insert_id();
 
-		// add in groups array if it doesn't exits and stop adding into default group if default group ids are set
+		// add in groups array if it doesn't exists and stop adding into default group if default group ids are set
 		if( isset($default_group->id) && empty($groups) )
 		{
 			$groups[] = $default_group->id;
@@ -1053,7 +1047,7 @@ class Ion_auth_model extends CI_Model
 	 * @param	string $identity
 	 * @return	int
 	 */
-	function get_attempts_num($identity)
+	public function get_attempts_num($identity)
 	{
         if ($this->config->item('track_login_attempts', 'ion_auth')) {
             $ip_address = $this->_prepare_ip($this->input->ip_address());
@@ -1089,9 +1083,10 @@ class Ion_auth_model extends CI_Model
 		if ($this->config->item('track_login_attempts', 'ion_auth')) {
 			$ip_address = $this->_prepare_ip($this->input->ip_address());
 
-			$this->db->select_max('time');
+			$this->db->select('time');
             if ($this->config->item('track_login_ip_address', 'ion_auth')) $this->db->where('ip_address', $ip_address);
 			else if (strlen($identity) > 0) $this->db->or_where('login', $identity);
+			$this->db->order_by('id', 'desc');
 			$qres = $this->db->get($this->tables['login_attempts'], 1);
 
 			if($qres->num_rows() > 0) {
@@ -1644,7 +1639,7 @@ class Ion_auth_model extends CI_Model
 		$this->db->delete($this->tables['users'], array('id' => $id));
 
 		// if user does not exist in database then it returns FALSE else removes the user from groups
-		if ($this->db->affected_rows() == 0)
+		if ($this->db->affected_rows() <= 0)
 		{
 		    return FALSE;
 		}
@@ -1815,7 +1810,7 @@ class Ion_auth_model extends CI_Model
 		// get the user
 		$this->trigger_events('extra_where');
 		$query = $this->db->select($this->identity_column.', id, email, last_login')
-		                  ->where($this->identity_column, get_cookie($this->config->item('identity_cookie_name', 'ion_auth')))
+		                  ->where($this->identity_column, url_decode(get_cookie($this->config->item('identity_cookie_name', 'ion_auth'))))
 		                  ->where('remember_code', get_cookie($this->config->item('remember_cookie_name', 'ion_auth')))
 		                  ->limit(1)
 		    			  ->order_by('id', 'desc')
