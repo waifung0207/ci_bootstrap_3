@@ -52,7 +52,7 @@ $config['ci_bootstrap'] = array(
 	'body_class' => '',
 	
 	// Multilingual settings
-	'languages' => array(
+	/*'languages' => array(
 		'default'		=> 'en',
 		'autoload'		=> array('general'),
 		'available'		=> array(
@@ -73,7 +73,7 @@ $config['ci_bootstrap'] = array(
 				'value' => 'spanish'
 			)
 		)
-	),
+	),*/
 
 	// Google Analytics User ID
 	'ga_id' => '',
@@ -87,7 +87,7 @@ $config['ci_bootstrap'] = array(
 	),
 
 	// Login page
-	'login_url' => '',
+	'login_url' => 'login',
 
 	// Restricted pages
 	'page_auth' => array(

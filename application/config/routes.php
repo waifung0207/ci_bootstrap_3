@@ -81,7 +81,11 @@ $route['^(\w{2})$'] = $route['default_controller'];
 */
 $route['api/(:any)/(:num)']				= 'api/$1/id/$2';
 $route['api/(:any)/(:num)/(:any)']		= 'api/$1/$3/$2';
-
+$route['login']				= 'auth/login';
+$route['register']				= 'auth/create_user';
+$route['forgot_password'] = 'auth/forgot_password';
+$route['reset_password'] = 'auth/reset_password';
+$route['change_password'] = 'auth/change_password';
 /*
 | -------------------------------------------------------------------------
 | Added by CI Bootstrap 3
