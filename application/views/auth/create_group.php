@@ -1,4 +1,3 @@
-<h1><?php echo lang('create_group_heading');?></h1>
 <p><?php echo lang('create_group_subheading');?></p>
 
 <div id="infoMessage"><?php echo $message;?></div>

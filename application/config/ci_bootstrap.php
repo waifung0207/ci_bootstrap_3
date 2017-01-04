@@ -35,6 +35,7 @@ $config['ci_bootstrap'] = array(
 		'head'	=> array(
 		),
 		'foot'	=> array(
+            'assets/dist/frontend/lib.min.js',
 			'assets/dist/frontend/lib.min.js',
 			'assets/dist/frontend/app.min.js'
 		),
