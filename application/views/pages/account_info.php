@@ -1,5 +1,5 @@
 <div class="row">
- <div class="col-xs-12 col-sm-12 col-md-12 pL-pe-0 pR-pe-0">
+ <div class="col-xs-12 col-sm-12 col-md-12 pL-pe-0 pR-pe-0" style="border:solid 1p red;">
  	<div class="detail_pg mLR-pe-auto">
      <h2 class="text-center main-heading">Account Details</h2>
      <form id="detail" name="detail" method="post" action="https://oldpe.photographersedit.com/account_details" style="margin:0px;padding:0px;" novalidate>	
