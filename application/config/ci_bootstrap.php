@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['ci_bootstrap'] = array(
 
 	// Site name
-	'site_name' => 'CI Bootstrap 3',
+	'site_name' => '',
 
 	// Default page title prefix
 	'page_title_prefix' => '',
@@ -35,22 +35,25 @@ $config['ci_bootstrap'] = array(
 		'head'	=> array(
 		),
 		'foot'	=> array(
-            'assets/dist/frontend/lib.min.js',
-			'assets/dist/frontend/lib.min.js',
-			'assets/dist/frontend/app.min.js'
+											'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js',
+											'assets/dist/pe/js/common.js',
+											'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'           			
+											
+											
 		),
 	),
 
 	// Default stylesheets to embed at page head
 	'stylesheets' => array(
 		'screen' => array(
-			'assets/dist/frontend/lib.min.css',
-			'assets/dist/frontend/app.min.css'
+
+			'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+			'assets/dist/pe/css/pe_custome.css'
 		)
 	),
 
 	// Default CSS class for <body> tag
-	'body_class' => '',
+	'body_class' => 'body_pe',	
 	
 	// Multilingual settings
 	/*'languages' => array(
@@ -81,8 +84,25 @@ $config['ci_bootstrap'] = array(
 
 	// Menu items
 	'menu' => array(
-		'home' => array(
-			'name'		=> 'Home',
+
+		'about' => array(
+			'name'		=> 'About',
+			'url'		=> '',
+		),
+		'services' => array(
+			'name'		=> 'Services',
+			'url'		=> '',
+		),
+		'samples' => array(
+			'name'		=> 'Samples',
+			'url'		=> '',
+		),
+		'order' => array(
+			'name'		=> 'Order',
+			'url'		=> '',
+		),
+		'support' => array(
+			'name'		=> 'Support',
 			'url'		=> '',
 		),
 	),

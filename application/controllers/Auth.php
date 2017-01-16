@@ -90,7 +90,7 @@ class Auth extends MY_Controller {
 				'type' => 'password',
 			);
 
-			$this->render('auth/login');
+			$this->render('auth/login','full_width');
 		}
 	}
 

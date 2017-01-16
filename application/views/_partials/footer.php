@@ -1,13 +1,23 @@
-<div class="footer">
-	<div class="container">
+</div>
+<div class="footer foot_tag">
+	
 		<?php if (ENVIRONMENT=='development'): ?>
-			<p class="pull-right text-muted">
-				CI Bootstrap Version: <strong><?php echo CI_BOOTSTRAP_VERSION; ?></strong>, 
-				CI Version: <strong><?php echo CI_VERSION; ?></strong>, 
-				Elapsed Time: <strong>{elapsed_time}</strong> seconds, 
-				Memory Usage: <strong>{memory_usage}</strong>
-			</p>
+ 
+    <p class="social_ico">
+     <a href="//facebook.com/photogsedit" target="_blank" ><i class="demo-icon icon-facebook-1"></i></a>
+     <a href="//twitter.com/photogsedit" target="_blank" ><i class="demo-icon icon-twitter-bird"></i></a>
+     <a href="//instagram.com/photogsedit/" target="_blank" ><i class="demo-icon icon-instagram"></i></a>
+     <a href="//youtube.com/c/photogsedit" target="_blank" ><i class="demo-icon icon-youtube-play"></i></a>
+     <a href="http://www.photographersedit.com/blog/" target="_blank" ><i class="fa fa-rss-square fa-pe"></i></a>
+    </p>
+    <p class="copyrght">
+     Copyright 2016, Photographer's Edit
+     <span class="photographer">
+     Img by Calli Burnett
+     </span>
+    </p>
+ 
 		<?php endif; ?>
-		<p class="text-muted">&copy; <strong><?php echo date('Y'); ?></strong> All rights reserved.</p>
-	</div>
+
+</div>
 </div>
