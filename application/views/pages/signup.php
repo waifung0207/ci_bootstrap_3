@@ -1,6 +1,6 @@
 <div class="row mLR-pe-0">
  <div class="col-xs-12 col-sm-12 col-md-12 pL-pe-0 pR-pe-0">
- 	<div id="self_info" class="col-xs-12 shift_left">
+ 	<div class="col-xs-12 shift_left">
     <h2 class="text-center main-heading mB-pe-40">Sign Up</h2>
     <div class="form-group form-group-pe">
        <div  class="col-xs-6 col-md-6 pull-left pLR-pe-0">

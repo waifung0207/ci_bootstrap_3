@@ -16,8 +16,8 @@
         	<iframe src="https://www.youtube.com/embed/egUSoaNCslQ?rel=0&amp;showinfo=0" allowfullscreen="" width="640" height="360" frameborder="0"></iframe> 
        </div>
      </div>
-     <div style="clear:both;">&nbsp;</div>
-					<div class="form-group form-group-pe par_location mB-pe-5" style="margin-top:14px;">
+     <div class="clear">&nbsp;</div>
+					<div class="form-group form-group-pe par_location mB-pe-5 mT-pe-14" >
         <input class="my-input" id="customer_email" name="customers[customer_email]" value="" tabindex="3" required type="text">
         <span class="highlight"></span>
         <span class="bar"></span>

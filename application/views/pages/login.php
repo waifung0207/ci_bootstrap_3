@@ -21,10 +21,10 @@
        <label class="my-label">Password</label>
      </div>
     
-     <div class="form-group" style="text-align:center;">
-       <a href="https://www.photographersedit.com/forgot_password" tabindex="4" style="font-size:14px; color:#000!important;">Forgot Password</a>
+     <div class="form-group text-center">
+       <a href="https://www.photographersedit.com/forgot_password" tabindex="4" class="pe_link_color" >Forgot Password</a>
      </div>
-     <div class="form-group form-group-pe text-center mT-pe-65">
+     <div class="form-group form-group-pe text-center mT-pe-50">
        <input class="continue" value="Continue" tabindex="3" type="submit">
      </div>
    </div>

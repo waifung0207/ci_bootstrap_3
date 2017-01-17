@@ -23,7 +23,7 @@
     <tr>
     <td>
       <div class="form-group form-group-pe text-center mT-pe-45">
-        <input value="Submit" class="continue" style="float:none;" type="submit">
+        <input value="Submit" class="continue" type="submit">
       </div>
     </td>
     </tr>
