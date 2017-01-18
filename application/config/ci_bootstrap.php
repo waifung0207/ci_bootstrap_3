@@ -33,11 +33,14 @@ $config['ci_bootstrap'] = array(
 	// Default scripts to embed at page head or end
 	'scripts' => array(
 		'head'	=> array(
+		
 		),
 		'foot'	=> array(
 											'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js',
 											'assets/dist/pe/js/common.js',
-											'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'           			
+											'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+											'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js'
+											           			
 											
 											
 		),
@@ -48,8 +51,9 @@ $config['ci_bootstrap'] = array(
 		'screen' => array(
 
 			'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+			'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css',
 			'assets/dist/pe/css/pe_custome.css'
-		)
+			)
 	),
 
 	// Default CSS class for <body> tag
@@ -134,6 +138,19 @@ $config['ci_bootstrap'] = array(
 	),
 );
 
+/** Browser Detection **/
+$msie = strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false;
+$firefox = strpos($_SERVER["HTTP_USER_AGENT"], 'Firefox') ? true : false;
+$safari = strpos($_SERVER["HTTP_USER_AGENT"], 'Safari') ? true : false;
+$chrome = strpos($_SERVER["HTTP_USER_AGENT"], 'Chrome') ? true : false;
+if($chrome){
+	array_push($config['ci_bootstrap']['stylesheets']['screen'],'assets/dist/pe/css/pe_custome_chrome.css');
+}elseif($firefox){
+	array_push($config['ci_bootstrap']['stylesheets']['screen'],'assets/dist/pe/css/pe_custome_moz.css');
+}elseif($safari){
+	array_push($config['ci_bootstrap']['stylesheets']['screen'],'assets/dist/pe/css/pe_custome_chrome.css');
+}
+/** End Browser Detection **/
 /*
 | -------------------------------------------------------------------------
 | Override values from /application/config/config.php

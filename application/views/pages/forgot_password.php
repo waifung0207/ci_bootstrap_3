@@ -12,17 +12,15 @@
     </tr>
     <tr>
     <td valign="middle" align="left">
-      <div class="form-group form-group-pe">
-        <input required="" class="my-input" name="email" id="email" maxlength="50" value="" type="text">
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label class="my-label">Email</label>
+      <div class="input-field input-field-pe">
+        <input   class="my-input" name="email" id="email" maxlength="50" value="" type="text">
+      	 <label class="my-label">Email</label>
       </div>
     </td> 
     </tr>
     <tr>
     <td>
-      <div class="form-group form-group-pe text-center mT-pe-45">
+      <div class="input-field input-field-pe text-center mT-pe-45">
         <input value="Submit" class="continue" type="submit">
       </div>
     </td>

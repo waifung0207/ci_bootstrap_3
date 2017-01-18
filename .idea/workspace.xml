@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b788df9d-24d3-48c5-aebd-9ab95837f57d" name="Default" comment="strom">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/config/ci_bootstrap.php" afterPath="$PROJECT_DIR$/application/config/ci_bootstrap.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/config/constants.php" afterPath="$PROJECT_DIR$/application/config/constants.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/Pages.php" afterPath="$PROJECT_DIR$/application/controllers/Pages.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/pages/account_info.php" afterPath="$PROJECT_DIR$/application/views/pages/account_info.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/pages/forgot_password.php" afterPath="$PROJECT_DIR$/application/views/pages/forgot_password.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/pages/login.php" afterPath="$PROJECT_DIR$/application/views/pages/login.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/pages/new_signup.php" afterPath="$PROJECT_DIR$/application/views/pages/new_signup.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/pages/signup.php" afterPath="$PROJECT_DIR$/application/views/pages/signup.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/dist/pe/css/pe_custome.css" afterPath="$PROJECT_DIR$/assets/dist/pe/css/pe_custome.css" />
     </list>
@@ -26,8 +32,8 @@
       <file leaf-file-name="pe_custome.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/dist/pe/css/pe_custome.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="68">
+              <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -41,6 +47,7 @@
       <find>$this-&gt;_render_page</find>
       <find>, $this-&gt;mViewData</find>
       <find>render_crud</find>
+      <find>webkit</find>
     </findStrings>
     <replaceStrings>
       <replace>$this-&gt;mViewData</replace>
@@ -65,6 +72,7 @@
         <option value="$PROJECT_DIR$/application/views/auth/login.php" />
         <option value="$PROJECT_DIR$/application/config/ci_bootstrap.php" />
         <option value="$PROJECT_DIR$/application/config/constants.php" />
+        <option value="$PROJECT_DIR$/assets/dist/pe/css/pe_custome_moz.css" />
         <option value="$PROJECT_DIR$/assets/dist/pe/css/pe_custome.css" />
       </list>
     </option>
@@ -103,7 +111,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -198,12 +205,13 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="G:/nodejs/node" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/dist/pe/css/pe_custome.css" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="js-jscs-nodeInterpreter" value="G:\nodejs\node.exe" />
@@ -297,6 +305,9 @@
       <workItem from="1483074983216" duration="8394000" />
       <workItem from="1483507054103" duration="2303000" />
       <workItem from="1484568105554" duration="1167000" />
+      <workItem from="1484636564346" duration="2363000" />
+      <workItem from="1484643641923" duration="2428000" />
+      <workItem from="1484736187180" duration="321000" />
     </task>
     <task id="LOCAL-00001" summary="strom">
       <created>1483081813164</created>
@@ -309,7 +320,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11864000" />
+    <option name="totallyTimeSpent" value="16976000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -362,20 +373,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/vendor/guzzlehttp/guzzle/src/Collection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="19" column="8" lean-forward="false" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/vendor/guzzlehttp/guzzle/src/Cookie/SetCookie.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="76" column="8" lean-forward="false" selection-start-line="76" selection-start-column="8" selection-end-line="76" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/vendor/guzzlehttp/guzzle/src/HasDataTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
@@ -667,7 +664,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -682,7 +678,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="30" lean-forward="true" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -690,7 +685,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="27" lean-forward="false" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -698,7 +692,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -706,7 +699,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
           <caret line="92" column="2" lean-forward="true" selection-start-line="92" selection-start-column="2" selection-end-line="92" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -714,14 +706,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="239" column="38" lean-forward="false" selection-start-line="239" selection-start-column="38" selection-end-line="239" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/dist/pe/css/pe_custome_moz.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="47" lean-forward="true" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/dist/pe/css/pe_custome_chrome.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/dist/pe/css/pe_custome.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="68">
+          <caret line="4" column="4" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
           <folding />
         </state>
       </provider>

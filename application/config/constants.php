@@ -99,7 +99,7 @@ if (!(PHP_SAPI === 'cli' OR defined('STDIN')))
 	$base_url.= dirname($_SERVER['SCRIPT_NAME']);
 	//define('BASE_URL', $base_url);
 
-    define('BASE_URL', 'http://photog.localhost/');
+    define('BASE_URL', 'http://ci3.localhost/');
 	// For API prefix in Swagger annotation (/application/modules/api/swagger/info.php)
 	define('API_HOST', $_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']));
 }

@@ -34,4 +34,12 @@ class Pages extends MY_Controller {
 	{
 		$this->render('pages/account_info', 'full_width');
 	}
+	public function test()
+	{
+		$this->render('pages/test', 'full_width');
+	}
+		public function email_varify_thanks()
+	{
+		$this->render('pages/email_varify_thanks', 'full_width');
+	}
 }

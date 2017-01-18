@@ -13,57 +13,49 @@
        <div class="col-xs-12 col-md-5">
        <div class="col-xs-12" id="self_info">
             <h2 class="text-center info_subheading mB-pe-40">Personal Details</h2>
-            <div class="form-group form-group-pe">
-            <input name="customers[customer_firstname]" value="Santosh" id="customer_firstname" tabindex="1" class="my-input" required type="text">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input name="customers[customer_firstname]" value="Santosh" id="customer_firstname" tabindex="1" class="my-input"   type="text">
+            
             <label class="my-label">First Name</label>
             </div>
-            <div class="form-group form-group-pe">
-            <input name="customers[customer_lastname]" id="customer_lastname" value="Deo" tabindex="2" class="my-input" required type="text">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input name="customers[customer_lastname]" id="customer_lastname" value="Deo" tabindex="2" class="my-input"   type="text">
+            
             <label class="my-label">Last Name</label>
             </div>
-            <div class="form-group form-group-pe">
-            <input name="customers[customer_phone]" id="customer_phone" value="1234567890" tabindex="3" class="my-input" required type="text">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input name="customers[customer_phone]" id="customer_phone" value="1234567890" tabindex="3" class="my-input"   type="text">
+            
             <label class="my-label">Phone</label>
             </div>
-            <div class="form-group form-group-pe">
-            <input name="customers[company_name]" value="Tiuconsulting" id="company_name" tabindex="4" class="my-input" required type="text">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input name="customers[company_name]" value="Tiuconsulting" id="company_name" tabindex="4" class="my-input"   type="text">
+            
             <label class="my-label">Company Name</label>
             </div>
-            <div class="form-group form-group-pe">
-            <input name="customers[customer_website]" value="http://www.tiuconsulting.com" id="customer_website" tabindex="5" class="my-input" required type="text">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input name="customers[customer_website]" value="http://www.tiuconsulting.com" id="customer_website" tabindex="5" class="my-input"   type="text">
+            
             <label class="my-label">Website</label>
             </div>
             <!-- Login info -->
-            <div class="form-group form-group-pe">
-            <input class="my-input" required name="customers[customer_email]" value="sdeo@tiuconsulting.com" tabindex="6" type="text">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input class="my-input"   name="customers[customer_email]" value="sdeo@tiuconsulting.com" tabindex="6" type="text">
+            
             <label class="my-label">Email</label>
             </div>
-            <div class="form-group form-group-pe">
-            <input readonly class="my-input" required id="customer_password" name="customers[customer_password]" value="santyad31" tabindex="7" type="password">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input readonly class="my-input"   id="customer_password" name="customers[customer_password]" value="santyad31" tabindex="7" type="password">
+            
             <label class="my-label" style="font-size: 12px; top: -16px; outline-style:none!important;">Password</label>
             </div>
-            <div class="form-group form-group-pe">
-            <input readonly class="my-input" id="customer_confirm_password" required name="customers[customer_confirm_password]" value="santyad31" tabindex="8" type="password">
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            <div class="input-field input-field-pe">
+            <input readonly class="my-input" id="customer_confirm_password"   name="customers[customer_confirm_password]" value="santyad31" tabindex="8" type="password">
+            
             <label class="my-label" style="font-size: 12px; top: -16px;  outline-style:none!important;">Confirm Password</label>
             </div>
             <!-- Login info end -->
-            <div class="form-group form-group-pe">
+            <div class="input-field input-field-pe">
             <select name="customers[customer_refer_by]" id="refer_by_id" class="my-input" tabindex="9">
             <option value="">Please Select</option>
             <option value="25">Photographer</option>
@@ -77,19 +69,18 @@
             <option value="92">Bokeh Podcast</option>
             <option value="26">Google Search</option>
             </select>
-            <span class="highlight"></span>
-            <span class="bar"></span>
+            
             <label class="my-label">Referred By</label>
             </div>
        </div>
        <div class="col-xs-12 hide" id="self_info">
        <h2 class="text-center info_subheading mB-pe-40 mT-pe-20">Email Notifications</h2>
-       <div class="form-group form-group-pe" style="margin-bottom:17px;">
+       <div class="input-field input-field-pe" style="margin-bottom:17px;">
        <input name="newsletter_subscription_service_related" id="subscrb_service_related" tabindex="10" value="0" onclick="subscription('subscrb_service_related','newsletter_subscription_service_related');" style="float:left;" type="checkbox"> 
        <span class="chk_txt">Subscribe to new update and service-related announcements</span> 
        <input id="newsletter_subscription_service_related" name="customers[newsletter_subscription_service_related]" value="0" type="hidden">
        </div>
-       <div class="form-group form-group-pe" style="margin-bottom:17px;">
+       <div class="input-field input-field-pe" style="margin-bottom:17px;">
        <input name="newsletter_subscription_special_promotions" id="subscrb_special_promotions" tabindex="10" value="0" onclick="subscription('subscrb_special_promotions','newsletter_subscription_special_promotions');" style="float:left;" type="checkbox"> 
        <span class="chk_txt">Subscribe to special promotions</span>  
        <input id="newsletter_subscription_special_promotions" name="customers[newsletter_subscription_special_promotions]" value="0" type="hidden">
@@ -129,7 +120,7 @@
        <tbody>
        <tr>
        <td valign="bottom" align="left">
-       <div class="form-group form-group-pe" style="margin-bottom:17px;">
+       <div class="input-field input-field-pe" style="margin-bottom:17px;">
        <input name="newsletter_subscription" id="subscrb" tabindex="10" value="0" onclick="subscription('subscrb','newsletter_subscription');" style="float:left;" type="checkbox"> 
        <span class="chk_txt">Subscribe to the PE Newsletter</span>  
        <input id="newsletter_subscription" name="customers[newsletter_subscription]" value="0" type="hidden">
@@ -156,22 +147,22 @@
        <div class="col-xs-12" id="self_info_last">
        <div id="self_info" style="margin-bottom:0px; float:left; border:solid 0px #000; padding-bottom:0px;">
        <h2 class="text-center info_subheading mB-pe-40">Credit Card Details</h2>
-       <div class="form-group form-group-pe">
+       <div class="input-field input-field-pe">
        <input onclick="readonlyfileds()" name="craeditCardOption" id="craeditCardOption_old_card" value="old_card" checked="checked" tabindex="11" type="radio"> Use Existing Card(************1111)
        <input name="customers[pay_trace_customer_id]" id="pay_trace_customer_id" value="3162Santosh3889" type="hidden">
        
        </div>	
-       <div class="form-group form-group-pe">
+       <div class="input-field input-field-pe">
        <input onclick="readonlyfileds()" name="craeditCardOption" id="craeditCardOption_new_card" value="new_card" style="margin-top:5px;" tabindex="12" type="radio"> Enter New Credit Card
        </div>
        <div id="newcardform" style="display:none;">                  
-       <div class="form-group form-group-pe">
-       <input name="customers[credit_card][card_number]" id="card_number" value="" tabindex="13" onchange="updateCC();" class="my-input" required type="text">
+       <div class="input-field input-field-pe">
+       <input name="customers[credit_card][card_number]" id="card_number" value="" tabindex="13" onchange="updateCC();" class="my-input"   type="text">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">Card Number</label>
        </div>
-       <div class="form-group form-group-pe">
+       <div class="input-field input-field-pe">
        <div style="float:left; width:46%">  
        <select name="customers[credit_card][expire_month]" id="user_credit_card_expire_month" style="width:100%;" tabindex="14" onchange="updateCC();" class="my-input">
        <option value="">MM</option>
@@ -221,8 +212,8 @@
        <label class="my-label">&nbsp;</label>
        </div>                  
        </div> 
-       <div class="form-group form-group-pe">
-       <input id="card_cvv" name="customers[credit_card][cvv]" value="" tabindex="16" onchange="updateCC();" class="my-input" required type="password">
+       <div class="input-field input-field-pe">
+       <input id="card_cvv" name="customers[credit_card][cvv]" value="" tabindex="16" onchange="updateCC();" class="my-input"   type="password">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">Security Code (CVV) </label>
@@ -233,31 +224,31 @@
        <!--------------------------------billing Detail Starts----------------->
        <div id="self_info_last_billing" class="col-xs-12">
        <h2 class="text-center info_subheading mB-pe-40">Billing Details</h2>
-       <div class="form-group form-group-pe">
-       <input name="customers[billing_name]" id="billing_name" value="Santosh Deo" tabindex="17" class="my-input" required type="text">
+       <div class="input-field input-field-pe">
+       <input name="customers[billing_name]" id="billing_name" value="Santosh Deo" tabindex="17" class="my-input"   type="text">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">Name</label>
        </div>
-       <div class="form-group form-group-pe">
-       <input name="customers[billing_address]" id="billing_address" value="College road test dd" tabindex="18" class="my-input" required type="text">
+       <div class="input-field input-field-pe">
+       <input name="customers[billing_address]" id="billing_address" value="College road test dd" tabindex="18" class="my-input"   type="text">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">Street 1</label>
        </div>
-       <div class="form-group form-group-pe">
-       <input name="customers[billing_address2]" id="billing_address2" value="New laxmi nagar" tabindex="19" class="my-input" required type="text">
+       <div class="input-field input-field-pe">
+       <input name="customers[billing_address2]" id="billing_address2" value="New laxmi nagar" tabindex="19" class="my-input"   type="text">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">Street 2</label>
        </div>
-       <div class="form-group form-group-pe">
-       <input name="customers[billing_city]" id="billing_city" value="Gondia" tabindex="20" class="my-input" required type="text">
+       <div class="input-field input-field-pe">
+       <input name="customers[billing_city]" id="billing_city" value="Gondia" tabindex="20" class="my-input"   type="text">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">City</label>
        </div>	
-       <div class="form-group form-group-pe">
+       <div class="input-field input-field-pe">
        <select name="customers[billing_country]" id="billing_country" tabindex="21" class="my-input">
        <option value="">Please Select</option>
        <option value="AF">Afghanistan</option>
@@ -505,15 +496,15 @@
        <span class="bar"></span>
        <label class="my-label">Country</label>
        </div>	
-       <div class="form-group form-group-pe">
+       <div class="input-field input-field-pe">
        <select name="customers[billing_state]" id="billing_state" tabindex="22" class="my-input"><option value="">Please Select</option><option value="AL">ALABAMA</option><option value="AK">ALASKA </option><option value="AZ">ARIZONA</option><option value="AR">ARKANSAS</option><option value="CA">CALIFORNIA</option><option value="CO">COLORADO</option><option value="CT">CONNECTICUT </option><option value="DE">DELAWARE</option><option value="DC">DISTRICT OF COLUMBIA</option><option value="FL">FLORIDA</option><option value="GA">GEORGIA</option><option value="HI">HAWAII</option><option value="ID">IDAHO</option><option value="IL">ILLINOIS</option><option value="IN">INDIANA</option><option value="IA">IOWA</option><option value="KS">KANSAS</option><option value="KY">KENTUCKY</option><option value="LA">LOUISIANA</option><option value="ME">MAINE</option><option value="MD">MARYLAND</option><option value="MA">MASSACHUSETTS</option><option value="MI">MICHIGAN</option><option value="MN">MINNESOTA</option><option value="MS">MISSISSIPPI</option><option value="MO">MISSOURI</option><option value="MT">MONTANA</option><option value="NE">NEBRASKA</option><option value="NV">NEVADA</option><option value="NH">NEW HAMPSHIRE</option><option value="NJ">NEW JERSEY</option><option value="NM">NEW MEXICO</option><option value="NY">NEW YORK</option><option value="NC">NORTH CAROLINA</option><option value="ND">NORTH DAKOTA</option><option value="OH" selected="selected">OHIO</option><option value="OK">OKLAHOMA</option><option value="OR">OREGON</option><option value="PA">PENNSYLVANIA</option><option value="RI">RHODE ISLAND</option><option value="SC">SOUTH CAROLINA</option><option value="SD">SOUTH DAKOTA</option><option value="TN">TENNESSEE</option><option value="TX">TEXAS</option><option value="VI">US Virgin Islands</option><option value="UT">UTAH</option><option value="VT">VERMONT</option><option value="VA">VIRGINIA</option><option value="WA">WASHINGTON</option><option value="WV">WEST VIRGINIA</option><option value="WI">WISCONSIN</option><option value="WY">WYOMING</option></select>
-       <input style="display:none" name="customers[billing_state_other]" id="billing_state_other" value="OH" tabindex="23" class="my-input" required type="text">
+       <input style="display:none" name="customers[billing_state_other]" id="billing_state_other" value="OH" tabindex="23" class="my-input"   type="text">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">State/Province</label>
        </div>	
-       <div class="form-group form-group-pe">
-       <input maxlength="8" name="customers[billing_zip]" id="billing_zip" value="44224" tabindex="24" class="my-input" required type="text">
+       <div class="input-field input-field-pe">
+       <input maxlength="8" name="customers[billing_zip]" id="billing_zip" value="44224" tabindex="24" class="my-input"   type="text">
        <span class="highlight"></span>
        <span class="bar"></span>
        <label class="my-label">Zip</label>
@@ -523,7 +514,7 @@
        <!--------------------------------Credit Balance Starts----------------->  
        <div id="self_info_last_billing" class="col-xs-12">
        <h2 style="margin-bottom:10px;" class="text-center info_subheading">Credit Balance:</h2>
-       <div class="form-group form-group-pe" style="text-align:center;">$95</div>
+       <div class="input-field input-field-pe" style="text-align:center;">$95</div>
        </div>  
        <!----------------------------Credit Balance ends------------------->
        <!-----------------------------Column 3 Ends------------------------>    
