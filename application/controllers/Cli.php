@@ -57,11 +57,13 @@ class Cli extends MX_Controller {
 		$this->load->database();
 
 		echo '====== Task: Empty database'.PHP_EOL;
+		/*
 		$this->db->truncate('cover_photos');
 		$this->db->truncate('blog_categories');
 		$this->db->truncate('blog_tags');
 		$this->db->truncate('blog_post_tag_rel');
 		$this->db->truncate('blog_posts');
+		*/
 		echo '====== Task: Empty database (Completed)'.PHP_EOL;
 	}
 

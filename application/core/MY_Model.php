@@ -13,8 +13,7 @@ class MY_Model extends Base_Model {
 	public $before_get = array('callback_before_get');
 	public $after_get = array('callback_after_get');
 
-	// Variables from CI Bootstrap
-	// (sample usage: see Cover_photo_model, Blog_post_model)
+	// Variables from CI Bootstrap (see demo repo for examples)
 	protected $where = array();
 	protected $order_by = array();
 	protected $upload_fields = array();

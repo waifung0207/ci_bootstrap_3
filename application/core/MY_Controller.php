@@ -133,9 +133,6 @@ class MY_Controller extends MX_Controller {
 		}
 
 		$this->mConfig = $config;
-		
-		// fix usage of MY_Form_validation in HMVC structure
-		$this->form_validation->CI =& $this;
 	}
 
 	// Verify user login (regardless of user group)

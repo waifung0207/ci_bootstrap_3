@@ -16,7 +16,7 @@
  * @package    	grocery CRUD
  * @copyright  	Copyright (c) 2010 through 2014, John Skoumbourdis
  * @license    	https://github.com/scoumbourdis/grocery-crud/blob/master/license-grocery-crud.txt
- * @version    	1.5.4
+ * @version    	1.5.7
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
@@ -468,7 +468,7 @@ class grocery_CRUD_Field_Types
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.4
+ * @version    	1.5.7
  * @link		http://www.grocerycrud.com/documentation
  */
 class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
@@ -532,6 +532,15 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 
 		return $this->basic_model->get_total_results();
 	}
+
+    protected function filter_data_from_xss($post_data) {
+        foreach ($post_data as $field_name => $rawData) {
+            if (!is_array($rawData)) {
+                $post_data[$field_name] = filter_var(strip_tags($rawData));
+            }
+        }
+        return $post_data;
+    }
 
 	public function set_model($model_name)
 	{
@@ -891,6 +900,10 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 		{
 			$post_data = $state_info->unwrapped_data;
 
+            if ($this->config->xss_clean) {
+                $post_data = $this->filter_data_from_xss($post_data);
+            }
+
 			$add_fields = $this->get_add_fields();
 
 			if($this->callback_insert === null)
@@ -1008,6 +1021,10 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 		{
 			$post_data 		= $state_info->unwrapped_data;
 			$primary_key 	= $state_info->primary_key;
+
+            if ($this->config->xss_clean) {
+                $post_data = $this->filter_data_from_xss($post_data);
+            }
 
 			if($this->callback_update === null)
 			{
@@ -1517,7 +1534,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.4
+ * @version    	1.5.7
  */
 class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 {
@@ -2123,6 +2140,8 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 			unset($js_files[sha1($this->default_theme_path.'/bootstrap/js/bootstrap/modal.min.js')]);
 			unset($css_files[sha1($this->default_theme_path.'/bootstrap/css/bootstrap/bootstrap.css')]);
 			unset($css_files[sha1($this->default_theme_path.'/bootstrap/css/bootstrap/bootstrap.min.css')]);
+            unset($css_files[sha1($this->default_theme_path.'/bootstrap-v4/css/bootstrap/bootstrap.css')]);
+            unset($css_files[sha1($this->default_theme_path.'/bootstrap-v4/css/bootstrap/bootstrap.min.css')]);
 		}
 
 		if($this->echo_and_die === false)
@@ -2191,21 +2210,25 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
 	protected function get_true_false_input($field_info,$value)
 	{
-		$this->set_css($this->default_css_path.'/jquery_plugins/uniform/uniform.default.css');
-		$this->set_js_lib($this->default_javascript_path.'/jquery_plugins/jquery.uniform.min.js');
-		$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.uniform.config.js');
-
 		$value_is_null = empty($value) && $value !== '0' && $value !== 0 ? true : false;
 
 		$input = "<div class='pretty-radio-buttons'>";
 
 		$true_string = is_array($field_info->extras) && array_key_exists(1,$field_info->extras) ? $field_info->extras[1] : $this->default_true_false_text[1];
 		$checked = $value === '1' || ($value_is_null && $field_info->default === '1') ? "checked = 'checked'" : "";
-		$input .= "<label><input id='field-{$field_info->name}-true' class='radio-uniform'  type='radio' name='{$field_info->name}' value='1' $checked /> ".$true_string."</label> ";
+		$input .=
+			"<div class=\"radio\"><label>
+				<input id='field-{$field_info->name}-true' type=\"radio\" name=\"{$field_info->name}\" value=\"1\" $checked />
+				$true_string
+			 </label> </div>";
 
 		$false_string =  is_array($field_info->extras) && array_key_exists(0,$field_info->extras) ? $field_info->extras[0] : $this->default_true_false_text[0];
 		$checked = $value === '0' || ($value_is_null && $field_info->default === '0') ? "checked = 'checked'" : "";
-		$input .= "<label><input id='field-{$field_info->name}-false' class='radio-uniform' type='radio' name='{$field_info->name}' value='0' $checked /> ".$false_string."</label>";
+		$input .=
+			"<div class=\"radio\"><label>
+				<input id='field-{$field_info->name}-false' type=\"radio\" name=\"{$field_info->name}\" value=\"0\" $checked />
+				$false_string
+			 </label> </div>";
 
 		$input .= "</div>";
 
@@ -2251,7 +2274,17 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 					$this->set_js_lib($this->default_texteditor_path.'/summernote/summernote.min.js');
 					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/summernote.config.js');
 				break;
-				
+				case 'trumbowyg':
+					$this->set_css($this->default_texteditor_path.'/trumbowyg/ui/trumbowyg.min.css');
+					$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/trumbowyg.min.js');
+					$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/trumbowyg.config.js');
+					// plugins
+					$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/plugins/base64/trumbowyg.base64.min.js');
+					$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/plugins/pasteimage/trumbowyg.pasteimage.min.js');
+					// localization
+					//$this->set_js_lib($this->default_texteditor_path.'/trumbowyg/langs/fr.min.js');
+				break;
+
 				case 'ckeditor':
 					$this->set_js_lib($this->default_texteditor_path.'/ckeditor/ckeditor.js');
 					$this->set_js_lib($this->default_texteditor_path.'/ckeditor/adapters/jquery.js');
@@ -2990,7 +3023,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.4
+ * @version    	1.5.7
  */
 class grocery_CRUD_States extends grocery_CRUD_Layout
 {
@@ -3123,7 +3156,8 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
                 {
                     $state_info->order_by = $_POST['order_by'];
                 }
-                if(!empty($_POST['search_text']))
+                // Updated by CI Bootstrap 3 - fixed searching boolean field by typing zero value
+                if(!empty($_POST['search_text']) || $_POST['search_text']==='0')
                 {
                     if(empty($_POST['search_field']))
                     {
@@ -3419,7 +3453,7 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
  * @package    	grocery CRUD
  * @copyright  	Copyright (c) 2010 through 2014, John Skoumbourdis
  * @license    	https://github.com/scoumbourdis/grocery-crud/blob/master/license-grocery-crud.txt
- * @version    	1.5.4
+ * @version    	1.5.7
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
@@ -3442,7 +3476,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 	 *
 	 * @var	string
 	 */
-	const	VERSION = "1.5.4";
+	const	VERSION = "1.5.7";
 
 	const	JQUERY 			= "jquery-1.11.1.min.js";
 	const	JQUERY_UI_JS 	= "jquery-ui-1.10.3.custom.min.js";
@@ -3533,13 +3567,13 @@ class Grocery_CRUD extends grocery_CRUD_States
 	protected $callback_before_upload	= null;
 	protected $callback_after_upload	= null;
 
-	protected $default_javascript_path				= null; //autogenerate, please do not modify
-	protected $default_css_path						= null; //autogenerate, please do not modify
-	protected $default_texteditor_path 				= null; //autogenerate, please do not modify
-	protected $default_theme_path					= null; //autogenerate, please do not modify
-	protected $default_language_path				= 'assets/grocery_crud/languages';
-	protected $default_config_path					= 'assets/grocery_crud/config';
-	protected $default_assets_path					= 'assets/grocery_crud';
+	protected $default_javascript_path	= null; //autogenerate, please do not modify
+	protected $default_css_path			= null; //autogenerate, please do not modify
+	protected $default_texteditor_path 	= null; //autogenerate, please do not modify
+	protected $default_theme_path		= null; //autogenerate, please do not modify
+	protected $default_language_path	= 'assets/grocery_crud/languages';
+	protected $default_config_path		= 'assets/grocery_crud/config';
+	protected $default_assets_path		= 'assets/grocery_crud';
 
 	/**
 	 *
@@ -4403,6 +4437,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 		$this->config->paging_options		= $ci->config->item('grocery_crud_paging_options');
         $this->config->default_theme        = $ci->config->item('grocery_crud_default_theme');
         $this->config->environment          = $ci->config->item('grocery_crud_environment');
+        $this->config->xss_clean            = $ci->config->item('grocery_crud_xss_clean');
 
 		/** Initialize default paths */
 		$this->default_javascript_path				= $this->default_assets_path.'/js';

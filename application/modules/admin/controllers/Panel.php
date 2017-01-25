@@ -32,7 +32,7 @@ class Panel extends Admin_Controller {
 		// only webmaster can reset Admin User password
 		if ( $this->ion_auth->in_group(array('webmaster', 'admin')) )
 		{
-			$crud->add_action('Reset Password', '', 'admin/panel/admin_user_reset_password', 'fa fa-repeat');
+			$crud->add_action('Reset Password', '', $this->mModule.'/panel/admin_user_reset_password', 'fa fa-repeat');
 		}
 		
 		// disable direct create / delete Admin User
@@ -134,12 +134,12 @@ class Panel extends Admin_Controller {
 	public function account()
 	{
 		// Update Info form
-		$form1 = $this->form_builder->create_form('admin/panel/account_update_info');
+		$form1 = $this->form_builder->create_form($this->mModule.'/panel/account_update_info');
 		$form1->set_rule_group('panel/account_update_info');
 		$this->mViewData['form1'] = $form1;
 
 		// Change Password form
-		$form2 = $this->form_builder->create_form('admin/panel/account_change_password');
+		$form2 = $this->form_builder->create_form($this->mModule.'/panel/account_change_password');
 		$form1->set_rule_group('panel/account_change_password');
 		$this->mViewData['form2'] = $form2;
 
@@ -162,7 +162,7 @@ class Panel extends Admin_Controller {
 			$this->system_message->set_error($errors);
 		}
 
-		redirect('admin/panel/account');
+		redirect($this->mModule.'/panel/account');
 	}
 
 	// Submission of Change Password form
@@ -180,7 +180,7 @@ class Panel extends Admin_Controller {
 			$this->system_message->set_error($errors);
 		}
 
-		redirect('admin/panel/account');
+		redirect($this->mModule.'/panel/account');
 	}
 	
 	/**
@@ -189,6 +189,6 @@ class Panel extends Admin_Controller {
 	public function logout()
 	{
 		$this->ion_auth->logout();
-		redirect('admin/login');
+		redirect($this->mConfig['login_url']);
 	}
 }
