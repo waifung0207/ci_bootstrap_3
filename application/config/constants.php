@@ -100,6 +100,7 @@ if (!(PHP_SAPI === 'cli' OR defined('STDIN')))
 	define('BASE_URL', $base_url);
 	
 	// For API prefix in Swagger annotation (/application/modules/api/swagger/info.php)
+	define('API_PROTOCOL', $protocol);
 	define('API_HOST', $_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']));
 }
 
