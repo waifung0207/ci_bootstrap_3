@@ -1,13 +1,13 @@
 ## CodeIgniter 3 Bootstrap
 
-**Latest Build: 2016-12-09**
+**Latest Build: 2017-03-18**
 
 **Note: This project is still in progress, but welcome for any issues encountered**
 
 A starter template that supports multi-tenant (Frontend / Admin Panel / API) website in a single application.
 
 This repository is developed upon the following tools: 
-* [CodeIgniter](http://www.codeigniter.com/) (v3.1.2) - PHP framework
+* [CodeIgniter](http://www.codeigniter.com/) (v3.1.3) - PHP framework
 * [CodeIgniter HMVC Extensions](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - modular structure by [wiredesignz](http://wiredesignz.co.nz/)
 * [codeigniter-base-model](https://github.com/jamierumbelow/codeigniter-base-model) - more advanced CRUD functions for models by [jamierumbelow](https://github.com/jamierumbelow)
 * [codeigniter-restserver](https://github.com/chriskacerguis/codeigniter-restserver) - base setup for API module
