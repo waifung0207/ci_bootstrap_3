@@ -16,7 +16,7 @@
  * @package    	grocery CRUD
  * @copyright  	Copyright (c) 2010 through 2014, John Skoumbourdis
  * @license    	https://github.com/scoumbourdis/grocery-crud/blob/master/license-grocery-crud.txt
- * @version    	1.5.7
+ * @version    	1.5.8
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
@@ -468,7 +468,7 @@ class grocery_CRUD_Field_Types
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.7
+ * @version    	1.5.8
  * @link		http://www.grocerycrud.com/documentation
  */
 class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
@@ -755,7 +755,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 				if(isset($this->validation_rules[$field_name]))
 				{
 					$rule = $this->validation_rules[$field_name];
-					$form_validation->set_rules($rule['field'],$rule['label'],$rule['rules']);
+					$form_validation->set_rules($rule['field'],$rule['label'],$rule['rules'],$rule['errors']);
 				}
 			}
 
@@ -870,7 +870,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 				if(isset($this->validation_rules[$field_name]))
 				{
 					$rule = $this->validation_rules[$field_name];
-					$form_validation->set_rules($rule['field'],$rule['label'],$rule['rules']);
+					$form_validation->set_rules($rule['field'],$rule['label'],$rule['rules'],$rule['errors']);
 				}
 			}
 
@@ -1534,7 +1534,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.7
+ * @version    	1.5.8
  */
 class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 {
@@ -3023,7 +3023,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
  *
  * @package    	grocery CRUD
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
- * @version    	1.5.7
+ * @version    	1.5.8
  */
 class grocery_CRUD_States extends grocery_CRUD_Layout
 {
@@ -3453,7 +3453,7 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
  * @package    	grocery CRUD
  * @copyright  	Copyright (c) 2010 through 2014, John Skoumbourdis
  * @license    	https://github.com/scoumbourdis/grocery-crud/blob/master/license-grocery-crud.txt
- * @version    	1.5.7
+ * @version    	1.5.8
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
@@ -3476,7 +3476,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 	 *
 	 * @var	string
 	 */
-	const	VERSION = "1.5.7";
+	const	VERSION = "1.5.8";
 
 	const	JQUERY 			= "jquery-1.11.1.min.js";
 	const	JQUERY_UI_JS 	= "jquery-ui-1.10.3.custom.min.js";
@@ -3617,13 +3617,14 @@ class Grocery_CRUD extends grocery_CRUD_States
 	 * @access	public
 	 * @param	mixed
 	 * @param	string
+      * @oaram array
 	 * @return	void
 	 */
-	function set_rules($field, $label = '', $rules = '')
+	function set_rules($field, $label = '', $rules = '', $errors = array())
 	{
 		if(is_string($field))
 		{
-			$this->validation_rules[$field] = array('field' => $field, 'label' => $label, 'rules' => $rules);
+			$this->validation_rules[$field] = array('field' => $field, 'label' => $label, 'rules' => $rules, 'errors' => $errors);
 		}elseif(is_array($field))
 		{
 			foreach($field as $num_field => $field_array)
