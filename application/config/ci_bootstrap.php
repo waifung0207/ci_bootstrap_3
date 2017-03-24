@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['ci_bootstrap'] = array(
 
 	// Site name
-	'site_name' => 'CI Bootstrap 3',
+	'site_name' => '',
 
 	// Default page title prefix
 	'page_title_prefix' => '',
@@ -33,26 +33,34 @@ $config['ci_bootstrap'] = array(
 	// Default scripts to embed at page head or end
 	'scripts' => array(
 		'head'	=> array(
+		
 		),
 		'foot'	=> array(
-			'assets/dist/frontend/lib.min.js',
-			'assets/dist/frontend/app.min.js'
+											'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js',
+											'assets/dist/pe/js/common.js',
+											'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+											'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js'
+											           			
+											
+											
 		),
 	),
 
 	// Default stylesheets to embed at page head
 	'stylesheets' => array(
 		'screen' => array(
-			'assets/dist/frontend/lib.min.css',
-			'assets/dist/frontend/app.min.css'
-		)
+
+			'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+			'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css',
+			'assets/dist/pe/css/pe_custome.css'
+			)
 	),
 
 	// Default CSS class for <body> tag
-	'body_class' => '',
+	'body_class' => 'body_pe',	
 	
 	// Multilingual settings
-	'languages' => array(
+	/*'languages' => array(
 		'default'		=> 'en',
 		'autoload'		=> array('general'),
 		'available'		=> array(
@@ -73,21 +81,38 @@ $config['ci_bootstrap'] = array(
 				'value' => 'spanish'
 			)
 		)
-	),
+	),*/
 
 	// Google Analytics User ID
 	'ga_id' => '',
 
 	// Menu items
 	'menu' => array(
-		'home' => array(
-			'name'		=> 'Home',
+
+		'about' => array(
+			'name'		=> 'About',
+			'url'		=> '',
+		),
+		'services' => array(
+			'name'		=> 'Services',
+			'url'		=> '',
+		),
+		'samples' => array(
+			'name'		=> 'Samples',
+			'url'		=> '',
+		),
+		'order' => array(
+			'name'		=> 'Order',
+			'url'		=> '',
+		),
+		'support' => array(
+			'name'		=> 'Support',
 			'url'		=> '',
 		),
 	),
 
 	// Login page
-	'login_url' => '',
+	'login_url' => 'login',
 
 	// Restricted pages
 	'page_auth' => array(
@@ -113,6 +138,19 @@ $config['ci_bootstrap'] = array(
 	),
 );
 
+/** Browser Detection **/
+$msie = strpos($_SERVER["HTTP_USER_AGENT"], 'MSIE') ? true : false;
+$firefox = strpos($_SERVER["HTTP_USER_AGENT"], 'Firefox') ? true : false;
+$safari = strpos($_SERVER["HTTP_USER_AGENT"], 'Safari') ? true : false;
+$chrome = strpos($_SERVER["HTTP_USER_AGENT"], 'Chrome') ? true : false;
+if($chrome){
+	array_push($config['ci_bootstrap']['stylesheets']['screen'],'assets/dist/pe/css/pe_custome_chrome.css');
+}elseif($firefox){
+	array_push($config['ci_bootstrap']['stylesheets']['screen'],'assets/dist/pe/css/pe_custome_moz.css');
+}elseif($safari){
+	array_push($config['ci_bootstrap']['stylesheets']['screen'],'assets/dist/pe/css/pe_custome_chrome.css');
+}
+/** End Browser Detection **/
 /*
 | -------------------------------------------------------------------------
 | Override values from /application/config/config.php
