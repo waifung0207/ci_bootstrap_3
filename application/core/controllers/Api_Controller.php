@@ -136,7 +136,7 @@ class API_Controller extends REST_Controller {
 		$data = array('status' => FALSE);
 		$this->response($data, REST_Controller::HTTP_METHOD_NOT_ALLOWED);
 	}
-
+	
 	protected function error_not_implemented($additional_data = array())
 	{
 		// show "not implemented" info only during development mode
@@ -161,5 +161,61 @@ class API_Controller extends REST_Controller {
 		{
 			$this->error_not_found();
 		}
+	}
+
+	// Functions from codeigniter-restserver
+	protected function _generate_key()
+	{
+		do
+		{
+			// Generate a random salt
+			$salt = base_convert(bin2hex($this->security->get_random_bytes(64)), 16, 36);
+			// If an error occurred, then fall back to the previous method
+			if ($salt === FALSE)
+			{
+				$salt = hash('sha256', time() . mt_rand());
+			}
+			$new_key = substr($salt, 0, config_item('rest_key_length'));
+		}
+		while ($this->_key_exists($new_key));
+		return $new_key;
+	}
+
+	protected function _get_key($key)
+	{
+		return $this->db
+			->where(config_item('rest_key_column'), $key)
+			->get(config_item('rest_keys_table'))
+			->row();
+	}
+
+	protected function _key_exists($key)
+	{
+		return $this->db
+			->where(config_item('rest_key_column'), $key)
+			->count_all_results(config_item('rest_keys_table')) > 0;
+	}
+
+	protected function _insert_key($key, $data)
+	{
+		$data[config_item('rest_key_column')] = $key;
+		$data['date_created'] = function_exists('now') ? now() : time();
+		return $this->db
+			->set($data)
+			->insert(config_item('rest_keys_table'));
+	}
+
+	protected function _update_key($key, $data)
+	{
+		return $this->db
+			->where(config_item('rest_key_column'), $key)
+			->update(config_item('rest_keys_table'), $data);
+	}
+
+	protected function _delete_key($key)
+	{
+		return $this->db
+			->where(config_item('rest_key_column'), $key)
+			->delete(config_item('rest_keys_table'));
 	}
 }

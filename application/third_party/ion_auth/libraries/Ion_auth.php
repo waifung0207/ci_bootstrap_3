@@ -2,8 +2,6 @@
 /**
 * Name:  Ion Auth
 *
-* Version: 2.5.2
-*
 * Author: Ben Edmunds
 *		  ben.edmunds@gmail.com
 *         @benedmunds
@@ -58,7 +56,7 @@ class Ion_auth
 	 */
 	public function __construct()
 	{
-		$this->load->config('ion_auth', TRUE);
+		$this->config->load('ion_auth', TRUE);
 		$this->load->library(array('email'));
 		$this->lang->load('ion_auth');
 		$this->load->helper(array('cookie', 'language','url'));
@@ -133,7 +131,7 @@ class Ion_auth
 	 * forgotten password feature
 	 *
 	 * @param $identity
-	 * @return mixed boolian / array
+	 * @return mixed boolean / array
 	 * @author Mathew
 	 */
 	public function forgotten_password($identity)    //changed $email to $identity
@@ -445,7 +443,7 @@ class Ion_auth
 	{
 		$this->ion_auth_model->trigger_events('logged_in');
 
-		return (bool) $this->session->userdata('identity');
+        return $this->ion_auth_model->recheck_session();
 	}
 
 	/**

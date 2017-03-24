@@ -89,7 +89,7 @@ module.exports = {
 				// Comment this to remove preset styles
 				dir_src + '/css/bootstrap-examples/sticky-footer-navbar.css',
 
-				// Custom CSS file  (recommended to avoid this)
+				// Custom CSS file
 				dir_src + '/css/frontend.css'
 			],
 			// Admin Panel
@@ -97,7 +97,7 @@ module.exports = {
 				// Main SASS file
 				dir_src + '/sass/admin.scss',
 
-				// Custom CSS file (recommended to avoid this)
+				// Custom CSS file
 				dir_src + '/css/admin.css'
 			]
 		},

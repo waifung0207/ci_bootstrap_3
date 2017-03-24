@@ -7,7 +7,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 
  * The following values are changed to fit with CI Bootstrap:
  *  - $config['rest_keys_table'] = 'api_keys'; (default: 'keys')
- *  - $config['rest_enable_keys'] = TRUE; (default: FALSE)
  *  - $config['rest_logs_table'] = 'api_logs'; (default: 'logs')
  *  - $config['rest_access_table'] = 'api_access'; (default: 'access')
  *  - $config['rest_limits_table'] = 'api_limits'; (default: 'limits')
@@ -324,7 +323,7 @@ $config['rest_keys_table'] = 'api_keys';
 |   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
-$config['rest_enable_keys'] = TRUE;
+$config['rest_enable_keys'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------

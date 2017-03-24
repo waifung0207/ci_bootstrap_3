@@ -91,7 +91,19 @@ $config['ci_bootstrap'] = array(
 
 	// Restricted pages
 	'page_auth' => array(
-		'test'	=> array('membders'),
+	),
+
+	// Email config
+	'email' => array(
+		'from_email'		=> '',
+		'from_name'			=> '',
+		'subject_prefix'	=> '',
+		
+		// Mailgun HTTP API
+		'mailgun_api'		=> array(
+			'domain'			=> '',
+			'private_api_key'	=> ''
+		),
 	),
 
 	// Debug tools

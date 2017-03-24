@@ -25,7 +25,7 @@ class Login extends MY_Controller {
 				// login succeed
 				$messages = $this->ion_auth->messages();
 				$this->system_message->set_success($messages);
-				redirect('admin');
+				redirect($this->mModule);
 			}
 			else
 			{

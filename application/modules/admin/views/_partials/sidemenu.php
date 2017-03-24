@@ -19,7 +19,7 @@
 			<?php $parent_active = ($ctrler==$parent); ?>
 			<li class='treeview <?php if ($parent_active) echo 'active'; ?>'>
 				<a href='#'>
-					<i class='<?php echo $parent_params['icon']; ?>'></i> <?php echo $parent_params['name']; ?> <i class='fa fa-angle-left pull-right'></i>
+					<i class='<?php echo $parent_params['icon']; ?>'></i> <span><?php echo $parent_params['name']; ?></span> <span class="pull-right-container"><i class='fa fa-angle-left pull-right'></i></span>
 				</a>
 				<ul class='treeview-menu'>
 					<?php foreach ($parent_params['children'] as $name => $url): ?>
