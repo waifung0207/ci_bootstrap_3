@@ -1,6 +1,10 @@
 ## CodeIgniter 3 Bootstrap
 
+<<<<<<< HEAD
+**Latest Build: 2018-04-24**
+=======
 **Latest Build: 2017-03-24**
+>>>>>>> 8ce330c850f45d948fbc987b423ccb72ec6ad96a
 
 **Note: This project is still in progress, but welcome for any issues encountered**
 
