@@ -2,8 +2,8 @@
 
       <?php echo form_open("/auth/login_process");?>
       <?php echo $form->messages(); ?>
-      <?php echo $form->bs3_text('Email', 'username', ENVIRONMENT==='development' ? 'mhamzasite@gmail.com' : ''); ?>
-      <?php echo $form->bs3_password('Password', 'password', ENVIRONMENT==='development' ? '3267559' : ''); ?>
+      <?php echo $form->bs3_text('Email', 'username', ''); ?>
+      <?php echo $form->bs3_password('Password', 'password', ''); ?>
       <div class="row">
         <div class="col-xs-4">
           <?php echo $form->bs3_submit('Sign In', 'btn btn-primary btn-block btn-flat'); ?>
