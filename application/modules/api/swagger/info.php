@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *			email="info@email.com"
  *		)
  *	),
- * 	schemes={"http"},
+ * 	schemes={API_PROTOCOL},
  *  host=API_HOST,
  *  basePath="/api"
  * )

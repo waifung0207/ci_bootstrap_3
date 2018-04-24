@@ -18,7 +18,7 @@ class Sortable {
 	}
 
 	// Get items to be sorted
-	public function init($model, $order_field = 'pos')
+	public function init($model, $order_field = 'pos', $order_direction = 'ASC')
 	{
 		$this->CI->load->model($model, 'm');
 		$ids = $this->CI->input->post($this->mPostName);
@@ -37,7 +37,7 @@ class Sortable {
 		}
 
 		// return all records in sorted order
-		$this->CI->db->order_by($order_field, 'ASC');
+		$this->CI->db->order_by($order_field, $order_direction);
 		$items = $this->CI->m->get_all();
 		$this->mItems = $items;
 

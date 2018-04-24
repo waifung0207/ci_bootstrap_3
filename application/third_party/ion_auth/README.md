@@ -9,6 +9,11 @@ the code and added new features.
 This version drops any backwards compatibility and makes things even more
 awesome then you could expect.
 
+
+##Support
+If you use this to further your career, or put money in your pocket, and would like to support the project please consider a [moral license](https://www.morallicense.com/benedmunds/ion-auth).
+
+
 ##Documentation
 Documentation is located at http://benedmunds.com/ion_auth/
 
@@ -47,6 +52,11 @@ It is highly recommended that you use encrypted database sessions for security!
 
 ###Optimization
 It is recommended that you add your identity column as a unique index.
+
+
+###Options
+Time Based One-Time Password (TOTP) -
+There is a Time Based One-Time Password (TOTP) implementation compatible with Google Authenticator available. Feature branch maintained by [biscofil](https://github.com/biscofil) and is available at [https://github.com/benedmunds/CodeIgniter-Ion-Auth/tree/otp](https://github.com/benedmunds/CodeIgniter-Ion-Auth/tree/otp)
 
 
 

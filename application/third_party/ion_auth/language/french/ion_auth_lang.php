@@ -44,7 +44,7 @@ $lang['activation_email_unsuccessful'] = 'Impossible d\'envoyer l\'email d\'acti
 $lang['login_successful']              = 'Connecté avec succès';
 $lang['login_unsuccessful']            = 'Erreur lors de la connexion';
 $lang['login_unsuccessful_not_active'] = 'Ce compte est inactif';
-$lang['login_timeout']                 = 'Compte temporairement verrouillé. Réessayez plus tard.';
+$lang['login_timeout']                 = 'Compte temporairement bloqué suite à de trop nombreuse tentative.  Veuillez réessayer plus tard.';
 $lang['logout_successful']             = 'Déconnexion effectuée avec succès';
 
 // Account Changes
@@ -52,6 +52,7 @@ $lang['update_successful']   = 'Compte utilisateur mis à jour avec succès';
 $lang['update_unsuccessful'] = 'Impossible de mettre à jour le compte utilisateur';
 $lang['delete_successful']   = 'Utilisateur supprimé';
 $lang['delete_unsuccessful'] = 'Impossible de supprimer l\'utilisateur';
+$lang['deactivate_current_user_unsuccessful']= 'You cannot De-Activate your self.';
 
 // Groups
 $lang['group_creation_successful'] = 'Groupe créé avec succès';
@@ -59,9 +60,9 @@ $lang['group_already_exists']      = 'Nom du groupe déjà pris';
 $lang['group_update_successful']   = 'Informations sur le groupe mis à jour';
 $lang['group_delete_successful']   = 'Groupe supprimé';
 $lang['group_delete_unsuccessful'] = 'Impossible de supprimer le groupe';
-$lang['group_delete_notallowed']    = 'Can\'t delete the administrators\' group';
+$lang['group_delete_notallowed']    = 'Le groupe Administrateur ne peut pas être supprimé';
 $lang['group_name_required']       = 'Le nom du groupe est un champ obligatoire';
-$lang['group_name_admin_not_alter'] = 'Admin group name can not be changed';
+$lang['group_name_admin_not_alter'] = 'Le nom du groupe Admin ne peut pas être modifié';
 
 // Activation Email
 $lang['email_activation_subject']  = 'Activation du compte';
@@ -72,7 +73,7 @@ $lang['email_activate_link']       = 'Activez votre compte';
 // Forgot Password Email
 $lang['email_forgotten_password_subject'] = 'Mot de Passe Oublié - Vérification';
 $lang['email_forgot_password_heading']    = 'Réinitialiser le mot de passe pour %s';
-$lang['email_forgot_password_subheading'] = 'S\'il vous plaît cliquer sur ce lien pour %s.';
+$lang['email_forgot_password_subheading'] = 'Veuillez cliquer sur ce lien pour %s.';
 $lang['email_forgot_password_link']       = 'Réinitialiser votre mot de passe';
 
 // New Password Email

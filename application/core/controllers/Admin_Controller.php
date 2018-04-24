@@ -33,7 +33,7 @@ class Admin_Controller extends MY_Controller {
 		// additional view data
 		$this->mViewData['useful_links'] = $this->mUsefulLinks;
 
-		parent::render($view_file);
+		parent::render($view_file, $layout);
 	}
 
 	// Initialize CRUD table via Grocery CRUD library

@@ -71,7 +71,7 @@ $config['ci_bootstrap'] = array(
 	// Raw PHP Headers
 	'headers' => array(
 		'Access-Control-Allow-Origin: *',
-		'Access-Control-Request-Method: GET, POST, PUT, DELETE, OPTIONS',
+		'Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS',
 		'Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, X-API-KEY',
 	),
 

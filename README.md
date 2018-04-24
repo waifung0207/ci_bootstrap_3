@@ -1,21 +1,25 @@
 ## CodeIgniter 3 Bootstrap
 
+<<<<<<< HEAD
 **Latest Build: 2018-04-24**
+=======
+**Latest Build: 2017-03-24**
+>>>>>>> 8ce330c850f45d948fbc987b423ccb72ec6ad96a
 
 **Note: This project is still in progress, but welcome for any issues encountered**
 
 A starter template that supports multi-tenant (Frontend / Admin Panel / API) website in a single application.
 
 This repository is developed upon the following tools: 
-* [CodeIgniter](http://www.codeigniter.com/) (v3.0.6) - PHP framework
+* [CodeIgniter](http://www.codeigniter.com/) (v3.1.3) - PHP framework
 * [CodeIgniter HMVC Extensions](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - modular structure by [wiredesignz](http://wiredesignz.co.nz/)
 * [codeigniter-base-model](https://github.com/jamierumbelow/codeigniter-base-model) - more advanced CRUD functions for models by [jamierumbelow](https://github.com/jamierumbelow)
 * [codeigniter-restserver](https://github.com/chriskacerguis/codeigniter-restserver) - base setup for API module
 * [Ion Auth](http://benedmunds.com/ion_auth/) - authentication library for CodeIgniter by [Ben Edmunds](http://benedmunds.com/)
-* [Bootstrap](http://getbootstrap.com/) (v3.3.6) - popular frontend framework
-* [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.5) - feature-rich library to build CRUD tables
+* [Bootstrap](http://getbootstrap.com/) (v3.3.7) - popular frontend framework
+* [Grocery CRUD](http://www.grocerycrud.com/) (v1.5.8) - feature-rich library to build CRUD tables
 * [Image CRUD](http://www.grocerycrud.com/image-crud) (v0.6) - CRUD library for image management
-* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.3.3) - bootstrap theme for Admin Panel
+* [AdminLTE](https://github.com/almasaeed2010/AdminLTE) (v2.3.11) - bootstrap theme for Admin Panel
 
 
 ### Features
@@ -51,7 +55,7 @@ A demo repository can be found from: https://github.com/waifung0207/ci_bootstrap
 
 Below configuration are preferred; other environments are not well-tested, but still feel free to report and issues. 
 
-* **PHP 5.5+**
+* **PHP 5.6+**
 * **Apache 2.2+** with rewrite mod enabled
 * **MySQL 5.5+** (not tested on MariaDB)
 

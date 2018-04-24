@@ -100,11 +100,12 @@ if (!(PHP_SAPI === 'cli' OR defined('STDIN')))
 	define('BASE_URL', $base_url);
 	
 	// For API prefix in Swagger annotation (/application/modules/api/swagger/info.php)
+	define('API_PROTOCOL', $protocol);
 	define('API_HOST', $_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']));
 }
 
-define('CI_BOOTSTRAP_REPO',			'https://github.com/waifung0207/ci_bootstrap_3');
-define('CI_BOOTSTRAP_VERSION',		'Build 20160702');	// will follow semantic version (e.g. v1.x.x) after first stable launch
+define('CI_BOOTSTRAP_REPO',			'https://github.com/mhamzas/ci_bootstrap_3');
+define('CI_BOOTSTRAP_VERSION',		'Build 20180424');	// will follow semantic version (e.g. v1.x.x) after first stable launch
 
 // Upload paths
 //define('UPLOAD_COVER_PHOTO',	'assets/uploads/cover_photos');
