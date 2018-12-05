@@ -104,3 +104,10 @@ function redirect_referrer()
 {
 	redirect(referrer());
 }
+
+// url for current module
+function module_url($path = "") 
+{
+	$CI =& get_instance();
+	return site_url($CI->router->fetch_module() . "/" . $path);
+}

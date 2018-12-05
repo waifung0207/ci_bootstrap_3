@@ -9,7 +9,7 @@
 
 			<?php $active = ($current_uri==$parent_params['url'] || $ctrler==$parent); ?>
 			<li class='<?php if ($active) echo 'active'; ?>'>
-				<a href='<?php echo $parent_params['url']; ?>'>
+				<a href='<?php echo module_url($parent_params['url']); ?>'>
 					<i class='<?php echo $parent_params['icon']; ?>'></i> <?php echo $parent_params['name']; ?>
 				</a>
 			</li>
@@ -26,7 +26,7 @@
 						<?php if ( empty($page_auth[$url]) || $this->ion_auth->in_group($page_auth[$url]) ): ?>
 						<?php $child_active = ($current_uri==$url); ?>
 						<li <?php if ($child_active) echo 'class="active"'; ?>>
-							<a href='<?php echo $url; ?>'><i class='fa fa-circle-o'></i> <?php echo $name; ?></a>
+							<a href='<?php echo module_url($url); ?>'><i class='fa fa-circle-o'></i> <?php echo $name; ?></a>
 						</li>
 						<?php endif; ?>
 					<?php endforeach; ?>
